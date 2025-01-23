@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+ * Use of this source code is governed by a MIT-style license that can be
+ * found in the LICENSE file.
+ */
+
+package com.aits.careesteem.utils
+
+object SharedPrefConstant {
+    // base
+    const val ACCESS_TOKEN = "access_token"
+    const val DEVICE_ID = "device_id"
+    const val FCM_TOKEN = "fcm_token"
+    const val GENERAL_INFO = "generalInfo"
+    const val IS_LOGGED = "is_logged"
+    const val SCREEN_LOCK = "use_screen_lock"
+    const val THEME = "theme"
+    const val LANGUAGE = "language"
+}
