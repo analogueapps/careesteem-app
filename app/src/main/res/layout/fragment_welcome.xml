@@ -1,144 +1,173 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
   -->
-
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/screenBackground"
-    android:orientation="vertical"
-    tools:context=".view.auth.view.WelcomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgTopLogo"
-        android:src="@drawable/app_logo"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_gravity="center"/>
+    <data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:padding="@dimen/_20sdp"
-        android:layout_weight="1"
+        <variable
+            name="viewModel"
+            type="com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:background="@color/screenBackground"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:text="@string/welcome"
-            android:lineHeight="@dimen/_36sdp"
-            android:textSize="@dimen/_20ssp"
-            android:textFontWeight="400"
-            android:fontFamily="@font/arvo_regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:targetApi="p" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:text="@string/please_sign_in_to_continue"
-            android:fontFamily="@font/open_sans_regular"
-            android:textSize="@dimen/_12ssp"
-            android:textFontWeight="400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:targetApi="p" />
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/screenBackground"
+            android:orientation="vertical"
+            tools:context=".view.auth.view.WelcomeFragment">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:src="@drawable/group_mobile_prefix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:id="@+id/imgTopLogo"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:src="@drawable/app_logo" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text="@string/enter_mobile_number"
-                android:textSize="@dimen/_12ssp"
-                android:textFontWeight="400"
-                android:fontFamily="@font/lora_regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:targetApi="p" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:weightSum="1"
-            android:id="@+id/llMobileEntry"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/ic_edittext_bg"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/tvEntryBody">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_weight="0.8"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:drawablePadding="10dip"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="+44"
-                android:fontFamily="@font/lora_regular"
-                android:textSize="@dimen/_14ssp"
-                tools:ignore="HardcodedText" />
+                android:orientation="vertical"
+                android:padding="@dimen/_20sdp">
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/arvo_regular"
+                    android:lineHeight="@dimen/_36sdp"
+                    android:text="@string/welcome"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_20ssp"
+                    tools:targetApi="p" />
 
-            <EditText
-                android:id="@+id/et_mobile"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:text="@string/please_sign_in_to_continue"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    tools:targetApi="p" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/group_mobile_prefix" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:fontFamily="@font/lora_regular"
+                        android:text="@string/enter_mobile_number"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        tools:targetApi="p" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llMobileEntry"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/ic_edittext_bg"
+                    android:gravity="center"
+                    android:weightSum="1"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEntryBody">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="0.8"
+                        android:drawablePadding="10dip"
+                        android:fontFamily="@font/lora_regular"
+                        android:gravity="center"
+                        android:text="+44"
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="HardcodedText" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorAccent" />
+
+                    <EditText
+                        android:id="@+id/et_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="0.2"
+                        android:autofillHints="phone"
+                        android:background="@null"
+                        android:fontFamily="@font/lora_regular"
+                        android:hint="@string/enter_your_mobile_number"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:paddingEnd="@dimen/_5sdp"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.setPhoneNumber(s, start, before, count)}"
+                        android:text="@{viewModel.phoneNumber}"
+                        android:textColorHint="@android:color/background_light"
+                        android:textSize="@dimen/_14ssp"
+                        tools:ignore="LabelFor,RtlSymmetry" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/open_sans_regular"
+                    android:text="@{viewModel.phoneNumberError}"
+                    android:textFontWeight="400"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/arvo_regular"
+                    android:text="@string/request_otp"
+                    android:textAllCaps="false"
+                    android:onClick="@{() -> viewModel.onButtonClicked()}"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    tools:targetApi="p" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_weight="0.2"
-                android:autofillHints="phone"
-                android:background="@null"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="10"
-                android:fontFamily="@font/lora_regular"
-                android:hint="@string/enter_your_mobile_number"
-                android:paddingEnd="@dimen/_5sdp"
-                android:text="@{viewModel.editTextValue}"
-                android:textSize="@dimen/_14ssp"
-                android:textColorHint="@android:color/background_light"
-                tools:ignore="LabelFor,RtlSymmetry" />
+                android:layout_height="@dimen/_150sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:src="@drawable/layer_welcome_bottom" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/request_otp"
-            android:textSize="@dimen/_12ssp"
-            android:textFontWeight="400"
-            android:textAllCaps="false"
-            android:fontFamily="@font/arvo_regular"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
-            tools:targetApi="p" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_150sdp"
-        android:src="@drawable/layer_welcome_bottom"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_20sdp"/>
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

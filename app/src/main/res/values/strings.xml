@@ -7,4 +7,13 @@
     <string name="enter_mobile_number">Enter mobile number</string>
     <string name="enter_your_mobile_number">Enter your Mobile Number</string>
     <string name="request_otp">Request OTP</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="otp_has_sent_to">OTP has sent to</string>
+    <string name="successfully">Successfully</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="didn_t_received_the_otp">Didn’t received the OTP?</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="visits">Visits</string>
+    <string name="clients">Clients</string>
+    <string name="alerts">Alerts</string>
 </resources>

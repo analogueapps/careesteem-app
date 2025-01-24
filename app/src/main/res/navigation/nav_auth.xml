@@ -14,5 +14,24 @@
         android:id="@+id/welcomeFragment"
         android:name="com.aits.careesteem.view.auth.view.WelcomeFragment"
         android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" />
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_verifyOtpFragment"
+            app:destination="@id/verifyOtpFragment"
+            app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyOtpFragment"
+        android:name="com.aits.careesteem.view.auth.view.VerifyOtpFragment"
+        android:label="fragment_verify_otp"
+        tools:layout="@layout/fragment_verify_otp" >
+        <argument
+            android:name="mobileNo"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/preloaderFragment"
+        android:name="com.aits.careesteem.view.auth.view.PreloaderFragment"
+        android:label="fragment_preloader"
+        tools:layout="@layout/fragment_preloader" />
 </navigation>

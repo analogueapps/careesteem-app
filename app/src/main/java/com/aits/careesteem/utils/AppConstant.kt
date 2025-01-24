@@ -13,4 +13,16 @@ object AppConstant {
     const val YES: String = "Yes"
     const val NO: String = "No"
     const val ACTIVE: String = "Active"
+
+    fun maskPhoneNumber(phoneNumber: String): String {
+        return if (phoneNumber.length > 2) {
+            // Mask all characters except the last two
+            val maskedPart = "*".repeat(phoneNumber.length - 2)
+            val lastTwoDigits = phoneNumber.takeLast(2)
+            "$maskedPart$lastTwoDigits"
+        } else {
+            // If the number is too short, return it as is
+            phoneNumber
+        }
+    }
 }

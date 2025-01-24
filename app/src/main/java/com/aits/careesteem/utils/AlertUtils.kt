@@ -7,12 +7,32 @@
 package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.aits.careesteem.BuildConfig
 
 object AlertUtils {
     @SuppressLint("LongLogTag")
     fun showLog(tag: String, message: String) {
         if (BuildConfig.DEBUG) Log.e(tag, message) else Log.e(tag, message)
+    }
+
+    fun showGlobalPositiveAlert(
+        context: Context,
+        title: String,
+        message: String
+    ) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

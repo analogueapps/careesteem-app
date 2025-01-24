@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home.xml"
+    app:startDestination="@id/bottom_visits">
+
+    <fragment
+        android:id="@+id/bottom_visits"
+        android:name="com.aits.careesteem.view.visits.view.VisitsFragment"
+        android:label="fragment_visits"
+        tools:layout="@layout/fragment_visits" />
+    <fragment
+        android:id="@+id/bottom_clients"
+        android:name="com.aits.careesteem.view.clients.view.ClientsFragment"
+        android:label="fragment_clients"
+        tools:layout="@layout/fragment_clients" />
+    <fragment
+        android:id="@+id/bottom_alerts"
+        android:name="com.aits.careesteem.view.alerts.view.AlertsFragment"
+        android:label="fragment_alerts"
+        tools:layout="@layout/fragment_alerts" />
+</navigation>
