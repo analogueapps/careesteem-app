@@ -14,15 +14,48 @@
         android:id="@+id/bottom_visits"
         android:name="com.aits.careesteem.view.visits.view.VisitsFragment"
         android:label="fragment_visits"
-        tools:layout="@layout/fragment_visits" />
+        tools:layout="@layout/fragment_visits" >
+        <action
+            android:id="@+id/action_bottom_visits_to_ongoingVisitsDetailsFragment"
+            app:destination="@id/ongoingVisitsDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_clients"
         android:name="com.aits.careesteem.view.clients.view.ClientsFragment"
         android:label="fragment_clients"
-        tools:layout="@layout/fragment_clients" />
+        tools:layout="@layout/fragment_clients" >
+        <action
+            android:id="@+id/action_bottom_clients_to_clientsDetailsFragment"
+            app:destination="@id/clientsDetailsFragment"
+            app:launchSingleTop="true" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_alerts"
         android:name="com.aits.careesteem.view.alerts.view.AlertsFragment"
         android:label="fragment_alerts"
         tools:layout="@layout/fragment_alerts" />
+    <fragment
+        android:id="@+id/clientsDetailsFragment"
+        android:name="com.aits.careesteem.view.clients.view.ClientsDetailsFragment"
+        android:label="fragment_clients_details"
+        tools:layout="@layout/fragment_clients_details" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.aits.careesteem.view.notification.view.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/ongoingVisitsDetailsFragment"
+        android:name="com.aits.careesteem.view.visits.view.OngoingVisitsDetailsFragment"
+        android:label="fragment_ongoing_visits_details"
+        tools:layout="@layout/fragment_ongoing_visits_details" >
+        <argument
+            android:name="taskId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.aits.careesteem.view.profile.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

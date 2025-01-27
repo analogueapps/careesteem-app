@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "285672720564",
+    "project_id": "care-esteem",
+    "storage_bucket": "care-esteem.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285672720564:android:567c90216f88d2e89eefe1",
+        "android_client_info": {
+          "package_name": "com.aits.careesteem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOpv383DGUwtBLTb81Ok_D3qjR84Ocd5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,26 +1,21 @@
 package com.aits.careesteem.view.auth.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.view.auth.model.UserData
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,31 +48,25 @@ class WelcomeFragment : Fragment() {
 
         viewModel.isRequestOtpApiCall.observe(viewLifecycleOwner, Observer { isSuccessful ->
             if (isSuccessful) {
-                //viewModel.callRequestOtpApi(requireActivity())
-                ProgressLoader.showProgress(requireActivity())
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(2000)
-                    ProgressLoader.dismissProgress()
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
-                            binding.etMobile.text.toString().trim()
-                        )
-                        findNavController().navigate(direction)
-                    }
-                }
+                viewModel.callRequestOtpApi(requireActivity())
             } else {
                 val errorMessage = viewModel.phoneNumberError.value
                 errorMessage?.let {
-                    AlertUtils.showGlobalPositiveAlert(requireContext(), "Alert!",
-                        it
-                    )
+                    AlertUtils.showToast(requireActivity(), it)
                 }
             }
         })
 
-        viewModel.isRequestOtpSuccessful.observe(viewLifecycleOwner, Observer { isSuccessful ->
-            if (isSuccessful) {
-
+        viewModel.sendOtpUserLoginResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response != null) {
+                val gson = Gson()
+                val dataString = gson.toJson(response.data)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
+                        dataString
+                    )
+                    findNavController().navigate(direction)
+                }
             }
         })
     }

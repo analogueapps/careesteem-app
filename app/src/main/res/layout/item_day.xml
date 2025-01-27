@@ -29,5 +29,5 @@
         android:text="15"
         android:textSize="18sp"
         android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:fontFamily="@font/arvo_regular" />
 </LinearLayout>

@@ -26,7 +26,7 @@
         android:label="fragment_verify_otp"
         tools:layout="@layout/fragment_verify_otp" >
         <argument
-            android:name="mobileNo"
+            android:name="response"
             app:argType="string" />
     </fragment>
     <fragment

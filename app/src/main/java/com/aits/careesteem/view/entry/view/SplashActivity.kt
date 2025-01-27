@@ -12,10 +12,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.aits.careesteem.R
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.BiometricAuthListener
+import com.aits.careesteem.utils.BiometricUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -28,7 +31,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(), BiometricAuthListener {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
@@ -54,15 +57,15 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun verifyPassword() {
-//        if (sharedPreferences.getBoolean(Preference.SCREEN_LOCK, Const.FALSE) == Const.TRUE) {
-//            BiometricUtils.showBiometricPrompt(
-//                activity = this,
-//                listener = this,
-//                cryptoObject = null,
-//            )
-//        } else {
+        if (sharedPreferences.getBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE) == AppConstant.TRUE) {
+            BiometricUtils.showBiometricPrompt(
+                activity = this,
+                listener = this,
+                cryptoObject = null,
+            )
+        } else {
             navigation()
-//        }
+        }
     }
 
     private fun navigation() {
@@ -75,5 +78,18 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onBiometricAuthenticateError(error: Int, errMsg: String) {
+        when (error) {
+            BiometricPrompt.ERROR_USER_CANCELED -> finish()
+            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
+
+            }
+        }
+    }
+
+    override fun onBiometricAuthenticateSuccess(result: BiometricPrompt.AuthenticationResult) {
+        navigation()
     }
 }

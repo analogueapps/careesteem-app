@@ -9,6 +9,22 @@
     <color name="colorSecondaryAccent">#80992737</color>
 
     <color name="screenBackground">#F5FFFE</color>
+    <color name="cardBackground">#ECFAF8</color>
+
+    <color name="upcomingCardBackground">#FFFAEA</color>
+    <color name="upcomingCardCorner">#DEBD46</color>
+    <color name="upcomingCardInsideCount">#DEBD46</color>
+    <color name="upcomingCardInsideButton">#AE9848</color>
+
+    <color name="ongoingCardBackground">#EFF9FF</color>
+    <color name="ongoingCardCorner">#56ACE0</color>
+    <color name="ongoingCardInsideCount">#D2EEFF</color>
+    <color name="ongoingCardInsideButton">#979797</color>
+
+    <color name="completeCardBackground">#DBF0ED</color>
+    <color name="completeCardCorner">#279989</color>
+    <color name="completeCardInsideCount">#B9DDD8</color>
+    <color name="completeCardInsideButton">#279989</color>
 
     <color name="red">#F44336</color>
     <color name="black">#FF000000</color>

@@ -3,6 +3,7 @@ package com.aits.careesteem.view.visits.view
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +12,17 @@ import android.widget.TextView
 import android.widget.Toast
 import java.time.format.DateTimeFormatter
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentVisitsBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.view.auth.view.WelcomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
@@ -75,6 +82,7 @@ class VisitsFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupWidget() {
         // Initialize the calendar with the current week
+        addCheckedDate(currentStartOfWeek)
         updateCalendar(currentStartOfWeek)
 
         // Left Arrow Click: Show previous 3 weeks
@@ -82,13 +90,10 @@ class VisitsFragment : Fragment() {
             val previousWeek = currentStartOfWeek.minusWeeks(1)
             if (previousWeek.isBefore(initialStartOfWeek.minusWeeks(maxWeeksBehind.toLong()))) {
                 // Show error message if trying to navigate beyond the allowed 3 weeks
-                Toast.makeText(
-                    requireContext(),
-                    "Cannot navigate beyond the previous 3 weeks",
-                    Toast.LENGTH_SHORT
-                ).show()
+                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the previous 3 weeks")
             } else {
                 currentStartOfWeek = previousWeek
+                addCheckedDate(currentStartOfWeek)
                 updateCalendar(currentStartOfWeek)
             }
         }
@@ -98,15 +103,26 @@ class VisitsFragment : Fragment() {
             val nextWeek = currentStartOfWeek.plusWeeks(1)
             if (nextWeek.isAfter(initialStartOfWeek.plusWeeks(maxWeeksAhead.toLong()))) {
                 // Show error message if trying to navigate beyond the allowed 3 weeks
-                Toast.makeText(
-                    requireContext(),
-                    "Cannot navigate beyond the next 3 weeks",
-                    Toast.LENGTH_SHORT
-                ).show()
+                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the next 3 weeks")
             } else {
                 currentStartOfWeek = nextWeek
+                addCheckedDate(currentStartOfWeek)
                 updateCalendar(currentStartOfWeek)
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addCheckedDate(startOfWeek: LocalDate) {
+        // Calculate the end of the week (Sunday)
+        val endOfWeek = startOfWeek.plusDays(6)
+
+        // Check if the current date is within this week
+        val currentDate = LocalDate.now()
+        selectedDate = if (currentDate in startOfWeek..endOfWeek) {
+            currentDate // Select the current date if it's in the week
+        } else {
+            startOfWeek // Otherwise, select the first date of the week (Monday)
         }
     }
 
@@ -128,14 +144,6 @@ class VisitsFragment : Fragment() {
 
         val dateRangeString = "$formattedStartDate to $formattedEndDate $formattedYear"
         binding.dateRangeText.text = dateRangeString
-
-        // Check if the current date is within this week
-        val currentDate = LocalDate.now()
-        selectedDate = if (currentDate in startOfWeek..endOfWeek) {
-            currentDate // Select the current date if it's in the week
-        } else {
-            startOfWeek // Otherwise, select the first date of the week (Monday)
-        }
 
         // Generate and add day views for the week
         for (i in 0 until 7) {
@@ -163,6 +171,7 @@ class VisitsFragment : Fragment() {
 
             // Set click listener for the day view
             dayView.setOnClickListener {
+                Log.d("VisitsFragment", "Date clicked: $dayDate")
                 selectedDate = dayDate // Update the selected date
                 updateCalendar(currentStartOfWeek) // Refresh the calendar
             }
@@ -173,7 +182,12 @@ class VisitsFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-
+        binding.emptyLayout.setOnClickListener {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+                ""
+            )
+            findNavController().navigate(direction)
+        }
     }
 
 }

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/completeCardBackground"
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/completeCardCorner"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:strokeWidth="2.5dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="@string/app_name"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_13ssp"
+                    tools:targetApi="p" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="@string/app_name"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_9ssp"
+                    tools:targetApi="p" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@color/completeCardInsideButton"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+
+            <RelativeLayout
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:background="@drawable/ic_circle"
+                android:backgroundTint="@color/completeCardInsideButton"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:layout_centerInParent="true"
+                    android:maxLength="2"
+                    android:textColor="@color/white"
+                    android:text="1"
+                    android:textFontWeight="600"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_gravity="center"
+                android:src="@drawable/ic_caretaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Space
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="match_parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_gravity="center"
+                android:src="@drawable/ic_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Space
+                android:layout_width="@dimen/_10sdp"
+                android:layout_height="match_parent"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:background="@drawable/ic_upcoming_inside"
+                android:backgroundTint="@color/completeCardInsideCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="Total Time"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_8ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="@string/app_name"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_8ssp"
+                    tools:targetApi="p" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_5sdp"
+            android:background="@drawable/ic_upcoming_inside"
+            android:backgroundTint="@color/completeCardInsideCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:gravity="start"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/app_name"
+                android:textFontWeight="500"
+                android:textSize="@dimen/_10ssp"
+                tools:targetApi="p" />
+
+            <Space
+                android:layout_width="@dimen/_2sdp"
+                android:layout_height="match_parent"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_gravity="center"
+                app:shapeAppearanceOverlay="@style/Circular" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@mipmap/ic_launcher_round"
+                android:layout_gravity="center"
+                app:shapeAppearanceOverlay="@style/Circular" />
+
+            <Space
+                android:layout_width="@dimen/_2sdp"
+                android:layout_height="match_parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:gravity="end"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/app_name"
+                android:textFontWeight="500"
+                android:textSize="@dimen/_10ssp"
+                tools:targetApi="p" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/completeCardBackground"
+            app:strokeColor="@color/completeCardCorner"
+            app:cardCornerRadius="5dp"
+            app:strokeWidth="1dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Space
+                    android:layout_width="@dimen/_5sdp"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="@string/check_in_time"
+                    android:textAllCaps="false"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p" />
+
+                <Space
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="@string/check_out_time"
+                    android:textAllCaps="false"
+                    android:textFontWeight="500"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p" />
+
+                <Space
+                    android:layout_width="@dimen/_5sdp"
+                    android:layout_height="match_parent"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

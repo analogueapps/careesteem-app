@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--non-selected tab -->
+    <item android:state_selected="false">
+        <layer-list>
+            <!-- Border -->
+            <item android:left="5dp" android:right="5dp" android:top="5dp" android:bottom="5dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="#E1E1E1" />
+                    <corners android:radius="20dp" />
+                </shape>
+            </item>
+            <item android:left="6dp" android:right="6dp" android:top="6dp" android:bottom="6dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="#DFF1F8" />
+                    <corners android:radius="18dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!--selected tab -->
+    <item android:state_selected="true">
+        <layer-list>
+            <!-- Background -->
+            <item android:left="6dp" android:right="6dp" android:top="6dp" android:bottom="6dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/colorPrimary" />
+                    <corners android:radius="18dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

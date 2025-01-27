@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.aits.careesteem" />
+                  <option name="mobileSdkAppId" value="1:285672720564:android:567c90216f88d2e89eefe1" />
+                  <option name="projectId" value="care-esteem" />
+                  <option name="projectNumber" value="285672720564" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

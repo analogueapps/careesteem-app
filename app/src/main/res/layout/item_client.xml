@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/cardBackground"
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/colorPrimary"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:strokeWidth="2dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp">
+
+        `<com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_user"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_gravity="center"
+            app:shapeAppearanceOverlay="@style/Circular" />`
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Client Name -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/clientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/app_name"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                tools:targetApi="p" />
+
+            <!-- Client Phone -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/clientPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/app_name"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                tools:targetApi="p" />
+
+            <!-- Client Address -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/clientAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/app_name"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                tools:targetApi="p" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorAccent" />
+
+            <!-- Risk Level -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="Risk Level"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    android:lines="1"
+                    tools:ignore="HardcodedText"
+                    tools:targetApi="p" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:id="@+id/customProgressBar"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    app:cardBackgroundColor="#E4E4E4"
+                    android:background="@drawable/ic_risk_level_bg">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!-- First Section -->
+                        <View
+                            android:id="@+id/part1"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#0FB583" />
+
+                        <!-- Second Section -->
+                        <View
+                            android:id="@+id/part2"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#F0CA44" />
+
+                        <!-- Third Section -->
+                        <View
+                            android:id="@+id/part3"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#F73636" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/riskLevel"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lora_regular"
+                    android:gravity="end"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    android:lines="1"
+                    tools:targetApi="p" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

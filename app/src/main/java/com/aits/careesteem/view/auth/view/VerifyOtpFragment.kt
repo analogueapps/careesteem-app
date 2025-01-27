@@ -26,8 +26,10 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.UserData
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,12 +47,20 @@ class VerifyOtpFragment : Fragment() {
     @Inject
     lateinit var editor: SharedPreferences.Editor
 
+    private var userData: UserData? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val gson = Gson()
+        userData = gson.fromJson(args.response, UserData::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentVerifyOtpBinding.inflate(inflater, container, false)
-        binding.tvMaskedNumber.text = AppConstant.maskPhoneNumber(args.mobileNo)
+        binding.tvMaskedNumber.text = AppConstant.maskPhoneNumber(userData?.contact_number ?: "1234567890")
         setupViewmodel()
         setupWidgets()
         return binding.root
@@ -146,9 +156,7 @@ class VerifyOtpFragment : Fragment() {
             } else {
                 val errorMessage = viewModel.otpError.value
                 errorMessage?.let {
-                    AlertUtils.showGlobalPositiveAlert(requireContext(), "Alert!",
-                        it
-                    )
+                    AlertUtils.showToast(requireActivity(), it)
                 }
             }
         })

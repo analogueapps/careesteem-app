@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.clients.view.ClientsDetailsFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateUnscheduledVisit"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/arvo_regular"
+        android:text="@string/create_an_unscheduled_visit"
+        android:textAllCaps="false"
+        android:textFontWeight="400"
+        android:textSize="@dimen/_12ssp"
+        tools:targetApi="p" />
+
+</RelativeLayout>

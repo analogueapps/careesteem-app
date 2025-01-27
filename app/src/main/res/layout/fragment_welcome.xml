@@ -123,7 +123,7 @@
                         android:hint="@string/enter_your_mobile_number"
                         android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:maxLength="11"
+                        android:maxLength="10"
                         android:paddingEnd="@dimen/_5sdp"
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.setPhoneNumber(s, start, before, count)}"
                         android:text="@{viewModel.phoneNumber}"

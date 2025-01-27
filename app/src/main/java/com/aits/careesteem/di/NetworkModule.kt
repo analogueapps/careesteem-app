@@ -9,6 +9,7 @@ package com.aits.careesteem.di
 import android.content.SharedPreferences
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.network.ApiService
+import com.aits.careesteem.network.trustAllCerts
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
@@ -25,6 +26,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.X509TrustManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -54,7 +57,12 @@ object NetworkModule {
             chain.proceed(requestWithHeaders)
         }
 
+        val sslContext = SSLContext.getInstance("SSL")
+        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+
         return OkHttpClient.Builder()
+            .sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
+            .hostnameVerifier { _, _ -> true } // Bypass hostname verification
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(headerInterceptor)
             .build()
@@ -64,7 +72,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.29.75:8001/")
+            .baseUrl(BuildConfig.API_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

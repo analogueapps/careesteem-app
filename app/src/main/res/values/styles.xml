@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Normal">
+        <item name="cornerSize">0%</item>
+    </style>
+
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="RoundedSquare">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="RoundedSquareExtra">
+        <item name="cornerSize">20%</item>
+    </style>
+
+    <style name="CornerCut">
+        <item name="cornerSize">15dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="DiamondCut">
+        <item name="cornerSize">75dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="UpcomingVisitsButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@color/upcomingCardInsideButton</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:letterSpacing">0.03</item>
+    </style>
+</resources>
