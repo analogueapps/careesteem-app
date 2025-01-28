@@ -32,22 +32,13 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-//        val isDarkModeEnabled = sharedPreferences.getBoolean(Preference.THEME, Const.FALSE)
-//        AppCompatDelegate.setDefaultNightMode(
-//            if (isDarkModeEnabled) {
-//                AppCompatDelegate.MODE_NIGHT_YES
-//            } else {
-//                AppCompatDelegate.MODE_NIGHT_NO
-//            }
-//        )
-
-        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
-            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
-            editor.apply()
-        } else {
-            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE)
-            editor.apply()
-        }
+//        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
+//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
+//            editor.apply()
+//        } else {
+//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE)
+//            editor.apply()
+//        }
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this)

@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.network
 
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
@@ -19,5 +20,34 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         telephoneCodes: Int,
     ): Response<SendOtpUserLoginResponse> {
         return apiService.sendOtpUserLogin(contactNumber, telephoneCodes)
+    }
+
+    suspend fun verifyOtp(
+        contactNumber: String,
+        otp: Int,
+    ): Response<OtpVerifyResponse> {
+        return apiService.verifyOtp(contactNumber, otp)
+    }
+
+    suspend fun createPasscode(
+        contactNumber: String,
+        passcode: Int,
+    ): Response<OtpVerifyResponse> {
+        return apiService.createPasscode(contactNumber, passcode)
+    }
+
+    suspend fun forgotPasscode(
+        contactNumber: String,
+        telephoneCodes: Int,
+    ): Response<SendOtpUserLoginResponse> {
+        return apiService.forgotPasscode(contactNumber, telephoneCodes)
+    }
+
+    suspend fun resetPasscode(
+        contactNumber: String,
+        otp: Int,
+        passcode: Int,
+    ): Response<OtpVerifyResponse> {
+        return apiService.resetPasscode(contactNumber, otp, passcode)
     }
 }

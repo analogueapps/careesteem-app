@@ -116,6 +116,9 @@ dependencies {
 
     // Pin view
     implementation(libs.pinview)
+
+    // BCrypt
+    implementation(libs.spring.security.crypto)
 }
 
 // Required for Hilt

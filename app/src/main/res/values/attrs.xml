@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<resources>
+    <declare-styleable name="PinView">
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="dotProgressColor" format="color" />
+        <attr name="dotUnProgressColor" format="color" />
+        <attr name="dotRadius" format="dimension" />
+        <attr name="numbersTextSize" format="dimension" />
+        <attr name="numbersTextColor" format="color" />
+        <attr name="deleteButtonColor" format="color" />
+        <attr name="clearButtonColor" format="color" />
+        <attr name="errorMessageText" format="string" />
+        <attr name="errorMessageTextSize" format="dimension" />
+        <attr name="errorMessageColor" format="color" />
+        <attr name="showForgotPasscode" format="boolean" />
+    </declare-styleable>
+</resources>

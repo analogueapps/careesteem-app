@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
-import com.aits.careesteem.view.auth.model.UserData
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +62,7 @@ class WelcomeFragment : Fragment() {
                 val dataString = gson.toJson(response.data)
                 viewLifecycleOwner.lifecycleScope.launch {
                     val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
-                        dataString
+                        response = dataString, action = 1
                     )
                     findNavController().navigate(direction)
                 }

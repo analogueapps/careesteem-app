@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/screenBackground"
+    tools:context=".view.auth.view.SetupPasscodeFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/screenBackground"
+        android:orientation="vertical"
+        tools:context=".view.auth.view.WelcomeFragment">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgTopLogo"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:src="@drawable/app_logo" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_20sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arvo_regular"
+                android:lineHeight="@dimen/_36sdp"
+                android:text="@string/setup_passcode"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_20ssp"
+                tools:targetApi="p" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lora_regular"
+                android:text="@string/setup_your_6_digit_passcode_to_log_in"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                tools:targetApi="p" />
+
+            <com.aits.careesteem.utils.PinView
+                android:id="@+id/pinView"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_50sdp"
+                app:dotProgressColor="@color/colorPrimary"
+                app:showForgotPasscode="false" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>

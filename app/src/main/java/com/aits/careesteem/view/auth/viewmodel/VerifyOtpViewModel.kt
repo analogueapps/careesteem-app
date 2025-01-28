@@ -7,18 +7,45 @@
 package com.aits.careesteem.view.auth.viewmodel
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.aits.careesteem.network.ErrorHandler
+import com.aits.careesteem.network.Repository
+import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifyOtpViewModel @Inject constructor(
+    private val repository: Repository,
+    private val errorHandler: ErrorHandler,
+    private val sharedPreferences: SharedPreferences,
     private val editor: Editor,
 ): ViewModel(){
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    var userData:SendOtpUserLoginResponse.Data? = null
+    var action:Int? = 1
+
+    // OtpVerifyResponse
+    private val _otpVerifyResponse = MutableLiveData<OtpVerifyResponse?>()
+    val otpVerifyResponse: LiveData<OtpVerifyResponse?> get() = _otpVerifyResponse
 
     // LiveData for OTP input and error message
     val otp = MutableLiveData<String>()
@@ -72,10 +99,80 @@ class VerifyOtpViewModel @Inject constructor(
     }
 
     // Method to handle resend OTP
-    fun onResendOtp() {
-        _resendVisible.value = false
-        _timerVisible.value = true
-        startTimer() // Restart the timer when resend is clicked
+    fun onResendOtp(activity: Activity) {
+        if (action == 1) {
+            _isLoading.value = true
+            viewModelScope.launch {
+                try {
+                    // Check if network is available before making the request
+                    if (!NetworkUtils.isNetworkAvailable(activity)) {
+                        AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                        return@launch
+                    }
+
+                    val response = repository.sendOtpUserLogin(
+                        userData?.contact_number!!,
+                        96
+                    )
+
+                    if (response.isSuccessful) {
+                        response.body()?.let { apiResponse ->
+                            AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
+                        }
+                        _resendVisible.value = false
+                        _timerVisible.value = true
+                        startTimer() // Restart the timer when resend is clicked
+                    } else {
+                        errorHandler.handleErrorResponse(response, activity)
+                    }
+                } catch (e: SocketTimeoutException) {
+                    AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                } catch (e: HttpException) {
+                    AlertUtils.showToast(activity, "Server error: ${e.message}")
+                } catch (e: Exception) {
+                    AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                    e.printStackTrace()
+                } finally {
+                    _isLoading.value = false
+                }
+            }
+        } else if (action == 2) {
+            _isLoading.value = true
+            viewModelScope.launch {
+                try {
+                    // Check if network is available before making the request
+                    if (!NetworkUtils.isNetworkAvailable(activity)) {
+                        AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                        return@launch
+                    }
+
+                    val response = repository.forgotPasscode(
+                        sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
+                        96
+                    )
+
+                    if (response.isSuccessful) {
+                        response.body()?.let { apiResponse ->
+                            AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
+                        }
+                        _resendVisible.value = false
+                        _timerVisible.value = true
+                        startTimer() // Restart the timer when resend is clicked
+                    } else {
+                        errorHandler.handleErrorResponse(response, activity)
+                    }
+                } catch (e: SocketTimeoutException) {
+                    AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                } catch (e: HttpException) {
+                    AlertUtils.showToast(activity, "Server error: ${e.message}")
+                } catch (e: Exception) {
+                    AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                    e.printStackTrace()
+                } finally {
+                    _isLoading.value = false
+                }
+            }
+        }
     }
 
     // Method to start the countdown timer
@@ -102,5 +199,43 @@ class VerifyOtpViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         timer?.cancel() // Cancel the timer to avoid memory leaks
+    }
+
+    fun callVerifyOtpApi(activity: Activity) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.verifyOtp(
+                    userData?.contact_number!!,
+                    otp.value!!.toInt()
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { apiResponse ->
+                        _otpVerifyResponse.value = apiResponse
+                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully")
+                        editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
+                        editor.apply()
+                    }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 }

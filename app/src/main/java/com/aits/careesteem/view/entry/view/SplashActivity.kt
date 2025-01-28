@@ -57,27 +57,27 @@ class SplashActivity : AppCompatActivity(), BiometricAuthListener {
     }
 
     private fun verifyPassword() {
-        if (sharedPreferences.getBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE) == AppConstant.TRUE) {
-            BiometricUtils.showBiometricPrompt(
-                activity = this,
-                listener = this,
-                cryptoObject = null,
-            )
-        } else {
+//        if (sharedPreferences.getBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE) == AppConstant.TRUE) {
+//            BiometricUtils.showBiometricPrompt(
+//                activity = this,
+//                listener = this,
+//                cryptoObject = null,
+//            )
+//        } else {
             navigation()
-        }
+//        }
     }
 
     private fun navigation() {
-        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
+//        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
+//            val intent = Intent(this, HomeActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        } else {
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
-        }
+//        }
     }
 
     override fun onBiometricAuthenticateError(error: Int, errMsg: String) {

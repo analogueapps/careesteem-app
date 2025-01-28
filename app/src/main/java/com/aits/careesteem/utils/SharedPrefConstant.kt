@@ -11,9 +11,11 @@ object SharedPrefConstant {
     const val ACCESS_TOKEN = "access_token"
     const val DEVICE_ID = "device_id"
     const val FCM_TOKEN = "fcm_token"
-    const val GENERAL_INFO = "generalInfo"
     const val IS_LOGGED = "is_logged"
     const val SCREEN_LOCK = "use_screen_lock"
-    const val THEME = "theme"
-    const val LANGUAGE = "language"
+
+    // USER DATA
+    const val CONTACT_NUMBER = "contact_number"
+    const val LOGIN_PASSCODE = "login_passcode"
+    const val USER_DATA = "login_passcode"
 }

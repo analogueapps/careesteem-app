@@ -214,6 +214,7 @@
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/onClickResendOtp"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
@@ -222,7 +223,6 @@
                         android:text="@string/resend_otp"
                         android:textFontWeight="400"
                         android:visibility="@{viewModel.resendVisible}"
-                        android:onClick="@{() -> viewModel.onResendOtp()}"
                         android:textSize="@dimen/_10ssp"
                         tools:targetApi="p" />
 

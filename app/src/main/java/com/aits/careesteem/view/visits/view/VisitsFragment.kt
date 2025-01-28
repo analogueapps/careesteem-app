@@ -184,7 +184,7 @@ class VisitsFragment : Fragment() {
     private fun setupViewModel() {
         binding.emptyLayout.setOnClickListener {
             val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-                ""
+                taskId = ""
             )
             findNavController().navigate(direction)
         }

@@ -27,6 +27,7 @@ firebaseCrashlytics = "19.4.0"
 googleGmsGoogleServices = "4.4.2"
 googleFirebaseCrashlytics = "3.0.2"
 firebaseMessaging = "24.1.0"
+crypto = "5.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -89,6 +90,10 @@ pinview = { group = "io.github.chaosleung", name = "pinview", version.ref = "pin
 # Firebase
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+
+# BCrypt
+spring-security-crypto = { group = "org.springframework.security", name = "spring-security-crypto", version.ref = "crypto" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

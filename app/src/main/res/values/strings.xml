@@ -46,4 +46,10 @@
     <string name="developed_by">Developed by</string>
     <string name="care_esteem_ltd">Care Esteem LTD</string>
     <string name="logout">Logout</string>
+    <string name="enter_passcode">Enter Passcode</string>
+    <string name="enter_your_6_digit_passcode_to_log_in">Enter your 6-digit passcode to log in</string>
+    <string name="setup_passcode">Setup Passcode</string>
+    <string name="setup_your_6_digit_passcode_to_log_in">Setup your 6-digit passcode to log in</string>
+    <string name="confirm_passcode">Confirm Passcode</string>
+    <string name="confirm_your_6_digit_passcode_to_log_in">Confirm your 6-digit passcode to log in</string>
 </resources>

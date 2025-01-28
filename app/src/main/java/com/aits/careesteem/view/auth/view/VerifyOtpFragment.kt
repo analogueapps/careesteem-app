@@ -26,7 +26,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
-import com.aits.careesteem.view.auth.model.UserData
+import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.gson.Gson
@@ -47,12 +47,12 @@ class VerifyOtpFragment : Fragment() {
     @Inject
     lateinit var editor: SharedPreferences.Editor
 
-    private var userData: UserData? = null
+    private var userData: SendOtpUserLoginResponse.Data? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gson = Gson()
-        userData = gson.fromJson(args.response, UserData::class.java)
+        userData = gson.fromJson(args.response, SendOtpUserLoginResponse.Data::class.java)
     }
 
     override fun onCreateView(
@@ -140,23 +140,57 @@ class VerifyOtpFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        viewModel.userData = userData
+        viewModel.action = args.action
+
+        binding.onClickResendOtp.setOnClickListener {
+            viewModel.onResendOtp(requireActivity())
+        }
+
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
+        }
+
         // Observe OTP validation success
         viewModel.isOtpValid.observe(viewLifecycleOwner, Observer { isValid ->
             if (isValid) {
-                editor.putBoolean(SharedPrefConstant.IS_LOGGED, true)
-                editor.apply()
-                ProgressLoader.showProgress(requireActivity())
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(2000)
-                    ProgressLoader.dismissProgress()
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        findNavController().navigate(R.id.preloaderFragment)
-                    }
-                }
+                viewModel.callVerifyOtpApi(requireActivity())
             } else {
                 val errorMessage = viewModel.otpError.value
                 errorMessage?.let {
                     AlertUtils.showToast(requireActivity(), it)
+                }
+            }
+        })
+
+        viewModel.otpVerifyResponse.observe(viewLifecycleOwner, Observer { response ->
+            if (response != null) {
+                val gson = Gson()
+                val dataString = gson.toJson(response.data[0])
+                editor.putString(SharedPrefConstant.USER_DATA, dataString)
+                editor.apply()
+                if(args.action == 1 && response.data[0].passcode.isNotEmpty()) {
+                    editor.putString(SharedPrefConstant.LOGIN_PASSCODE, response.data[0].passcode)
+                    editor.apply()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToEnterPasscodeFragment(
+                            response = dataString
+                        )
+                        findNavController().navigate(direction)
+                    }
+                } else {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSetupPasscodeFragment(
+                            response = dataString,
+                            action = args.action
+                        )
+                        findNavController().navigate(direction)
+                    }
                 }
             }
         })

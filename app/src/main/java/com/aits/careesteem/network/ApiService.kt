@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.network
 
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -20,4 +21,34 @@ interface ApiService {
         @Field("contact_number") contactNumber: String,
         @Field("telephone_codes") telephoneCodes: Int,
     ): Response<SendOtpUserLoginResponse>
+
+    @FormUrlEncoded
+    @POST("verify-otp")
+    suspend fun verifyOtp(
+        @Field("contact_number") contactNumber: String,
+        @Field("otp") otp: Int,
+    ): Response<OtpVerifyResponse>
+
+    @FormUrlEncoded
+    @POST("create-passcode")
+    suspend fun createPasscode(
+        @Field("contact_number") contactNumber: String,
+        @Field("passcode") passcode: Int,
+    ): Response<OtpVerifyResponse>
+
+    @FormUrlEncoded
+    @POST("forgot-passcode")
+    suspend fun forgotPasscode(
+        @Field("contact_number") contactNumber: String,
+        @Field("telephone_codes") telephoneCodes: Int,
+    ): Response<SendOtpUserLoginResponse>
+
+    @FormUrlEncoded
+    @POST("reset-passcode")
+    suspend fun resetPasscode(
+        @Field("contact_number") contactNumber: String,
+        @Field("otp") otp: Int,
+        @Field("passcode") passcode: Int,
+    ): Response<OtpVerifyResponse>
+
 }
