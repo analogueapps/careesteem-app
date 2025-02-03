@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import java.time.format.DateTimeFormatter
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
@@ -21,6 +22,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.auth.view.WelcomeFragmentDirections
+import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +39,10 @@ class VisitsFragment : Fragment() {
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
 
+    // Viewmodel
+    private val viewModel: VisitsViewModel by viewModels()
+
+    // Date
     @RequiresApi(Build.VERSION_CODES.O)
     private var currentStartOfWeek: LocalDate = LocalDate.now().with(DayOfWeek.MONDAY)
 
@@ -50,6 +56,11 @@ class VisitsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getVisits(requireActivity())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -71,7 +82,7 @@ class VisitsFragment : Fragment() {
                 try {
                     delay(2000)
                     binding.swipeRefresh.isRefreshing = AppConstant.FALSE
-
+                    viewModel.getVisits(requireActivity())
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -79,6 +90,7 @@ class VisitsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupWidget() {
         // Initialize the calendar with the current week
@@ -108,6 +120,45 @@ class VisitsFragment : Fragment() {
                 currentStartOfWeek = nextWeek
                 addCheckedDate(currentStartOfWeek)
                 updateCalendar(currentStartOfWeek)
+            }
+        }
+
+        // Expended list view
+        binding.apply {
+            tvOngoingVisits.setOnClickListener {
+                if(tvOngoingVisits.tag == "Invisible") {
+                    tvOngoingVisits.tag = "Visible"
+                    tvOngoingVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    rvOngoingVisits.visibility = View.VISIBLE
+                } else {
+                    tvOngoingVisits.tag = "Invisible"
+                    tvOngoingVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    rvOngoingVisits.visibility = View.GONE
+                }
+            }
+
+            tvUpcomingVisits.setOnClickListener {
+                if(tvUpcomingVisits.tag == "Invisible") {
+                    tvUpcomingVisits.tag = "Visible"
+                    tvUpcomingVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    rvUpcomingVisits.visibility = View.VISIBLE
+                } else {
+                    tvUpcomingVisits.tag = "Invisible"
+                    tvUpcomingVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    rvUpcomingVisits.visibility = View.GONE
+                }
+            }
+
+            tvCompletedVisits.setOnClickListener {
+                if(tvCompletedVisits.tag == "Invisible") {
+                    tvCompletedVisits.tag = "Visible"
+                    tvCompletedVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    rvCompletedVisits.visibility = View.VISIBLE
+                } else {
+                    tvCompletedVisits.tag = "Invisible"
+                    tvCompletedVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    rvCompletedVisits.visibility = View.GONE
+                }
             }
         }
     }
@@ -181,7 +232,71 @@ class VisitsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupViewModel() {
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
+        }
+
+        // Data visibility
+        viewModel.visitsList.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    dataLayout.visibility = View.VISIBLE
+                    emptyLayout.visibility = View.GONE
+                }
+            } else {
+                binding.apply {
+                    emptyLayout.visibility = View.VISIBLE
+                    dataLayout.visibility = View.GONE
+                }
+            }
+        }
+
+        // Ongoing visibility
+        viewModel.scheduledVisits.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
+                }
+            } else {
+                binding.apply {
+                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
+                }
+            }
+        }
+
+        // Upcoming visibility
+        viewModel.upcomingVisits.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (${data.size})"
+                }
+            } else {
+                binding.apply {
+                    tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (0)"
+                }
+            }
+        }
+
+        // Completed visibility
+        viewModel.completedVisits.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (${data.size})"
+                }
+            } else {
+                binding.apply {
+                    tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (0)"
+                }
+            }
+        }
+
         binding.emptyLayout.setOnClickListener {
             val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
                 taskId = ""

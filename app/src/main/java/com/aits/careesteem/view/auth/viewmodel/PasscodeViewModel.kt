@@ -61,8 +61,8 @@ class PasscodeViewModel @Inject constructor(
 
                 if(action == 1) {
                     val response = repository.createPasscode(
-                        userData?.contact_number!!,
-                        passcode.toInt()
+                        contactNumber = userData?.contact_number!!,
+                        passcode = passcode.toInt()
                     )
 
                     if (response.isSuccessful) {
@@ -78,9 +78,9 @@ class PasscodeViewModel @Inject constructor(
                     }
                 } else if(action == 2) {
                     val response = repository.resetPasscode(
-                        userData?.contact_number!!,
-                        userData?.otp!!,
-                        passcode.toInt()
+                        contactNumber = userData?.contact_number!!,
+                        otp = userData?.otp!!,
+                        passcode = passcode.toInt()
                     )
 
                     if (response.isSuccessful) {
@@ -153,8 +153,8 @@ class PasscodeViewModel @Inject constructor(
                 }
 
                 val response = repository.forgotPasscode(
-                    sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
-                    96
+                    contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
+                    telephoneCodes = 96
                 )
 
                 if (response.isSuccessful) {

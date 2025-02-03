@@ -111,8 +111,8 @@ class VerifyOtpViewModel @Inject constructor(
                     }
 
                     val response = repository.sendOtpUserLogin(
-                        userData?.contact_number!!,
-                        96
+                        contactNumber = userData?.contact_number!!,
+                        telephoneCodes = 96
                     )
 
                     if (response.isSuccessful) {
@@ -147,8 +147,8 @@ class VerifyOtpViewModel @Inject constructor(
                     }
 
                     val response = repository.forgotPasscode(
-                        sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
-                        96
+                        contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
+                        telephoneCodes = 96
                     )
 
                     if (response.isSuccessful) {
@@ -212,8 +212,8 @@ class VerifyOtpViewModel @Inject constructor(
                 }
 
                 val response = repository.verifyOtp(
-                    userData?.contact_number!!,
-                    otp.value!!.toInt()
+                    contactNumber = userData?.contact_number!!,
+                    otp = otp.value!!.toInt()
                 )
 
                 if (response.isSuccessful) {

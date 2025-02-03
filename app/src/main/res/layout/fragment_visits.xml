@@ -79,6 +79,87 @@
                         android:padding="8dp" />
                 </HorizontalScrollView>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:id="@+id/dataLayout"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvOngoingVisits"
+                        android:tag="Invisible"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/ic_risk_level_bg"
+                        android:backgroundTint="@color/ongoingCardCorner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:fontFamily="@font/arvo_regular"
+                        android:text="@string/ongoing_visits"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textFontWeight="500"
+                        android:textSize="@dimen/_11ssp"
+                        android:singleLine="true"
+                        tools:targetApi="p" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOngoingVisits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvUpcomingVisits"
+                        android:tag="Invisible"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/ic_risk_level_bg"
+                        android:backgroundTint="@color/upcomingCardCorner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:fontFamily="@font/arvo_regular"
+                        android:text="@string/upcoming_visits"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textFontWeight="500"
+                        android:textSize="@dimen/_11ssp"
+                        android:singleLine="true"
+                        tools:targetApi="p" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpcomingVisits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvCompletedVisits"
+                        android:tag="Invisible"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/ic_risk_level_bg"
+                        android:backgroundTint="@color/completeCardCorner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:fontFamily="@font/arvo_regular"
+                        android:text="@string/completed_visits"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textFontWeight="500"
+                        android:textSize="@dimen/_11ssp"
+                        android:singleLine="true"
+                        tools:targetApi="p" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCompletedVisits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

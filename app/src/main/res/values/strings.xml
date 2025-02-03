@@ -52,4 +52,7 @@
     <string name="setup_your_6_digit_passcode_to_log_in">Setup your 6-digit passcode to log in</string>
     <string name="confirm_passcode">Confirm Passcode</string>
     <string name="confirm_your_6_digit_passcode_to_log_in">Confirm your 6-digit passcode to log in</string>
+    <string name="ongoing_visits">Ongoing Visits</string>
+    <string name="upcoming_visits">Upcoming Visits</string>
+    <string name="completed_visits">Completed Visits</string>
 </resources>

@@ -92,8 +92,8 @@ class WelcomeViewModel @Inject constructor(
                 }
 
                 val response = repository.sendOtpUserLogin(
-                    phoneNumber.value!!,
-                    96
+                    contactNumber = phoneNumber.value!!,
+                    telephoneCodes = 96
                 )
 
                 if (response.isSuccessful) {
