@@ -174,7 +174,7 @@ class VerifyOtpFragment : Fragment() {
                 val dataString = gson.toJson(response.data[0])
                 editor.putString(SharedPrefConstant.USER_DATA, dataString)
                 editor.apply()
-                if(args.action == 1 && response.data[0].passcode.isNotEmpty()) {
+                if(args.action == 1 && AppConstant.checkNull(response.data[0].passcode) != "N/A") {
                     editor.putString(SharedPrefConstant.LOGIN_PASSCODE, response.data[0].passcode)
                     editor.apply()
                     viewLifecycleOwner.lifecycleScope.launch {
