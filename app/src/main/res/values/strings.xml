@@ -55,4 +55,6 @@
     <string name="ongoing_visits">Ongoing Visits</string>
     <string name="upcoming_visits">Upcoming Visits</string>
     <string name="completed_visits">Completed Visits</string>
+    <string name="planned_start_time">Planned Start Time</string>
+    <string name="planned_end_time">Planned End Time</string>
 </resources>

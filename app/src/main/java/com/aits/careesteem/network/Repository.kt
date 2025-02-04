@@ -8,6 +8,7 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
+import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
@@ -76,5 +77,9 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             id = id,
             visitDate = visitDate
         )
+    }
+
+    suspend fun getClientsList(): Response<ClientsList> {
+        return apiService.getClientsList()
     }
 }

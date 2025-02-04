@@ -12,6 +12,7 @@ data class VisitListResponse(
     val statusCode: Int
 ) {
     data class Data(
+        val visitDetailsId: Int,
         val clientAddress: String,
         val clientName: String,
         val plannedEndTime: String,

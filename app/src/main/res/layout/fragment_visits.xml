@@ -108,6 +108,8 @@
                         tools:targetApi="p" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvOngoingVisits"
+                        android:visibility="gone"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                     <androidx.appcompat.widget.AppCompatTextView
@@ -132,6 +134,8 @@
                         tools:targetApi="p" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvUpcomingVisits"
+                        android:visibility="gone"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                     <androidx.appcompat.widget.AppCompatTextView
@@ -156,6 +160,8 @@
                         tools:targetApi="p" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCompletedVisits"
+                        android:visibility="gone"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 

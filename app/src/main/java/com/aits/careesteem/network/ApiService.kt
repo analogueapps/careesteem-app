@@ -8,6 +8,7 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
+import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -60,4 +61,7 @@ interface ApiService {
         @Path("id") id: Int,
         @Query("visit_date") visitDate: String
     ): Response<VisitListResponse>
+
+    @GET("getclientmobiledetails")
+    suspend fun getClientsList(): Response<ClientsList>
 }

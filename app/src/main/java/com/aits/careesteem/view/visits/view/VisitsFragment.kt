@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentVisitsBinding
 import com.aits.careesteem.utils.AlertUtils
@@ -22,6 +23,10 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.auth.view.WelcomeFragmentDirections
+import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.OngoingVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.UpcomingVisitsAdapter
+import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -35,12 +40,20 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @AndroidEntryPoint
-class VisitsFragment : Fragment() {
+class VisitsFragment : Fragment(),
+    OngoingVisitsAdapter.OnItemItemClick,
+    UpcomingVisitsAdapter.OnItemItemClick
+{
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
 
     // Viewmodel
     private val viewModel: VisitsViewModel by viewModels()
+
+    // Adapters
+    private lateinit var ongoingVisitsAdapter: OngoingVisitsAdapter
+    private lateinit var upcomingVisitsAdapter: UpcomingVisitsAdapter
+    private lateinit var completeVisitsAdapter: CompleteVisitsAdapter
 
     // Date
     @RequiresApi(Build.VERSION_CODES.O)
@@ -69,10 +82,25 @@ class VisitsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentVisitsBinding.inflate(inflater, container, false)
+        setupAdapter()
         setupWidget()
         setupSwipeRefresh()
         setupViewModel()
         return binding.root
+    }
+
+    private fun setupAdapter() {
+        ongoingVisitsAdapter = OngoingVisitsAdapter(requireContext(), this@VisitsFragment)
+        binding.rvOngoingVisits.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvOngoingVisits.adapter = ongoingVisitsAdapter
+
+        upcomingVisitsAdapter = UpcomingVisitsAdapter(requireContext(), this@VisitsFragment)
+        binding.rvUpcomingVisits.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUpcomingVisits.adapter = upcomingVisitsAdapter
+
+        completeVisitsAdapter = CompleteVisitsAdapter(requireContext())
+        binding.rvCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCompletedVisits.adapter = completeVisitsAdapter
     }
 
     private fun setupSwipeRefresh() {
@@ -264,6 +292,7 @@ class VisitsFragment : Fragment() {
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
                 }
+                upcomingVisitsAdapter.updatedList(data)
             } else {
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
@@ -277,6 +306,7 @@ class VisitsFragment : Fragment() {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (${data.size})"
                 }
+                ongoingVisitsAdapter.updatedList(data)
             } else {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (0)"
@@ -290,19 +320,20 @@ class VisitsFragment : Fragment() {
                 binding.apply {
                     tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (${data.size})"
                 }
+                completeVisitsAdapter.updatedList(data)
             } else {
                 binding.apply {
                     tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (0)"
                 }
             }
         }
+    }
 
-        binding.emptyLayout.setOnClickListener {
-            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-                taskId = ""
-            )
-            findNavController().navigate(direction)
-        }
+    override fun onItemItemClicked(data: VisitListResponse.Data) {
+        val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+            taskId = ""
+        )
+        findNavController().navigate(direction)
     }
 
 }

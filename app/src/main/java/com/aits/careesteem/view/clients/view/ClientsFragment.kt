@@ -5,43 +5,96 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.databinding.FragmentClientsBinding
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.clients.adapter.ClientAdapter
-import com.aits.careesteem.view.clients.model.Client
+import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ClientsFragment : Fragment(), ClientAdapter.OnItemClick {
+class ClientsFragment : Fragment(),
+    ClientAdapter.OnItemClick
+{
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
+
+    // Viewmodel
+    private val viewModel: ClientsViewModel by viewModels()
+
+    // Adapter
+    private lateinit var clientAdapter: ClientAdapter
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getClientsList(requireActivity())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentClientsBinding.inflate(inflater, container, false)
-        setupWidget()
+        setupAdapter()
+        setupSwipeRefresh()
+        setupViewModel()
         return binding.root
     }
 
-    private fun setupWidget() {
-        // Set up RecyclerView
+    private fun setupAdapter() {
+        clientAdapter = ClientAdapter(requireContext(), this@ClientsFragment)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = ClientAdapter(getClientList(), this@ClientsFragment)
+        binding.recyclerView.adapter = clientAdapter
     }
 
-    private fun getClientList(): List<Client> {
-        return listOf(
-            Client("Leslie Alexander", "+44 6715550110", "138 Lewd Road, Middlewich, SSI 3SW", "Moderate"),
-            Client("Cillian Mckay", "+44 7474825285", "218 Gigantic Close, Tandragee, WV10 5E", "High"),
-            Client("Mylo Clements", "+44 7744632445", "135 Mammoth Road, Dummurry, HSI1 7WF", "Moderate"),
-            Client("Subhaan Salinas", "+44 7818844643", "229 Poor Crescent, Dingestow, WS35 7BB", null)
-        )
+    private fun setupSwipeRefresh() {
+        val coroutineScope = SafeCoroutineScope(SupervisorJob() + Dispatchers.Main)
+        binding.swipeRefresh.setOnRefreshListener {
+            coroutineScope.launch {
+                try {
+                    delay(2000)
+                    binding.swipeRefresh.isRefreshing = AppConstant.FALSE
+                    viewModel.getClientsList(requireActivity())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
-    override fun onItemClicked(item: String) {
+    private fun setupViewModel() {
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
+        }
+
+        // Data visibility
+        viewModel.clientsList.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                clientAdapter.updatedList(data)
+            }
+        }
+    }
+
+    override fun onItemClicked(data: ClientsList.Data) {
         val direction = ClientsFragmentDirections.actionBottomClientsToClientsDetailsFragment()
         findNavController().navigate(direction)
     }

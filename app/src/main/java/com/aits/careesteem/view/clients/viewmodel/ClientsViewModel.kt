@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-package com.aits.careesteem.view.visits.viewmodel
+package com.aits.careesteem.view.clients.viewmodel
 
 import android.app.Activity
 import android.content.SharedPreferences
@@ -16,6 +16,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class VisitsViewModel @Inject constructor(
+class ClientsViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
@@ -35,23 +36,11 @@ class VisitsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _visitsList = MutableLiveData<List<VisitListResponse.Data>>()
-    val visitsList: LiveData<List<VisitListResponse.Data>> get() = _visitsList
+    private val _clientsList = MutableLiveData<List<ClientsList.Data>>()
+    val clientsList: LiveData<List<ClientsList.Data>> get() = _clientsList
 
-    private val _scheduledVisits = MutableLiveData<List<VisitListResponse.Data>>()
-    val scheduledVisits: LiveData<List<VisitListResponse.Data>> get() = _scheduledVisits
-
-    private val _upcomingVisits = MutableLiveData<List<VisitListResponse.Data>>()
-    val upcomingVisits: LiveData<List<VisitListResponse.Data>> get() = _upcomingVisits
-
-    private val _completedVisits = MutableLiveData<List<VisitListResponse.Data>>()
-    val completedVisits: LiveData<List<VisitListResponse.Data>> get() = _completedVisits
-
-    fun getVisits(activity: Activity) {
-        _visitsList.value = emptyList()
-        _scheduledVisits.value = emptyList()
-        _upcomingVisits.value = emptyList()
-        _completedVisits.value = emptyList()
+    fun getClientsList(activity: Activity) {
+        _clientsList.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -61,20 +50,11 @@ class VisitsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.getVisitList(
-                    id = 506,
-                    visitDate = "2025-02-03",
-                )
+                val response = repository.getClientsList()
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
-                        _visitsList.value = list.data
-                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) }
-                        val upcoming = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
-                        val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
-                        _scheduledVisits.value = scheduled
-                        _upcomingVisits.value = upcoming
-                        _completedVisits.value = completed
+                        _clientsList.value = list.data
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

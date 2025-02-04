@@ -17,7 +17,7 @@ import com.aits.careesteem.BuildConfig
 object AlertUtils {
     @SuppressLint("LongLogTag")
     fun showLog(tag: String, message: String) {
-        if (BuildConfig.DEBUG) Log.e(tag, message) else Log.e(tag, message)
+        if (BuildConfig.DEBUG) Log.e(tag, message) else Log.d(tag, message)
     }
 
     fun responseToast(activity: Activity?, code: Int) {

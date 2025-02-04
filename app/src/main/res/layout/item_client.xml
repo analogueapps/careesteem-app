@@ -24,13 +24,13 @@
         android:orientation="horizontal"
         android:padding="@dimen/_8sdp">
 
-        `<com.google.android.material.imageview.ShapeableImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_user"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:src="@mipmap/ic_launcher_round"
             android:layout_gravity="center"
-            app:shapeAppearanceOverlay="@style/Circular" />`
+            app:shapeAppearanceOverlay="@style/Circular" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_marginStart="@dimen/_10sdp"
