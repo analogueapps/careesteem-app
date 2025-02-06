@@ -95,7 +95,9 @@ class ClientsFragment : Fragment(),
     }
 
     override fun onItemClicked(data: ClientsList.Data) {
-        val direction = ClientsFragmentDirections.actionBottomClientsToClientsDetailsFragment()
+        val direction = ClientsFragmentDirections.actionBottomClientsToClientsDetailsFragment(
+            clientId = data.id
+        )
         findNavController().navigate(direction)
     }
 }

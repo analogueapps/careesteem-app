@@ -28,6 +28,7 @@ import com.aits.careesteem.view.visits.adapter.OngoingVisitsAdapter
 import com.aits.careesteem.view.visits.adapter.UpcomingVisitsAdapter
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -330,8 +331,10 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
+        val gson = Gson()
+        val dataString = gson.toJson(data)
         val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-            taskId = ""
+            visitData = dataString
         )
         findNavController().navigate(direction)
     }

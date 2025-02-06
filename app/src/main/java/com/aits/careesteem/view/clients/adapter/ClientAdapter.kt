@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemClientBinding
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
@@ -89,6 +90,14 @@ class ClientAdapter(
                         part2.visibility = View.INVISIBLE
                         part3.visibility = View.INVISIBLE
                     }
+                }
+
+                // Convert the Base64 string to a Bitmap
+                val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
+
+                // Set the Bitmap to the ImageView (if conversion was successful)
+                bitmap?.let {
+                    clientImage.setImageBitmap(it)
                 }
 
                 layout.setOnClickListener {

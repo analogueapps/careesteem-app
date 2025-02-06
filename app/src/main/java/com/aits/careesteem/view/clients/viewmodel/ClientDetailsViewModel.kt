@@ -16,8 +16,8 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
-import com.aits.careesteem.view.visits.model.VisitListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -25,7 +25,7 @@ import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class ClientsViewModel @Inject constructor(
+class ClientDetailsViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
@@ -36,11 +36,13 @@ class ClientsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _clientsList = MutableLiveData<List<ClientsList.Data>>()
-    val clientsList: LiveData<List<ClientsList.Data>> get() = _clientsList
+    private val _aboutClient = MutableLiveData<ClientDetailsResponse.Data.AboutData>()
+    val aboutClient: LiveData<ClientDetailsResponse.Data.AboutData> get() = _aboutClient
 
-    fun getClientsList(activity: Activity) {
-        _clientsList.value = emptyList()
+    private val _clientMyCareNetwork = MutableLiveData<List<ClientDetailsResponse.Data.MyCareNetworkData>>()
+    val clientMyCareNetwork: LiveData<List<ClientDetailsResponse.Data.MyCareNetworkData>> get() = _clientMyCareNetwork
+
+    fun getClientDetails(activity: Activity, clientId: Int) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -50,12 +52,15 @@ class ClientsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.getClientsList()
+                val response = repository.getClientDetails(
+                    clientId = clientId
+                )
 
                 if (response.isSuccessful) {
                     println(response)
                     response.body()?.let { list ->
-                        _clientsList.value = list.finalData
+                        _clientMyCareNetwork.value = list.data.MyCareNetwork
+                        _aboutClient.value = list.data.About
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

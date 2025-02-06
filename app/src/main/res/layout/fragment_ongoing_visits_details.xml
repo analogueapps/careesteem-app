@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvClientName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lora_regular"
@@ -53,6 +54,7 @@
                         tools:targetApi="p" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvClientAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lora_regular"
@@ -80,6 +82,7 @@
                     android:layout_height="match_parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlanTime"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:background="@drawable/ic_upcoming_inside"

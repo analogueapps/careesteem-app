@@ -25,7 +25,7 @@
         android:padding="@dimen/_8sdp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/img_user"
+            android:id="@+id/clientImage"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:src="@mipmap/ic_launcher_round"

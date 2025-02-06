@@ -7,7 +7,7 @@
 package com.aits.careesteem.view.clients.model
 
 data class ClientsList(
-    val data: List<Data>,
+    val finalData: List<Data>,
     val message: String,
     val statusCode: Int
 ) {
@@ -16,6 +16,9 @@ data class ClientsList(
         val full_address: String,
         val full_name: String,
         val id: Int,
-        val risk_level: String
+        val risk_level: String,
+        val profile_photo_name: String,
+        val profile_photo: String,
+        val created_at: String
     )
 }

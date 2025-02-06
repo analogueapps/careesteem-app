@@ -13,6 +13,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.Instant
 
 class OngoingVisitsAdapter(
     private val context: Context,
@@ -54,15 +61,69 @@ class OngoingVisitsAdapter(
     inner class ViewHolder(private val binding: ItemOngoingVisitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        // Hold a reference to the coroutine Job for cancellation, if needed.
+        private var timerJob: Job? = null
+
         fun bind(data: VisitListResponse.Data) {
             binding.apply {
                 tvClientName.text = data.clientName
                 tvClientAddress.text = data.clientAddress
+                // You may have another field in your data representing the total planned time.
+                // Here, we start a countdown using the planned end time.
                 tvPlanTime.text = data.totalPlannedTime
 
-                itemView.setOnClickListener {
+                // Cancel any previous timer if this view is recycled
+                timerJob?.cancel()
+
+                // Start the countdown timer if plannedEndTime is available.
+                // (Assumes data.plannedEndTime is an ISO 8601 string)
+                if (data.plannedEndTime.isNotEmpty()) {
+                    timerJob = startCountdownTimer(data.plannedEndTime) { remainingText ->
+                        tvPlanTime.text = remainingText
+                    }
+                }
+
+                layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)
                 }
+            }
+        }
+    }
+
+    /**
+     * Starts a countdown timer until the provided [plannedEndTimeStr].
+     *
+     * @param plannedEndTimeStr The ISO 8601 string for the planned end time.
+     * @param onTick A callback invoked every second with the remaining time formatted
+     * as "mm:ss". When the countdown is finished, it will be updated to "Time's up!".
+     * @return The Job representing the coroutine timer.
+     */
+    @SuppressLint("NewApi", "DefaultLocale")
+    private fun startCountdownTimer(
+        plannedEndTimeStr: String,
+        onTick: (String) -> Unit
+    ): Job {
+        // Parse the planned end time from the ISO string.
+        val plannedEndTime = Instant.parse(plannedEndTimeStr)
+
+        // Launch a coroutine on the main thread.
+        return CoroutineScope(Dispatchers.Main).launch {
+            while (true) {
+                val now = Instant.now()
+                val remaining = Duration.between(now, plannedEndTime)
+
+                if (remaining.isZero || remaining.isNegative) {
+                    onTick("Time's up!")
+                    break
+                }
+
+                val minutes = remaining.toMinutes()
+                val seconds = remaining.seconds % 60
+
+                // Format the remaining time as "mm:ss".
+                onTick(String.format("%02d:%02d", minutes, seconds))
+
+                delay(1000L)
             }
         }
     }

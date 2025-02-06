@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-package com.aits.careesteem.view.clients.viewmodel
+package com.aits.careesteem.view.visits.viewmodel
 
 import android.app.Activity
 import android.content.SharedPreferences
@@ -16,16 +16,17 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
-import com.aits.careesteem.view.clients.model.ClientsList
-import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 @HiltViewModel
-class ClientsViewModel @Inject constructor(
+class MedicationViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
@@ -36,11 +37,11 @@ class ClientsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _clientsList = MutableLiveData<List<ClientsList.Data>>()
-    val clientsList: LiveData<List<ClientsList.Data>> get() = _clientsList
+//    private val _toDoList = MutableLiveData<List<TodoListResponse.Data>>()
+//    val toDoList: LiveData<List<TodoListResponse.Data>> get() = _toDoList
 
-    fun getClientsList(activity: Activity) {
-        _clientsList.value = emptyList()
+    fun getMedicationDetails(activity: Activity, visitDetailsId: String) {
+        //_toDoList.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -50,13 +51,16 @@ class ClientsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.getClientsList()
+                val response = repository.getMedicationDetails(
+                    //taskId = taskId
+                    visitDetailsId = "2855"
+                )
 
                 if (response.isSuccessful) {
-                    println(response)
-                    response.body()?.let { list ->
-                        _clientsList.value = list.finalData
-                    }
+//                    response.body()?.let { list ->
+//                        _toDoList.value = list.data
+//                        _completeCount.value = list.data.count { it.todoOutcome == "Completed" }
+//                    }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }

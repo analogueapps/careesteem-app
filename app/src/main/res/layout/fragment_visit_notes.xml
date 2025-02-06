@@ -27,18 +27,48 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/list_of_visit_notes"
-                        android:layout_weight="1"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:gravity="center"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:targetApi="p" />
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:textFontWeight="400"
+                            android:fontFamily="@font/arvo_regular"
+                            android:textSize="@dimen/_12ssp"
+                            android:text="@string/list_of_visit_notes"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:targetApi="p" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTopAddVisitNotes"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/arvo_regular"
+                            app:icon="@drawable/ic_add_notes"
+                            app:iconTintMode="multiply"
+                            app:iconSize="24dp"
+                            app:iconPadding="1dip"
+                            android:text="@string/add_note"
+                            android:textAllCaps="false"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp"
+                            tools:targetApi="p" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -49,6 +79,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/emptyLayout"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:orientation="vertical"
@@ -77,6 +108,7 @@
             tools:targetApi="p" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddVisitNotes"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"

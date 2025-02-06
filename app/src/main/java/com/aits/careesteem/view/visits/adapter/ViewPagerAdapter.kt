@@ -13,14 +13,24 @@ import com.aits.careesteem.view.visits.view.MedicationFragment
 import com.aits.careesteem.view.visits.view.ToDoFragment
 import com.aits.careesteem.view.visits.view.VisitNotesFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitData: String) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 3
+
+    // Return a unique ID for each fragment position.
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    // Confirm whether an item with a given ID exists.
+    override fun containsItem(itemId: Long): Boolean {
+        return itemId in 0 until itemCount
+    }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> ToDoFragment()
-            1 -> MedicationFragment()
-            2 -> VisitNotesFragment()
+            0 -> ToDoFragment.newInstance(visitData)
+            1 -> MedicationFragment.newInstance(visitData)
+            2 -> VisitNotesFragment.newInstance(visitData)
             else -> throw IllegalArgumentException("Invalid position")
         }
     }

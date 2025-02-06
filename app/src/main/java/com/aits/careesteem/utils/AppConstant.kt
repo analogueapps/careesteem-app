@@ -7,8 +7,13 @@
 package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Base64
 import androidx.annotation.RequiresApi
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -62,5 +67,33 @@ object AppConstant {
         } catch (e: Exception) {
             return "00:00"
         }
+    }
+
+    @SuppressLint("NewApi")
+    fun visitNotesListTimer(input: String): String {
+        try {
+            // Parse the ISO date string to an Instant
+            val instant = Instant.parse(input)
+
+            // Define your desired output format.
+            // Adjust the pattern as needed (here it is: day/month/year at hour:minute)
+            val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
+                .withZone(ZoneId.systemDefault()) // or use a specific zone like ZoneId.of("UTC")
+
+            val formattedDate = outputFormatter.format(instant)
+            return formattedDate
+        } catch (e: Exception) {
+            println(e)
+            return "00/00/0000 at 00:00"
+        }
+    }
+
+    fun base64ToBitmap(base64Str: String): Bitmap? {
+        // Remove the prefix if it exists
+        val pureBase64Encoded = base64Str.substringAfter("base64,")
+        // Decode the Base64 string to a byte array
+        val decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
+        // Convert the byte array to a Bitmap
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 }

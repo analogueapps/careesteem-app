@@ -8,17 +8,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.FragmentClientsBinding
 import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
+import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ClientsDetailsFragment : Fragment() {
     private var _binding: FragmentClientsDetailsBinding? = null
     private val binding get() = _binding!!
+    private val args: ClientsDetailsFragmentArgs by navArgs()
+
+    // Viewmodel
+    private val viewModel: ClientDetailsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getClientDetails(requireActivity(), args.clientId)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onResume() {
         super.onResume()
@@ -31,6 +50,7 @@ class ClientsDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentClientsDetailsBinding.inflate(inflater, container, false)
         setupWidget()
+        setupViewModel()
         return binding.root
 
     }
@@ -60,6 +80,17 @@ class ClientsDetailsFragment : Fragment() {
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
             dialog.show()
+        }
+    }
+
+    private fun setupViewModel() {
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
         }
     }
 }
