@@ -21,6 +21,7 @@ import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.visits.adapter.TodoListAdapter
 import com.aits.careesteem.view.visits.adapter.VisitNotesAdapter
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
+import com.aits.careesteem.view.visits.view.ToDoFragment.Companion
 import com.aits.careesteem.view.visits.viewmodel.ToDoViewModel
 import com.aits.careesteem.view.visits.viewmodel.VisitNotesViewModel
 import com.bumptech.glide.Glide
@@ -41,24 +42,35 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
     // Adapter
     private lateinit var visitNotesAdapter: VisitNotesAdapter
 
-    companion object {
-        private const val ARG_ID = "ARG_ID"
-        fun newInstance(id: String): VisitNotesFragment {
-            return VisitNotesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_ID, id)
-                }
-            }
-        }
-    }
-
     private var id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
         id = arguments?.getString(ARG_ID)
-        viewModel.getVisitNotesList(requireActivity(), id.toString())
+    }
+
+    companion object {
+        private const val ARG_ID = "ARG_ID"
+        @JvmStatic
+        fun newInstance(param1: String) =
+            VisitNotesFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_ID, param1)
+                }
+            }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isVisible) {
+            viewModel.getVisitNotesList(requireActivity(), id.toString())
+        }
     }
 
     override fun onCreateView(
@@ -136,10 +148,6 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onItemItemClicked(data: ClientVisitNotesDetails.Data) {
         val dialog = Dialog(requireContext())

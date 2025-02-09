@@ -1,0 +1,18 @@
+{
+  "statuses": [
+    "FullyTaken",
+    "Prepared & Left Out",
+    "Not Taken",
+    "Missing Medication",
+    "Destroyed",
+    "Self Administered",
+    "Not Observed",
+    "Refused",
+    "Not Given",
+    "No Visit",
+    "Other",
+    "Partially Taken",
+    "Scheduled",
+    "Not Scheduled"
+  ]
+}

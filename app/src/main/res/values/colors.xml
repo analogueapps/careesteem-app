@@ -26,6 +26,8 @@
     <color name="completeCardInsideCount">#B9DDD8</color>
     <color name="completeCardInsideButton">#279989</color>
 
+    <color name="dialogTextColor">#979797</color>
+
     <color name="red">#F44336</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

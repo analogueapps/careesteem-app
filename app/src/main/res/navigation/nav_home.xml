@@ -40,8 +40,8 @@
         android:label="fragment_clients_details"
         tools:layout="@layout/fragment_clients_details" >
         <argument
-            android:name="clientId"
-            app:argType="integer" />
+            android:name="clientData"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"

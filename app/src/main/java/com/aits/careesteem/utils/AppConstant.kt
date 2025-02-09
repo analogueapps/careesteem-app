@@ -7,11 +7,13 @@
 package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import org.json.JSONObject
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -95,5 +97,17 @@ object AppConstant {
         val decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT)
         // Convert the byte array to a Bitmap
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+    }
+
+    private fun loadJsonFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use { it.readText() }
+    }
+
+    fun getStatusesFromJson(context: Context): List<String> {
+        val jsonString = loadJsonFromAssets(context, "medication_statuses.json")
+        val jsonObject = JSONObject(jsonString)
+        return jsonObject.getJSONArray("statuses").let { jsonArray ->
+            List(jsonArray.length()) { jsonArray.getString(it) }
+        }
     }
 }

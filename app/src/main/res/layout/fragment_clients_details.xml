@@ -9,7 +9,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.clients.view.ClientsDetailsFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@+id/btnCreateUnscheduledVisit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/colorPrimary"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:strokeWidth="2dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/aboutLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/aboutName"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lora_regular"
+                        android:text="@string/app_name"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_11ssp"
+                        tools:targetApi="p" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_export"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/colorPrimary"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:strokeWidth="2dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/myCareLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myCareName"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:tag="Invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lora_regular"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        app:drawableTint="@color/black"
+                        android:text="@string/my_care_network"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_11ssp"
+                        tools:targetApi="p" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyCareNetwork"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateUnscheduledVisit"

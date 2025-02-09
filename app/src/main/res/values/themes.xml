@@ -16,6 +16,9 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:windowReturnTransition">@android:transition/explode</item>
         <item name="materialButtonStyle">@style/SquareButtonStyle</item>
+        <!-- Default Spinner Text Appearance -->
+        <item name="android:spinnerItemStyle">@style/SpinnerTextAppearance</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropdownTextAppearance</item>
     </style>
 
     <style name="Theme.CareEsteem" parent="Base.Theme.CareEsteem" />
@@ -64,5 +67,23 @@
         <item name="android:textAllCaps">false</item> <!-- Disable ALL CAPS -->
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">@font/arvo_regular</item> <!-- Add custom font -->
+    </style>
+
+    <!-- Style for Spinner Item -->
+    <style name="SpinnerTextAppearance" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">@font/lora_regular</item>
+        <item name="fontFamily">@font/lora_regular</item>
+    </style>
+
+    <!-- Style for Spinner Dropdown -->
+    <style name="SpinnerDropdownTextAppearance" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">@font/lora_regular</item>
+        <item name="fontFamily">@font/lora_regular</item>
     </style>
 </resources>

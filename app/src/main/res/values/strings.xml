@@ -58,4 +58,5 @@
     <string name="planned_start_time">Planned Start Time</string>
     <string name="planned_end_time">Planned End Time</string>
     <string name="visit_notes">Visit Notes</string>
+    <string name="my_care_network">My Care Network</string>
 </resources>

@@ -15,6 +15,7 @@ import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.clients.adapter.ClientAdapter
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -95,8 +96,10 @@ class ClientsFragment : Fragment(),
     }
 
     override fun onItemClicked(data: ClientsList.Data) {
+        val gson = Gson()
+        val dataString = gson.toJson(data)
         val direction = ClientsFragmentDirections.actionBottomClientsToClientsDetailsFragment(
-            clientId = data.id
+            clientData = dataString
         )
         findNavController().navigate(direction)
     }

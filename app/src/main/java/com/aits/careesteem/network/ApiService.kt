@@ -11,6 +11,7 @@ import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
+import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
@@ -114,5 +115,21 @@ interface ApiService {
     @GET("get-medication-details/{visitDetailsId}")
     suspend fun getMedicationDetails(
         @Path("visitDetailsId") visitDetailsId: Int,
+    ): Response<MedicationDetailsListResponse>
+
+    @FormUrlEncoded
+    @PUT("medication-blister-pack/{scheduledDetailsId}")
+    suspend fun medicationScheduledDetails(
+        @Path("scheduledDetailsId") scheduledDetailsId: Int,
+        @Field("carer_notes") carerNotes: String,
+        @Field("status") status: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @PUT("medication-blister-pack/{blisterPackDetailsId}")
+    suspend fun medicationBpDetails(
+        @Path("blisterPackDetailsId") blisterPackDetailsId: Int,
+        @Field("carer_notes") carerNotes: String,
+        @Field("status") status: String,
     ): Response<JsonObject>
 }

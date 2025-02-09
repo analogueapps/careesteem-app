@@ -11,6 +11,7 @@ import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
+import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
@@ -148,9 +149,33 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
-    suspend fun getMedicationDetails(visitDetailsId: String): Response<JsonObject> {
+    suspend fun getMedicationDetails(visitDetailsId: String): Response<MedicationDetailsListResponse> {
         return apiService.getMedicationDetails(
             visitDetailsId = visitDetailsId.toInt()
+        )
+    }
+
+    suspend fun medicationScheduledDetails(
+        scheduledDetailsId: Int,
+        status: String,
+        carerNotes: String
+    ): Response<JsonObject> {
+        return apiService.medicationScheduledDetails(
+            scheduledDetailsId = scheduledDetailsId,
+            status = status,
+            carerNotes = carerNotes
+        )
+    }
+
+    suspend fun medicationBpDetails(
+        blisterPackDetailsId: Int,
+        status: String,
+        carerNotes: String
+    ): Response<JsonObject> {
+        return apiService.medicationBpDetails(
+            blisterPackDetailsId = blisterPackDetailsId,
+            status = status,
+            carerNotes = carerNotes
         )
     }
 }

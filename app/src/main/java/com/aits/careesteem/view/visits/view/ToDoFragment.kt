@@ -2,7 +2,6 @@ package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -12,14 +11,11 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.DialogTodoEditBinding
 import com.aits.careesteem.databinding.FragmentToDoBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
-import com.aits.careesteem.view.auth.view.AuthActivity
-import com.aits.careesteem.view.clients.adapter.ClientAdapter
 import com.aits.careesteem.view.visits.adapter.TodoListAdapter
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.ToDoViewModel
@@ -40,29 +36,35 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
     // Adapter
     private lateinit var todoListAdapter: TodoListAdapter
 
-    companion object {
-        private const val ARG_ID = "ARG_ID"
-        fun newInstance(id: String): ToDoFragment {
-            return ToDoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_ID, id)
-                }
-            }
-        }
-    }
-
     private var id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
         id = arguments?.getString(ARG_ID)
-        viewModel.getToDoList(requireActivity(), id.toString())
+    }
+
+    companion object {
+        private const val ARG_ID = "ARG_ID"
+        @JvmStatic
+        fun newInstance(param1: String) =
+            ToDoFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_ID, param1)
+                }
+            }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isVisible) {
+            viewModel.getToDoList(requireActivity(), id.toString())
+        }
     }
 
     override fun onCreateView(

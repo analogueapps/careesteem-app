@@ -69,18 +69,18 @@ class ClientAdapter(
                 clientAddress.text = data.full_address
                 riskLevel.text = data.risk_level
 
-                when (data.risk_level) {
-                    "Low" -> {
+                when (data.risk_level.lowercase()) {
+                    "low" -> {
                         part1.visibility = View.VISIBLE
                         part2.visibility = View.INVISIBLE
                         part3.visibility = View.INVISIBLE
                     }
-                    "Moderate" -> {
+                    "moderate" -> {
                         part1.visibility = View.VISIBLE
                         part2.visibility = View.VISIBLE
                         part3.visibility = View.INVISIBLE
                     }
-                    "High" -> {
+                    "high" -> {
                         part1.visibility = View.VISIBLE
                         part2.visibility = View.VISIBLE
                         part3.visibility = View.VISIBLE
