@@ -25,6 +25,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvTopHeading"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -54,6 +55,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvBelowHeading"
                 android:gravity="center_vertical"
                 android:drawableEnd="@drawable/ic_edit_round_pencil"
                 android:layout_marginTop="@dimen/_5sdp"

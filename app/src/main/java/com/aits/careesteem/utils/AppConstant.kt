@@ -15,6 +15,7 @@ import android.util.Base64
 import androidx.annotation.RequiresApi
 import org.json.JSONObject
 import java.time.Instant
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -83,6 +84,27 @@ object AppConstant {
                 .withZone(ZoneId.systemDefault()) // or use a specific zone like ZoneId.of("UTC")
 
             val formattedDate = outputFormatter.format(instant)
+            return formattedDate
+        } catch (e: Exception) {
+            println(e)
+            return "00/00/0000 at 00:00"
+        }
+    }
+
+    @SuppressLint("NewApi")
+    fun visitUvNotesListTimer(input: String): String {
+        try {
+            // Parse the string as an OffsetDateTime (since it has 'Z' timezone)
+            val offsetDateTime = OffsetDateTime.parse(input)
+
+            // Convert to LocalDateTime (ignoring UTC offset)
+            val localDateTime = offsetDateTime.toLocalDateTime()
+
+            // Define the output format
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
+
+            // Format the date-time
+            val formattedDate = localDateTime.format(formatter)
             return formattedDate
         } catch (e: Exception) {
             println(e)

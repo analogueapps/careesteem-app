@@ -8,8 +8,11 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
+import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -75,10 +78,48 @@ interface ApiService {
         @Path("clientId") clientId: Int,
     ): Response<ClientDetailsResponse>
 
+    @GET("get-client-careplan-risk-ass")
+    suspend fun getClientCarePlanRiskAss(
+        @Query("client_id") clientId: Int
+    ): Response<CarePlanRiskAssList>
+
+    @FormUrlEncoded
+    @POST("addUnscheduledVisits")
+    suspend fun addUnscheduledVisits(
+        @Field("user_id") userId: String,
+        @Field("client_id") clientId: Int,
+        @Field("visit_date") visitDate: String,
+        @Field("actual_start_time") actualStartTime: String,
+        @Field("created_at") createdAt: String,
+    ): Response<AddUvVisitResponse>
+
     @GET("gettododetails/{visitDetailsId}")
     suspend fun getToDoList(
         @Path("visitDetailsId") visitDetailsId: Int,
     ): Response<TodoListResponse>
+
+    @FormUrlEncoded
+    @POST("addUnscheduledTodoDetails")
+    suspend fun addUnscheduledTodoDetails(
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("todo_user_id") todoUserId: Int,
+        @Field("todo_created_at") todoCreatedAt: String,
+        @Field("todo_notes") todoNotes: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @PUT("updateUnscheduledTodoDetails/{todoId}")
+    suspend fun updateUnscheduledTodoDetails(
+        @Path("todoId") todoId: Int,
+        @Field("todo_notes") todoNotes: String,
+        @Field("todo_user_id") todoUserId: Int,
+        @Field("todo_updated_at") todoUpdatedAt: String,
+    ): Response<JsonObject>
+
+    @GET("getUnscheduledTodoDetails/{visitDetailsId}")
+    suspend fun getUnscheduledTodoDetails(
+        @Path("visitDetailsId") visitDetailsId: Int,
+    ): Response<UvTodoListResponse>
 
     @FormUrlEncoded
     @PUT("updatetododetails/{todoId}")

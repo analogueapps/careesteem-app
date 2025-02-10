@@ -49,12 +49,14 @@
                     tools:targetApi="p" />
 
                 <View
+                    android:visibility="gone"
                     android:background="@color/black"
                     android:layout_margin="@dimen/_5sdp"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
                     android:id="@+id/updatedByUserName"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

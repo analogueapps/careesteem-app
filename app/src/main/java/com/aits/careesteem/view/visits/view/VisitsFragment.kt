@@ -293,7 +293,7 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
                 }
-                upcomingVisitsAdapter.updatedList(data)
+                ongoingVisitsAdapter.updatedList(data)
             } else {
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
@@ -307,7 +307,7 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (${data.size})"
                 }
-                ongoingVisitsAdapter.updatedList(data)
+                upcomingVisitsAdapter.updatedList(data)
             } else {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (0)"
@@ -333,10 +333,17 @@ class VisitsFragment : Fragment(),
     override fun onItemItemClicked(data: VisitListResponse.Data) {
         val gson = Gson()
         val dataString = gson.toJson(data)
-        val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-            visitData = dataString
-        )
-        findNavController().navigate(direction)
+        if(data.visitStatus == "Unscheduled") {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+                visitData = dataString
+            )
+            findNavController().navigate(direction)
+        } else {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+                visitData = dataString
+            )
+            findNavController().navigate(direction)
+        }
     }
 
 }

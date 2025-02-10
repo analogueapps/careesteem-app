@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.visits.view.VisitNotesFragment">
+    tools:context=".view.unscheduled_visits.view.UvToDoFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -27,50 +27,44 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:orientation="vertical"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:gravity="center"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:textFontWeight="400"
+                        android:fontFamily="@font/arvo_regular"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="@string/list_of_todo_s"
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        tools:targetApi="p" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
-                            android:textSize="@dimen/_12ssp"
-                            android:text="@string/list_of_visit_notes"
-                            android:layout_weight="1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:targetApi="p" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnTopAddVisitNotes"
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/arvo_regular"
-                            app:icon="@drawable/ic_add_notes"
-                            app:iconTintMode="multiply"
-                            app:iconSize="24dp"
-                            app:iconPadding="1dip"
-                            android:text="@string/add_note"
-                            android:textAllCaps="false"
-                            android:textFontWeight="400"
-                            android:textSize="@dimen/_12ssp"
-                            tools:targetApi="p" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTopAddVisitNotes"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/arvo_regular"
+                        app:icon="@drawable/ic_add_notes"
+                        app:iconTintMode="multiply"
+                        app:iconSize="24dp"
+                        app:iconPadding="1dip"
+                        android:text="@string/add_note"
+                        android:textAllCaps="false"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        tools:targetApi="p" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:id="@+id/recyclerView"
+                    tools:listitem="@layout/item_visit_notes_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -93,7 +87,7 @@
             android:layout_height="@dimen/_80sdp"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:src="@drawable/no_notes" />
+            android:src="@drawable/no_todo" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginTop="@dimen/_5sdp"
@@ -101,7 +95,7 @@
             android:layout_gravity="center"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:text="@string/no_visit_notes"
+            android:text="@string/no_todo"
             android:fontFamily="@font/arvo_regular"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"

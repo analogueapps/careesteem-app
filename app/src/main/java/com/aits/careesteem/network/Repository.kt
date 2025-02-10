@@ -8,8 +8,11 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
+import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -19,6 +22,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 import retrofit2.http.Path
 import javax.inject.Inject
 
@@ -95,9 +100,65 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun getClientCarePlanRiskAss(clientId: Int): Response<CarePlanRiskAssList> {
+        return apiService.getClientCarePlanRiskAss(
+            clientId = clientId
+        )
+    }
+
+    suspend fun addUnscheduledVisits(
+        userId: String,
+        clientId: Int,
+        visitDate: String,
+        actualStartTime: String,
+        createdAt: String,
+    ): Response<AddUvVisitResponse> {
+        return apiService.addUnscheduledVisits(
+            userId = userId,
+            clientId = clientId,
+            visitDate = visitDate,
+            actualStartTime = actualStartTime,
+            createdAt = createdAt
+        )
+    }
+
     suspend fun getToDoList(visitDetailsId: String): Response<TodoListResponse> {
         return apiService.getToDoList(
             visitDetailsId = visitDetailsId.toInt()
+        )
+    }
+
+    suspend fun getUnscheduledTodoDetails(visitDetailsId: String): Response<UvTodoListResponse> {
+        return apiService.getUnscheduledTodoDetails(
+            visitDetailsId = visitDetailsId.toInt()
+        )
+    }
+
+    suspend fun addUnscheduledTodoDetails(
+        visitDetailsId: Int,
+        todoUserId: Int,
+        todoCreatedAt: String,
+        todoNotes: String
+    ): Response<JsonObject> {
+        return apiService.addUnscheduledTodoDetails(
+            visitDetailsId = visitDetailsId,
+            todoUserId = todoUserId,
+            todoCreatedAt = todoCreatedAt,
+            todoNotes = todoNotes
+        )
+    }
+
+    suspend fun updateUnscheduledTodoDetails(
+        todoId: Int,
+        todoUserId: Int,
+        todoNotes: String,
+        todoUpdatedAt: String
+    ): Response<JsonObject> {
+        return apiService.updateUnscheduledTodoDetails(
+            todoId = todoId,
+            todoUserId = todoUserId,
+            todoNotes = todoNotes,
+            todoUpdatedAt = todoUpdatedAt
         )
     }
 

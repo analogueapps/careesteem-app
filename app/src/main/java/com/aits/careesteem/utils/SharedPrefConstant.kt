@@ -17,5 +17,5 @@ object SharedPrefConstant {
     // USER DATA
     const val CONTACT_NUMBER = "contact_number"
     const val LOGIN_PASSCODE = "login_passcode"
-    const val USER_DATA = "login_passcode"
+    const val USER_DATA = "user_data"
 }

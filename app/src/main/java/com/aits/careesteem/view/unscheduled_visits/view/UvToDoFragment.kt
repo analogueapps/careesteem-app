@@ -1,0 +1,225 @@
+package com.aits.careesteem.view.unscheduled_visits.view
+
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.os.Bundle
+import android.text.Editable
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogVisitNotesBinding
+import com.aits.careesteem.databinding.FragmentUvToDoBinding
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.view.unscheduled_visits.adapter.UvTodoListAdapter
+import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
+import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvToDoViewModel
+import com.aits.careesteem.view.visits.view.ToDoFragment
+import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
+class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
+    private var _binding: FragmentUvToDoBinding? = null
+    private val binding get() = _binding!!
+
+    // Viewmodel
+    private val viewModel: UvToDoViewModel by viewModels()
+
+    // Adapter
+    private lateinit var uvTodoListAdapter: UvTodoListAdapter
+
+    private var id: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Retrieve the ID from the arguments
+        id = arguments?.getString(ARG_ID)
+    }
+
+    companion object {
+        private const val ARG_ID = "ARG_ID"
+        @JvmStatic
+        fun newInstance(param1: String) =
+            UvToDoFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_ID, param1)
+                }
+            }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isVisible) {
+            viewModel.getUvToDoList(requireActivity(), id.toString())
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentUvToDoBinding.inflate(inflater, container, false)
+        setupWidget()
+        setupAdapter()
+        setupSwipeRefresh()
+        setupViewModel()
+        return binding.root
+    }
+
+    private fun setupWidget() {
+        binding.apply {
+            btnAddVisitNotes.setOnClickListener {
+                addNotes()
+            }
+            btnTopAddVisitNotes.setOnClickListener {
+                addNotes()
+            }
+        }
+    }
+
+    private fun setupAdapter() {
+        uvTodoListAdapter = UvTodoListAdapter(requireContext(), this@UvToDoFragment)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = uvTodoListAdapter
+    }
+
+    private fun setupSwipeRefresh() {
+        val coroutineScope = SafeCoroutineScope(SupervisorJob() + Dispatchers.Main)
+        binding.swipeRefresh.setOnRefreshListener {
+            coroutineScope.launch {
+                try {
+                    delay(2000)
+                    binding.swipeRefresh.isRefreshing = AppConstant.FALSE
+                    viewModel.getUvToDoList(requireActivity(), id.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupViewModel() {
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
+        }
+
+        // Data visibility
+        viewModel.toDoList.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    emptyLayout.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
+                uvTodoListAdapter.updatedList(data)
+            } else {
+                binding.apply {
+                    emptyLayout.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                    Glide.with(this@UvToDoFragment)
+                        .asGif()
+                        .load(R.drawable.no_todo) // Replace with your GIF resource
+                        .into(gifImageView)
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onItemItemClicked(data: UvTodoListResponse.Data) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogVisitNotesBinding =
+            DialogVisitNotesBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // add data
+        binding.tvTopHeading.text = "To-Do's"
+        binding.tvBelowHeading.text = "To-Do's"
+        binding.visitNotes.hint = "Enter to-do notes"
+        binding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.todo_notes)
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnUpdate.setOnClickListener {
+            dialog.dismiss()
+            viewModel.updateNotes(
+                activity = requireActivity(),
+                visitDetailsId = id.toString(),
+                todoDetailsId = data.id,
+                todoNotes = binding.visitNotes.text.toString().trim()
+            )
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun addNotes() {
+        val dialog = Dialog(requireContext())
+        val binding: DialogVisitNotesBinding =
+            DialogVisitNotesBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // add data
+        binding.tvTopHeading.text = "To-Do's"
+        binding.tvBelowHeading.text = "To-Do's"
+        binding.visitNotes.hint = "Enter to-do notes"
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnUpdate.setOnClickListener {
+            dialog.dismiss()
+            viewModel.addNotes(
+                activity = requireActivity(),
+                visitDetailsId = id.toString(),
+                todoNotes = binding.visitNotes.text.toString().trim()
+            )
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+}

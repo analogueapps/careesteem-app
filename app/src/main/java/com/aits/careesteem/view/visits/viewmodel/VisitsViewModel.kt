@@ -63,13 +63,13 @@ class VisitsViewModel @Inject constructor(
 
                 val response = repository.getVisitList(
                     id = 506,
-                    visitDate = "2025-02-03",
+                    visitDate = "2025-02-10"
                 )
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _visitsList.value = list.data
-                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) }
+                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) || it.visitStatus.equals("Unscheduled", ignoreCase = true) }
                         val upcoming = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
                         val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
                         _scheduledVisits.value = scheduled
