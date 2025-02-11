@@ -38,6 +38,18 @@ data class MedicationDetailsListResponse(
         val scheduled_start_date: String,
         val scheduled_user_id: String,
         val select_preference: String,
-        val visit_details_id: Int
+        val visit_details_id: Any,
+        // Newly added fields
+        val prn_id: Int,
+        val prn_start_date: String,
+        val prn_end_date: String,
+        val dose_per: Int,
+        val doses: Int,
+        val time_frame: String,
+        val prn_offered: String,
+        val prn_be_given: String,
+        val prn_user_id: String,
+        val status: String,
+        val prn_created_by: String
     )
 }

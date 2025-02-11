@@ -70,11 +70,11 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
             // Start the countdown timer if plannedEndTime is available.
             // (Assumes data.plannedEndTime is an ISO 8601 string)
-            if (visitData?.plannedEndTime?.isNotEmpty() == true) {
-                timerJob = startCountdownTimer(visitData?.plannedEndTime.toString()) { remainingText ->
-                    tvPlanTime.text = remainingText
-                }
-            }
+//            if (visitData?.plannedEndTime?.isNotEmpty() == true) {
+//                timerJob = startCountdownTimer(visitData?.plannedEndTime.toString()) { remainingText ->
+//                    tvPlanTime.text = remainingText
+//                }
+//            }
         }
     }
 

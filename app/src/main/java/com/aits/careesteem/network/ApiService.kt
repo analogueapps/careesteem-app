@@ -12,7 +12,9 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -99,6 +101,19 @@ interface ApiService {
     ): Response<TodoListResponse>
 
     @FormUrlEncoded
+    @PUT("updatetododetails/{todoId}")
+    suspend fun updateTodoDetails(
+        @Path("todoId") todoId: Int,
+        @Field("carer_notes") carerNotes: String,
+        @Field("todo_outcome") todoOutcome: Int,
+    ): Response<JsonObject>
+
+    @GET("getUnscheduledTodoDetails/{visitDetailsId}")
+    suspend fun getUnscheduledTodoDetails(
+        @Path("visitDetailsId") visitDetailsId: Int,
+    ): Response<UvTodoListResponse>
+
+    @FormUrlEncoded
     @POST("addUnscheduledTodoDetails")
     suspend fun addUnscheduledTodoDetails(
         @Field("visit_details_id") visitDetailsId: Int,
@@ -116,17 +131,50 @@ interface ApiService {
         @Field("todo_updated_at") todoUpdatedAt: String,
     ): Response<JsonObject>
 
-    @GET("getUnscheduledTodoDetails/{visitDetailsId}")
-    suspend fun getUnscheduledTodoDetails(
+    @GET("getUnscheduledMedicationDetails/{visitDetailsId}")
+    suspend fun getUnscheduledMedicationDetails(
         @Path("visitDetailsId") visitDetailsId: Int,
-    ): Response<UvTodoListResponse>
+    ): Response<UvMedicationListResponse>
 
     @FormUrlEncoded
-    @PUT("updatetododetails/{todoId}")
-    suspend fun updateTodoDetails(
-        @Path("todoId") todoId: Int,
-        @Field("carer_notes") carerNotes: String,
-        @Field("todo_outcome") todoOutcome: Int,
+    @POST("addUnscheduledMedicationDetails")
+    suspend fun addUnscheduledMedicationDetails(
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("medication_user_id") medicationUserId: Int,
+        @Field("medication_created_at") medicationCreatedAt: String,
+        @Field("medication_notes") medicationNotes: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @PUT("updateUnscheduledMedicationDetails/{medicationId}")
+    suspend fun updateUnscheduledMedicationDetails(
+        @Path("medicationId") medicationId: Int,
+        @Field("medication_notes") medicationNotes: String,
+        @Field("medication_user_id") medicationUserId: Int,
+        @Field("medication_updated_at") medicationUpdatedAt: String,
+    ): Response<JsonObject>
+
+    @GET("getUnscheduledVisitNotesDetails/{visitDetailsId}")
+    suspend fun getUnscheduledVisitNotesDetails(
+        @Path("visitDetailsId") visitDetailsId: Int,
+    ): Response<UvVisitNotesListResponse>
+
+    @FormUrlEncoded
+    @POST("addUnscheduledVisitNotesDetails")
+    suspend fun addUnscheduledVisitNotesDetails(
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("visit_user_id") visitUserId: Int,
+        @Field("visit_created_at") visitCreatedAt: String,
+        @Field("visit_notes") visitNotes: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @PUT("updateUnscheduledVisitNotesDetails/{visitNotesId}")
+    suspend fun updateUnscheduledVisitNotesDetails(
+        @Path("visitNotesId") visitNotesId: Int,
+        @Field("visit_notes") visitNotes: String,
+        @Field("visit_user_id") visitUserId: Int,
+        @Field("visit_updated_at") visitUpdatedAt: String,
     ): Response<JsonObject>
 
     @GET("getclientvisitnotesdetails/{visitDetailsId}")

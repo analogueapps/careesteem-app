@@ -92,6 +92,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/prnLayout"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:textFontWeight="400"
+                        android:fontFamily="@font/arvo_regular"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="@string/list_of_prn_medication"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:targetApi="p" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:id="@+id/recyclerViewPrn"
+                        tools:listitem="@layout/item_todo_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>

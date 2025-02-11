@@ -13,8 +13,17 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -130,6 +139,43 @@ object AppConstant {
         val jsonObject = JSONObject(jsonString)
         return jsonObject.getJSONArray("statuses").let { jsonArray ->
             List(jsonArray.length()) { jsonArray.getString(it) }
+        }
+    }
+
+    @SuppressLint("NewApi", "DefaultLocale")
+    private fun startCountdownTimer(
+        plannedEndTimeStr: String,
+        onTick: (String) -> Unit
+    ): Job {
+        val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+        // Parse planned end time as LocalTime
+        val plannedEndTime = LocalTime.parse(plannedEndTimeStr, timeFormatter)
+
+        // Get today's date and combine it with planned end time
+        val plannedDateTime = LocalDateTime.of(LocalDate.now(), plannedEndTime)
+
+        // Convert to Instant (Assuming UTC or system default timezone)
+        val plannedEndInstant = plannedDateTime.atZone(ZoneId.systemDefault()).toInstant()
+
+        return CoroutineScope(Dispatchers.Main).launch {
+            while (true) {
+                val now = Instant.now()
+                val remaining = Duration.between(now, plannedEndInstant)
+
+                if (remaining.isZero || remaining.isNegative) {
+                    onTick("Time's up!")
+                    break
+                }
+
+                val minutes = remaining.toMinutes()
+                val seconds = remaining.seconds % 60
+
+                // Format the remaining time as "mm:ss".
+                onTick(String.format("%02d:%02d", minutes, seconds))
+
+                delay(1000L)
+            }
         }
     }
 }

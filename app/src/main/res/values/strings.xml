@@ -31,6 +31,7 @@
     <string name="check_out_time">Check out time</string>
     <string name="submitted">Submitted :</string>
     <string name="list_of_todo_s">List of Todo’s</string>
+    <string name="list_of_medications">List of Medications</string>
     <string name="scheduled_medication">Scheduled Medication</string>
     <string name="list_of_visit_notes">List of Visit Notes</string>
     <string name="no_todo">The to-do note is currently <font color="#279989">empty,</font> Please provide your to-do documentation.</string>
@@ -68,4 +69,5 @@
     <string name="equipment_register">Equipment Register</string>
     <string name="financial_risk_assessment">Financial Risk Assessment</string>
     <string name="coshh_risk_assessment">COSHH Risk Assessment</string>
+    <string name="list_of_prn_medication">List of PRN Medication</string>
 </resources>

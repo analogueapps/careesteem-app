@@ -11,26 +11,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.R
-import com.aits.careesteem.databinding.ItemTodoListBinding
 import com.aits.careesteem.databinding.ItemVisitNotesListBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 
-class UvTodoListAdapter(
+class UvMedicationListAdapter(
     private val context: Context,
     private val onItemItemClick: OnItemItemClick
-) : RecyclerView.Adapter<UvTodoListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<UvMedicationListAdapter.ViewHolder>() {
 
     interface OnItemItemClick {
-        fun onItemItemClicked(data: UvTodoListResponse.Data)
+        fun onItemItemClicked(data: UvMedicationListResponse.Data)
     }
 
-    private var adapterList = listOf<UvTodoListResponse.Data>()
+    private var adapterList = listOf<UvMedicationListResponse.Data>()
 
-    fun updatedList(list: List<UvTodoListResponse.Data>) {
+    fun updatedList(list: List<UvMedicationListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }
@@ -60,18 +58,18 @@ class UvTodoListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(data: UvTodoListResponse.Data) {
+        fun bind(data: UvMedicationListResponse.Data) {
             binding.apply {
                 val date: String = when {
-                    data.todo_created_at.isNullOrEmpty() && !data.todo_updated_at.isNullOrEmpty() -> data.todo_updated_at
-                    !data.todo_created_at.isNullOrEmpty() && data.todo_updated_at.isNullOrEmpty() -> data.todo_created_at
-                    !data.todo_created_at.isNullOrEmpty() && !data.todo_updated_at.isNullOrEmpty() -> data.todo_updated_at
+                    data.medication_created_at.isNullOrEmpty() && !data.medication_updated_at.isNullOrEmpty() -> data.medication_updated_at
+                    !data.medication_created_at.isNullOrEmpty() && data.medication_updated_at.isNullOrEmpty() -> data.medication_created_at
+                    !data.medication_created_at.isNullOrEmpty() && !data.medication_updated_at.isNullOrEmpty() -> data.medication_updated_at
                     else -> ""
                 }
                 updatedAt.text = AppConstant.visitUvNotesListTimer(date)
                 view.visibility = View.GONE
                 updatedByUserName.visibility = View.GONE
-                visitNotes.text = data.todo_notes
+                visitNotes.text = data.medication_notes
 
                 editButton.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

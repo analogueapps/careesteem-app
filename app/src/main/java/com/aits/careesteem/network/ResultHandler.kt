@@ -13,6 +13,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.view.AuthActivity
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 import javax.inject.Inject
@@ -50,12 +51,17 @@ class ErrorHandler @Inject constructor(
     private fun handleGeneralError(response: Response<*>, activity: Activity) {
         val errorBody = response.errorBody()?.string()
         if (errorBody != null) {
-            val jsonObject = JSONObject(errorBody)
-            val displayMessage = jsonObject.optString("message").takeIf { it.isNotEmpty() }
-                ?: jsonObject.optString("error")
-            AlertUtils.showToast(activity, displayMessage)
+            try {
+                // Check if the response is valid JSON
+                val jsonObject = JSONObject(errorBody)
+                val displayMessage = jsonObject.optString("message").takeIf { it.isNotEmpty() }
+                    ?: jsonObject.optString("error")
+                AlertUtils.showToast(activity, displayMessage)
+            } catch (e: JSONException) {
+                // If parsing fails, assume it's an HTML error or unknown format
+                AlertUtils.responseToast(activity, response.code())
+            }
         } else {
-            // Use responseToast for HTTP error codes
             AlertUtils.responseToast(activity, response.code())
         }
     }

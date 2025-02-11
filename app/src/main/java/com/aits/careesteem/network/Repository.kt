@@ -12,7 +12,9 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -128,6 +130,18 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun updateTodoDetails(
+        todoId: Int,
+        carerNotes: String,
+        todoOutcome: Int
+    ): Response<JsonObject> {
+        return apiService.updateTodoDetails(
+            todoId = todoId,
+            carerNotes = carerNotes,
+            todoOutcome = todoOutcome
+        )
+    }
+
     suspend fun getUnscheduledTodoDetails(visitDetailsId: String): Response<UvTodoListResponse> {
         return apiService.getUnscheduledTodoDetails(
             visitDetailsId = visitDetailsId.toInt()
@@ -162,15 +176,71 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
-    suspend fun updateTodoDetails(
-        todoId: Int,
-        carerNotes: String,
-        todoOutcome: Int
+    suspend fun getUnscheduledMedicationDetails(visitDetailsId: String): Response<UvMedicationListResponse> {
+        return apiService.getUnscheduledMedicationDetails(
+            visitDetailsId = visitDetailsId.toInt()
+        )
+    }
+
+    suspend fun addUnscheduledMedicationDetails(
+        visitDetailsId: Int,
+        medicationUserId: Int,
+        medicationCreatedAt: String,
+        medicationNotes: String
     ): Response<JsonObject> {
-        return apiService.updateTodoDetails(
-            todoId = todoId,
-            carerNotes = carerNotes,
-            todoOutcome = todoOutcome
+        return apiService.addUnscheduledMedicationDetails(
+            visitDetailsId = visitDetailsId,
+            medicationUserId = medicationUserId,
+            medicationCreatedAt = medicationCreatedAt,
+            medicationNotes = medicationNotes
+        )
+    }
+
+    suspend fun updateUnscheduledMedicationDetails(
+        medicationId: Int,
+        medicationUserId: Int,
+        medicationNotes: String,
+        medicationUpdatedAt: String
+    ): Response<JsonObject> {
+        return apiService.updateUnscheduledMedicationDetails(
+            medicationId = medicationId,
+            medicationUserId = medicationUserId,
+            medicationNotes = medicationNotes,
+            medicationUpdatedAt = medicationUpdatedAt
+        )
+    }
+
+    suspend fun getUnscheduledVisitNotesDetails(visitDetailsId: String): Response<UvVisitNotesListResponse> {
+        return apiService.getUnscheduledVisitNotesDetails(
+            visitDetailsId = visitDetailsId.toInt()
+        )
+    }
+
+    suspend fun addUnscheduledVisitNotesDetails(
+        visitDetailsId: Int,
+        visitUserId: Int,
+        visitCreatedAt: String,
+        visitNotes: String
+    ): Response<JsonObject> {
+        return apiService.addUnscheduledVisitNotesDetails(
+            visitDetailsId = visitDetailsId,
+            visitUserId = visitUserId,
+            visitCreatedAt = visitCreatedAt,
+            visitNotes = visitNotes
+        )
+    }
+
+    suspend fun updateUnscheduledVisitNotesDetails(
+        visitNotesId: Int,
+        visitUserId: Int,
+        visitNotes: String,
+        visitUpdatedAt: String
+    ): Response<JsonObject> {
+        return apiService.updateUnscheduledVisitNotesDetails(
+            visitNotesId = visitNotesId,
+            visitUserId = visitUserId,
+            visitNotes = visitNotes,
+            visitUpdatedAt = visitUpdatedAt
         )
     }
 

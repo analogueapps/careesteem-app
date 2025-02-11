@@ -63,7 +63,7 @@ class VisitsViewModel @Inject constructor(
 
                 val response = repository.getVisitList(
                     id = 506,
-                    visitDate = "2025-02-10"
+                    visitDate = "2025-02-03"
                 )
 
                 if (response.isSuccessful) {

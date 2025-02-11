@@ -221,6 +221,7 @@ class VerifyOtpViewModel @Inject constructor(
                         _otpVerifyResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully")
                         editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
+                        editor.putString(SharedPrefConstant.ACCESS_TOKEN, apiResponse.data[0].token.toString())
                         editor.apply()
                     }
                 } else {

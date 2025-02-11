@@ -4,23 +4,26 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogVisitNotesBinding
-import com.aits.careesteem.databinding.FragmentUvToDoBinding
+import com.aits.careesteem.databinding.FragmentUvMedicationBinding
+import com.aits.careesteem.databinding.FragmentUvVisitNotesBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
-import com.aits.careesteem.view.unscheduled_visits.adapter.UvTodoListAdapter
-import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
-import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvToDoViewModel
-import com.aits.careesteem.view.visits.view.ToDoFragment
+import com.aits.careesteem.view.unscheduled_visits.adapter.UvMedicationListAdapter
+import com.aits.careesteem.view.unscheduled_visits.adapter.UvVisitNotesListAdapter
+import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
+import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvMedicationViewModel
+import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvVisitNotesViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -29,15 +32,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
-    private var _binding: FragmentUvToDoBinding? = null
+class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick {
+    private var _binding: FragmentUvVisitNotesBinding? = null
     private val binding get() = _binding!!
 
     // Viewmodel
-    private val viewModel: UvToDoViewModel by viewModels()
+    private val viewModel: UvVisitNotesViewModel by viewModels()
 
     // Adapter
-    private lateinit var uvTodoListAdapter: UvTodoListAdapter
+    private lateinit var uvVisitNotesListAdapter: UvVisitNotesListAdapter
 
     private var id: String? = null
 
@@ -51,7 +54,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         private const val ARG_ID = "ARG_ID"
         @JvmStatic
         fun newInstance(param1: String) =
-            UvToDoFragment().apply {
+            UvVisitNotesFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_ID, param1)
                 }
@@ -66,7 +69,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
     override fun onResume() {
         super.onResume()
         if(isVisible) {
-            viewModel.getUvToDoList(requireActivity(), id.toString())
+            viewModel.getUvVisitNotesList(requireActivity(), id.toString())
         }
     }
 
@@ -74,7 +77,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUvToDoBinding.inflate(inflater, container, false)
+        _binding = FragmentUvVisitNotesBinding.inflate(inflater, container, false)
         setupWidget()
         setupAdapter()
         setupSwipeRefresh()
@@ -94,9 +97,9 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
     }
 
     private fun setupAdapter() {
-        uvTodoListAdapter = UvTodoListAdapter(requireContext(), this@UvToDoFragment)
+        uvVisitNotesListAdapter = UvVisitNotesListAdapter(requireContext(), this@UvVisitNotesFragment)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = uvTodoListAdapter
+        binding.recyclerView.adapter = uvVisitNotesListAdapter
     }
 
     private fun setupSwipeRefresh() {
@@ -106,7 +109,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
                 try {
                     delay(2000)
                     binding.swipeRefresh.isRefreshing = AppConstant.FALSE
-                    viewModel.getUvToDoList(requireActivity(), id.toString())
+                    viewModel.getUvVisitNotesList(requireActivity(), id.toString())
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -126,20 +129,20 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         }
 
         // Data visibility
-        viewModel.toDoList.observe(viewLifecycleOwner) { data ->
+        viewModel.visitNotesList.observe(viewLifecycleOwner) { data ->
             if (data.isNotEmpty()) {
                 binding.apply {
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
-                uvTodoListAdapter.updatedList(data)
+                uvVisitNotesListAdapter.updatedList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
-                    Glide.with(this@UvToDoFragment)
+                    Glide.with(this@UvVisitNotesFragment)
                         .asGif()
-                        .load(R.drawable.no_todo) // Replace with your GIF resource
+                        .load(R.drawable.no_notes) // Replace with your GIF resource
                         .into(gifImageView)
                 }
             }
@@ -147,7 +150,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onItemItemClicked(data: UvTodoListResponse.Data) {
+    override fun onItemItemClicked(data: UvVisitNotesListResponse.Data) {
         val dialog = Dialog(requireContext())
         val binding: DialogVisitNotesBinding =
             DialogVisitNotesBinding.inflate(layoutInflater)
@@ -156,10 +159,10 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         dialog.setCancelable(AppConstant.FALSE)
 
         // add data
-        binding.tvTopHeading.text = "To-Do Notes"
-        binding.tvBelowHeading.text = "To-Do Notes"
-        binding.visitNotes.hint = "Enter to-do notes"
-        binding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.todo_notes)
+        binding.tvTopHeading.text = "Visit Notes"
+        binding.tvBelowHeading.text = "Visit Notes"
+        binding.visitNotes.hint = "Enter visit notes"
+        binding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.visit_notes)
 
         // Handle button clicks
         binding.closeButton.setOnClickListener {
@@ -170,8 +173,8 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             viewModel.updateNotes(
                 activity = requireActivity(),
                 visitDetailsId = id.toString(),
-                todoDetailsId = data.id,
-                todoNotes = binding.visitNotes.text.toString().trim()
+                visitNotesId = data.id,
+                visitNotes = binding.visitNotes.text.toString().trim()
             )
         }
 
@@ -195,9 +198,9 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         dialog.setCancelable(AppConstant.FALSE)
 
         // add data
-        binding.tvTopHeading.text = "To-Do Notes"
-        binding.tvBelowHeading.text = "To-Do Notes"
-        binding.visitNotes.hint = "Enter to-do notes"
+        binding.tvTopHeading.text = "Visit Notes"
+        binding.tvBelowHeading.text = "Visit Notes"
+        binding.visitNotes.hint = "Enter visit notes"
 
         // Handle button clicks
         binding.closeButton.setOnClickListener {
@@ -208,7 +211,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             viewModel.addNotes(
                 activity = requireActivity(),
                 visitDetailsId = id.toString(),
-                todoNotes = binding.visitNotes.text.toString().trim()
+                visitNotes = binding.visitNotes.text.toString().trim()
             )
         }
 
@@ -221,5 +224,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         )
         dialog.show()
     }
+
+
 
 }

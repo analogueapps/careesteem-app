@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-package com.aits.careesteem.view.visits.viewmodel
+package com.aits.careesteem.view.unscheduled_visits.viewmodel
 
 import android.app.Activity
 import android.content.SharedPreferences
@@ -16,39 +16,37 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
-import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
-import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class MedicationViewModel @Inject constructor(
+class UvMedicationViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
 ): ViewModel() {
-
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _medicationList = MutableLiveData<List<MedicationDetailsListResponse.Data>>()
-    val medicationList: LiveData<List<MedicationDetailsListResponse.Data>> get() = _medicationList
+    private val _medicationList = MutableLiveData<List<UvMedicationListResponse.Data>>()
+    val medicationList: LiveData<List<UvMedicationListResponse.Data>> get() = _medicationList
 
-    // PRN
-    private val _prnMedicationList = MutableLiveData<List<MedicationDetailsListResponse.Data>>()
-    val prnMedicationList: LiveData<List<MedicationDetailsListResponse.Data>> get() = _prnMedicationList
-
-    private val _completeCount = MutableLiveData<Int>().apply { value = 0 }
-    val completeCount: LiveData<Int> get() = _completeCount
-
-    fun getMedicationDetails(activity: Activity, visitDetailsId: String) {
+    fun getUvMedicationList(activity: Activity, visitDetailsId: String) {
         _medicationList.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
@@ -59,19 +57,13 @@ class MedicationViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.getMedicationDetails(
-                    //taskId = taskId
-                    //visitDetailsId = "2565"
-                    visitDetailsId = "2399"
+                val response = repository.getUnscheduledMedicationDetails(
+                    visitDetailsId = visitDetailsId
                 )
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
-                        //_medicationList.value = list.data
-                        val normalList = list.data.filter { it.medication_type.equals("Blister Pack", ignoreCase = true) || it.medication_type.equals("Scheduled", ignoreCase = true) }
-                        val prnList = list.data.filter { it.medication_type.equals("PRN", ignoreCase = true) }
-                        _medicationList.value = normalList
-                        _prnMedicationList.value = prnList
+                        _medicationList.value = list.data
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
@@ -89,7 +81,7 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationBlisterPack(activity: Activity, visitDetailsId: String, blisterPackDetailsId: Int, status: String, carerNotes: String) {
+    fun addNotes(activity: Activity, visitDetailsId: String, medicationNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -99,10 +91,20 @@ class MedicationViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.medicationBpDetails(
-                    blisterPackDetailsId = blisterPackDetailsId,
-                    status = status,
-                    carerNotes = carerNotes
+                val currentTime = Calendar.getInstance()
+                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
+                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val createdAt = createdAtFormat.format(currentTime.time)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.addUnscheduledMedicationDetails(
+                    visitDetailsId = visitDetailsId.toInt(),
+                    medicationUserId = userData.id,
+                    medicationCreatedAt = createdAt,
+                    medicationNotes = medicationNotes
                 )
 
                 if (response.isSuccessful) {
@@ -122,7 +124,7 @@ class MedicationViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                getMedicationDetails(
+                getUvMedicationList(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
@@ -130,7 +132,7 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationScheduled(activity: Activity, visitDetailsId: String, scheduledDetailsId: Int, status: String, carerNotes: String) {
+    fun updateNotes(activity: Activity, visitDetailsId: String, medicationId: Int, medicationNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -140,10 +142,20 @@ class MedicationViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.medicationScheduledDetails(
-                    scheduledDetailsId = scheduledDetailsId,
-                    status = status,
-                    carerNotes = carerNotes
+                val currentTime = Calendar.getInstance()
+                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
+                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val createdAt = createdAtFormat.format(currentTime.time)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.updateUnscheduledMedicationDetails(
+                    medicationId = medicationId,
+                    medicationUserId = userData.id,
+                    medicationNotes = medicationNotes,
+                    medicationUpdatedAt = createdAt
                 )
 
                 if (response.isSuccessful) {
@@ -163,12 +175,11 @@ class MedicationViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                getMedicationDetails(
+                getUvMedicationList(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
             }
         }
     }
-
 }

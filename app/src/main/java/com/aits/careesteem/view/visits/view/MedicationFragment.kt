@@ -23,6 +23,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.visits.adapter.MedicationListAdapter
+import com.aits.careesteem.view.visits.adapter.MedicationPrnListAdapter
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.viewmodel.MedicationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
+class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, MedicationPrnListAdapter.OnItemItemClick {
     private var _binding: FragmentMedicationBinding? = null
     private val binding get() = _binding!!
 
@@ -41,6 +42,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
 
     // Adapter
     private lateinit var medicationListAdapter: MedicationListAdapter
+    private lateinit var medicationPnrListAdapter: MedicationPrnListAdapter
 
     private var id: String? = null
 
@@ -88,6 +90,10 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
         medicationListAdapter = MedicationListAdapter(requireContext(), this@MedicationFragment)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = medicationListAdapter
+
+        medicationPnrListAdapter = MedicationPrnListAdapter(requireContext(), this@MedicationFragment)
+        binding.recyclerViewPrn.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewPrn.adapter = medicationPnrListAdapter
     }
 
     private fun setupSwipeRefresh() {
@@ -130,6 +136,16 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
                 medicationListAdapter.updatedList(data)
             }
         }
+
+        // Data visibility
+        viewModel.prnMedicationList.observe(viewLifecycleOwner) { data ->
+            if (data.isNotEmpty()) {
+                binding.prnLayout.visibility = View.VISIBLE
+                medicationPnrListAdapter.updatedList(data)
+            } else {
+                binding.prnLayout.visibility = View.GONE
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -151,16 +167,28 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
         binding.medicationStatus.text = ""
         binding.medicationType.text = data.medication_type
 
-        // Create ArrayAdapter (Default Spinner layout)
-        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, AppConstant.getStatusesFromJson(requireContext()))
+        // Retrieve the list of statuses
+        val statuses = AppConstant.getStatusesFromJson(requireContext())
+        // Create ArrayAdapter
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, statuses)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        // Set adapter to Spinner
+        binding.spinner.adapter = adapter
+
+        // Retrieve previously selected status from SharedPreferences (or ViewModel)
+        val selectedStatus = data.status
+
+        // Find index of previously selected status
+        val selectedIndex = statuses.indexOf(selectedStatus)
+
+        // Set selected item in Spinner
+        if (selectedIndex != -1) {
+            binding.spinner.setSelection(selectedIndex)
+        }
 
         binding.medicationStatus.setOnClickListener {
             binding.spinner.performClick()
         }
-
-        // Set Adapter to Spinner
-        binding.spinner.adapter = adapter
 
         // Handle selection
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -179,24 +207,28 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick {
         }
         binding.btnSave.setOnClickListener {
             dialog.dismiss()
-            if(data.medication_type == "Blister Pack") {
-                viewModel.medicationBlisterPack(
-                    activity = requireActivity(),
-                    visitDetailsId = id.toString(),
-                    blisterPackDetailsId = data.blister_pack_details_id,
-                    status = binding.medicationStatus.text.toString(),
-                    carerNotes = binding.medicationNotes.text.toString()
-                )
-            } else if(data.medication_type == "Scheduled") {
-                viewModel.medicationScheduled(
-                    activity = requireActivity(),
-                    visitDetailsId = id.toString(),
-                    scheduledDetailsId = data.scheduled_details_id,
-                    status = binding.medicationStatus.text.toString(),
-                    carerNotes = binding.medicationNotes.text.toString()
-                )
-            } else {
-                AlertUtils.showToast(requireActivity(), "Something went wrong")
+            when (data.medication_type) {
+                "Blister Pack" -> {
+                    viewModel.medicationBlisterPack(
+                        activity = requireActivity(),
+                        visitDetailsId = id.toString(),
+                        blisterPackDetailsId = data.blister_pack_details_id,
+                        status = binding.medicationStatus.text.toString(),
+                        carerNotes = binding.medicationNotes.text.toString()
+                    )
+                }
+                "Scheduled" -> {
+                    viewModel.medicationScheduled(
+                        activity = requireActivity(),
+                        visitDetailsId = id.toString(),
+                        scheduledDetailsId = data.scheduled_details_id,
+                        status = binding.medicationStatus.text.toString(),
+                        carerNotes = binding.medicationNotes.text.toString()
+                    )
+                }
+                else -> {
+                    AlertUtils.showToast(requireActivity(), "Something went wrong")
+                }
             }
         }
         binding.btnCancel.setOnClickListener {

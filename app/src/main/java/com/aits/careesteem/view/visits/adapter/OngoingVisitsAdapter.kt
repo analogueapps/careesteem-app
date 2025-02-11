@@ -77,11 +77,11 @@ class OngoingVisitsAdapter(
 
                 // Start the countdown timer if plannedEndTime is available.
                 // (Assumes data.plannedEndTime is an ISO 8601 string)
-                if (data.plannedEndTime.isNotEmpty()) {
-                    timerJob = startCountdownTimer(data.plannedEndTime) { remainingText ->
-                        tvPlanTime.text = remainingText
-                    }
-                }
+//                if (data.plannedEndTime.isNotEmpty()) {
+//                    timerJob = startCountdownTimer(data.plannedEndTime) { remainingText ->
+//                        tvPlanTime.text = remainingText
+//                    }
+//                }
 
                 layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

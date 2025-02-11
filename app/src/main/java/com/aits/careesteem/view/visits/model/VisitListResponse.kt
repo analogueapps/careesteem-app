@@ -19,7 +19,11 @@ data class VisitListResponse(
         val plannedStartTime: String,
         val totalPlannedTime: String,
         val userId: Int,
-        val usersRequired: Int,
+        val usersRequired: Any,
+        val latitude: Any,
+        val longitude: Any,
+        val radius: Any,
+        val placeId: Any,
         val visitDate: String,
         val visitStatus: String
     )

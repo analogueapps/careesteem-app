@@ -10,30 +10,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lora_regular"
-        android:text="Does Newyear require support with activities?"
-        android:textFontWeight="400"
-        android:textSize="@dimen/_10ssp"
-        tools:targetApi="p"
-        tools:ignore="HardcodedText" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:visibility="gone"
-        android:layout_margin="@dimen/_2sdp"
-        android:id="@+id/yesOrNo"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lora_regular"
-        android:textFontWeight="400"
-        android:textSize="@dimen/_10ssp"
-        tools:targetApi="p"
-        tools:ignore="HardcodedText" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -43,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:text="Activity"
+            android:text="Frequency Potential"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -64,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:id="@+id/tvActivity"
+            android:id="@+id/tvFrequencyPotential"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -86,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:text="Task/Support Required"
+            android:text="Affected By Behaviour"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -107,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:id="@+id/tvTaskSupportRequired"
+            android:id="@+id/tvAffectedByBehaviour"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -129,7 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:text="Risk"
+            android:text="Potential Triggers"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -150,7 +126,93 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:id="@+id/tvRisk"
+            android:id="@+id/tvPotentialTriggers"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Potential Hazards"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvPotentialHazards"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Level Of Risk"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvLevelOfRisk"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -215,7 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:text="Equipment"
+            android:text="Support Methods"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -236,7 +298,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:id="@+id/tvEquipment"
+            android:id="@+id/tvSupportMethods"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -258,7 +320,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:text="Action to be taken"
+            android:text="Controls Adequate"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -279,7 +341,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lora_regular"
-            android:id="@+id/tvActionToBeTaken"
+            android:id="@+id/tvControlsAdequate"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Regulatory Measures"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvRegulatoryMeasures"
             android:textFontWeight="400"
             android:textSize="@dimen/_10ssp"
             tools:targetApi="p"
@@ -400,5 +505,6 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

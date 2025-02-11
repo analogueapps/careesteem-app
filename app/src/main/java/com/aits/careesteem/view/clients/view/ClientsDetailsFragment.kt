@@ -300,6 +300,10 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                             userId = data.user_id,
                             usersRequired = 1,
                             visitDate = data.created_at.substring(0, 10),
+                            latitude = 0,
+                            longitude = 0,
+                            radius = 0,
+                            placeId = "",
                             visitStatus = "Unscheduled"
                         )
                     )
