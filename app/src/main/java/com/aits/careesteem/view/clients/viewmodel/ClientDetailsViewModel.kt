@@ -20,6 +20,7 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
+import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.google.gson.Gson
@@ -49,6 +50,10 @@ class ClientDetailsViewModel @Inject constructor(
 
     private val _clientMyCareNetwork = MutableLiveData<List<ClientDetailsResponse.Data.MyCareNetworkData>>()
     val clientMyCareNetwork: LiveData<List<ClientDetailsResponse.Data.MyCareNetworkData>> get() = _clientMyCareNetwork
+
+    // Care plan assessment
+    private val _activityAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.ActivityAssessmentData>()
+    val activityAssessmentData: LiveData<ClientCarePlanAssessment.Data.ActivityAssessmentData> get() = _activityAssessmentData
 
     // Risk Assessment List
     private val _activityRiskAssessmentData = MutableLiveData<List<CarePlanRiskAssList.Data.ActivityRiskAssessmentData>>()
@@ -88,11 +93,12 @@ class ClientDetailsViewModel @Inject constructor(
                 }
 
                 val response = repository.getClientDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     clientId = clientId
                 )
 
                 if (response.isSuccessful) {
-                    println(response)
+                    
                     response.body()?.let { list ->
                         _clientMyCareNetwork.value = list.data.MyCareNetwork
                         _aboutClient.value = list.data.About
@@ -113,6 +119,42 @@ class ClientDetailsViewModel @Inject constructor(
         }
     }
 
+    fun getClientCarePlanAss(activity: Activity, clientId: Int) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.getClientCarePlanAss(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    //clientId = clientId
+                    //clientId = 176
+                    clientId = 169
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { list ->
+                        _activityAssessmentData.value = list.data[0].ActivityAssessment
+                    }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+
+            }
+        }
+    }
+
     fun getClientCarePlanRiskAss(activity: Activity, clientId: Int) {
         viewModelScope.launch {
             try {
@@ -123,12 +165,14 @@ class ClientDetailsViewModel @Inject constructor(
                 }
 
                 val response = repository.getClientCarePlanRiskAss(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     //clientId = clientId
-                    clientId = 176
+                    //clientId = 176
+                    clientId = 169
                 )
 
                 if (response.isSuccessful) {
-                    println(response)
+                    
                     response.body()?.let { list ->
                         _activityRiskAssessmentData.value = list.data[0].ActivityRiskAssessment
                         _behaviourRiskAssessmentData.value = list.data[0].BehaviourRiskAssessment
@@ -182,6 +226,7 @@ class ClientDetailsViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledVisits(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     userId = userData.id.toString(),
                     clientId = clientId,
                     visitDate = visitDate,

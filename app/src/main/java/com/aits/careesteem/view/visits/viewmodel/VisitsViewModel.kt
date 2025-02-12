@@ -16,6 +16,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -62,6 +63,7 @@ class VisitsViewModel @Inject constructor(
                 }
 
                 val response = repository.getVisitList(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     id = 506,
                     visitDate = "2025-02-03"
                 )

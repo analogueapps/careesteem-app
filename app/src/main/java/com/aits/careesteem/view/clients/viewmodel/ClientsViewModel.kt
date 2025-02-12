@@ -16,6 +16,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,10 +51,12 @@ class ClientsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val response = repository.getClientsList()
+                val response = repository.getClientsList(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString()
+                )
 
                 if (response.isSuccessful) {
-                    println(response)
+                    
                     response.body()?.let { list ->
                         _clientsList.value = list.finalData
                     }

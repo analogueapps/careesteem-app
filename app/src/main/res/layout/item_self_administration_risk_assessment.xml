@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Medicine Name"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvMedicineName"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Dose"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvDose"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Route"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvRoute"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Time/Frequency"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvTimeFrequency"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Self-Administration"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvSelfAdministration"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Self-administer fully or partially?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvSelfAdministerFully"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Medicines they are taking and what they are for?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvMedicines"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="What time to take the medicines?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvTimeToTakeMedicines"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="What dosage to take?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvDosageToTake"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="How to take the medicines?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvTakeMedicines"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="About any special instructions?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvSpecialInstructions"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="About common, possible side effects?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvSideEffects"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="What to do if they miss a dose?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvMissedDose"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Any difficulty in reading the label on the medicines?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvDifficultyReadingLabel"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Open their medication (blister packs, bottles)?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvOpensMedication"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="About safe storage?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvSafeStorage"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Agree to notify?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvAgreesToNotify"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Responsible for reorder?"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:fontFamily="@font/lora_regular"
+            android:text=":"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/tvResponsibleForReorder"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_regular"
+        android:text="Signatures of All Involved Admins in the Assessment"
+        android:textFontWeight="400"
+        android:textSize="@dimen/_10ssp"
+        tools:targetApi="p"
+        tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Name"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="Date"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/lora_regular"
+            android:text="Name"
+            android:id="@+id/tvName1"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/lora_regular"
+            android:text="Date"
+            android:id="@+id/tvDate1"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/lora_regular"
+            android:text="Name"
+            android:id="@+id/tvName2"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/lora_regular"
+            android:text="Date"
+            android:id="@+id/tvDate2"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/viewLay"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -30,6 +30,7 @@ data class OtpVerifyResponse(
         val status: Int,
         val telephone_codes: Int,
         val token: Any,
+        val hash_token: Any,
         val token_status: Any,
         val updated_at: String
     )

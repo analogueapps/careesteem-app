@@ -118,6 +118,8 @@ class VerifyOtpViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         response.body()?.let { apiResponse ->
                             AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
+                            editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
+                            editor.apply()
                         }
                         _resendVisible.value = false
                         _timerVisible.value = true
@@ -147,6 +149,7 @@ class VerifyOtpViewModel @Inject constructor(
                     }
 
                     val response = repository.forgotPasscode(
+                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                         contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
                         telephoneCodes = 96
                     )
@@ -213,7 +216,8 @@ class VerifyOtpViewModel @Inject constructor(
 
                 val response = repository.verifyOtp(
                     contactNumber = userData?.contact_number!!,
-                    otp = otp.value!!.toInt()
+                    otp = otp.value!!.toInt(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                 )
 
                 if (response.isSuccessful) {
@@ -221,7 +225,7 @@ class VerifyOtpViewModel @Inject constructor(
                         _otpVerifyResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully")
                         editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
-                        editor.putString(SharedPrefConstant.ACCESS_TOKEN, apiResponse.data[0].token.toString())
+                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())
                         editor.apply()
                     }
                 } else {

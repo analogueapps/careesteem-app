@@ -58,6 +58,7 @@ class UvVisitNotesViewModel @Inject constructor(
                 }
 
                 val response = repository.getUnscheduledVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -101,6 +102,7 @@ class UvVisitNotesViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId.toInt(),
                     visitUserId = userData.id,
                     visitCreatedAt = createdAt,
@@ -152,6 +154,7 @@ class UvVisitNotesViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateUnscheduledVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitNotesId = visitNotesId,
                     visitUserId = userData.id,
                     visitNotes = visitNotes,

@@ -23,6 +23,7 @@ data class SendOtpUserLoginResponse(
         val role: String,
         val created_at: String,
         val token: String,
+        val hash_token: String,
         val status: Int,
         val telephone_codes: Int,
         val token_status: String,

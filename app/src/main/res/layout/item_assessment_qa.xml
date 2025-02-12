@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/qnsNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_regular"
+        android:text="No."
+        android:textFontWeight="400"
+        android:textSize="@dimen/_10ssp"
+        tools:targetApi="p"
+        tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginStart="@dimen/_5sdp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/question"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:id="@+id/answer"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

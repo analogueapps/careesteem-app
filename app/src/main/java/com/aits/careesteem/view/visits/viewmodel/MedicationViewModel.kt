@@ -16,6 +16,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.google.gson.JsonElement
@@ -60,6 +61,7 @@ class MedicationViewModel @Inject constructor(
                 }
 
                 val response = repository.getMedicationDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     //taskId = taskId
                     //visitDetailsId = "2565"
                     visitDetailsId = "2399"
@@ -100,6 +102,7 @@ class MedicationViewModel @Inject constructor(
                 }
 
                 val response = repository.medicationBpDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     blisterPackDetailsId = blisterPackDetailsId,
                     status = status,
                     carerNotes = carerNotes
@@ -141,6 +144,7 @@ class MedicationViewModel @Inject constructor(
                 }
 
                 val response = repository.medicationScheduledDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     scheduledDetailsId = scheduledDetailsId,
                     status = status,
                     carerNotes = carerNotes

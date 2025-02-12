@@ -7,7 +7,7 @@
 package com.aits.careesteem.view.clients.model
 
 data class ClientCarePlanAssessment(
-    val `data`: List<Data>,
+    val data: List<Data>,
     val message: String,
     val statusCode: Int
 ) {

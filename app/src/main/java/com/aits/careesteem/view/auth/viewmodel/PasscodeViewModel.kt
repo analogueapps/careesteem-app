@@ -20,8 +20,11 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
+import com.google.gson.Gson
+import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.springframework.security.crypto.bcrypt.BCrypt
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
@@ -61,6 +64,7 @@ class PasscodeViewModel @Inject constructor(
 
                 if(action == 1) {
                     val response = repository.createPasscode(
+                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                         contactNumber = userData?.contact_number!!,
                         passcode = passcode.toInt()
                     )
@@ -78,6 +82,7 @@ class PasscodeViewModel @Inject constructor(
                     }
                 } else if(action == 2) {
                     val response = repository.resetPasscode(
+                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                         contactNumber = userData?.contact_number!!,
                         otp = userData?.otp!!,
                         passcode = passcode.toInt()
@@ -118,15 +123,35 @@ class PasscodeViewModel @Inject constructor(
                     return@launch
                 }
 
-                AlertUtils.showLog("passwordToCheck",""+passcode)
-                AlertUtils.showLog("hashedPassword",""+sharedPreferences.getString(SharedPrefConstant.LOGIN_PASSCODE, null))
+//                AlertUtils.showLog("passwordToCheck",""+passcode)
+//                AlertUtils.showLog("hashedPassword",""+sharedPreferences.getString(SharedPrefConstant.LOGIN_PASSCODE, null))
+//
+//                // Verify the password
+//                val isMatch = BCrypt.checkpw(passcode, sharedPreferences.getString(SharedPrefConstant.LOGIN_PASSCODE, null))
+//
+//                if (isMatch) {
+//                    isPasscodeVerified.value = true
+//                } else {
+//                    isPasscodeVerified.value = false
+//                }
 
-                // Verify the password
-                val isMatch = BCrypt.checkpw(passcode, sharedPreferences.getString(SharedPrefConstant.LOGIN_PASSCODE, null))
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
-                if (isMatch) {
+                val response = repository.verifyPasscode(
+                    contactNumber = userData?.contact_number!!,
+                    passcode = passcode.toInt(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                )
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonElement: JsonElement? = responseBody
+                    val jsonObject = JSONObject(jsonElement.toString())
+                    AlertUtils.showToast(activity, jsonObject.optString("message"))
                     isPasscodeVerified.value = true
                 } else {
+                    errorHandler.handleErrorResponse(response, activity)
                     isPasscodeVerified.value = false
                 }
             } catch (e: SocketTimeoutException) {
@@ -153,6 +178,7 @@ class PasscodeViewModel @Inject constructor(
                 }
 
                 val response = repository.forgotPasscode(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
                     telephoneCodes = 96
                 )

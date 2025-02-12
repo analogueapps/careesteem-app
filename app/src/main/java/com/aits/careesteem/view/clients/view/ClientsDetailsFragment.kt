@@ -22,14 +22,23 @@ import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.clients.adapter.ActivityRiskAssessmentAdapter
+import com.aits.careesteem.view.clients.adapter.BehaviourRiskAssessmentAdapter
+import com.aits.careesteem.view.clients.adapter.COSHHRiskAssessmentAdapter
+import com.aits.careesteem.view.clients.adapter.EquipmentRegisterAdapter
+import com.aits.careesteem.view.clients.adapter.FinancialRiskAssessmentAdapter
+import com.aits.careesteem.view.clients.adapter.MedicationRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.MyCareNetworkAdapter
+import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
+import com.aits.careesteem.view.clients.adapter.SelfAdministrationRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
+import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.reflect.full.memberProperties
 
 @AndroidEntryPoint
 class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkItemClick {
@@ -54,6 +63,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         val gson = Gson()
         clientData = gson.fromJson(args.clientData, ClientsList.Data::class.java)
         viewModel.getClientDetails(requireActivity(), clientData.id)
+        viewModel.getClientCarePlanAss(requireActivity(), clientData.id)
         viewModel.getClientCarePlanRiskAss(requireActivity(), clientData.id)
     }
 
@@ -186,6 +196,22 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             }
         }
 
+        // carePlan
+        viewModel.activityAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = filterQuestionsAndAnswers(data)
+                println(filteredList)
+                binding.apply {
+                    activityAssessment.visibility = View.VISIBLE
+                    activityAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Activity Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.activityAssessment.visibility = View.GONE
+            }
+        }
+
         // activityRiskAssessment
         viewModel.activityRiskAssessmentData.observe(viewLifecycleOwner) { data ->
             if (data.isNotEmpty()) {
@@ -206,7 +232,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     behaviourRiskAssessment.visibility = View.VISIBLE
                     behaviourRiskAssessmentLayout.setOnClickListener {
-
+                        showBehaviourRiskAssessment(data)
                     }
                 }
             } else {
@@ -220,7 +246,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     selfAdministrationRiskAssessment.visibility = View.VISIBLE
                     selfAdministrationRiskAssessmentLayout.setOnClickListener {
-
+                        showSelfAdministrationRiskAssessmentData(data)
                     }
                 }
             } else {
@@ -234,7 +260,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     medicationRiskAssessment.visibility = View.VISIBLE
                     medicationRiskAssessmentLayout.setOnClickListener {
-
+                        showMedicationRiskAssessment(data)
                     }
                 }
             } else {
@@ -248,7 +274,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     equipmentRegister.visibility = View.VISIBLE
                     equipmentRegisterLayout.setOnClickListener {
-
+                        showEquipmentRegister(data)
                     }
                 }
             } else {
@@ -262,7 +288,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     financialRiskAssessment.visibility = View.VISIBLE
                     financialRiskAssessmentLayout.setOnClickListener {
-
+                        showFinancialRiskAssessment(data)
                     }
                 }
             } else {
@@ -276,7 +302,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 binding.apply {
                     cOSHHRiskAssessment.visibility = View.VISIBLE
                     cOSHHRiskAssessmentLayout.setOnClickListener {
-
+                        showCOSHHRiskAssessment(data)
                     }
                 }
             } else {
@@ -314,6 +340,244 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             }
         }
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showAssessmentQuestionAndAnswer(title: String, filteredList: List<Pair<String, String>>) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = title
+        val adapter = QuestionAnswerAdapter(filteredList)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    private fun filterQuestionsAndAnswers(data: ClientCarePlanAssessment.Data.ActivityAssessmentData): List<Pair<String, String>> {
+        val filteredList = mutableListOf<Pair<String, String>>()
+
+        // Get all properties dynamically
+        val properties = ClientCarePlanAssessment.Data.ActivityAssessmentData::class.memberProperties.associateBy { it.name }
+
+        // Iterate through questions dynamically
+        properties.filterKeys { it.startsWith("questions_name_") }.forEach { (questionKey, questionProperty) ->
+            val index = questionKey.removePrefix("questions_name_") // Extract index (e.g., "1", "2", "3")
+            val statusProperty = properties["status_$index"] // Find corresponding status property
+            val commentProperty = properties["comment_$index"] // Find corresponding status property
+
+            var question = questionProperty.get(data) as? String ?: "N/A"
+            val status = statusProperty?.get(data) as? String ?: commentProperty?.get(data) as String
+
+            // Replace "<name>" dynamically
+            question = question.replace("<name>", "${clientData.full_name}")
+
+            //if (status.isNotEmpty()) {
+                filteredList.add(question to status)
+            //}
+        }
+
+        return filteredList
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showCOSHHRiskAssessment(data: List<CarePlanRiskAssList.Data.COSHHRiskAssessmentData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "COSHH Risk Assessment"
+        val adapter = COSHHRiskAssessmentAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showFinancialRiskAssessment(data: List<CarePlanRiskAssList.Data.FinancialRiskAssessmentData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "Financial Risk Assessment"
+        val adapter = FinancialRiskAssessmentAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showEquipmentRegister(data: List<CarePlanRiskAssList.Data.EquipmentRegisterData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "Equipment Register"
+        val adapter = EquipmentRegisterAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMedicationRiskAssessment(data: List<CarePlanRiskAssList.Data.MedicationRiskAssessmentData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "Medication Risk Assessment"
+        val adapter = MedicationRiskAssessmentAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showSelfAdministrationRiskAssessmentData(data: List<CarePlanRiskAssList.Data.SelfAdministrationRiskAssessmentData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "Self Administration Risk Assessment"
+        val adapter = SelfAdministrationRiskAssessmentAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showBehaviourRiskAssessment(data: List<CarePlanRiskAssList.Data.BehaviourRiskAssessmentData>?) {
+        val dialog = Dialog(requireContext())
+        val binding: DialogCarePlanBinding =
+            DialogCarePlanBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Add data
+        binding.dialogTitle.text = "Behaviour Risk Assessment"
+        val adapter = BehaviourRiskAssessmentAdapter(data!!)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     @SuppressLint("SetTextI18n")

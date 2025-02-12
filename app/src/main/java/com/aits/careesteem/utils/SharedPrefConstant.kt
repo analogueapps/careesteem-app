@@ -9,6 +9,7 @@ package com.aits.careesteem.utils
 object SharedPrefConstant {
     // base
     const val ACCESS_TOKEN = "access_token"
+    const val HASH_TOKEN = "hash_token"
     const val DEVICE_ID = "device_id"
     const val FCM_TOKEN = "fcm_token"
     const val IS_LOGGED = "is_logged"

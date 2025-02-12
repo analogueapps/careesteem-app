@@ -59,6 +59,7 @@ class UvToDoViewModel @Inject constructor(
                 }
 
                 val response = repository.getUnscheduledTodoDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -102,6 +103,7 @@ class UvToDoViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledTodoDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId.toInt(),
                     todoUserId = userData.id,
                     todoCreatedAt = createdAt,
@@ -153,6 +155,7 @@ class UvToDoViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateUnscheduledTodoDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     todoId = todoDetailsId,
                     todoUserId = userData.id,
                     todoNotes = todoNotes,

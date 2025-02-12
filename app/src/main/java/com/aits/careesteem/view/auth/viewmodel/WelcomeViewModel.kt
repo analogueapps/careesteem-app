@@ -18,6 +18,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -98,6 +99,8 @@ class WelcomeViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { apiResponse ->
+                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.hash_token.toString())
+                        editor.apply()
                         _sendOtpUserLoginResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
                     }

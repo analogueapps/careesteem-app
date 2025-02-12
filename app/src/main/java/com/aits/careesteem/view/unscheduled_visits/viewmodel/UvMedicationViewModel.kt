@@ -58,6 +58,7 @@ class UvMedicationViewModel @Inject constructor(
                 }
 
                 val response = repository.getUnscheduledMedicationDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -101,6 +102,7 @@ class UvMedicationViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledMedicationDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = visitDetailsId.toInt(),
                     medicationUserId = userData.id,
                     medicationCreatedAt = createdAt,
@@ -152,6 +154,7 @@ class UvMedicationViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateUnscheduledMedicationDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     medicationId = medicationId,
                     medicationUserId = userData.id,
                     medicationNotes = medicationNotes,

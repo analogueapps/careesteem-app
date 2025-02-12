@@ -16,14 +16,20 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,6 +59,7 @@ class VisitNotesViewModel @Inject constructor(
                 }
 
                 val response = repository.getClientVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     //taskId = taskId
                     visitDetailsId = "1517"
                 )
@@ -88,6 +95,7 @@ class VisitNotesViewModel @Inject constructor(
                 }
 
                 val response = repository.addClientVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitDetailsId = "1517",
                     visitNotes = visitNotes,
                     createdByUserid = 360,
@@ -129,12 +137,23 @@ class VisitNotesViewModel @Inject constructor(
                     return@launch
                 }
 
+                val currentTime = Calendar.getInstance()
+                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
+                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
+                val createdAt = createdAtFormat.format(currentTime.time)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.updateVisitNotesDetail(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitNotesId = visitNotesId,
                     visitDetailsId = "1517",
                     visitNotes = visitNotes,
                     createdByUserid = 360,
-                    updatedByUserid = 360
+                    updatedByUserid = userData.id,
+                    updatedAt= createdAt
                 )
 
                 if (response.isSuccessful) {

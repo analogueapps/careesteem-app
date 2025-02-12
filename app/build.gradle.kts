@@ -119,6 +119,7 @@ dependencies {
 
     // BCrypt
     implementation(libs.spring.security.crypto)
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 }
 
 // Required for Hilt

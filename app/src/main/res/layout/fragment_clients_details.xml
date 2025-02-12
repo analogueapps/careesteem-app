@@ -109,6 +109,48 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:visibility="gone"
+                android:id="@+id/activityAssessment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="@color/colorPrimary"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:strokeWidth="2dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/activityAssessmentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lora_regular"
+                        android:text="@string/activity_assessment"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_11ssp"
+                        tools:targetApi="p" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_export"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="gone"
                 android:id="@+id/activityRiskAssessment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
