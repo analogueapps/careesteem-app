@@ -27,6 +27,7 @@ android {
     buildTypes {
         defaultConfig {
             buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("BASE_URL", project)}\"")
+            buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
         }
 
         release {
@@ -64,6 +65,10 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.messaging)
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
+    implementation(libs.android.core)
+    implementation(libs.zxing.android.embedded)
 
     // Testing dependencies
     testImplementation(libs.junit)

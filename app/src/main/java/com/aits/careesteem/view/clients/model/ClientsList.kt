@@ -19,6 +19,7 @@ data class ClientsList(
         val risk_level: String,
         val profile_photo_name: String,
         val profile_photo: String,
-        val created_at: String
+        val created_at: String,
+        val place_id: String,
     )
 }

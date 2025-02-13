@@ -12,10 +12,12 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
+import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -28,6 +30,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiService: ApiService) {
@@ -398,6 +401,36 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             blisterPackDetailsId = blisterPackDetailsId,
             status = status,
             carerNotes = carerNotes
+        )
+    }
+
+    suspend fun getUserDetailsById(
+        hashToken: String,
+        userId: Int
+    ): Response<UserDetailsResponse> {
+        return apiService.getUserDetailsById(
+            hashToken = hashToken,
+            userId = userId
+        )
+    }
+
+    suspend fun addVisitCheckIn(
+        hashToken: String,
+        clientId: Int,
+        visitDetailsId: Int,
+        userId: Int,
+        status: String,
+        actualStartTime: String,
+        createdAt: String
+    ): Response<AddVisitCheckInResponse> {
+        return apiService.addVisitCheckIn(
+            hashToken = hashToken,
+            clientId = clientId,
+            visitDetailsId = visitDetailsId,
+            userId = userId,
+            status = status,
+            actualStartTime = actualStartTime,
+            createdAt = createdAt
         )
     }
 }

@@ -2,6 +2,7 @@ package com.aits.careesteem.view.clients.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +22,8 @@ import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.clients.adapter.ActivityRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.BehaviourRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.COSHHRiskAssessmentAdapter
@@ -30,6 +33,7 @@ import com.aits.careesteem.view.clients.adapter.MedicationRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.MyCareNetworkAdapter
 import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
 import com.aits.careesteem.view.clients.adapter.SelfAdministrationRiskAssessmentAdapter
+import com.aits.careesteem.view.clients.helper.FilterQuestionAndAnswers
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
@@ -38,6 +42,7 @@ import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.reflect.full.memberProperties
 
 @AndroidEntryPoint
@@ -57,6 +62,9 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
     // const value
     private var isRedirect = AppConstant.FALSE
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +136,35 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             binding.btnPositive.setOnClickListener {
                 isRedirect = AppConstant.FALSE
                 dialog.dismiss()
-                viewModel.createUnscheduledVisit(requireActivity(), clientData.id)
+                //viewModel.createUnscheduledVisit(requireActivity(), clientData.id)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+
+                val convertVisit = listOf(
+                    VisitListResponse.Data(
+                        clientId = clientData.id,
+                        visitDetailsId = -1,
+                        clientAddress = clientData.full_address,
+                        clientName = clientData.full_name,
+                        plannedEndTime = "",
+                        plannedStartTime = "",
+                        totalPlannedTime = "",
+                        userId = userData.id,
+                        usersRequired = 1,
+                        visitDate = "",
+                        latitude = 0,
+                        longitude = 0,
+                        radius = 0,
+                        placeId = clientData.place_id,
+                        visitStatus = "Unscheduled"
+                    )
+                )
+
+                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToCheckOutFragment(Gson().toJson(convertVisit[0]))
+                findNavController().navigate(action)
             }
             binding.btnNegative.setOnClickListener {
                 dialog.dismiss()
@@ -199,8 +235,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         // carePlan
         viewModel.activityAssessmentData.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                val filteredList = filterQuestionsAndAnswers(data)
-                println(filteredList)
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersActivityAssessmentData(clientData, data)
                 binding.apply {
                     activityAssessment.visibility = View.VISIBLE
                     activityAssessmentLayout.setOnClickListener {
@@ -209,6 +244,272 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 }
             } else {
                 binding.activityAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.environmentAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersEnvironmentAssessmentData(clientData, data)
+                binding.apply {
+                    environmentAssessment.visibility = View.VISIBLE
+                    environmentAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Environment Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.environmentAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.financialAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersFinancialAssessmentData(clientData, data)
+                binding.apply {
+                    financialAssessment.visibility = View.VISIBLE
+                    financialAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Financial Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.financialAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.mentalHealthAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMentalHealthAssessmentData(clientData, data)
+                binding.apply {
+                    mentalHealthAssessment.visibility = View.VISIBLE
+                    mentalHealthAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Mental Health Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.mentalHealthAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.communicationAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersCommunicationAssessmentData(clientData, data)
+                binding.apply {
+                    communicationAssessment.visibility = View.VISIBLE
+                    communicationAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Communication Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.communicationAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.personalHygieneAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersPersonalHygieneAssessmentData(clientData, data)
+                binding.apply {
+                    personalHygieneAssessment.visibility = View.VISIBLE
+                    personalHygieneAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Personal Hygiene Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.personalHygieneAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.medicationAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMedicationAssessmentData(clientData, data)
+                binding.apply {
+                    medicationAssessment.visibility = View.VISIBLE
+                    medicationAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Medication Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.medicationAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.clinicalAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersClinicalAssessmentData(clientData, data)
+                binding.apply {
+                    clinicalAssessment.visibility = View.VISIBLE
+                    clinicalAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Clinical Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.clinicalAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.culturalSpiritualSocialRelationshipsAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersCulturalSpiritualSocialRelationshipsAssessmentData(clientData, data)
+                binding.apply {
+                    socialRelationshipsAssessment.visibility = View.VISIBLE
+                    socialRelationshipsAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Cultural, Spiritual & Social Relationships Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.socialRelationshipsAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.behaviourAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersBehaviourAssessmentData(clientData, data)
+                binding.apply {
+                    behaviourAssessment.visibility = View.VISIBLE
+                    behaviourAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Behaviour Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.behaviourAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.oralCareAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersOralCareAssessmentData(clientData, data)
+                binding.apply {
+                    oralCareAssessment.visibility = View.VISIBLE
+                    oralCareAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Oral Care Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.oralCareAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.breathingAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersBreathingAssessmentData(clientData, data)
+                binding.apply {
+                    breathingAssessment.visibility = View.VISIBLE
+                    breathingAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Breathing Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.breathingAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.continenceAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersContinenceAssessmentData(clientData, data)
+                binding.apply {
+                    continenceAssessment.visibility = View.VISIBLE
+                    continenceAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Continence Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.continenceAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.domesticAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersDomesticAssessmentData(clientData, data)
+                binding.apply {
+                    domesticAssessment.visibility = View.VISIBLE
+                    domesticAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Domestic Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.domesticAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.equipmentAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersEquipmentAssessmentData(clientData, data)
+                binding.apply {
+                    equipmentAssessment.visibility = View.VISIBLE
+                    equipmentAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Equipment Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.equipmentAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.movingHandlingAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMovingHandlingAssessmentData(clientData, data)
+                binding.apply {
+                    movingHandlingAssessment.visibility = View.VISIBLE
+                    movingHandlingAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Moving Handling Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.movingHandlingAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.painAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersPainAssessmentData(clientData, data)
+                binding.apply {
+                    painAssessment.visibility = View.VISIBLE
+                    painAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Pain Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.painAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.sleepingAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersSleepingAssessmentData(clientData, data)
+                binding.apply {
+                    sleepingAssessment.visibility = View.VISIBLE
+                    sleepingAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Sleeping Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.sleepingAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.skinAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersSkinAssessmentData(clientData, data)
+                binding.apply {
+                    skinAssessment.visibility = View.VISIBLE
+                    skinAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Skin Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.skinAssessment.visibility = View.GONE
+            }
+        }
+
+        viewModel.nutritionHydrationAssessmentData.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersNutritionHydrationAssessmentData(clientData, data)
+                binding.apply {
+                    nutritionHydrationAssessment.visibility = View.VISIBLE
+                    nutritionHydrationAssessmentLayout.setOnClickListener {
+                        showAssessmentQuestionAndAnswer("Nutrition & Hydration Assessment", filteredList)
+                    }
+                }
+            } else {
+                binding.nutritionHydrationAssessment.visibility = View.GONE
             }
         }
 
@@ -317,6 +618,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                     isRedirect = AppConstant.TRUE
                     val convertVisit = listOf(
                         VisitListResponse.Data(
+                            clientId = clientData.id,
                             visitDetailsId = data.visit_details_id,
                             clientAddress = clientData.full_address,
                             clientName = clientData.full_name,
@@ -370,32 +672,6 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             WindowManager.LayoutParams.WRAP_CONTENT
         )
         dialog.show()
-    }
-
-    private fun filterQuestionsAndAnswers(data: ClientCarePlanAssessment.Data.ActivityAssessmentData): List<Pair<String, String>> {
-        val filteredList = mutableListOf<Pair<String, String>>()
-
-        // Get all properties dynamically
-        val properties = ClientCarePlanAssessment.Data.ActivityAssessmentData::class.memberProperties.associateBy { it.name }
-
-        // Iterate through questions dynamically
-        properties.filterKeys { it.startsWith("questions_name_") }.forEach { (questionKey, questionProperty) ->
-            val index = questionKey.removePrefix("questions_name_") // Extract index (e.g., "1", "2", "3")
-            val statusProperty = properties["status_$index"] // Find corresponding status property
-            val commentProperty = properties["comment_$index"] // Find corresponding status property
-
-            var question = questionProperty.get(data) as? String ?: "N/A"
-            val status = statusProperty?.get(data) as? String ?: commentProperty?.get(data) as String
-
-            // Replace "<name>" dynamically
-            question = question.replace("<name>", "${clientData.full_name}")
-
-            //if (status.isNotEmpty()) {
-                filteredList.add(question to status)
-            //}
-        }
-
-        return filteredList
     }
 
     @SuppressLint("SetTextI18n")

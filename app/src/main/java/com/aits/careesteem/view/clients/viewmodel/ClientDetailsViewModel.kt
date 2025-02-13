@@ -55,6 +55,63 @@ class ClientDetailsViewModel @Inject constructor(
     private val _activityAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.ActivityAssessmentData>()
     val activityAssessmentData: LiveData<ClientCarePlanAssessment.Data.ActivityAssessmentData> get() = _activityAssessmentData
 
+    private val _environmentAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.EnvironmentAssessmentData>()
+    val environmentAssessmentData: LiveData<ClientCarePlanAssessment.Data.EnvironmentAssessmentData> get() = _environmentAssessmentData
+
+    private val _financialAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.FinancialAssessmentData>()
+    val financialAssessmentData: LiveData<ClientCarePlanAssessment.Data.FinancialAssessmentData> get() = _financialAssessmentData
+
+    private val _mentalHealthAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.MentalHealthAssessmentData>()
+    val mentalHealthAssessmentData: LiveData<ClientCarePlanAssessment.Data.MentalHealthAssessmentData> get() = _mentalHealthAssessmentData
+
+    private val _communicationAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.CommunicationAssessmentData>()
+    val communicationAssessmentData: LiveData<ClientCarePlanAssessment.Data.CommunicationAssessmentData> get() = _communicationAssessmentData
+
+    private val _personalHygieneAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.PersonalHygieneAssessmentData>()
+    val personalHygieneAssessmentData: LiveData<ClientCarePlanAssessment.Data.PersonalHygieneAssessmentData> get() = _personalHygieneAssessmentData
+
+    private val _medicationAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.MedicationAssessmentData>()
+    val medicationAssessmentData: LiveData<ClientCarePlanAssessment.Data.MedicationAssessmentData> get() = _medicationAssessmentData
+
+    private val _clinicalAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.ClinicalAssessmentData>()
+    val clinicalAssessmentData: LiveData<ClientCarePlanAssessment.Data.ClinicalAssessmentData> get() = _clinicalAssessmentData
+
+    private val _culturalSpiritualSocialRelationshipsAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.CulturalSpiritualSocialRelationshipsAssessmentData>()
+    val culturalSpiritualSocialRelationshipsAssessmentData: LiveData<ClientCarePlanAssessment.Data.CulturalSpiritualSocialRelationshipsAssessmentData> get() = _culturalSpiritualSocialRelationshipsAssessmentData
+
+    private val _behaviourAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.BehaviourAssessmentData>()
+    val behaviourAssessmentData: LiveData<ClientCarePlanAssessment.Data.BehaviourAssessmentData> get() = _behaviourAssessmentData
+
+    private val _oralCareAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.OralCareAssessmentData>()
+    val oralCareAssessmentData: LiveData<ClientCarePlanAssessment.Data.OralCareAssessmentData> get() = _oralCareAssessmentData
+
+    private val _breathingAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.BreathingAssessmentData>()
+    val breathingAssessmentData: LiveData<ClientCarePlanAssessment.Data.BreathingAssessmentData> get() = _breathingAssessmentData
+
+    private val _continenceAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.ContinenceAssessmentData>()
+    val continenceAssessmentData: LiveData<ClientCarePlanAssessment.Data.ContinenceAssessmentData> get() = _continenceAssessmentData
+
+    private val _domesticAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.DomesticAssessmentData>()
+    val domesticAssessmentData: LiveData<ClientCarePlanAssessment.Data.DomesticAssessmentData> get() = _domesticAssessmentData
+
+    private val _equipmentAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.EquipmentAssessmentData>()
+    val equipmentAssessmentData: LiveData<ClientCarePlanAssessment.Data.EquipmentAssessmentData> get() = _equipmentAssessmentData
+
+    private val _movingHandlingAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.MovingHandlingAssessmentData>()
+    val movingHandlingAssessmentData: LiveData<ClientCarePlanAssessment.Data.MovingHandlingAssessmentData> get() = _movingHandlingAssessmentData
+
+    private val _painAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.PainAssessmentData>()
+    val painAssessmentData: LiveData<ClientCarePlanAssessment.Data.PainAssessmentData> get() = _painAssessmentData
+
+    private val _sleepingAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.SleepingAssessmentData>()
+    val sleepingAssessmentData: LiveData<ClientCarePlanAssessment.Data.SleepingAssessmentData> get() = _sleepingAssessmentData
+
+    private val _skinAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.SkinAssessmentData>()
+    val skinAssessmentData: LiveData<ClientCarePlanAssessment.Data.SkinAssessmentData> get() = _skinAssessmentData
+
+    private val _nutritionHydrationAssessmentData = MutableLiveData<ClientCarePlanAssessment.Data.NutritionHydrationAssessmentData>()
+    val nutritionHydrationAssessmentData: LiveData<ClientCarePlanAssessment.Data.NutritionHydrationAssessmentData> get() = _nutritionHydrationAssessmentData
+
     // Risk Assessment List
     private val _activityRiskAssessmentData = MutableLiveData<List<CarePlanRiskAssList.Data.ActivityRiskAssessmentData>>()
     val activityRiskAssessmentData: LiveData<List<CarePlanRiskAssList.Data.ActivityRiskAssessmentData>> get() = _activityRiskAssessmentData
@@ -138,6 +195,25 @@ class ClientDetailsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _activityAssessmentData.value = list.data[0].ActivityAssessment
+                        _environmentAssessmentData.value = list.data[0].EnvironmentAssessment
+                        _financialAssessmentData.value = list.data[0].FinancialAssessment
+                        _mentalHealthAssessmentData.value = list.data[0].MentalHealthAssessment
+                        _communicationAssessmentData.value = list.data[0].CommunicationAssessment
+                        _personalHygieneAssessmentData.value = list.data[0].PersonalHygieneAssessment
+                        _medicationAssessmentData.value = list.data[0].MedicationAssessment
+                        _clinicalAssessmentData.value = list.data[0].ClinicalAssessment
+                        _culturalSpiritualSocialRelationshipsAssessmentData.value = list.data[0].CulturalSpiritualSocialRelationshipsAssessment
+                        _behaviourAssessmentData.value = list.data[0].BehaviourAssessment
+                        _oralCareAssessmentData.value = list.data[0].OralCareAssessment
+                        _breathingAssessmentData.value = list.data[0].BreathingAssessment
+                        _continenceAssessmentData.value = list.data[0].ContinenceAssessment
+                        _domesticAssessmentData.value = list.data[0].DomesticAssessment
+                        _equipmentAssessmentData.value = list.data[0].EquipmentAssessment
+                        _movingHandlingAssessmentData.value = list.data[0].MovingHandlingAssessment
+                        _painAssessmentData.value = list.data[0].PainAssessment
+                        _sleepingAssessmentData.value = list.data[0].SleepingAssessment
+                        _skinAssessmentData.value = list.data[0].SkinAssessment
+                        _nutritionHydrationAssessmentData.value = list.data[0].NutritionHydrationAssessment
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

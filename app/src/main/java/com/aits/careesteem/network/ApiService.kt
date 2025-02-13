@@ -12,10 +12,12 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
+import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -264,4 +266,22 @@ interface ApiService {
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
     ): Response<JsonObject>
+
+    @GET("get-all-users/{userId}")
+    suspend fun getUserDetailsById(
+        @Path("userId") userId: Int,
+        @Query("hash_token") hashToken: String,
+    ): Response<UserDetailsResponse>
+
+    @FormUrlEncoded
+    @POST("add-Visit-Checkin")
+    suspend fun addVisitCheckIn(
+        @Query("hash_token") hashToken: String,
+        @Field("client_id") clientId: Int,
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("user_id") userId: Int,
+        @Field("status") status: String,
+        @Field("actual_start_time") actualStartTime: String,
+        @Field("created_at") createdAt: String,
+    ): Response<AddVisitCheckInResponse>
 }

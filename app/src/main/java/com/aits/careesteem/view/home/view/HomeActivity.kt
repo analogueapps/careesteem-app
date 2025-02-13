@@ -16,6 +16,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBar
@@ -23,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -36,6 +39,7 @@ import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.view.AuthActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -127,6 +131,38 @@ class HomeActivity : AppCompatActivity() {
     // Inflate the menu resource
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+
+        val menuItem = menu.findItem(R.id.menu_profile)
+        val profileImageView = ImageView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(100, 100).apply {
+                setMargins(0, 0, 24, 0) // Adding 24px margin on the right
+            }
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            isClickable = true
+            isFocusable = true
+        }
+
+        // Retrieve image from SharedPreferences
+        val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
+
+        if (!savedPhoto.isNullOrEmpty()) {
+            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
+                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
+                    isCircular = true
+                }
+                profileImageView.setImageDrawable(roundedDrawable)
+            }
+            menuItem.actionView = profileImageView
+        } else {
+            // If no image, use default icon
+            menuItem.setIcon(R.drawable.avatar)
+        }
+
+        // Handle click event manually
+        profileImageView.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
+
         return true
     }
 

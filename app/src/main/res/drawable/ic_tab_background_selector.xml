@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="8dp"
+        android:top="8dp">
+        <selector>
+            <item
+                android:drawable="@drawable/ic_tab_select_background"
+                android:state_selected="true" />
+        </selector>
+    </item>
+</layer-list>

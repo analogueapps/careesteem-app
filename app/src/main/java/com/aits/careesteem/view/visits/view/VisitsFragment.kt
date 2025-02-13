@@ -333,16 +333,23 @@ class VisitsFragment : Fragment(),
     override fun onItemItemClicked(data: VisitListResponse.Data) {
         val gson = Gson()
         val dataString = gson.toJson(data)
-        if(data.visitStatus == "Unscheduled") {
-            val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+        if(data.visitStatus == "Scheduled") {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
                 visitData = dataString
             )
             findNavController().navigate(direction)
         } else {
-            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-                visitData = dataString
-            )
-            findNavController().navigate(direction)
+            if(data.visitStatus == "Unscheduled") {
+                val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+                    visitData = dataString
+                )
+                findNavController().navigate(direction)
+            } else {
+                val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+                    visitData = dataString
+                )
+                findNavController().navigate(direction)
+            }
         }
     }
 

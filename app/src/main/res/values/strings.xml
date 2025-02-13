@@ -64,6 +64,7 @@
     <string name="my_care_network">My Care Network</string>
     <string name="activity_assessment">Activity Assessment</string>
     <string name="activity_risk_assessment">Activity Risk Assessment</string>
+    <string name="behaviour_assessment">Behaviour Assessment</string>
     <string name="behaviour_risk_assessment">Behaviour Risk Assessment</string>
     <string name="self_administration_risk_assessment">Self Administration Risk Assessment</string>
     <string name="medication_risk_assessment">Medication Risk Assessment</string>
@@ -71,4 +72,22 @@
     <string name="financial_risk_assessment">Financial Risk Assessment</string>
     <string name="coshh_risk_assessment">COSHH Risk Assessment</string>
     <string name="list_of_prn_medication">List of PRN Medication</string>
+    <string name="breathing_assessment">Breathing Assessment</string>
+    <string name="clinical_assessment">Clinical Assessment</string>
+    <string name="communication_assessment">Communication Assessment</string>
+    <string name="continence_assessment">Continence Assessment</string>
+    <string name="cultural_spiritual_amp_social_relationships_assessment"><![CDATA[Cultural, Spiritual & Social Relationships Assessment]]></string>
+    <string name="domestic_assessment">Domestic Assessment</string>
+    <string name="environment_assessment">Environment Assessment</string>
+    <string name="equipment_assessment">Equipment Assessment</string>
+    <string name="financial_assessment">Financial Assessment</string>
+    <string name="medication_assessment">Medication Assessment</string>
+    <string name="mental_health_assessment">Mental Health Assessment</string>
+    <string name="moving_amp_handling_assessment"><![CDATA[Moving & Handling Assessment]]></string>
+    <string name="nutrition_amp_hydration_assessment"><![CDATA[Nutrition & Hydration Assessment]]></string>
+    <string name="oral_care_assessment">Oral Care Assessment</string>
+    <string name="personal_hygiene_assessment">Personal Hygiene Assessment</string>
+    <string name="pain_assessment">Pain Assessment</string>
+    <string name="skin_assessment">Skin Assessment</string>
+    <string name="sleeping_assessment">Sleeping Assessment</string>
 </resources>

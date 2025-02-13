@@ -11,10 +11,12 @@ import android.app.Application
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.aits.careesteem.R
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.home.view.HomeActivity
+import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
@@ -39,6 +41,11 @@ class BaseApplication : Application() {
 //            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE)
 //            editor.apply()
 //        }
+
+        // Initialize Places API
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, getString(R.string.google_api_key))
+        }
 
         // Initialize Firebase
         FirebaseApp.initializeApp(this)

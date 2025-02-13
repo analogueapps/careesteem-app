@@ -12,19 +12,20 @@ data class VisitListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val visitDetailsId: Int,
-        val clientAddress: String,
-        val clientName: String,
-        val plannedEndTime: String,
-        val plannedStartTime: String,
-        val totalPlannedTime: String,
-        val userId: Int,
-        val usersRequired: Any,
-        val latitude: Any,
-        val longitude: Any,
-        val radius: Any,
-        val placeId: Any,
-        val visitDate: String,
-        val visitStatus: String
+        var clientId: Int,
+        var visitDetailsId: Int,
+        var clientAddress: String,
+        var clientName: String,
+        var plannedEndTime: String,
+        var plannedStartTime: String,
+        var totalPlannedTime: String,
+        var userId: Int,
+        var usersRequired: Any,
+        var latitude: Any,
+        var longitude: Any,
+        var radius: Any,
+        var placeId: Any,
+        var visitDate: String,
+        var visitStatus: String
     )
 }

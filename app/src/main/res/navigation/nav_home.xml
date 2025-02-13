@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_bottom_visits_to_unscheduledVisitsDetailsFragmentFragment"
             app:destination="@id/unscheduledVisitsDetailsFragmentFragment" />
+        <action
+            android:id="@+id/action_bottom_visits_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/bottom_clients"
@@ -48,6 +51,9 @@
         <action
             android:id="@+id/action_clientsDetailsFragment_to_unscheduledVisitsDetailsFragmentFragment"
             app:destination="@id/unscheduledVisitsDetailsFragmentFragment" />
+        <action
+            android:id="@+id/action_clientsDetailsFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -76,5 +82,20 @@
         <argument
             android:name="visitData"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkOutFragment"
+        android:name="com.aits.careesteem.view.visits.view.CheckOutFragment"
+        android:label="fragment_check_out"
+        tools:layout="@layout/fragment_check_out" >
+        <argument
+            android:name="visitData"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_checkOutFragment_to_ongoingVisitsDetailsFragment"
+            app:destination="@id/ongoingVisitsDetailsFragment" />
+        <action
+            android:id="@+id/action_checkOutFragment_to_unscheduledVisitsDetailsFragmentFragment"
+            app:destination="@id/unscheduledVisitsDetailsFragmentFragment" />
     </fragment>
 </navigation>
