@@ -19,13 +19,20 @@ data class VisitListResponse(
         var plannedEndTime: String,
         var plannedStartTime: String,
         var totalPlannedTime: String,
-        var userId: Int,
+        var userId: String,
         var usersRequired: Any,
         var latitude: Any,
         var longitude: Any,
         var radius: Any,
         var placeId: Any,
         var visitDate: String,
-        var visitStatus: String
+        var visitStatus: String,
+        var userName: List<String> = emptyList(),
+        var profile_photo: List<String> = emptyList()
     )
 }
+
+data class User(
+    val name: String,
+    val photoUrl: String
+)

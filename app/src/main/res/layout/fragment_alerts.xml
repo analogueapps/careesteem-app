@@ -14,6 +14,7 @@
     tools:context=".view.alerts.view.AlertsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:visibility="gone"
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -49,6 +50,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:orientation="vertical"
@@ -90,5 +92,39 @@
             tools:targetApi="p" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.aits.careesteem.view.bodymap.BodyMapView
+        android:id="@+id/bodyMapView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/comp_body_front" />
+
+    <!-- Buttons for Undo and Color Change -->
+    <LinearLayout
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_below="@id/bodyMapView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Undo Button -->
+        <ImageButton
+            android:id="@+id/btnUndo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_undo" />
+
+        <!-- Redo Button -->
+        <ImageButton
+            android:id="@+id/btnRedo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_redo" />
+    </LinearLayout>
 
 </RelativeLayout>

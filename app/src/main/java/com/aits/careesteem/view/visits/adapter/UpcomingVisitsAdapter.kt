@@ -64,7 +64,7 @@ class UpcomingVisitsAdapter(
                 tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)
                 tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
 
-                itemView.setOnClickListener {
+                btnCheckIn.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)
                 }
             }

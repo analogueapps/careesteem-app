@@ -42,6 +42,10 @@ class CheckoutViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    // LiveData for UI
+    private val _qrVerified = MutableLiveData<Boolean>()
+    val qrVerified: LiveData<Boolean> get() = _qrVerified
+
     private val _addVisitCheckInResponse = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
     val addVisitCheckInResponse: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponse
 
@@ -147,6 +151,45 @@ class CheckoutViewModel @Inject constructor(
                     response.body()?.let { list ->
                         _userActualTimeData.value = list.userActualTimeData[0]
                     }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun verifyQrCode(activity: Activity, scanResult: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.verifyQrCode(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    userId = userData.id,
+                    qrcodeToken = scanResult
+                )
+
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    _qrVerified.value = true
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }

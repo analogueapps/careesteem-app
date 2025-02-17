@@ -42,7 +42,7 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class VisitsFragment : Fragment(),
-    OngoingVisitsAdapter.OnItemItemClick,
+    OngoingVisitsAdapter.OngoingItemItemClick,
     UpcomingVisitsAdapter.OnItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
@@ -333,23 +333,43 @@ class VisitsFragment : Fragment(),
     override fun onItemItemClicked(data: VisitListResponse.Data) {
         val gson = Gson()
         val dataString = gson.toJson(data)
-        if(data.visitStatus == "Scheduled") {
-            val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+//        if(data.visitStatus == "Scheduled") {
+//            val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+//                visitData = dataString
+//            )
+//            findNavController().navigate(direction)
+//        } else {
+//            if(data.visitStatus == "Unscheduled") {
+//                val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+//                    visitData = dataString
+//                )
+//                findNavController().navigate(direction)
+//            } else {
+//                val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+//                    visitData = dataString
+//                )
+//                findNavController().navigate(direction)
+//            }
+//        }
+        val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+            visitData = dataString
+        )
+        findNavController().navigate(direction)
+    }
+
+    override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
+        val gson = Gson()
+        val dataString = gson.toJson(data)
+        if(data.visitStatus == "Unscheduled") {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
                 visitData = dataString
             )
             findNavController().navigate(direction)
         } else {
-            if(data.visitStatus == "Unscheduled") {
-                val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
-                    visitData = dataString
-                )
-                findNavController().navigate(direction)
-            } else {
-                val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-                    visitData = dataString
-                )
-                findNavController().navigate(direction)
-            }
+            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+                visitData = dataString
+            )
+            findNavController().navigate(direction)
         }
     }
 

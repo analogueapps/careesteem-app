@@ -95,16 +95,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupIntentResult() {
-        startForResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val data: Intent? = result.data
-                    val scanResult = data?.getStringExtra("SCAN_RESULT")
-                    if (scanResult != null) {
-                        AlertUtils.showLog("scanResult", scanResult)
+        try {
+            startForResult =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                    if (result.resultCode == Activity.RESULT_OK) {
+                        val data: Intent? = result.data
+                        val scanResult = data?.getStringExtra("SCAN_RESULT")
+                        if (scanResult != null) {
+                            AlertUtils.showLog("scanResult", scanResult)
+                            viewModel.verifyQrCode(requireActivity(), scanResult)
+                        }
                     }
                 }
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -301,6 +306,16 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
+        viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
+            if (verified) {
+                if(visitData?.visitStatus == "Unscheduled") {
+                    viewModel.createUnscheduledVisit(requireActivity(), visitData?.clientId!!)
+                } else {
+                    viewModel.addVisitCheckIn(requireActivity(), visitData?.clientId!!, visitData?.visitDetailsId!!)
+                }
+            }
+        }
+
         // add uv visit
         viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
             if (data != null) {
@@ -328,7 +343,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 //                findNavController().navigate(action)
                 visitData?.visitDetailsId = data.visit_details_id
                 visitData?.visitDate = data.created_at.substring(0, 10)
-                visitData?.userId = data.user_id
+                visitData?.userId = "[${data.user_id}]"
                 visitData?.clientId = data.client_id
                 viewModel.addVisitCheckIn(requireActivity(), data.client_id, data.visit_details_id)
             }

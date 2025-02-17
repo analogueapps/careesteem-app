@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
+  ~ Use of this source code is governed by a MIT-style license that can be
+  ~ found in the LICENSE file.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgOdd"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_gravity="center"
+        app:shapeAppearanceOverlay="@style/Circular" />
+    <Space
+        android:layout_width="@dimen/_2sdp"
+        android:layout_height="match_parent"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleOdd"
+        android:gravity="start"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_regular"
+        android:text="@string/app_name"
+        android:textFontWeight="500"
+        android:textSize="@dimen/_10ssp"
+        tools:targetApi="p" />
+</LinearLayout>

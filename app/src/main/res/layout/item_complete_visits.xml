@@ -149,7 +149,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:gravity="start"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -161,10 +168,12 @@
                 tools:targetApi="p" />
 
             <Space
+                android:visibility="gone"
                 android:layout_width="@dimen/_2sdp"
                 android:layout_height="match_parent"/>
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:src="@mipmap/ic_launcher_round"
@@ -172,6 +181,7 @@
                 app:shapeAppearanceOverlay="@style/Circular" />
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:visibility="gone"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:src="@mipmap/ic_launcher_round"
@@ -179,10 +189,12 @@
                 app:shapeAppearanceOverlay="@style/Circular" />
 
             <Space
+                android:visibility="gone"
                 android:layout_width="@dimen/_2sdp"
                 android:layout_height="match_parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
                 android:gravity="end"
                 android:layout_weight="1"
                 android:layout_width="match_parent"

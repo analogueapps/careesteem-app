@@ -433,4 +433,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             createdAt = createdAt
         )
     }
+
+    suspend fun verifyQrCode(
+        hashToken: String,
+        userId: Int,
+        qrcodeToken: String
+    ): Response<JsonObject> {
+        return apiService.verifyQrCode(
+            hashToken = hashToken,
+            userId = userId,
+            qrcodeToken = qrcodeToken
+        )
+    }
 }

@@ -284,4 +284,12 @@ interface ApiService {
         @Field("actual_start_time") actualStartTime: String,
         @Field("created_at") createdAt: String,
     ): Response<AddVisitCheckInResponse>
+
+    @FormUrlEncoded
+    @POST("verify-qrcode/{userId}")
+    suspend fun verifyQrCode(
+        @Path("userId") userId: Int,
+        @Query("hash_token") hashToken: String,
+        @Field("qrcode_token") qrcodeToken: String
+    ): Response<JsonObject>
 }
