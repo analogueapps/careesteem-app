@@ -14,7 +14,6 @@
     tools:context=".view.alerts.view.AlertsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:visibility="gone"
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -50,7 +49,6 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:visibility="gone"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:orientation="vertical"
@@ -94,6 +92,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.aits.careesteem.view.bodymap.BodyMapView
+        android:visibility="gone"
         android:id="@+id/bodyMapView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,6 +101,7 @@
 
     <!-- Buttons for Undo and Color Change -->
     <LinearLayout
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_below="@id/bodyMapView"
         android:layout_width="match_parent"

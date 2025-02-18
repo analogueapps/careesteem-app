@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentAlertsBinding
 import com.aits.careesteem.databinding.FragmentCheckOutBinding
@@ -27,6 +28,10 @@ class AlertsFragment : Fragment() {
     }
 
     private fun setupWidget() {
+        binding.btnCreateUnscheduledVisit.setOnClickListener {
+            findNavController().navigate(R.id.addAlertsFragment)
+        }
+
         binding.btnUndo.setOnClickListener {
             binding.bodyMapView.undo()
         }

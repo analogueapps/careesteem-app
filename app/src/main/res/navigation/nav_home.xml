@@ -98,4 +98,9 @@
             android:id="@+id/action_checkOutFragment_to_unscheduledVisitsDetailsFragmentFragment"
             app:destination="@id/unscheduledVisitsDetailsFragmentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addAlertsFragment"
+        android:name="com.aits.careesteem.view.alerts.view.AddAlertsFragment"
+        android:label="fragment_add_alerts"
+        tools:layout="@layout/fragment_add_alerts" />
 </navigation>

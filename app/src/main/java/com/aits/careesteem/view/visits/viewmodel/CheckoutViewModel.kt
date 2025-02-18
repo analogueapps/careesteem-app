@@ -6,8 +6,14 @@
 
 package com.aits.careesteem.view.visits.viewmodel
 
+import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +26,8 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,11 +40,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CheckoutViewModel @Inject constructor(
+    private val application: Application,
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+): AndroidViewModel(application) {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -203,6 +212,66 @@ class CheckoutViewModel @Inject constructor(
             } finally {
                 _isLoading.value = false
             }
+        }
+    }
+
+    private val _markerPosition = MutableLiveData<LatLng>()
+    val markerPosition: LiveData<LatLng> get() = _markerPosition
+
+    private var fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
+
+    fun fetchCurrentLocation() {
+        // Ensure location permissions are granted
+        if (ActivityCompat.checkSelfPermission(
+                getApplication(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    // Use the location object
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    _markerPosition.value = latLng
+                } else {
+                    // If lastLocation is null, request a new location update
+                    requestNewLocation()
+                }
+            }.addOnFailureListener { exception ->
+                // Handle exception
+                println("Error fetching last location: $exception")
+            }
+
+        }
+    }
+
+    private fun requestNewLocation() {
+        val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
+            priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 10000 // Update every 10 seconds
+            fastestInterval = 5000 // Get updates as frequently as 5 seconds
+            numUpdates = 1 // Request only a single update
+        }
+
+        val locationCallback = object : com.google.android.gms.location.LocationCallback() {
+            override fun onLocationResult(locationResult: com.google.android.gms.location.LocationResult) {
+                val newLocation = locationResult.lastLocation
+                if (newLocation != null) {
+                    val latLng = LatLng(newLocation.latitude, newLocation.longitude)
+                    _markerPosition.value = latLng
+                } else {
+                    println("Failed to get new location")
+                }
+            }
+        }
+
+        // Request location updates
+        if (ActivityCompat.checkSelfPermission(
+                getApplication(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
         }
     }
 }

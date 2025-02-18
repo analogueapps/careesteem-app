@@ -28,6 +28,7 @@ android {
         defaultConfig {
             buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("BASE_URL", project)}\"")
             buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
+            buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
         }
 
         release {
@@ -69,6 +70,9 @@ dependencies {
     implementation(libs.places)
     implementation(libs.android.core)
     implementation(libs.zxing.android.embedded)
+    implementation(libs.smartmaterialspinner)
+    implementation(libs.android.maps.utils)
+    implementation(libs.play.services.location)
 
     // Testing dependencies
     testImplementation(libs.junit)
