@@ -218,6 +218,7 @@ class VerifyOtpViewModel @Inject constructor(
                     contactNumber = userData?.contact_number!!,
                     otp = otp.value!!.toInt(),
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    fcmToken = sharedPreferences.getString(SharedPrefConstant.FCM_TOKEN, null).toString(),
                 )
 
                 if (response.isSuccessful) {

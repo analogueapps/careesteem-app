@@ -25,6 +25,7 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
 import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
@@ -57,6 +58,9 @@ class CheckoutViewModel @Inject constructor(
 
     private val _addVisitCheckInResponse = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
     val addVisitCheckInResponse: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponse
+
+    private val _updateVisitCheckoutResponse = MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
+    val updateVisitCheckoutResponse: LiveData<List<UpdateVisitCheckoutResponse.Data>> get() = _updateVisitCheckoutResponse
 
     // Add uv data
     private val _userActualTimeData = MutableLiveData<AddUvVisitResponse.UserActualTimeData>()
@@ -101,7 +105,67 @@ class CheckoutViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
+                        AlertUtils.showToast(activity, list.message)
+                        editor.putInt(SharedPrefConstant.CHECK_IN_ID, list.data[0].id)
+                        editor.apply()
                         _addVisitCheckInResponse.value = list.data
+                    }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun updateVisitCheckOut(activity: Activity, actualEndTime: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val currentTime = Calendar.getInstance()
+                // Formatting visit_date as "yyyy-MM-dd"
+                val visitDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val visitDate = visitDateFormat.format(currentTime.time)
+
+                // Formatting actual_start_time as "HH:mm:ss"
+                val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                val actualStartTime = timeFormat.format(currentTime.time)
+
+                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
+                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val createdAt = createdAtFormat.format(currentTime.time)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.updateVisitCheckout(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    checkInId = sharedPreferences.getInt(SharedPrefConstant.CHECK_IN_ID, -1),
+                    actualEndTime = actualEndTime,
+                    updatedAt = createdAt
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { list ->
+                        AlertUtils.showToast(activity, list.message)
+                        editor.putInt(SharedPrefConstant.CHECK_IN_ID, -1)
+                        editor.apply()
+                        _updateVisitCheckoutResponse.value = list.data
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

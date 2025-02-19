@@ -20,4 +20,7 @@ object SharedPrefConstant {
     const val LOGIN_PASSCODE = "login_passcode"
     const val USER_DATA = "user_data"
     const val PROFILE_IMAGE = "profile_image"
+
+    // CHECK IN
+    const val CHECK_IN_ID = "check_in_id"
 }

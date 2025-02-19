@@ -27,6 +27,8 @@ data class VisitListResponse(
         var placeId: Any,
         var visitDate: String,
         var visitStatus: String,
+        var actualStartTime: List<String> = emptyList(),
+        var actualEndTime: List<String> = emptyList(),
         var userName: List<String> = emptyList(),
         var profile_photo: List<String> = emptyList()
     )

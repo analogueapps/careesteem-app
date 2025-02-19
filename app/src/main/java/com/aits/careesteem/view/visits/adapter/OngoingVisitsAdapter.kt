@@ -23,11 +23,16 @@ import java.time.Instant
 
 class OngoingVisitsAdapter(
     private val context: Context,
-    private val ongoingItemItemClick: OngoingItemItemClick
+    private val ongoingItemItemClick: OngoingItemItemClick,
+    private val ongoingCheckoutItemItemClick: OngoingCheckoutItemItemClick,
 ) : RecyclerView.Adapter<OngoingVisitsAdapter.ViewHolder>() {
 
     interface OngoingItemItemClick {
         fun ongoingItemItemClicked(data: VisitListResponse.Data)
+    }
+
+    interface OngoingCheckoutItemItemClick {
+        fun ongoingCheckoutItemItemClicked(data: VisitListResponse.Data)
     }
 
     private var visitsList = listOf<VisitListResponse.Data>()
@@ -85,6 +90,10 @@ class OngoingVisitsAdapter(
 
                 layout.setOnClickListener {
                     ongoingItemItemClick.ongoingItemItemClicked(data)
+                }
+
+                btnCheckout.setOnClickListener {
+                    ongoingCheckoutItemItemClick.ongoingCheckoutItemItemClicked(data)
                 }
             }
         }

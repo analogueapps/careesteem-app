@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.databinding.FragmentOngoingVisitsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
@@ -64,6 +65,14 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = visitData?.totalPlannedTime
+
+            btnCheckout.setOnClickListener {
+                val direction = OngoingVisitsDetailsFragmentDirections.actionOngoingVisitsDetailsFragmentToCheckOutFragment(
+                    visitData = args.visitData,
+                    action = 1
+                )
+                findNavController().navigate(direction)
+            }
 
             // Cancel any previous timer if this view is recycled
             timerJob?.cancel()

@@ -14,6 +14,7 @@ import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
@@ -47,12 +48,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     suspend fun verifyOtp(
         contactNumber: String,
         otp: Int,
-        hashToken: String
+        hashToken: String,
+        fcmToken: String
     ): Response<OtpVerifyResponse> {
         return apiService.verifyOtp(
             contactNumber = contactNumber,
             otp = otp,
             hashToken = hashToken,
+            fcmToken = fcmToken
         )
     }
 
@@ -431,6 +434,20 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             status = status,
             actualStartTime = actualStartTime,
             createdAt = createdAt
+        )
+    }
+
+    suspend fun updateVisitCheckout(
+        hashToken: String,
+        checkInId: Int,
+        actualEndTime: String,
+        updatedAt: String
+    ): Response<UpdateVisitCheckoutResponse> {
+        return apiService.updateVisitCheckout(
+            hashToken = hashToken,
+            checkInId = checkInId,
+            actualEndTime = actualEndTime,
+            updatedAt = updatedAt
         )
     }
 

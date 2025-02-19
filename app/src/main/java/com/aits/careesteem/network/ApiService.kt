@@ -14,6 +14,7 @@ import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
+import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
@@ -46,6 +47,7 @@ interface ApiService {
         @Field("contact_number") contactNumber: String,
         @Field("otp") otp: Int,
         @Field("hash_token") hashToken: String,
+        @Field("fcm_token") fcmToken: String,
     ): Response<OtpVerifyResponse>
 
     @FormUrlEncoded
@@ -284,6 +286,15 @@ interface ApiService {
         @Field("actual_start_time") actualStartTime: String,
         @Field("created_at") createdAt: String,
     ): Response<AddVisitCheckInResponse>
+
+    @FormUrlEncoded
+    @PUT("update-visit-checkout/{checkInId}")
+    suspend fun updateVisitCheckout(
+        @Path("checkInId") checkInId: Int,
+        @Query("hash_token") hashToken: String,
+        @Field("actual_end_time") actualEndTime: String,
+        @Field("updated_at") updatedAt: String,
+    ): Response<UpdateVisitCheckoutResponse>
 
     @FormUrlEncoded
     @POST("verify-qrcode/{userId}")

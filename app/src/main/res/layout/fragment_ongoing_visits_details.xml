@@ -101,10 +101,11 @@
                     android:layout_height="match_parent"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckout"
                     android:layout_gravity="center"
                     app:backgroundTint="@null"
                     android:background="@drawable/ic_checkin_background"
-                    android:backgroundTint="@color/ongoingCardInsideButton"
+                    android:backgroundTint="@color/ongoingCardCorner"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
                     android:fontFamily="@font/arvo_regular"

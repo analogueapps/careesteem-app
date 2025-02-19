@@ -43,6 +43,7 @@ import java.util.Locale
 @AndroidEntryPoint
 class VisitsFragment : Fragment(),
     OngoingVisitsAdapter.OngoingItemItemClick,
+    OngoingVisitsAdapter.OngoingCheckoutItemItemClick,
     UpcomingVisitsAdapter.OnItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
@@ -91,7 +92,7 @@ class VisitsFragment : Fragment(),
     }
 
     private fun setupAdapter() {
-        ongoingVisitsAdapter = OngoingVisitsAdapter(requireContext(), this@VisitsFragment)
+        ongoingVisitsAdapter = OngoingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
         binding.rvOngoingVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvOngoingVisits.adapter = ongoingVisitsAdapter
 
@@ -331,33 +332,18 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
+        data.profile_photo = emptyList()
         val gson = Gson()
         val dataString = gson.toJson(data)
-//        if(data.visitStatus == "Scheduled") {
-//            val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-//                visitData = dataString
-//            )
-//            findNavController().navigate(direction)
-//        } else {
-//            if(data.visitStatus == "Unscheduled") {
-//                val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
-//                    visitData = dataString
-//                )
-//                findNavController().navigate(direction)
-//            } else {
-//                val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-//                    visitData = dataString
-//                )
-//                findNavController().navigate(direction)
-//            }
-//        }
         val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-            visitData = dataString
+            visitData = dataString,
+            action = 0
         )
         findNavController().navigate(direction)
     }
 
     override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
+        data.profile_photo = emptyList()
         val gson = Gson()
         val dataString = gson.toJson(data)
         if(data.visitStatus == "Unscheduled") {
@@ -371,6 +357,17 @@ class VisitsFragment : Fragment(),
             )
             findNavController().navigate(direction)
         }
+    }
+
+    override fun ongoingCheckoutItemItemClicked(data: VisitListResponse.Data) {
+        data.profile_photo = emptyList()
+        val gson = Gson()
+        val dataString = gson.toJson(data)
+        val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+            visitData = dataString,
+            action = 1
+        )
+        findNavController().navigate(direction)
     }
 
 }

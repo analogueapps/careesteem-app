@@ -68,6 +68,9 @@
         <argument
             android:name="visitData"
             app:argType="string" />
+        <action
+            android:id="@+id/action_ongoingVisitsDetailsFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -82,6 +85,9 @@
         <argument
             android:name="visitData"
             app:argType="string" />
+        <action
+            android:id="@+id/action_unscheduledVisitsDetailsFragmentFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkOutFragment"
@@ -97,6 +103,9 @@
         <action
             android:id="@+id/action_checkOutFragment_to_unscheduledVisitsDetailsFragmentFragment"
             app:destination="@id/unscheduledVisitsDetailsFragmentFragment" />
+        <argument
+            android:name="action"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/addAlertsFragment"

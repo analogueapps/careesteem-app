@@ -163,7 +163,10 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                     )
                 )
 
-                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToCheckOutFragment(Gson().toJson(convertVisit[0]))
+                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToCheckOutFragment(
+                    visitData = Gson().toJson(convertVisit[0]),
+                    action = 0
+                )
                 findNavController().navigate(action)
             }
             binding.btnNegative.setOnClickListener {

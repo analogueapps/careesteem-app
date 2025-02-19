@@ -86,4 +86,12 @@
         <item name="android:fontFamily">@font/lora_regular</item>
         <item name="fontFamily">@font/lora_regular</item>
     </style>
+
+    <style name="CustomSnackbar" parent="Base.Widget.MaterialComponents.Snackbar">
+        <item name="android:textSize">16sp</item> <!-- Change Text Size -->
+        <item name="android:fontFamily">@font/lora_regular</item> <!-- Change Font -->
+        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:maxLines">5</item> <!-- Allow Full Text Visibility -->
+    </style>
+
 </resources>

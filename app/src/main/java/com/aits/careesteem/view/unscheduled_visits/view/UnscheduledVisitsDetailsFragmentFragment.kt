@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.databinding.FragmentUnscheduledVisitsDetailsFragmentBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +66,14 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = visitData?.totalPlannedTime
+
+            btnCheckout.setOnClickListener {
+                val direction = UnscheduledVisitsDetailsFragmentFragmentDirections.actionUnscheduledVisitsDetailsFragmentFragmentToCheckOutFragment(
+                    visitData = args.visitData,
+                    action = 1
+                )
+                findNavController().navigate(direction)
+            }
 
             // Cancel any previous timer if this view is recycled
             timerJob?.cancel()

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.net.Uri.*
@@ -35,6 +36,7 @@ import com.aits.careesteem.databinding.FragmentCheckOutBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
@@ -43,6 +45,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -73,10 +77,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     // Viewmodel
     private val viewModel: CheckoutViewModel by viewModels()
 
-    private var visitData : VisitListResponse.Data? = null
+    private var visitData: VisitListResponse.Data? = null
 
     private lateinit var googleMap: GoogleMap
     private lateinit var placesClient: PlacesClient
+    private lateinit var destinationLatLng: LatLng
 
     private lateinit var startForResult: ActivityResultLauncher<Intent>
 
@@ -88,7 +93,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        requestLocationPermissions()
+        if(visitData?.placeId != null) {
+            requestLocationPermissions()
+        }
     }
 
     private fun requestLocationPermissions() {
@@ -108,7 +115,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkLocationServices() {
-        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
@@ -138,29 +146,83 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .build()
 
         val apiService = retrofit.create(GoogleApiService::class.java)
-        val call = apiService.getPlaceDetails("ChIJKyf0UR7ezTsRixgCwr0pnWE",
+        val call = apiService.getPlaceDetails(
+            visitData?.placeId.toString(),
             BuildConfig.GOOGLE_MAP_PLACES_API_KEY
         )
 
         call.enqueue(object : Callback<PlaceDetailsResponse> {
-            override fun onResponse(call: Call<PlaceDetailsResponse>, response: Response<PlaceDetailsResponse>) {
+            override fun onResponse(
+                call: Call<PlaceDetailsResponse>,
+                response: Response<PlaceDetailsResponse>
+            ) {
                 if (response.isSuccessful) {
                     val result = response.body()?.result
-                    val destinationLatLng = LatLng(result?.geometry?.location?.lat ?: 0.0, result?.geometry?.location?.lng ?: 0.0)
+                    destinationLatLng = LatLng(
+                        result?.geometry?.location?.lat ?: 0.0,
+                        result?.geometry?.location?.lng ?: 0.0
+                    )
 
-                    googleMap.addMarker(MarkerOptions().position(destinationLatLng).title("Destination"))
+                    //googleMap.addMarker(MarkerOptions().position(destinationLatLng).title("Destination"))
+                    addMarkerAndRadius(
+                        googleMap = googleMap,
+                        destinationLatLng = destinationLatLng,
+                        radius = visitData?.radius.toString().toDouble()
+                    )
                     drawRoute(destinationLatLng)
                 }
             }
 
             override fun onFailure(call: Call<PlaceDetailsResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to fetch place details", Toast.LENGTH_SHORT).show()
+                AlertUtils.showToast(requireActivity(), "Failed to fetch place details")
             }
         })
     }
 
+    fun addMarkerAndRadius(googleMap: GoogleMap, destinationLatLng: LatLng, radius: Double) {
+        // Add marker at destination
+        googleMap.addMarker(
+            MarkerOptions().position(destinationLatLng).title(visitData?.clientName).icon(
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
+            )
+        )
+
+        // Draw radius
+        googleMap.addCircle(
+            CircleOptions()
+                .center(destinationLatLng)
+                .radius(radius) // Radius in meters
+                .strokeColor(Color.MAGENTA)
+                .fillColor(0x44FF4081) // Transparent fill
+                .strokeWidth(3f)
+        )
+
+        // Move the marker **outside the radius**
+        val outsideLatLng =
+            moveMarkerOutsideRadius(destinationLatLng, radius + 50) // 50m beyond radius
+
+//        googleMap.addMarker(
+//            MarkerOptions()
+//                .position(outsideLatLng)
+//                .title("Outside Radius")
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+//        )
+
+        // Adjust map view
+        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(destinationLatLng, 15f))
+    }
+
+    // Function to move marker outside the radius
+    private fun moveMarkerOutsideRadius(center: LatLng, distance: Double): LatLng {
+        val earthRadius = 6371000.0 // meters
+        val newLat = center.latitude + (distance / earthRadius) * (180 / Math.PI)
+        val newLng = center.longitude
+        return LatLng(newLat, newLng)
+    }
+
     private fun drawRoute(destination: LatLng) {
-        val origin = "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
+        val origin =
+            "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
         val dest = "${destination.latitude},${destination.longitude}"
         // Create a logging interceptor
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -179,26 +241,24 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .build()
 
         val apiService = retrofit.create(GoogleApiService::class.java)
-        val call = apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
+        val call =
+            apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
 
         call.enqueue(object : Callback<DirectionsResponse> {
-            override fun onResponse(call: Call<DirectionsResponse>, response: Response<DirectionsResponse>) {
+            override fun onResponse(
+                call: Call<DirectionsResponse>,
+                response: Response<DirectionsResponse>
+            ) {
                 if (response.isSuccessful) {
                     val route = response.body()?.routes?.firstOrNull()
                     if (route == null) {
-                        Log.e("MapsActivity", "No routes found in API response")
                         return
                     }
                     val polylinePoints = route?.overview_polyline?.points
 
-//                    if (!polylinePoints.isNullOrEmpty()) {
-//                        val decodedPath = PolyUtil.decode(polylinePoints)
-//                        googleMap.addPolyline(PolylineOptions().addAll(decodedPath).width(10f).color(
-//                            Color.BLUE))
-//                    }
+
                     if (!polylinePoints.isNullOrEmpty()) {
                         val decodedPath = PolyUtil.decode(polylinePoints)
-                        Log.d("MapsActivity", "Decoded path size: ${decodedPath.size}")
 
                         if (::googleMap.isInitialized) {
                             googleMap.addPolyline(
@@ -209,15 +269,17 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                             )
                         }
                     } else {
-                        Log.e("MapsActivity", "Polyline points are empty")
+                        AlertUtils.showLog("MapsActivity", "Polyline points are empty")
                     }
                 } else {
-                    Log.e("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
+                    AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed to fetch directions", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Failed to fetch directions", Toast.LENGTH_SHORT)
+//                    .show()
+                AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
             }
         })
     }
@@ -246,7 +308,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             } else {
                 showPermissionDeniedDialog()
             }
-        }else if(requestCode == REQUEST_LOCATION_PERMISSION_CODE) {
+        } else if (requestCode == REQUEST_LOCATION_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 checkLocationServices()
             } else {
@@ -281,6 +343,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         val dataString = args.visitData
         // Convert the JSON string back to your data model.
         visitData = Gson().fromJson(dataString, VisitListResponse.Data::class.java)
+        //visitData?.placeId = "ChIJKyf0UR7ezTsRixgCwr0pnWE"
+        visitData?.placeId = "ChIJic-rKAmayzsRmSLYGIIZtdE"
+        visitData?.radius = 5000
     }
 
     override fun onCreateView(
@@ -315,11 +380,20 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("InflateParams")
     private fun setupWidget() {
 
-//        if(visitData?.placeId.toString().isEmpty()) {
-//            binding.btnCheckIn.visibility = View.GONE
-//        } else {
-//            binding.btnCheckIn.visibility = View.VISIBLE
-//        }
+
+        if (args.action == 0) {
+            if (visitData?.placeId.toString().isEmpty()) {
+                binding.btnCheckIn.visibility = View.GONE
+            } else {
+                binding.btnCheckIn.visibility = View.VISIBLE
+            }
+        } else if (args.action == 1) {
+            if (visitData?.placeId.toString().isEmpty()) {
+                binding.btnCheckOut.visibility = View.GONE
+            } else {
+                binding.btnCheckOut.visibility = View.VISIBLE
+            }
+        }
 
         val tabLayout: TabLayout = binding.tabLayout
 
@@ -380,12 +454,77 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.btnCheckIn.setOnClickListener {
-            if(visitData?.visitStatus == "Unscheduled") {
-                viewModel.createUnscheduledVisit(requireActivity(), visitData?.clientId!!)
+            val currentLocation = LatLng(
+                viewModel.markerPosition.value!!.latitude,
+                viewModel.markerPosition.value!!.longitude
+            )  // Example: Your current location
+            //val destinationLocation = LatLng(18.7858015, 77.9852853)  // Example: API response destination
+            //val radius = 5000f  // Example: 5 km radius
+            if (isWithinRadius(currentLocation, destinationLatLng, visitData?.radius.toString().toFloat())) {
+                AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
+                if (visitData?.visitStatus == "Unscheduled") {
+                    viewModel.createUnscheduledVisit(requireActivity(), visitData?.clientId!!)
+                } else {
+                    viewModel.addVisitCheckIn(
+                        requireActivity(),
+                        visitData?.clientId!!,
+                        visitData?.visitDetailsId!!
+                    )
+                }
             } else {
-                viewModel.addVisitCheckIn(requireActivity(), visitData?.clientId!!, visitData?.visitDetailsId!!)
+                AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
+                //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+                )
             }
+
         }
+
+        binding.btnCheckOut.setOnClickListener {
+            val currentLocation = LatLng(
+                viewModel.markerPosition.value!!.latitude,
+                viewModel.markerPosition.value!!.longitude
+            )  // Example: Your current location
+            //val destinationLocation = LatLng(18.7858015, 77.9852853)  // Example: API response destination
+            //val radius = 5000f  // Example: 5 km radius
+            if (isWithinRadius(currentLocation, destinationLatLng, visitData?.radius.toString().toFloat())) {
+                AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
+                viewModel.updateVisitCheckOut(
+                    requireActivity(),
+                    visitData?.actualEndTime!![0],
+                )
+            } else {
+                AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
+                //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+                )
+            }
+
+        }
+    }
+
+    private fun isWithinRadius(
+        currentLatLng: LatLng,
+        destinationLatLng: LatLng,
+        radiusMeters: Float
+    ): Boolean {
+        val results = FloatArray(1)
+
+        // Calculate distance between current location and destination
+        Location.distanceBetween(
+            currentLatLng.latitude, currentLatLng.longitude,
+            destinationLatLng.latitude, destinationLatLng.longitude,
+            results
+        )
+
+        val distance = results[0] // Distance in meters
+        AlertUtils.showLog("DistanceCheck", "Distance: $distance meters, Radius: $radiusMeters meters")
+
+        return distance <= radiusMeters
     }
 
     private fun openBarCodeScanner() {
@@ -455,8 +594,20 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         //fetchPlaceDetails()
         // Observe marker position and update the map
         viewModel.markerPosition.observe(viewLifecycleOwner) { latLng ->
+            // Enable blue dot (Current Location)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                googleMap.isMyLocationEnabled = true
+            }
             updateMarkerOnMap(latLng)
         }
+
+        // Enable zoom controls & gestures
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isZoomGesturesEnabled = true
     }
 
     private fun updateMarkerOnMap(latLng: LatLng) {
@@ -467,8 +618,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     private fun fetchPlaceDetails() {
         val placeFields = listOf(Place.Field.LAT_LNG, Place.Field.NAME)
-        //val request = FetchPlaceRequest.newInstance(visitData?.placeId.toString(), placeFields)
-        val request = FetchPlaceRequest.newInstance("ChIJKyf0UR7ezTsRixgCwr0pnWE", placeFields)
+        val request = FetchPlaceRequest.newInstance(visitData?.placeId.toString(), placeFields)
+        //val request = FetchPlaceRequest.newInstance("ChIJKyf0UR7ezTsRixgCwr0pnWE", placeFields)
 
         placesClient.fetchPlace(request)
             .addOnSuccessListener { response ->
@@ -499,10 +650,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
         viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
             if (verified) {
-                if(visitData?.visitStatus == "Unscheduled") {
-                    viewModel.createUnscheduledVisit(requireActivity(), visitData?.clientId!!)
-                } else {
-                    viewModel.addVisitCheckIn(requireActivity(), visitData?.clientId!!, visitData?.visitDetailsId!!)
+                if(args.action == 0) {
+                    if (visitData?.visitStatus == "Unscheduled") {
+                        viewModel.createUnscheduledVisit(requireActivity(), visitData?.clientId!!)
+                    } else {
+                        viewModel.addVisitCheckIn(
+                            requireActivity(),
+                            visitData?.clientId!!,
+                            visitData?.visitDetailsId!!
+                        )
+                    }
+                } else if(args.action == 1) {
+                    viewModel.updateVisitCheckOut(
+                        requireActivity(),
+                        visitData?.actualEndTime!![0],
+                    )
                 }
             }
         }
@@ -521,20 +683,33 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         viewModel.addVisitCheckInResponse.observe(viewLifecycleOwner) { data ->
             if (data != null) {
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.checkOutFragment, true) // This removes CheckOutFragment from the back stack
+                    .setPopUpTo(
+                        R.id.checkOutFragment,
+                        true
+                    ) // This removes CheckOutFragment from the back stack
                     .build()
 
-                if(visitData?.visitStatus == "Unscheduled") {
-                    val direction = CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                        visitData = Gson().toJson(visitData)
-                    )
+                if (visitData?.visitStatus == "Unscheduled") {
+                    val direction =
+                        CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
+                            visitData = Gson().toJson(visitData)
+                        )
                     findNavController().navigate(direction, navOptions)
                 } else {
-                    val direction = CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
-                        visitData = Gson().toJson(visitData)
-                    )
+                    val direction =
+                        CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
+                            visitData = Gson().toJson(visitData)
+                        )
                     findNavController().navigate(direction, navOptions)
                 }
+            }
+        }
+
+        viewModel.updateVisitCheckoutResponse.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                val intent = Intent(requireActivity(), HomeActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
             }
         }
     }
