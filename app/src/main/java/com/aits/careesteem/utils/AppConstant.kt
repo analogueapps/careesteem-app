@@ -7,10 +7,14 @@
 package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.OpenableColumns
 import android.util.Base64
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +22,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -177,5 +189,76 @@ object AppConstant {
                 delay(1000L)
             }
         }
+    }
+
+    fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File? {
+        val file = File(context.cacheDir, fileName)
+        return try {
+            val stream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            stream.flush()
+            stream.close()
+            file
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun createRequestBody(value: String?): RequestBody {
+        return RequestBody.create(MultipartBody.FORM, value.orEmpty())
+    }
+
+    private fun createMultipartBodyPart(name: String, uri: Uri?, activity: Activity): MultipartBody.Part? {
+        val file = uri?.let { uriToFile(activity, it) }
+        return file?.let {
+            val requestFile = it.asRequestBody(MultipartBody.FORM)
+            MultipartBody.Part.createFormData(name, it.name, requestFile)
+        }
+    }
+
+    fun isImageFile(context: Context, uri: Uri): Boolean {
+        val contentResolver = context.contentResolver
+        val mimeType = contentResolver.getType(uri)
+        return mimeType?.startsWith("image/") == true // Ensures only images are processed
+    }
+
+    fun uriToFile(context: Context, uri: Uri): File? {
+        val contentResolver = context.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            getFileNameFromUri(context = context, uri = uri).toString()
+        )
+
+        return try {
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buffer = ByteArray(1024)
+            var bytesRead: Int
+
+            inputStream?.use { input ->
+                while (input.read(buffer).also { bytesRead = it } != -1) {
+                    outputStream.write(buffer, 0, bytesRead)
+                }
+            }
+            outputStream.flush()
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        } finally {
+            inputStream?.close()
+        }
+    }
+
+    private fun getFileNameFromUri(context: Context, uri: Uri): String? {
+        var fileName: String? = null
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            val nameIndex = it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME)
+            if (it.moveToFirst()) {
+                fileName = it.getString(nameIndex)
+            }
+        }
+        return fileName
     }
 }

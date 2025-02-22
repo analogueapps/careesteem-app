@@ -6,6 +6,8 @@
 
 package com.aits.careesteem.network
 
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
@@ -27,11 +29,6 @@ import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiService: ApiService) {
@@ -460,6 +457,46 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             userId = userId,
             qrcodeToken = qrcodeToken
+        )
+    }
+
+    suspend fun getClientsList(
+        hashToken: String,
+        id: Int,
+        visitDate: String,
+    ): Response<ClientNameListResponse> {
+        return apiService.getClientsList(
+            hashToken = hashToken,
+            userId = id,
+            visitDate = visitDate,
+        )
+    }
+
+    suspend fun sendAlert(
+        hashToken: String,
+        clientId: RequestBody,
+        userId: RequestBody,
+        visitDetailsId: RequestBody,
+        severityOfConcern: RequestBody,
+        concernDetails: RequestBody,
+        bodyPartType: RequestBody,
+        bodyPartNames: RequestBody,
+        fileName: RequestBody,
+        createdAt: RequestBody,
+        images: List<MultipartBody.Part?>
+    ): Response<JsonObject> {
+        return apiService.sendAlert(
+            hashToken = hashToken,
+            clientId = clientId,
+            userId = userId,
+            visitDetailsId = visitDetailsId,
+            severityOfConcern = severityOfConcern,
+            concernDetails = concernDetails,
+            bodyPartType = createdAt,
+            bodyPartNames = bodyPartType,
+            fileName = bodyPartNames,
+            createdAt = fileName,
+            images = images
         )
     }
 }

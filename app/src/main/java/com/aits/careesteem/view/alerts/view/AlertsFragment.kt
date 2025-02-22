@@ -31,14 +31,6 @@ class AlertsFragment : Fragment() {
         binding.btnCreateUnscheduledVisit.setOnClickListener {
             findNavController().navigate(R.id.addAlertsFragment)
         }
-
-        binding.btnUndo.setOnClickListener {
-            binding.bodyMapView.undo()
-        }
-
-        binding.btnRedo.setOnClickListener {
-            binding.bodyMapView.redo()
-        }
     }
 
 }

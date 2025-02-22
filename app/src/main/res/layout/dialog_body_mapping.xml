@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/_25sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#F0FCFA"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:background="@drawable/ic_dialog_round_bg"
+            android:layout_margin="1dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.aits.careesteem.view.bodymap.BodyMapView
+                android:id="@+id/bodyMapView"
+                android:padding="@dimen/_10sdp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_200sdp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/comp_body_front" />
+
+            <View
+                android:background="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:padding="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!-- Undo Button -->
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnUndo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:tint="@color/white"
+                        android:background="@color/colorPrimary"
+                        android:src="@drawable/ic_undo" />
+
+                    <Space
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="match_parent"/>
+
+                    <!-- Redo Button -->
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnRedo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:tint="@color/white"
+                        android:background="@color/colorPrimary"
+                        android:src="@drawable/ic_redo" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSave"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/ic_btn_green_bg"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:text="Save"
+                    android:textColor="#279989"
+                    android:fontFamily="@font/lora_bold"
+                    android:textFontWeight="700"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -69,36 +69,13 @@ object AlertUtils {
                 "Unexpected error occurred"
             }
         }
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        showToast(activity, message)
     }
 
     @SuppressLint("NewApi", "InflateParams")
     fun showToast(activity: Activity?, message: String?) {
         //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-//        val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
-//        val view = toast.view
-//
-//        if (view is ViewGroup) {
-//            val textView = view.getChildAt(0) as TextView
-//            textView.maxLines = 10 // Set max lines to prevent truncation
-//        }
-//
-//        toast.show()
-//        activity?.findViewById<View>(android.R.id.content)?.let { rootView ->
-//            //Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG).show()
-//            val snackbar = Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG)
-//
-//            // Get Snackbar TextView
-//            val snackbarView = snackbar.view
-//            val textView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-//
-//            // Apply Text Size and Font Family
-//            textView.textSize = 16f // Set text size
-//            textView.maxLines = 5 // Allow multi-line text
-//            textView.typeface = activity.resources?.getFont(R.font.lora_regular) // Set custom font
-//
-//            snackbar.show()
-//        }
         activity?.findViewById<View>(android.R.id.content)?.let { rootView ->
             val snackbar = Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG)
             val snackbarView = snackbar.view

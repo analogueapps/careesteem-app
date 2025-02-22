@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.network
 
+import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
@@ -24,12 +25,16 @@ import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -302,5 +307,28 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Query("hash_token") hashToken: String,
         @Field("qrcode_token") qrcodeToken: String
+    ): Response<JsonObject>
+
+    @GET("getClientNameList/{userId}")
+    suspend fun getClientsList(
+        @Path("userId") userId: Int,
+        @Query("hash_token") hashToken: String,
+        @Query("visit_date") visitDate: String
+    ): Response<ClientNameListResponse>
+
+    @Multipart
+    @POST("alert")
+    suspend fun sendAlert(
+        @Query("hash_token") hashToken: String,
+        @Part("client_id") clientId: RequestBody,
+        @Part("user_id") userId: RequestBody,
+        @Part("visit_details_id") visitDetailsId: RequestBody,
+        @Part("severity_of_concern") severityOfConcern: RequestBody,
+        @Part("concern_details") concernDetails: RequestBody,
+        @Part("body_part_type") bodyPartType: RequestBody,
+        @Part("body_part_names") bodyPartNames: RequestBody,
+        @Part("file_name") fileName: RequestBody,
+        @Part("created_at") createdAt: RequestBody,
+        @Part images: List<MultipartBody.Part?> // for multiple images
     ): Response<JsonObject>
 }
