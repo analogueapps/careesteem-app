@@ -5,7 +5,7 @@
   ~ found in the LICENSE file.
   -->
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,61 +31,95 @@
         android:clipToPadding="true"
         app:tabRippleColor="@null" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_margin="@dimen/_10sdp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_map"
         android:layout_below="@+id/tabLayout"
-        android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardElevation="@dimen/_5sdp"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@+id/tabLayout"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true">
 
-    </com.google.android.material.card.MaterialCardView>
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <com.google.android.material.button.MaterialButton
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/btnCheckIn"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/arvo_regular"
+            app:icon="@drawable/ic_sharp_timer"
+            app:iconTintMode="multiply"
+            android:text="@string/check_in"
+            android:textAllCaps="false"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_12ssp"
+            tools:targetApi="p" />
+
+        <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/btnCheckOut"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/arvo_regular"
+            app:icon="@drawable/ic_sharp_timer"
+            app:iconTintMode="multiply"
+            android:text="@string/check_out"
+            android:textAllCaps="false"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_12ssp"
+            tools:targetApi="p" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <RelativeLayout
         android:visibility="gone"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:id="@+id/btnCheckIn"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/arvo_regular"
-        app:icon="@drawable/ic_sharp_timer"
-        app:iconTintMode="multiply"
-        android:text="@string/check_in"
-        android:textAllCaps="false"
-        android:textFontWeight="400"
-        android:textSize="@dimen/_12ssp"
-        tools:targetApi="p" />
+        android:layout_below="@+id/tabLayout"
+        android:id="@+id/layout_qr"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:visibility="gone"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:id="@+id/btnCheckOut"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/arvo_regular"
-        app:icon="@drawable/ic_sharp_timer"
-        app:iconTintMode="multiply"
-        android:text="@string/check_out"
-        android:textAllCaps="false"
-        android:textFontWeight="400"
-        android:textSize="@dimen/_12ssp"
-        tools:targetApi="p" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp"
+            app:cardElevation="@dimen/_5sdp"
+            app:cardUseCompatPadding="true">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+            <com.journeyapps.barcodescanner.DecoratedBarcodeView
+                android:id="@+id/qrView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

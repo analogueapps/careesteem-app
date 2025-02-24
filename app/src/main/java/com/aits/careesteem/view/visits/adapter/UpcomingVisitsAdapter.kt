@@ -61,8 +61,10 @@ class UpcomingVisitsAdapter(
                 tvClientAddress.text = data.clientAddress
                 tvPlanTime.text = data.totalPlannedTime
                 tvUserRequired.text = "${data.usersRequired}"
-                tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)
-                tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
+//                tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)
+//                tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
+                tvPlannedStartTime.text = data.plannedStartTime
+                tvPlannedEndTime.text = data.plannedEndTime
 
                 btnCheckIn.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

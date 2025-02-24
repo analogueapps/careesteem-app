@@ -112,18 +112,20 @@ class AddAlertsViewModel @Inject constructor(
                 val bodyPartNames = fileList.joinToString(", ") { it.bodyPartNames }
                 val fileName = fileList.joinToString(", ") { it.fileName }
 
+
+
                 val response =  repository.sendAlert(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    clientId = AppConstant.createRequestBody(clientId.toString()),
-                    userId = AppConstant.createRequestBody(userData.id.toString()),
-                    visitDetailsId = AppConstant.createRequestBody(visitDetailsId.toString()),
-                    severityOfConcern = AppConstant.createRequestBody(severityOfConcern),
-                    concernDetails = AppConstant.createRequestBody(concernDetails),
-                    bodyPartType = AppConstant.createRequestBody(createdAt),
-                    bodyPartNames = AppConstant.createRequestBody(bodyPartType),
-                    fileName = AppConstant.createRequestBody(bodyPartNames),
-                    createdAt = AppConstant.createRequestBody(fileName),
-                    images = createMultipartBodyParts(fileList, activity)
+                    clientId = clientId.toString(),
+                    userId = userData.id.toString(),
+                    visitDetailsId = visitDetailsId.toString(),
+                    severityOfConcern = severityOfConcern,
+                    concernDetails = concernDetails,
+                    bodyPartType = bodyPartType,
+                    bodyPartNames = bodyPartNames,
+                    fileName = fileName,
+                    createdAt = createdAt,
+                    images = createFiles(fileList, activity)
                 )
 
                 if (response.isSuccessful) {
@@ -144,23 +146,11 @@ class AddAlertsViewModel @Inject constructor(
         }
     }
 
-    private fun createMultipartBodyParts(fileModels: List<FileModel>, context: Context): List<MultipartBody.Part> {
+    private fun createFiles(fileModels: List<FileModel>, context: Context): List<File> {
         return fileModels.mapNotNull { fileModel ->
             println(fileModel.filePath)
             val fileUri = Uri.fromFile(File(fileModel.filePath)) // Convert filePath to Uri
-            val file = AppConstant.uriToFile(context, fileUri)
-
-            // Ensure file exists and is an image
-//            if (file != null && AppConstant.isImageFile(context, fileUri)) {
-//                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-//                MultipartBody.Part.createFormData("file", fileModel.fileName, requestFile)
-//            } else {
-//                null // Skip non-image files
-//            }
-            AppConstant.uriToFile(context, fileUri)?.let { file ->
-                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                MultipartBody.Part.createFormData("file", fileModel.fileName, requestFile)
-            }
+            AppConstant.uriToFile(context, fileUri) // Return the file directly
         }
     }
 

@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.smartmaterialspinner)
     implementation(libs.android.maps.utils)
     implementation(libs.play.services.location)
+    implementation(libs.ccp)
+    implementation(libs.libphonenumber)
 
     // Testing dependencies
     testImplementation(libs.junit)

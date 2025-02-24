@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.network
 
+import android.content.Context
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -26,9 +27,12 @@ import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val apiService: ApiService) {
@@ -474,29 +478,34 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun sendAlert(
         hashToken: String,
-        clientId: RequestBody,
-        userId: RequestBody,
-        visitDetailsId: RequestBody,
-        severityOfConcern: RequestBody,
-        concernDetails: RequestBody,
-        bodyPartType: RequestBody,
-        bodyPartNames: RequestBody,
-        fileName: RequestBody,
-        createdAt: RequestBody,
-        images: List<MultipartBody.Part?>
+        clientId: String,
+        userId: String,
+        visitDetailsId: String,
+        severityOfConcern: String,
+        concernDetails: String,
+        bodyPartType: String,
+        bodyPartNames: String,
+        fileName: String,
+        createdAt: String,
+        images: List<File>
     ): Response<JsonObject> {
+        val imageParts = images.map { imageFile ->
+            val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), imageFile)
+            MultipartBody.Part.createFormData("images", imageFile.name, requestFile)
+        }
+
         return apiService.sendAlert(
             hashToken = hashToken,
-            clientId = clientId,
-            userId = userId,
-            visitDetailsId = visitDetailsId,
-            severityOfConcern = severityOfConcern,
-            concernDetails = concernDetails,
-            bodyPartType = createdAt,
-            bodyPartNames = bodyPartType,
-            fileName = bodyPartNames,
-            createdAt = fileName,
-            images = images
+            clientId = AppConstant.createRequestBody(clientId),
+            userId = AppConstant.createRequestBody(userId),
+            visitDetailsId = AppConstant.createRequestBody(visitDetailsId),
+            severityOfConcern = AppConstant.createRequestBody(severityOfConcern),
+            concernDetails = AppConstant.createRequestBody(concernDetails),
+            bodyPartType = AppConstant.createRequestBody(bodyPartType),
+            bodyPartNames = AppConstant.createRequestBody(bodyPartNames),
+            fileName = AppConstant.createRequestBody(fileName),
+            createdAt = AppConstant.createRequestBody(createdAt),
+            images = imageParts
         )
     }
 }

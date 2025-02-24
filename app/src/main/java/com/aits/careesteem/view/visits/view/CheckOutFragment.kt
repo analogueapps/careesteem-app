@@ -18,7 +18,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -48,8 +47,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -57,8 +56,11 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.google.maps.android.PolyUtil
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.zxing.ResultPoint
+import com.journeyapps.barcodescanner.BarcodeCallback
+import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.CaptureActivity
+import com.journeyapps.barcodescanner.camera.CameraSettings
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -67,6 +69,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 @AndroidEntryPoint
 class CheckOutFragment : Fragment(), OnMapReadyCallback {
@@ -89,6 +92,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1100
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -425,14 +429,35 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     when (it.position) {
                         0 -> {
                             // Handle Tab 1 selection
-
+                            binding.apply {
+                                layoutMap.visibility = View.VISIBLE
+                                layoutQr.visibility = View.GONE
+                            }
                         }
 
                         1 -> {
                             // Handle Tab 2 selection
-                            openBarCodeScanner()
+                            //openBarCodeScanner()
+                            binding.apply {
+                                layoutMap.visibility = View.GONE
+                                layoutQr.visibility = View.VISIBLE
+                            }
+                            val s = CameraSettings()
+                            s.requestedCameraId = 0 // front/back/etc
+                            binding.qrView.barcodeView.cameraSettings = s
+                            binding.qrView.resume()
+
+                            binding.qrView.decodeSingle(object : BarcodeCallback {
+                                override fun barcodeResult(result: BarcodeResult) {
+                                    Log.d("barcode result:", "$result")
+                                    // do your thing with result
+                                }
+
+                                override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+                            })
                         }
 
+                        else -> {}
                     }
                 }
             }

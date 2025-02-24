@@ -35,6 +35,8 @@ zxingAndroidEmbedded = "4.3.0"
 smartmaterialspinner = "2.0.0"
 androidMapsUtils = "3.10.0"
 playServicesLocation = "21.3.0"
+ccp = "2.7.3"
+libphonenumber = "8.13.55"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -111,6 +113,8 @@ zxing-android-embedded = { group = "com.journeyapps", name = "zxing-android-embe
 smartmaterialspinner = { group = "com.github.chivorns", name = "smartmaterialspinner", version.ref = "smartmaterialspinner" }
 android-maps-utils = { group = "com.google.maps.android", name = "android-maps-utils", version.ref = "androidMapsUtils" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+ccp = { group = "com.hbb20", name = "ccp", version.ref = "ccp" }
+libphonenumber = { group = "com.googlecode.libphonenumber", name = "libphonenumber", version.ref = "libphonenumber" }
 
 
 [plugins]

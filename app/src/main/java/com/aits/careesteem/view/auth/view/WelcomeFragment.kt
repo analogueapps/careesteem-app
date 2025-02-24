@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
@@ -35,6 +37,12 @@ class WelcomeFragment : Fragment() {
     private fun setupViewmodel() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.ccp.setTypeFace(ResourcesCompat.getFont(requireContext(), R.font.lora_regular))
+        binding.ccp.setOnCountryChangeListener {
+            val countryCode = binding.ccp.selectedCountryNameCode // Example: "IN"
+            viewModel.setCountryCode(countryCode)
+        }
 
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

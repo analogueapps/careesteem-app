@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -318,6 +319,7 @@ class AddAlertsFragment : Fragment() {
             dialog.dismiss()
             val bitmap = binding.bodyMapView.getBitmap()
             val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
+            Log.d("FilePath", "File saved at: ${file?.path}")
             file?.let {
                 fileList.add(FileModel(bodyPartType, bodyPartName, it.name, it.path))
                 fileAdapter.notifyDataSetChanged()

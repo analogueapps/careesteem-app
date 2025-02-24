@@ -328,7 +328,7 @@ interface ApiService {
         @Part("body_part_type") bodyPartType: RequestBody,
         @Part("body_part_names") bodyPartNames: RequestBody,
         @Part("file_name") fileName: RequestBody,
+        @Part images: List<MultipartBody.Part>,
         @Part("created_at") createdAt: RequestBody,
-        @Part images: List<MultipartBody.Part?> // for multiple images
     ): Response<JsonObject>
 }

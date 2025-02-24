@@ -55,12 +55,14 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
                         currentPath = Path().apply { moveTo(event.x, event.y) }
                     }
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     if (isDrawing) {
                         currentPath?.lineTo(event.x, event.y)
                         invalidate()
                     }
                 }
+
                 MotionEvent.ACTION_UP -> {
                     if (isDrawing) {
                         currentPath?.let {
@@ -103,7 +105,11 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
 
     private fun selectMarker(touchPoint: PointF): Boolean {
         for (marker in markers) {
-            if (Math.hypot((marker.x - touchPoint.x).toDouble(), (marker.y - touchPoint.y).toDouble()) < 30) {
+            if (Math.hypot(
+                    (marker.x - touchPoint.x).toDouble(),
+                    (marker.y - touchPoint.y).toDouble()
+                ) < 30
+            ) {
                 selectedMarker = marker
                 showEditDeleteDialog()
                 return true
@@ -157,12 +163,28 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
         invalidate()
     }
 
+    //    fun getBitmap(): Bitmap {
+//        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(bitmap)
+//        draw(canvas)
+//        return bitmap
+//    }
     fun getBitmap(): Bitmap {
+        // Create the bitmap with the specified width and height
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        // Create a Canvas object with the bitmap
         val canvas = Canvas(bitmap)
+
+        // Set the background color
+        canvas.drawColor(Color.parseColor("#F0FCFA"))  // Set background color (#F0FCFA in this case)
+
+        // Draw on the canvas
         draw(canvas)
+
         return bitmap
     }
+
 }
 
 

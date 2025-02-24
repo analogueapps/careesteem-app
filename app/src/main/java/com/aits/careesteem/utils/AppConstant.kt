@@ -22,9 +22,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
@@ -203,10 +205,45 @@ object AppConstant {
             e.printStackTrace()
             null
         }
+        // Get the path to the Pictures directory
+//        val picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+//
+//        // Create a new directory "Careesteem" under Pictures if it doesn't exist
+//        val careesteemDir = File(picturesDir, "Careesteem")
+//        if (!careesteemDir.exists()) {
+//            careesteemDir.mkdirs()  // Create the directory if it doesn't exist
+//        }
+//
+//        // Create a file in the "Careesteem" directory
+//        val file = File(careesteemDir, fileName)
+//
+//        var fileOutputStream: FileOutputStream? = null
+//        return try {
+//            fileOutputStream = FileOutputStream(file)
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)  // Compress the bitmap and write it to the file
+//            fileOutputStream.flush()
+//            file  // Return the saved file
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null  // Return null if there was an error
+//        } finally {
+//            try {
+//                fileOutputStream?.close()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     fun createRequestBody(value: String?): RequestBody {
-        return RequestBody.create(MultipartBody.FORM, value.orEmpty())
+        return value?.toRequestBody("text/plain".toMediaTypeOrNull()) ?: "".toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+
+    fun createMultipartBodyParts(files: List<File>, context: Context): List<MultipartBody.Part> {
+        return files.mapNotNull { file ->
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("images", file.name, requestFile)
+        }
     }
 
     private fun createMultipartBodyPart(name: String, uri: Uri?, activity: Activity): MultipartBody.Part? {
@@ -226,8 +263,9 @@ object AppConstant {
     fun uriToFile(context: Context, uri: Uri): File? {
         val contentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            getFileNameFromUri(context = context, uri = uri).toString()
+        val file = File(
+            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            getFileNameFromUri(context, uri).toString()
         )
 
         return try {
