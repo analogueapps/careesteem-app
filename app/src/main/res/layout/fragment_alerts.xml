@@ -42,6 +42,32 @@
                     android:layout_height="wrap_content"
                     tools:targetApi="p" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:id="@+id/recyclerView"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:id="@+id/btnCreateAlert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:fontFamily="@font/arvo_regular"
+                    app:icon="@drawable/ic_icon_plus"
+                    app:iconTintMode="multiply"
+                    android:text="@string/create_an_alert"
+                    android:textAllCaps="false"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    tools:targetApi="p" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
@@ -49,6 +75,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/emptyLayout"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:orientation="vertical"

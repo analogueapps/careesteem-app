@@ -357,7 +357,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCheckOutBinding.inflate(inflater, container, false)
-        setupIntentResult()
+        //setupIntentResult()
         setupWidget()
         setupViewModel()
         return binding.root
@@ -383,7 +383,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("InflateParams")
     private fun setupWidget() {
+        val cameraSettings = CameraSettings().apply {
+            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
+        }
 
+        binding.qrView.barcodeView.cameraSettings = cameraSettings
+
+        binding.qrView.decodeSingle(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult) {
+                Log.d("barcode result:", result.text)
+                // do your thing with result
+                viewModel.verifyQrCode(requireActivity(), result.text)
+            }
+
+            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        })
 
         if (args.action == 0) {
             if (visitData?.placeId.toString().isEmpty()) {
@@ -442,19 +456,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                                 layoutMap.visibility = View.GONE
                                 layoutQr.visibility = View.VISIBLE
                             }
-                            val s = CameraSettings()
-                            s.requestedCameraId = 0 // front/back/etc
-                            binding.qrView.barcodeView.cameraSettings = s
                             binding.qrView.resume()
-
-                            binding.qrView.decodeSingle(object : BarcodeCallback {
-                                override fun barcodeResult(result: BarcodeResult) {
-                                    Log.d("barcode result:", "$result")
-                                    // do your thing with result
-                                }
-
-                                override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
-                            })
                         }
 
                         else -> {}

@@ -64,6 +64,46 @@
             tools:targetApi="p"
             tools:ignore="HardcodedText" />
 
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:id="@+id/allClientNameSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@null"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:fontFamily="@font/arvo_regular"
+            android:text="Visits"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_12ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/visitName"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+            android:drawableTint="@color/black"
+            android:background="@drawable/ic_edittext_light_bg"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:padding="@dimen/_5sdp"
+            android:hint="Select"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:fontFamily="@font/lora_regular"
+            android:textFontWeight="400"
+            android:textSize="@dimen/_11ssp"
+            tools:targetApi="p"
+            tools:ignore="HardcodedText" />
+
         <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -77,7 +117,7 @@
         <androidx.appcompat.widget.AppCompatSpinner
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:id="@+id/allClientNameSpinner"
+            android:id="@+id/allVisitTimeSpinner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@null"/>

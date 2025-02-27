@@ -19,6 +19,8 @@
         <!-- Default Spinner Text Appearance -->
         <item name="android:spinnerItemStyle">@style/SpinnerTextAppearance</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropdownTextAppearance</item>
+        <!-- Default AlertDialog Text Appearance -->
+        <item name="android:alertDialogTheme">@style/CustomAlertDialogTheme</item>
     </style>
 
     <style name="Theme.CareEsteem" parent="Base.Theme.CareEsteem" />
@@ -92,6 +94,23 @@
         <item name="android:fontFamily">@font/lora_regular</item> <!-- Change Font -->
         <item name="fontFamily">@font/lora_regular</item>
         <item name="android:maxLines">5</item> <!-- Allow Full Text Visibility -->
+    </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.Material3.Light.Dialog.Alert">
+        <!-- Title Text Color -->
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <!-- Font for Title -->
+        <item name="android:fontFamily">@font/lora_regular</item>
+        <item name="fontFamily">@font/lora_regular</item>
+        <!-- Item Text Appearance -->
+        <item name="android:itemTextAppearance">@style/CustomDialogItemText</item>
+    </style>
+
+    <!-- Define custom item text appearance -->
+    <style name="CustomDialogItemText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/lora_regular</item>
+        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

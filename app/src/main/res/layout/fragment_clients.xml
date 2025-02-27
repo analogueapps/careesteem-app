@@ -33,6 +33,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
             tools:listitem="@layout/item_client"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

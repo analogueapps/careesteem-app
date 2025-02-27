@@ -119,6 +119,18 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 }
             }
 
+            myCarePlanLayout.setOnClickListener {
+                if(myCarePlanName.tag == "Invisible") {
+                    myCarePlanName.tag = "Visible"
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    carePlanLayout.visibility = View.VISIBLE
+                } else {
+                    myCarePlanName.tag = "Invisible"
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    carePlanLayout.visibility = View.GONE
+                }
+            }
+
             aboutLayout.setOnClickListener {
                 showAboutClient(viewModel.aboutClient.value)
             }

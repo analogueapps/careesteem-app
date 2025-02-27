@@ -20,7 +20,7 @@
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -48,7 +48,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/ic_dialog_bottom_bg"
             android:layout_margin="1dp"
             android:orientation="vertical"

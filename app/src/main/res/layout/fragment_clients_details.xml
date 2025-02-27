@@ -13,10 +13,13 @@
     tools:context=".view.clients.view.ClientsDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:layout_above="@+id/btnCreateUnscheduledVisit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -107,8 +110,6 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/activityAssessment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 app:cardUseCompatPadding="true"
@@ -118,7 +119,7 @@
                 app:strokeWidth="2dp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/activityAssessmentLayout"
+                    android:id="@+id/myCarePlanLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clickable="true"
@@ -127,1139 +128,1188 @@
                     android:padding="@dimen/_8sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/myCarePlanName"
                         android:layout_weight="1"
                         android:singleLine="true"
+                        android:tag="Invisible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lora_regular"
-                        android:text="@string/activity_assessment"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        app:drawableTint="@color/black"
+                        android:text="@string/care_plan"
                         android:textFontWeight="600"
                         android:textSize="@dimen/_11ssp"
                         tools:targetApi="p" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/carePlanLayout"
                 android:visibility="gone"
-                android:id="@+id/activityRiskAssessment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/activityRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/activityAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/activityAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/activity_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/activity_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/behaviourAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/behaviourAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/activityRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/activityRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/behaviour_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/activity_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/behaviourRiskAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/behaviourRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/behaviourAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/behaviourAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/behaviour_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/behaviour_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/breathingAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/breathingAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/behaviourRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/behaviourRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/breathing_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/behaviour_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/clinicalAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/clinicalAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/breathingAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/breathingAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/clinical_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/breathing_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/communicationAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/communicationAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/clinicalAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/clinicalAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/communication_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/clinical_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/continenceAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/continenceAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/communicationAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/communicationAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/continence_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/communication_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/cOSHHRiskAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/cOSHHRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/continenceAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/continenceAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/coshh_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/continence_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/socialRelationshipsAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/socialRelationshipsAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/cOSHHRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/cOSHHRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/cultural_spiritual_amp_social_relationships_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/coshh_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/domesticAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/domesticAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/socialRelationshipsAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/socialRelationshipsAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/domestic_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/cultural_spiritual_amp_social_relationships_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/environmentAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/environmentAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/domesticAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/domesticAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/environment_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/domestic_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/equipmentAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/equipmentAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/environmentAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/environmentAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/equipment_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/environment_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/equipmentRegister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/equipmentRegisterLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/equipmentAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/equipmentAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/equipment_register"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/equipment_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/financialAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/financialAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/equipmentRegister"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/equipmentRegisterLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/financial_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/equipment_register"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/financialRiskAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/financialRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/financialAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/financialAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/financial_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/financial_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/medicationAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/medicationAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/financialRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/financialRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/medication_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/financial_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/medicationRiskAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp"
-                tools:ignore="TooManyViews">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/medicationRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/medicationAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp"
+                    tools:ignore="TooManyViews">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/medicationAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/medication_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/medication_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/mentalHealthAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/mentalHealthAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/medicationRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp"
+                    tools:ignore="TooManyViews">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/medicationRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/mental_health_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/medication_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/movingHandlingAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/movingHandlingAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/mentalHealthAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/mentalHealthAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/moving_amp_handling_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/mental_health_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/nutritionHydrationAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/nutritionHydrationAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/movingHandlingAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/movingHandlingAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/nutrition_amp_hydration_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/moving_amp_handling_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/oralCareAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/oralCareAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/nutritionHydrationAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/nutritionHydrationAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/oral_care_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/nutrition_amp_hydration_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/painAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/painAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/oralCareAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/oralCareAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/pain_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/oral_care_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/personalHygieneAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/personalHygieneAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/painAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/painAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/personal_hygiene_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/pain_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/selfAdministrationRiskAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/selfAdministrationRiskAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/personalHygieneAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/personalHygieneAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/self_administration_risk_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/personal_hygiene_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/skinAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/skinAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/selfAdministrationRiskAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/selfAdministrationRiskAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/skin_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/self_administration_risk_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="gone"
-                android:id="@+id/sleepingAssessment"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/white"
-                app:strokeColor="@color/colorPrimary"
-                app:cardCornerRadius="@dimen/_5sdp"
-                app:strokeWidth="2dp">
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/sleepingAssessmentLayout"
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/skinAssessment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_8sdp">
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="1"
-                        android:singleLine="true"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/skinAssessmentLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
-                        android:text="@string/sleeping_assessment"
-                        android:textFontWeight="600"
-                        android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_export"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/skin_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-            </com.google.android.material.card.MaterialCardView>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.button.MaterialButton
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:id="@+id/btnCreateUnscheduledVisit"
-                android:layout_centerInParent="true"
-                android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:fontFamily="@font/arvo_regular"
-                android:text="@string/create_an_unscheduled_visit"
-                android:textAllCaps="false"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_12ssp"
-                tools:targetApi="p" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="gone"
+                    android:id="@+id/sleepingAssessment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="#E9F9F7"
+                    app:strokeColor="#E9F9F7"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:strokeWidth="2dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/sleepingAssessmentLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lora_regular"
+                            android:text="@string/sleeping_assessment"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_11ssp"
+                            tools:targetApi="p" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_export"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/btnCreateUnscheduledVisit"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/arvo_regular"
+        android:text="@string/create_an_unscheduled_visit"
+        android:textAllCaps="false"
+        android:textFontWeight="400"
+        android:textSize="@dimen/_12ssp"
+        tools:targetApi="p" />
 
 </RelativeLayout>

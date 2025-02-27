@@ -23,6 +23,7 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -51,6 +52,15 @@ class AddAlertsViewModel @Inject constructor(
 
     private val _clientsList = MutableLiveData<List<ClientNameListResponse.Data>>()
     val clientsList: LiveData<List<ClientNameListResponse.Data>> get() = _clientsList
+
+    private val _visitsList = MutableLiveData<List<VisitListResponse.Data>>()
+    val visitsList: LiveData<List<VisitListResponse.Data>> get() = _visitsList
+
+    private val _filterVisitsList = MutableLiveData<List<VisitListResponse.Data>>()
+    val filterVisitsList: LiveData<List<VisitListResponse.Data>> get() = _filterVisitsList
+
+    private val _alertAdded = MutableLiveData<Boolean>().apply { value = false }
+    val alertAdded: LiveData<Boolean> get() = _alertAdded
 
     fun getClientsList(activity: Activity) {
         _clientsList.value = emptyList()
@@ -130,6 +140,49 @@ class AddAlertsViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     AlertUtils.showToast(activity, "Alert added successfully")
+                    _alertAdded.value = true
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                    _alertAdded.value = false
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getFilterVisits(clientId: Int) {
+        _filterVisitsList.value = _visitsList.value?.filter { it.clientId == clientId }.orEmpty()
+    }
+
+    fun getVisits(activity: Activity) {
+        _visitsList.value = emptyList()
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.getVisitList(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    id = 506,
+                    visitDate = "2025-02-03"
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { list ->
+                        _visitsList.value = list.data
+                    }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }

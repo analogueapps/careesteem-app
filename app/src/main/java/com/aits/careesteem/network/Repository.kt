@@ -8,6 +8,7 @@ package com.aits.careesteem.network
 
 import android.content.Context
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
@@ -506,6 +507,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             fileName = AppConstant.createRequestBody(fileName),
             createdAt = AppConstant.createRequestBody(createdAt),
             images = imageParts
+        )
+    }
+
+    suspend fun getAlertsList(
+        userId: Int,
+        hashToken: String
+    ): Response<AlertListResponse> {
+        return apiService.getAlertsList(
+            userId = userId,
+            hashToken = hashToken
         )
     }
 }

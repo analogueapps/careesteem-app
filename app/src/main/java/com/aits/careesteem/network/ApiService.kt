@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.network
 
+import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
@@ -331,4 +332,10 @@ interface ApiService {
         @Part images: List<MultipartBody.Part>,
         @Part("created_at") createdAt: RequestBody,
     ): Response<JsonObject>
+
+    @GET("alert-get-list/{userId}")
+    suspend fun getAlertsList(
+        @Path("userId") userId: Int,
+        @Query("hash_token") hashToken: String,
+    ): Response<AlertListResponse>
 }

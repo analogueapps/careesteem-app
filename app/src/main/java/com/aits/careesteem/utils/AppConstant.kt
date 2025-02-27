@@ -33,6 +33,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -42,6 +43,9 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 object AppConstant {
     // def Values
@@ -125,6 +129,27 @@ object AppConstant {
 
             // Define the output format
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
+
+            // Format the date-time
+            val formattedDate = localDateTime.format(formatter)
+            return formattedDate
+        } catch (e: Exception) {
+            println(e)
+            return "00/00/0000 at 00:00"
+        }
+    }
+
+    @SuppressLint("NewApi")
+    fun alertsListTimer(input: String): String {
+        try {
+            // Parse the string as an OffsetDateTime (since it has 'Z' timezone)
+            val offsetDateTime = OffsetDateTime.parse(input)
+
+            // Convert to LocalDateTime (ignoring UTC offset)
+            val localDateTime = offsetDateTime.toLocalDateTime()
+
+            // Define the output format
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' hh:mm a")
 
             // Format the date-time
             val formattedDate = localDateTime.format(formatter)
