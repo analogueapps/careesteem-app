@@ -44,7 +44,7 @@ class WelcomeViewModel @Inject constructor(
 
     val phoneNumber = MutableLiveData<String>()
     val phoneNumberError = MutableLiveData<String?>()
-    private val countryCode = MutableLiveData<String>("GB") // Default: United Kingdom (can be changed)
+    private val countryCode = MutableLiveData<Int>(219)
 
     val isRequestOtpApiCall = MutableLiveData<Boolean>()
 
@@ -52,16 +52,16 @@ class WelcomeViewModel @Inject constructor(
     private val _sendOtpUserLoginResponse = MutableLiveData<SendOtpUserLoginResponse?>()
     val sendOtpUserLoginResponse: LiveData<SendOtpUserLoginResponse?> get() = _sendOtpUserLoginResponse
 
-    fun setCountryCode(newCode: String) {
+    fun setCountryCode(newCode: Int) {
         countryCode.value = newCode
-        validatePhoneNumber(phoneNumber.value ?: "", newCode)
+        //validatePhoneNumber(phoneNumber.value ?: "", "")
     }
 
     // Method to update field
     fun setPhoneNumber(newPhone: CharSequence, start: Int, before: Int, count: Int) {
         phoneNumber.value = newPhone.toString()
         //phoneNumberError.value = validatePhoneNumber(newPhone.toString())
-        validatePhoneNumber(newPhone.toString(), countryCode.value ?: "GB")
+        validatePhoneNumber(newPhone.toString(), "")
     }
 
     private fun validatePhoneNumber(number: String, country: String) {
@@ -73,17 +73,17 @@ class WelcomeViewModel @Inject constructor(
             phoneNumberError.value = "Phone number must contain only digits"
             return
         }
-        val phoneUtil = PhoneNumberUtil.getInstance()
-        try {
-            val parsedNumber = phoneUtil.parse(number, country)
-            if (phoneUtil.isValidNumber(parsedNumber)) {
-                phoneNumberError.value = null // Valid phone number
-            } else {
-                phoneNumberError.value = "Invalid phone number"
-            }
-        } catch (e: NumberParseException) {
-            phoneNumberError.value = "Invalid format"
-        }
+//        val phoneUtil = PhoneNumberUtil.getInstance()
+//        try {
+//            val parsedNumber = phoneUtil.parse(number, country)
+//            if (phoneUtil.isValidNumber(parsedNumber)) {
+//                phoneNumberError.value = null // Valid phone number
+//            } else {
+//                phoneNumberError.value = "Invalid phone number"
+//            }
+//        } catch (e: NumberParseException) {
+//            phoneNumberError.value = "Invalid format"
+//        }
     }
 
     // Method to handle error field
@@ -125,7 +125,7 @@ class WelcomeViewModel @Inject constructor(
 
                 val response = repository.sendOtpUserLogin(
                     contactNumber = phoneNumber.value!!,
-                    telephoneCodes = 96
+                    telephoneCodes = countryCode.value!!
                 )
 
                 if (response.isSuccessful) {

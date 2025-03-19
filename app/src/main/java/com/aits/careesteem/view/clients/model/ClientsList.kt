@@ -21,5 +21,6 @@ data class ClientsList(
         val profile_photo: String,
         val created_at: String,
         val place_id: String,
+        val radius: Any,
     )
 }

@@ -173,9 +173,13 @@ class AddAlertsViewModel @Inject constructor(
                     return@launch
                 }
 
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.getVisitList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    id = 506,
+                    id = userData.id,
                     visitDate = "2025-02-03"
                 )
 

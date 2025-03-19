@@ -180,7 +180,7 @@ class PasscodeViewModel @Inject constructor(
                 val response = repository.forgotPasscode(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
-                    telephoneCodes = 96
+                    telephoneCodes = sharedPreferences.getInt(SharedPrefConstant.TELEPHONE_CODE, 0)
                 )
 
                 if (response.isSuccessful) {

@@ -17,6 +17,9 @@ import android.os.Environment
 import android.provider.OpenableColumns
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import com.aits.careesteem.view.auth.model.CountryList
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -179,6 +182,15 @@ object AppConstant {
         return jsonObject.getJSONArray("statuses").let { jsonArray ->
             List(jsonArray.length()) { jsonArray.getString(it) }
         }
+    }
+
+    fun getCountryList(context: Context): List<CountryList> {
+        val jsonString = loadJsonFromAssets(context, "country.json")
+        // Parse JSON string into a list of Country objects
+        val gson = Gson()
+        val countryListType = object : TypeToken<List<CountryList>>() {}.type
+        val countries: List<CountryList> = gson.fromJson(jsonString, countryListType)
+        return countries
     }
 
     @SuppressLint("NewApi", "DefaultLocale")

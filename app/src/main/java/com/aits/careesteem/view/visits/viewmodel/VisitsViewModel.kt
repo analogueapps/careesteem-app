@@ -17,7 +17,9 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -48,7 +50,7 @@ class VisitsViewModel @Inject constructor(
     private val _completedVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val completedVisits: LiveData<List<VisitListResponse.Data>> get() = _completedVisits
 
-    fun getVisits(activity: Activity) {
+    fun getVisits(activity: Activity, visitDate: String) {
         _visitsList.value = emptyList()
         _scheduledVisits.value = emptyList()
         _upcomingVisits.value = emptyList()
@@ -62,10 +64,14 @@ class VisitsViewModel @Inject constructor(
                     return@launch
                 }
 
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.getVisitList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    id = 506,
-                    visitDate = "2025-02-03"
+                    id = userData.id,
+                    visitDate = visitDate
                 )
 
                 if (response.isSuccessful) {

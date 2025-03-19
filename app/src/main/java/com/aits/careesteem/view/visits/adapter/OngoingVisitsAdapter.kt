@@ -69,6 +69,7 @@ class OngoingVisitsAdapter(
         // Hold a reference to the coroutine Job for cancellation, if needed.
         private var timerJob: Job? = null
 
+        @SuppressLint("SetTextI18n")
         fun bind(data: VisitListResponse.Data) {
             binding.apply {
                 tvClientName.text = data.clientName
@@ -87,6 +88,18 @@ class OngoingVisitsAdapter(
 //                        tvPlanTime.text = remainingText
 //                    }
 //                }
+
+//                if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
+//                    btnCheckout.text = "Check out"
+//                } else {
+//                    btnCheckout.text = "Check in"
+//                }
+
+                if(data.uatId != 0) {
+                    btnCheckout.text = "Check out"
+                } else {
+                    btnCheckout.text = "Check in"
+                }
 
                 layout.setOnClickListener {
                     ongoingItemItemClick.ongoingItemItemClicked(data)

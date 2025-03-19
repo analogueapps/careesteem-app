@@ -226,6 +226,15 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                         carerNotes = binding.medicationNotes.text.toString()
                     )
                 }
+                "PRN" -> {
+                    viewModel.medicationPrn(
+                        activity = requireActivity(),
+                        visitDetailsId = id.toString(),
+                        medicationDetails = data,
+                        status = binding.medicationStatus.text.toString(),
+                        carerNotes = binding.medicationNotes.text.toString()
+                    )
+                }
                 else -> {
                     AlertUtils.showToast(requireActivity(), "Something went wrong")
                 }

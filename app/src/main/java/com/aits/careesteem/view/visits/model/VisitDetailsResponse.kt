@@ -1,0 +1,36 @@
+package com.aits.careesteem.view.visits.model
+
+data class VisitDetailsResponse(
+    val `data`: List<Data>,
+    val message: String,
+    val statusCode: Int
+) {
+    data class Data(
+        val TotalActualTimeDiff: List<String>,
+        val actualEndTime: List<String>,
+        val actualStartTime: List<String>,
+        val chooseSessions: Any,
+        val clientAddress: String,
+        val clientId: Int,
+        val clientName: String,
+        val latitude: Any,
+        val longitude: Any,
+        val placeId: String,
+        val plannedEndTime: String,
+        val plannedStartTime: String,
+        val profile_photo: List<String>,
+        val profile_photo_name: List<String>,
+        val radius: Any,
+        val sessionTime: String,
+        val sessionType: String,
+        val totalPlannedTime: String,
+        val uatId: Int,
+        val userId: String,
+        val userName: List<String>,
+        val usersRequired: Any,
+        val visitDate: String,
+        val visitDetailsId: Int,
+        val visitStatus: String,
+        val visitType: String
+    )
+}

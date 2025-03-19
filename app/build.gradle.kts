@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.ccp)
     implementation(libs.libphonenumber)
+    implementation(libs.play.services.auth)
+    implementation(libs.play.services.auth.api.phone)
 
     // Testing dependencies
     testImplementation(libs.junit)

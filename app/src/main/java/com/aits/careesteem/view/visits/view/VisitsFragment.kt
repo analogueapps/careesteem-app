@@ -75,7 +75,6 @@ class VisitsFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getVisits(requireActivity())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -105,6 +104,7 @@ class VisitsFragment : Fragment(),
         binding.rvCompletedVisits.adapter = completeVisitsAdapter
     }
 
+
     private fun setupSwipeRefresh() {
         val coroutineScope = SafeCoroutineScope(SupervisorJob() + Dispatchers.Main)
         binding.swipeRefresh.setOnRefreshListener {
@@ -112,7 +112,7 @@ class VisitsFragment : Fragment(),
                 try {
                     delay(2000)
                     binding.swipeRefresh.isRefreshing = AppConstant.FALSE
-                    viewModel.getVisits(requireActivity())
+                    callApi()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -205,6 +205,13 @@ class VisitsFragment : Fragment(),
         } else {
             startOfWeek // Otherwise, select the first date of the week (Monday)
         }
+        //Log.d("VisitsFragment", "Selected Date: $selectedDate")
+        callApi()
+    }
+
+    @SuppressLint("NewApi")
+    private fun callApi() {
+        viewModel.getVisits(requireActivity(), selectedDate.toString())
     }
 
     @SuppressLint("SetTextI18n")
@@ -255,6 +262,7 @@ class VisitsFragment : Fragment(),
                 Log.d("VisitsFragment", "Date clicked: $dayDate")
                 selectedDate = dayDate // Update the selected date
                 updateCalendar(currentStartOfWeek) // Refresh the calendar
+                callApi()
             }
 
             // Add the day view to the container
@@ -332,39 +340,30 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
-        data.profile_photo = emptyList()
-        val gson = Gson()
-        val dataString = gson.toJson(data)
         val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-            visitData = dataString,
+            visitDetailsId = data.visitDetailsId,
             action = 0
         )
         findNavController().navigate(direction)
     }
 
     override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
-        data.profile_photo = emptyList()
-        val gson = Gson()
-        val dataString = gson.toJson(data)
         if(data.visitStatus == "Unscheduled") {
             val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
-                visitData = dataString
+                visitDetailsId = data.visitDetailsId
             )
             findNavController().navigate(direction)
         } else {
             val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
-                visitData = dataString
+                visitDetailsId = data.visitDetailsId
             )
             findNavController().navigate(direction)
         }
     }
 
     override fun ongoingCheckoutItemItemClicked(data: VisitListResponse.Data) {
-        data.profile_photo = emptyList()
-        val gson = Gson()
-        val dataString = gson.toJson(data)
         val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-            visitData = dataString,
+            visitDetailsId = data.visitDetailsId,
             action = 1
         )
         findNavController().navigate(direction)

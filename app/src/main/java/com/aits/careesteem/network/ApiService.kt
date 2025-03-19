@@ -24,6 +24,7 @@ import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
@@ -95,6 +96,13 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Query("visit_date") visitDate: String
     ): Response<VisitListResponse>
+
+    @GET("get-visit-details/{visitDetailsId}/{userId}")
+    suspend fun getVisitDetails(
+        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("userId") userId: Int,
+        @Query("hash_token") hashToken: String
+    ): Response<VisitDetailsResponse>
 
     @GET("get-all-clients")
     suspend fun getClientsList(
@@ -258,7 +266,7 @@ interface ApiService {
     ): Response<MedicationDetailsListResponse>
 
     @FormUrlEncoded
-    @PUT("medication-blister-pack/{scheduledDetailsId}")
+    @PUT("medication-scheduled/{scheduledDetailsId}")
     suspend fun medicationScheduledDetails(
         @Path("scheduledDetailsId") scheduledDetailsId: Int,
         @Query("hash_token") hashToken: String,
@@ -271,6 +279,26 @@ interface ApiService {
     suspend fun medicationBpDetails(
         @Path("blisterPackDetailsId") blisterPackDetailsId: Int,
         @Query("hash_token") hashToken: String,
+        @Field("carer_notes") carerNotes: String,
+        @Field("status") status: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("medication-prn-details")
+    suspend fun medicationPrnDetails(
+        @Query("hash_token") hashToken: String,
+        @Field("client_id") clientId: Int,
+        @Field("medication_id") medicationId: Int,
+        @Field("prn_id") prnId: Int,
+        @Field("dose_per") doesPer: Int,
+        @Field("doses") doses: Int,
+        @Field("time_frame") timeFrame: String,
+        @Field("prn_offered") prnOffered: String,
+        @Field("prn_be_given") prnBeGiven: String,
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("user_id") userId: Int,
+        @Field("medication_time") medicationTime: String,
+        @Field("created_at") createdAt: String,
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
     ): Response<JsonObject>

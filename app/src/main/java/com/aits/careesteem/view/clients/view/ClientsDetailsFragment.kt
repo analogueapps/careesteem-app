@@ -150,34 +150,34 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 dialog.dismiss()
                 //viewModel.createUnscheduledVisit(requireActivity(), clientData.id)
 
+//                val gson = Gson()
+//                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+//                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+//
+//
+//                val convertVisit = listOf(
+//                    VisitListResponse.Data(
+//                        clientId = clientData.id,
+//                        visitDetailsId = -1,
+//                        clientAddress = clientData.full_address,
+//                        clientName = clientData.full_name,
+//                        plannedEndTime = "",
+//                        plannedStartTime = "",
+//                        totalPlannedTime = "",
+//                        userId = "[${userData.id}]",
+//                        usersRequired = 1,
+//                        visitDate = "",
+//                        latitude = 0,
+//                        longitude = 0,
+//                        radius = 0,
+//                        placeId = clientData.place_id,
+//                        visitStatus = "Unscheduled"
+//                    )
+//                )
                 val gson = Gson()
-                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
-
-
-                val convertVisit = listOf(
-                    VisitListResponse.Data(
-                        clientId = clientData.id,
-                        visitDetailsId = -1,
-                        clientAddress = clientData.full_address,
-                        clientName = clientData.full_name,
-                        plannedEndTime = "",
-                        plannedStartTime = "",
-                        totalPlannedTime = "",
-                        userId = "[${userData.id}]",
-                        usersRequired = 1,
-                        visitDate = "",
-                        latitude = 0,
-                        longitude = 0,
-                        radius = 0,
-                        placeId = clientData.place_id,
-                        visitStatus = "Unscheduled"
-                    )
-                )
-
-                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToCheckOutFragment(
-                    visitData = Gson().toJson(convertVisit[0]),
-                    action = 0
+                val dataString = gson.toJson(clientData)
+                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
+                    clinetData = dataString
                 )
                 findNavController().navigate(action)
             }
@@ -626,36 +626,36 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             }
         }
 
-        // add uv visit
-        viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                if(!isRedirect) {
-                    isRedirect = AppConstant.TRUE
-                    val convertVisit = listOf(
-                        VisitListResponse.Data(
-                            clientId = clientData.id,
-                            visitDetailsId = data.visit_details_id,
-                            clientAddress = clientData.full_address,
-                            clientName = clientData.full_name,
-                            plannedEndTime = "",
-                            plannedStartTime = "",
-                            totalPlannedTime = "",
-                            userId = "[${data.user_id}]",
-                            usersRequired = 1,
-                            visitDate = data.created_at.substring(0, 10),
-                            latitude = 0,
-                            longitude = 0,
-                            radius = 0,
-                            placeId = "",
-                            visitStatus = "Unscheduled"
-                        )
-                    )
-
-                    val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUnscheduledVisitsDetailsFragmentFragment(Gson().toJson(convertVisit[0]))
-                    findNavController().navigate(action)
-                }
-            }
-        }
+//        // add uv visit
+//        viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
+//            if (data != null) {
+//                if(!isRedirect) {
+//                    isRedirect = AppConstant.TRUE
+//                    val convertVisit = listOf(
+//                        VisitListResponse.Data(
+//                            clientId = clientData.id,
+//                            visitDetailsId = data.visit_details_id,
+//                            clientAddress = clientData.full_address,
+//                            clientName = clientData.full_name,
+//                            plannedEndTime = "",
+//                            plannedStartTime = "",
+//                            totalPlannedTime = "",
+//                            userId = "[${data.user_id}]",
+//                            usersRequired = 1,
+//                            visitDate = data.created_at.substring(0, 10),
+//                            latitude = 0,
+//                            longitude = 0,
+//                            radius = 0,
+//                            placeId = "",
+//                            visitStatus = "Unscheduled"
+//                        )
+//                    )
+//
+//                    val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUnscheduledVisitsDetailsFragmentFragment(Gson().toJson(convertVisit[0]))
+//                    findNavController().navigate(action)
+//                }
+//            }
+//        }
 
     }
 

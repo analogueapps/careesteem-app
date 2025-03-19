@@ -17,14 +17,19 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -148,6 +153,68 @@ class MedicationViewModel @Inject constructor(
                     scheduledDetailsId = scheduledDetailsId,
                     status = status,
                     carerNotes = carerNotes
+                )
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonElement: JsonElement? = responseBody
+                    val jsonObject = JSONObject(jsonElement.toString())
+                    AlertUtils.showToast(activity, jsonObject.optString("message"))
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                getMedicationDetails(
+                    activity = activity,
+                    visitDetailsId = visitDetailsId
+                )
+            }
+        }
+    }
+
+    fun medicationPrn(activity: Activity, visitDetailsId: String, medicationDetails: MedicationDetailsListResponse.Data, status: String, carerNotes: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val currentTime = Calendar.getInstance()
+                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
+                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
+                val createdAt = createdAtFormat.format(currentTime.time)
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.medicationPrnDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    clientId = medicationDetails.client_id,
+                    medicationId = medicationDetails.medication_id,
+                    prnId = medicationDetails.prn_id,
+                    doesPer = medicationDetails.dose_per,
+                    doses = medicationDetails.doses,
+                    timeFrame = medicationDetails.time_frame,
+                    prnOffered = medicationDetails.prn_offered,
+                    prnBeGiven = medicationDetails.prn_be_given,
+                    visitDetailsId = visitDetailsId.toInt(),
+                    userId = userData.id,
+                    medicationTime = "",
+                    createdAt = createdAt,
+                    carerNotes = carerNotes,
+                    status = status
                 )
 
                 if (response.isSuccessful) {

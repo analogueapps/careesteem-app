@@ -54,6 +54,10 @@
         <action
             android:id="@+id/action_clientsDetailsFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
+        <action
+            android:id="@+id/action_clientsDetailsFragment_to_uvCheckInFragment"
+            app:destination="@id/uvCheckInFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -66,8 +70,8 @@
         android:label="fragment_ongoing_visits_details"
         tools:layout="@layout/fragment_ongoing_visits_details" >
         <argument
-            android:name="visitData"
-            app:argType="string" />
+            android:name="visitDetailsId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_ongoingVisitsDetailsFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -83,8 +87,8 @@
         android:label="fragment_unscheduled_visits_details_fragment"
         tools:layout="@layout/fragment_unscheduled_visits_details_fragment" >
         <argument
-            android:name="visitData"
-            app:argType="string" />
+            android:name="visitDetailsId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_unscheduledVisitsDetailsFragmentFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -95,8 +99,8 @@
         android:label="fragment_check_out"
         tools:layout="@layout/fragment_check_out" >
         <argument
-            android:name="visitData"
-            app:argType="string" />
+            android:name="visitDetailsId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_checkOutFragment_to_ongoingVisitsDetailsFragment"
             app:destination="@id/ongoingVisitsDetailsFragment" />
@@ -112,4 +116,17 @@
         android:name="com.aits.careesteem.view.alerts.view.AddAlertsFragment"
         android:label="fragment_add_alerts"
         tools:layout="@layout/fragment_add_alerts" />
+    <fragment
+        android:id="@+id/uvCheckInFragment"
+        android:name="com.aits.careesteem.view.visits.view.UvCheckInFragment"
+        android:label="fragment_uv_check_in"
+        tools:layout="@layout/fragment_uv_check_in" >
+        <argument
+            android:name="clinetData"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_uvCheckInFragment_to_unscheduledVisitsDetailsFragmentFragment"
+            app:destination="@id/unscheduledVisitsDetailsFragmentFragment"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

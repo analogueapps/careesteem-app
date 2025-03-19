@@ -26,6 +26,7 @@ import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import okhttp3.MediaType
@@ -33,6 +34,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.Query
 import java.io.File
 import javax.inject.Inject
 
@@ -120,6 +123,18 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             id = id,
             visitDate = visitDate,
+        )
+    }
+
+    suspend fun getVisitDetails(
+        hashToken: String,
+        visitDetailsId: Int,
+        userId: Int,
+    ): Response<VisitDetailsResponse> {
+        return apiService.getVisitDetails(
+            hashToken = hashToken,
+            visitDetailsId = visitDetailsId,
+            userId = userId,
         )
     }
 
@@ -406,6 +421,42 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             blisterPackDetailsId = blisterPackDetailsId,
             status = status,
             carerNotes = carerNotes
+        )
+    }
+
+    suspend fun medicationPrnDetails(
+        hashToken: String,
+        clientId: Int,
+        medicationId: Int,
+        prnId: Int,
+        doesPer: Int,
+        doses: Int,
+        timeFrame: String,
+        prnOffered: String,
+        prnBeGiven: String,
+        visitDetailsId: Int,
+        userId: Int,
+        medicationTime: String,
+        createdAt: String,
+        carerNotes: String,
+        status: String,
+    ): Response<JsonObject> {
+        return apiService.medicationPrnDetails(
+            hashToken = hashToken,
+            clientId = clientId,
+            medicationId = medicationId,
+            prnId = prnId,
+            doesPer = doesPer,
+            doses = doses,
+            timeFrame = timeFrame,
+            prnOffered = prnOffered,
+            prnBeGiven = prnBeGiven,
+            visitDetailsId = visitDetailsId,
+            userId = userId,
+            medicationTime = medicationTime,
+            createdAt = createdAt,
+            carerNotes = carerNotes,
+            status = status
         )
     }
 

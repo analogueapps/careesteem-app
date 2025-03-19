@@ -1,7 +1,12 @@
 package com.aits.careesteem.view.auth.view
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -14,6 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -26,15 +32,18 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.SmsBroadcastReceiver
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,6 +57,9 @@ class VerifyOtpFragment : Fragment() {
     lateinit var editor: SharedPreferences.Editor
 
     private var userData: SendOtpUserLoginResponse.Data? = null
+
+    private var smsBroadcastReceiver: SmsBroadcastReceiver? = null
+    private val REQ_USER_CONSENT = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +75,82 @@ class VerifyOtpFragment : Fragment() {
         binding.tvMaskedNumber.text = AppConstant.maskPhoneNumber(userData?.contact_number ?: "1234567890")
         setupViewmodel()
         setupWidgets()
+        startSmsUserConsent()
         return binding.root
+    }
+
+    private fun startSmsUserConsent() {
+        val client = SmsRetriever.getClient(requireActivity())
+        //We can add sender phone number or leave it blank
+        // I'm adding null here
+        //We can add sender phone number or leave it blank
+        // I'm adding null here
+        client.startSmsUserConsent(null).addOnSuccessListener { }.addOnFailureListener {
+            Toast.makeText(
+                requireContext(),
+                "On OnFailure",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun registerBroadcastReceiver() {
+        smsBroadcastReceiver = SmsBroadcastReceiver()
+        smsBroadcastReceiver!!.smsBroadcastReceiverListener =
+            object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
+                override fun onSuccess(intent: Intent) {
+                    startActivityForResult(intent, REQ_USER_CONSENT)
+                }
+
+                override fun onFailure() {}
+            }
+        val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            activity?.registerReceiver(
+                smsBroadcastReceiver, intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            activity?.registerReceiver(smsBroadcastReceiver, intentFilter)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerBroadcastReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.unregisterReceiver(smsBroadcastReceiver)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_USER_CONSENT) {
+            if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
+                //That gives all message to us.
+                // We need to get the code from inside with regex
+                val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                //                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                getOtpFromMessage(message)
+            }
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun getOtpFromMessage(message: String?) {
+        // This will match any 6 digit number in the message
+        try {
+            val pattern = Pattern.compile("(|^)\\d{6}")
+            val matcher = pattern.matcher(message)
+            if (matcher.find()) {
+                binding.etOtp.setText(matcher.group(0)) //ur otp view
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun setupWidgets() {

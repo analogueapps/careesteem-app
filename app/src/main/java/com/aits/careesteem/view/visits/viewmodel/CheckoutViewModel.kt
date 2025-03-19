@@ -126,7 +126,7 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun updateVisitCheckOut(activity: Activity, actualEndTime: String) {
+    fun updateVisitCheckOut(activity: Activity, actualEndTime: String, checkInId: Int) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -155,7 +155,7 @@ class CheckoutViewModel @Inject constructor(
 
                 val response = repository.updateVisitCheckout(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    checkInId = sharedPreferences.getInt(SharedPrefConstant.CHECK_IN_ID, -1),
+                    checkInId = checkInId,
                     actualEndTime = actualEndTime,
                     updatedAt = createdAt
                 )
