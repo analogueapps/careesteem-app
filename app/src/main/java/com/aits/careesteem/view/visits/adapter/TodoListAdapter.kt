@@ -71,10 +71,10 @@ class TodoListAdapter(
                         background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
                         backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
                     }
-                    else -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
-                    }
+//                    else -> todoStatus.apply {
+//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+//                    }
                 }
 
                 layout.setOnClickListener {

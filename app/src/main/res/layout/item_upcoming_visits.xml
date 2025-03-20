@@ -97,6 +97,7 @@
                 android:layout_height="match_parent"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGetDirection"
                 android:layout_gravity="center"
                 app:backgroundTint="@null"
                 android:background="@drawable/ic_direction_background"

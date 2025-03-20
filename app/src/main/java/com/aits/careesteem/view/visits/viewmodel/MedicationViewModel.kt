@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -29,6 +30,7 @@ import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -67,9 +69,7 @@ class MedicationViewModel @Inject constructor(
 
                 val response = repository.getMedicationDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    //taskId = taskId
-                    //visitDetailsId = "2565"
-                    visitDetailsId = "2399"
+                    visitDetailsId = visitDetailsId
                 )
 
                 if (response.isSuccessful) {
@@ -190,11 +190,6 @@ class MedicationViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -212,7 +207,7 @@ class MedicationViewModel @Inject constructor(
                     visitDetailsId = visitDetailsId.toInt(),
                     userId = userData.id,
                     medicationTime = "",
-                    createdAt = createdAt,
+                    createdAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT(),
                     carerNotes = carerNotes,
                     status = status
                 )

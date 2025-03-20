@@ -58,8 +58,7 @@ class ToDoViewModel @Inject constructor(
 
                 val response = repository.getToDoList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    //taskId = taskId
-                    visitDetailsId = "2855"
+                    visitDetailsId = visitDetailsId
                 )
 
                 if (response.isSuccessful) {

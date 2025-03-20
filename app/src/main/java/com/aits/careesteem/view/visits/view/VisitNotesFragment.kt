@@ -169,6 +169,7 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             viewModel.updateVisitNotes(
                 activity = requireActivity(),
                 visitDetailsId = id.toString(),
+                createdByUserid = data.createdByUserId,
                 visitNotesId = data.id,
                 visitNotes = binding.visitNotes.text.toString().trim()
             )

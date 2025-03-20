@@ -492,26 +492,30 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateVisitCheckout(
         hashToken: String,
-        checkInId: Int,
+        userId: Int,
+        visitDetailsId: Int,
         actualEndTime: String,
+        status: String,
         updatedAt: String
     ): Response<UpdateVisitCheckoutResponse> {
         return apiService.updateVisitCheckout(
             hashToken = hashToken,
-            checkInId = checkInId,
+            userId = userId,
+            visitDetailsId = visitDetailsId,
             actualEndTime = actualEndTime,
+            status = status,
             updatedAt = updatedAt
         )
     }
 
     suspend fun verifyQrCode(
         hashToken: String,
-        userId: Int,
+        clientId: Int,
         qrcodeToken: String
     ): Response<JsonObject> {
         return apiService.verifyQrCode(
             hashToken = hashToken,
-            userId = userId,
+            clientId = clientId,
             qrcodeToken = qrcodeToken
         )
     }

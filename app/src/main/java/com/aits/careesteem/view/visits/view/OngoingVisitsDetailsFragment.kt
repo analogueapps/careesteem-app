@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.databinding.FragmentOngoingVisitsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.visits.adapter.ViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
@@ -74,6 +75,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupCardData(data: VisitDetailsResponse.Data) {
         // Hold a reference to the coroutine Job for cancellation, if needed.
         var timerJob: Job? = null
@@ -96,13 +98,16 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // Cancel any previous timer if this view is recycled
             timerJob?.cancel()
 
-            // Start the countdown timer if plannedEndTime is available.
-            // (Assumes data.plannedEndTime is an ISO 8601 string)
-//            if (visitData?.plannedEndTime?.isNotEmpty() == true) {
-//                timerJob = startCountdownTimer(visitData?.plannedEndTime.toString()) { remainingText ->
-//                    tvPlanTime.text = remainingText
-//                }
-//            }
+            if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
+                btnCheckout.text = "Check out"
+                timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
+                    println("Remaining Time: $remainingTime")
+                    tvPlanTime.text = remainingTime
+                }
+            } else {
+                btnCheckout.text = "Check in"
+                tvPlanTime.text = "00:00"
+            }
 
             val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString())
             binding.viewPager.adapter = adapter

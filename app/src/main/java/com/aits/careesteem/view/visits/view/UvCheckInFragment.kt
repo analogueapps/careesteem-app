@@ -132,7 +132,19 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         // add uv visit
         viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                viewModel.addVisitCheckIn(requireActivity(), data.client_id, data.visit_details_id)
+                //viewModel.addVisitCheckIn(requireActivity(), data.client_id, data.visit_details_id)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(
+                        R.id.uvCheckInFragment,
+                        true
+                    ) // This removes CheckOutFragment from the back stack
+                    .build()
+
+                val direction =
+                    UvCheckInFragmentDirections.actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
+                        visitDetailsId = data.visit_details_id
+                    )
+                findNavController().navigate(direction, navOptions)
             }
         }
 
@@ -140,7 +152,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             if (data != null) {
                 val navOptions = NavOptions.Builder()
                     .setPopUpTo(
-                        R.id.checkOutFragment,
+                        R.id.uvCheckInFragment,
                         true
                     ) // This removes CheckOutFragment from the back stack
                     .build()
@@ -166,7 +178,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             override fun barcodeResult(result: BarcodeResult) {
                 Log.d("barcode result:", result.text)
                 // do your thing with result
-                viewModel.verifyQrCode(requireActivity(), result.text)
+                viewModel.verifyQrCode(requireActivity(), clientData.id, result.text)
             }
 
             override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
@@ -260,7 +272,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                 //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
                 AlertUtils.showToast(
                     requireActivity(),
-                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
                 )
             }
 
@@ -284,7 +296,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 //                //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
 //                AlertUtils.showToast(
 //                    requireActivity(),
-//                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+//                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
 //                )
 //            }
 //

@@ -322,18 +322,20 @@ interface ApiService {
     ): Response<AddVisitCheckInResponse>
 
     @FormUrlEncoded
-    @PUT("update-visit-checkout/{checkInId}")
+    @PUT("update-visit-checkout/{userId}/{visitDetailsId}/")
     suspend fun updateVisitCheckout(
-        @Path("checkInId") checkInId: Int,
+        @Path("userId") userId: Int,
+        @Path("visitDetailsId") visitDetailsId: Int,
         @Query("hash_token") hashToken: String,
         @Field("actual_end_time") actualEndTime: String,
+        @Field("status") status: String,
         @Field("updated_at") updatedAt: String,
     ): Response<UpdateVisitCheckoutResponse>
 
     @FormUrlEncoded
-    @POST("verify-qrcode/{userId}")
+    @POST("verify-qrcode/{clientId}")
     suspend fun verifyQrCode(
-        @Path("userId") userId: Int,
+        @Path("clientId") clientId: Int,
         @Query("hash_token") hashToken: String,
         @Field("qrcode_token") qrcodeToken: String
     ): Response<JsonObject>

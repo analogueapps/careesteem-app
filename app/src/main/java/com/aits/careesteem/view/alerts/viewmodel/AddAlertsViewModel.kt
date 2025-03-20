@@ -18,6 +18,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
@@ -73,10 +74,14 @@ class AddAlertsViewModel @Inject constructor(
                     return@launch
                 }
 
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.getClientsList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    id = 506,
-                    visitDate = "2025-02-03"
+                    id = userData.id,
+                    visitDate = DateTimeUtils.getCurrentDateGMT()
                 )
 
                 if (response.isSuccessful) {
@@ -110,10 +115,6 @@ class AddAlertsViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SS", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -121,8 +122,6 @@ class AddAlertsViewModel @Inject constructor(
                 val bodyPartType = fileList.joinToString(", ") { it.bodyPartType }
                 val bodyPartNames = fileList.joinToString(", ") { it.bodyPartNames }
                 val fileName = fileList.joinToString(", ") { it.fileName }
-
-
 
                 val response =  repository.sendAlert(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
@@ -134,7 +133,7 @@ class AddAlertsViewModel @Inject constructor(
                     bodyPartType = bodyPartType,
                     bodyPartNames = bodyPartNames,
                     fileName = fileName,
-                    createdAt = createdAt,
+                    createdAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT(),
                     images = createFiles(fileList, activity)
                 )
 
@@ -180,7 +179,7 @@ class AddAlertsViewModel @Inject constructor(
                 val response = repository.getVisitList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     id = userData.id,
-                    visitDate = "2025-02-03"
+                    visitDate = DateTimeUtils.getCurrentDateGMT()
                 )
 
                 if (response.isSuccessful) {

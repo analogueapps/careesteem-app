@@ -17,8 +17,10 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -52,9 +54,13 @@ class ProfileViewModel @Inject constructor(
                     return@launch
                 }
 
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.getUserDetailsById(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    userId = 366
+                    userId = userData.id
                 )
 
                 if (response.isSuccessful) {

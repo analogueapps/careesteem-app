@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -145,11 +146,6 @@ class UvToDoViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -159,7 +155,7 @@ class UvToDoViewModel @Inject constructor(
                     todoId = todoDetailsId,
                     todoUserId = userData.id,
                     todoNotes = todoNotes,
-                    todoUpdatedAt = createdAt
+                    todoUpdatedAt = DateTimeUtils.getCurrentTimestampGMT()
                 )
 
                 if (response.isSuccessful) {

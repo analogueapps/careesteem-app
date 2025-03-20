@@ -150,8 +150,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 } else if(args.action == 1) {
                     viewModel.updateVisitCheckOut(
                         requireActivity(),
-                        ongoingVisitsDetailsViewModel.visitsDetails.value?.actualEndTime!![0],
-                        ongoingVisitsDetailsViewModel.visitsDetails.value?.uatId!!,
+                        args.visitDetailsId,
                     )
                 }
             }
@@ -210,7 +209,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             override fun barcodeResult(result: BarcodeResult) {
                 Log.d("barcode result:", result.text)
                 // do your thing with result
-                viewModel.verifyQrCode(requireActivity(), result.text)
+                viewModel.verifyQrCode(requireActivity(), data.clientId, result.text)
             }
 
             override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
@@ -320,7 +319,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
                 AlertUtils.showToast(
                     requireActivity(),
-                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
                 )
             }
 
@@ -337,15 +336,14 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
                 viewModel.updateVisitCheckOut(
                     requireActivity(),
-                    data?.actualEndTime!![0],
-                    ongoingVisitsDetailsViewModel.visitsDetails.value?.uatId!!,
+                    args.visitDetailsId,
                 )
             } else {
                 AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
                 //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
                 AlertUtils.showToast(
                     requireActivity(),
-                    "Your current location is not within the client's radius. Please reach out to the client's location for further assistance."
+                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
                 )
             }
 

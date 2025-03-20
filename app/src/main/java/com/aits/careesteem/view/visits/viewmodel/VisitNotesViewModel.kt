@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -60,8 +61,7 @@ class VisitNotesViewModel @Inject constructor(
 
                 val response = repository.getClientVisitNotesDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    //taskId = taskId
-                    visitDetailsId = "1517"
+                    visitDetailsId = visitDetailsId
                 )
 
                 if (response.isSuccessful) {
@@ -94,12 +94,16 @@ class VisitNotesViewModel @Inject constructor(
                     return@launch
                 }
 
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
                 val response = repository.addClientVisitNotesDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    visitDetailsId = "1517",
+                    visitDetailsId = visitDetailsId,
                     visitNotes = visitNotes,
-                    createdByUserid = 360,
-                    updatedByUserid = 360
+                    createdByUserid = userData.id,
+                    updatedByUserid = userData.id
                 )
 
                 if (response.isSuccessful) {
@@ -127,7 +131,7 @@ class VisitNotesViewModel @Inject constructor(
         }
     }
 
-    fun updateVisitNotes(activity: Activity, visitDetailsId: String, visitNotesId: Int, visitNotes: String) {
+    fun updateVisitNotes(activity: Activity, visitDetailsId: String, createdByUserid: Int, visitNotesId: Int, visitNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -137,11 +141,6 @@ class VisitNotesViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -149,11 +148,11 @@ class VisitNotesViewModel @Inject constructor(
                 val response = repository.updateVisitNotesDetail(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     visitNotesId = visitNotesId,
-                    visitDetailsId = "1517",
+                    visitDetailsId = visitDetailsId,
                     visitNotes = visitNotes,
-                    createdByUserid = 360,
+                    createdByUserid = createdByUserid,
                     updatedByUserid = userData.id,
-                    updatedAt= createdAt
+                    updatedAt= DateTimeUtils.getCurrentTimestampForCheckOutGMT()
                 )
 
                 if (response.isSuccessful) {

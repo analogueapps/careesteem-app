@@ -44,8 +44,8 @@ class VisitsViewModel @Inject constructor(
     private val _scheduledVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val scheduledVisits: LiveData<List<VisitListResponse.Data>> get() = _scheduledVisits
 
-    private val _upcomingVisits = MutableLiveData<List<VisitListResponse.Data>>()
-    val upcomingVisits: LiveData<List<VisitListResponse.Data>> get() = _upcomingVisits
+    private val _inProgressVisits = MutableLiveData<List<VisitListResponse.Data>>()
+    val inProgressVisits: LiveData<List<VisitListResponse.Data>> get() = _inProgressVisits
 
     private val _completedVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val completedVisits: LiveData<List<VisitListResponse.Data>> get() = _completedVisits
@@ -53,7 +53,7 @@ class VisitsViewModel @Inject constructor(
     fun getVisits(activity: Activity, visitDate: String) {
         _visitsList.value = emptyList()
         _scheduledVisits.value = emptyList()
-        _upcomingVisits.value = emptyList()
+        _inProgressVisits.value = emptyList()
         _completedVisits.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
@@ -78,10 +78,10 @@ class VisitsViewModel @Inject constructor(
                     response.body()?.let { list ->
                         _visitsList.value = list.data
                         val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) || it.visitStatus.equals("Unscheduled", ignoreCase = true) }
-                        val upcoming = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
+                        val inProgress = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
                         val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
                         _scheduledVisits.value = scheduled
-                        _upcomingVisits.value = upcoming
+                        _inProgressVisits.value = inProgress
                         _completedVisits.value = completed
                     }
                 } else {

@@ -44,7 +44,8 @@ import java.util.Locale
 class VisitsFragment : Fragment(),
     OngoingVisitsAdapter.OngoingItemItemClick,
     OngoingVisitsAdapter.OngoingCheckoutItemItemClick,
-    UpcomingVisitsAdapter.OnItemItemClick
+    UpcomingVisitsAdapter.OnItemItemClick,
+    UpcomingVisitsAdapter.OnCheckoutItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
@@ -95,7 +96,7 @@ class VisitsFragment : Fragment(),
         binding.rvOngoingVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvOngoingVisits.adapter = ongoingVisitsAdapter
 
-        upcomingVisitsAdapter = UpcomingVisitsAdapter(requireContext(), this@VisitsFragment)
+        upcomingVisitsAdapter = UpcomingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
         binding.rvUpcomingVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUpcomingVisits.adapter = upcomingVisitsAdapter
 
@@ -296,22 +297,8 @@ class VisitsFragment : Fragment(),
             }
         }
 
-        // Ongoing visibility
-        viewModel.scheduledVisits.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                binding.apply {
-                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
-                }
-                ongoingVisitsAdapter.updatedList(data)
-            } else {
-                binding.apply {
-                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
-                }
-            }
-        }
-
         // Upcoming visibility
-        viewModel.upcomingVisits.observe(viewLifecycleOwner) { data ->
+        viewModel.scheduledVisits.observe(viewLifecycleOwner) { data ->
             if (data != null) {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (${data.size})"
@@ -320,6 +307,20 @@ class VisitsFragment : Fragment(),
             } else {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (0)"
+                }
+            }
+        }
+
+        // Ongoing visibility
+        viewModel.inProgressVisits.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
+                }
+                ongoingVisitsAdapter.updatedList(data)
+            } else {
+                binding.apply {
+                    tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
                 }
             }
         }
@@ -367,6 +368,14 @@ class VisitsFragment : Fragment(),
             action = 1
         )
         findNavController().navigate(direction)
+    }
+
+    override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {
+        if(data.placeId != null && data.placeId.toString().isNotEmpty()) {
+
+        } else {
+            AlertUtils.showToast(requireActivity(), "Client location not found")
+        }
     }
 
 }

@@ -17,11 +17,16 @@ import com.aits.careesteem.view.visits.model.VisitListResponse
 
 class UpcomingVisitsAdapter(
     private val context: Context,
-    private val onItemItemClick: OnItemItemClick
+    private val onItemItemClick: OnItemItemClick,
+    private val onDirectionItemItemClick: OnCheckoutItemItemClick,
 ) : RecyclerView.Adapter<UpcomingVisitsAdapter.ViewHolder>() {
 
     interface OnItemItemClick {
         fun onItemItemClicked(data: VisitListResponse.Data)
+    }
+
+    interface OnCheckoutItemItemClick {
+        fun onDirectionItemItemClicked(data: VisitListResponse.Data)
     }
 
     private var visitsList = listOf<VisitListResponse.Data>()
@@ -69,6 +74,11 @@ class UpcomingVisitsAdapter(
                 btnCheckIn.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)
                 }
+
+                btnGetDirection.setOnClickListener {
+                    onDirectionItemItemClick.onDirectionItemItemClicked(data)
+                }
+
             }
         }
     }

@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
@@ -30,10 +29,12 @@ import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
+import com.aits.careesteem.utils.DateTimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -76,19 +77,6 @@ class CheckoutViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting visit_date as "yyyy-MM-dd"
-                val visitDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val visitDate = visitDateFormat.format(currentTime.time)
-
-                // Formatting actual_start_time as "HH:mm:ss"
-                val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                val actualStartTime = timeFormat.format(currentTime.time)
-
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -98,16 +86,14 @@ class CheckoutViewModel @Inject constructor(
                     clientId = clientId,
                     visitDetailsId = visitDetailsId,
                     userId = userData.id,
-                    status = "",
-                    actualStartTime = "",
-                    createdAt = createdAt
+                    status = "checkin",
+                    actualStartTime = DateTimeUtils.getCurrentTimeGMT(),
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
                 )
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         AlertUtils.showToast(activity, list.message)
-                        editor.putInt(SharedPrefConstant.CHECK_IN_ID, list.data[0].id)
-                        editor.apply()
                         _addVisitCheckInResponse.value = list.data
                     }
                 } else {
@@ -126,7 +112,7 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun updateVisitCheckOut(activity: Activity, actualEndTime: String, checkInId: Int) {
+    fun updateVisitCheckOut(activity: Activity, visitDetailsId: Int) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -136,35 +122,22 @@ class CheckoutViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting visit_date as "yyyy-MM-dd"
-                val visitDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val visitDate = visitDateFormat.format(currentTime.time)
-
-                // Formatting actual_start_time as "HH:mm:ss"
-                val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                val actualStartTime = timeFormat.format(currentTime.time)
-
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateVisitCheckout(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    checkInId = checkInId,
-                    actualEndTime = actualEndTime,
-                    updatedAt = createdAt
+                    userId = userData.id,
+                    visitDetailsId = visitDetailsId,
+                    actualEndTime = URLDecoder.decode(DateTimeUtils.getCurrentTimeAndSecGMT(), "UTF-8"),
+                    status = "checkout",
+                    updatedAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
                 )
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         AlertUtils.showToast(activity, list.message)
-                        editor.putInt(SharedPrefConstant.CHECK_IN_ID, -1)
-                        editor.apply()
                         _updateVisitCheckoutResponse.value = list.data
                     }
                 } else {
@@ -193,19 +166,6 @@ class CheckoutViewModel @Inject constructor(
                     return@launch
                 }
 
-                val currentTime = Calendar.getInstance()
-                // Formatting visit_date as "yyyy-MM-dd"
-                val visitDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val visitDate = visitDateFormat.format(currentTime.time)
-
-                // Formatting actual_start_time as "HH:mm:ss"
-                val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                val actualStartTime = timeFormat.format(currentTime.time)
-
-                // Formatting created_at as "yyyy-MM-dd'T'HH:mm:ss"
-                val createdAtFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val createdAt = createdAtFormat.format(currentTime.time)
-
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
@@ -214,9 +174,9 @@ class CheckoutViewModel @Inject constructor(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     userId = userData.id.toString(),
                     clientId = clientId,
-                    visitDate = visitDate,
-                    actualStartTime = actualStartTime,
-                    createdAt = createdAt
+                    visitDate = DateTimeUtils.getCurrentDateGMT(),
+                    actualStartTime = DateTimeUtils.getCurrentTimeGMT(),
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT(),
                 )
 
                 _isLoading.value = false
@@ -240,7 +200,7 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun verifyQrCode(activity: Activity, scanResult: String) {
+    fun verifyQrCode(activity: Activity, clientId: Int, scanResult: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -256,7 +216,7 @@ class CheckoutViewModel @Inject constructor(
 
                 val response = repository.verifyQrCode(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    userId = userData.id,
+                    clientId = clientId,
                     qrcodeToken = scanResult
                 )
 

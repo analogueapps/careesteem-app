@@ -12,14 +12,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.view.visits.model.VisitListResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.time.Duration
-import java.time.Instant
 
 class OngoingVisitsAdapter(
     private val context: Context,
@@ -81,24 +76,15 @@ class OngoingVisitsAdapter(
                 // Cancel any previous timer if this view is recycled
                 timerJob?.cancel()
 
-                // Start the countdown timer if plannedEndTime is available.
-                // (Assumes data.plannedEndTime is an ISO 8601 string)
-//                if (data.plannedEndTime.isNotEmpty()) {
-//                    timerJob = startCountdownTimer(data.plannedEndTime) { remainingText ->
-//                        tvPlanTime.text = remainingText
-//                    }
-//                }
-
-//                if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
-//                    btnCheckout.text = "Check out"
-//                } else {
-//                    btnCheckout.text = "Check in"
-//                }
-
-                if(data.uatId != 0) {
+                if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
                     btnCheckout.text = "Check out"
+                    timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
+                        println("Remaining Time: $remainingTime")
+                        tvPlanTime.text = remainingTime
+                    }
                 } else {
                     btnCheckout.text = "Check in"
+                    tvPlanTime.text = "00:00"
                 }
 
                 layout.setOnClickListener {
@@ -112,41 +98,4 @@ class OngoingVisitsAdapter(
         }
     }
 
-    /**
-     * Starts a countdown timer until the provided [plannedEndTimeStr].
-     *
-     * @param plannedEndTimeStr The ISO 8601 string for the planned end time.
-     * @param onTick A callback invoked every second with the remaining time formatted
-     * as "mm:ss". When the countdown is finished, it will be updated to "Time's up!".
-     * @return The Job representing the coroutine timer.
-     */
-    @SuppressLint("NewApi", "DefaultLocale")
-    private fun startCountdownTimer(
-        plannedEndTimeStr: String,
-        onTick: (String) -> Unit
-    ): Job {
-        // Parse the planned end time from the ISO string.
-        val plannedEndTime = Instant.parse(plannedEndTimeStr)
-
-        // Launch a coroutine on the main thread.
-        return CoroutineScope(Dispatchers.Main).launch {
-            while (true) {
-                val now = Instant.now()
-                val remaining = Duration.between(now, plannedEndTime)
-
-                if (remaining.isZero || remaining.isNegative) {
-                    onTick("Time's up!")
-                    break
-                }
-
-                val minutes = remaining.toMinutes()
-                val seconds = remaining.seconds % 60
-
-                // Format the remaining time as "mm:ss".
-                onTick(String.format("%02d:%02d", minutes, seconds))
-
-                delay(1000L)
-            }
-        }
-    }
 }
