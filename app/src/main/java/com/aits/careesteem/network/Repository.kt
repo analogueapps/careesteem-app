@@ -16,6 +16,7 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
@@ -570,6 +571,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         hashToken: String
     ): Response<AlertListResponse> {
         return apiService.getAlertsList(
+            userId = userId,
+            hashToken = hashToken
+        )
+    }
+
+    suspend fun getNotificationList(
+        userId: Int,
+        hashToken: String
+    ): Response<NotificationListResponse> {
+        return apiService.getNotificationList(
             userId = userId,
             hashToken = hashToken
         )

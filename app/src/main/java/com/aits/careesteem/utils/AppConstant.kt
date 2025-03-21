@@ -243,33 +243,6 @@ object AppConstant {
             null
         }
         // Get the path to the Pictures directory
-//        val picturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-//
-//        // Create a new directory "Careesteem" under Pictures if it doesn't exist
-//        val careesteemDir = File(picturesDir, "Careesteem")
-//        if (!careesteemDir.exists()) {
-//            careesteemDir.mkdirs()  // Create the directory if it doesn't exist
-//        }
-//
-//        // Create a file in the "Careesteem" directory
-//        val file = File(careesteemDir, fileName)
-//
-//        var fileOutputStream: FileOutputStream? = null
-//        return try {
-//            fileOutputStream = FileOutputStream(file)
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)  // Compress the bitmap and write it to the file
-//            fileOutputStream.flush()
-//            file  // Return the saved file
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            null  // Return null if there was an error
-//        } finally {
-//            try {
-//                fileOutputStream?.close()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
     }
 
     fun createRequestBody(value: String?): RequestBody {
