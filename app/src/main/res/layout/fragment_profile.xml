@@ -32,7 +32,7 @@
                     android:id="@+id/profileImage"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
-                    android:src="@drawable/avatar"
+                    android:src="@drawable/app_logo"
                     android:layout_gravity="center"
                     app:shapeAppearanceOverlay="@style/Circular" />
 

@@ -77,9 +77,14 @@ class VisitsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _visitsList.value = list.data
-                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) || it.visitStatus.equals("Unscheduled", ignoreCase = true) }
-                        val inProgress = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
-                        val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
+//                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) || it.visitStatus.equals("Unscheduled", ignoreCase = true) }
+//                        val inProgress = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
+//                        val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
+
+                        val scheduled = list.data.filter { it.actualStartTime[0].isEmpty() && it.actualEndTime[0].isEmpty() }
+                        val inProgress = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isEmpty() }
+                        val completed = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isNotEmpty() }
+
                         _scheduledVisits.value = scheduled
                         _inProgressVisits.value = inProgress
                         _completedVisits.value = completed

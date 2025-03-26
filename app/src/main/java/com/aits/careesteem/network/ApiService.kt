@@ -246,6 +246,7 @@ interface ApiService {
         @Field("visit_notes") visitNotes: String,
         @Field("createdby_userid") createdByUserid: Int,
         @Field("updatedby_userid") updatedByUserid: Int,
+        @Field("created_at") createdAt: String,
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -321,6 +322,13 @@ interface ApiService {
         @Field("actual_start_time") actualStartTime: String,
         @Field("created_at") createdAt: String,
     ): Response<AddVisitCheckInResponse>
+
+    @FormUrlEncoded
+    @PUT("update-visit-checkout/{visitDetailsId}/")
+    suspend fun checkOutEligible(
+        @Path("visitDetailsId") visitDetailsId: Int,
+        @Query("hash_token") hashToken: String
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @PUT("update-visit-checkout/{userId}/{visitDetailsId}/")

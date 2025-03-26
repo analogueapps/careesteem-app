@@ -318,6 +318,7 @@ class VisitsFragment : Fragment(),
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
                 }
                 ongoingVisitsAdapter.updatedList(data)
+                upcomingVisitsAdapter.updatedUpcomingList(data)
             } else {
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"

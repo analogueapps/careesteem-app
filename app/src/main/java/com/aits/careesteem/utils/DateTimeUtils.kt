@@ -68,6 +68,13 @@ object DateTimeUtils {
         return timestampFormat.format(Date())
     }
 
+    fun getCurrentTimestampAddVisitNotesGMT(): String {
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")  // Ensures GMT (UTC) timezone
+        }
+        return timestampFormat.format(Date())
+    }
+
     /**
      * Convert a given date to GMT format
      * @param date - Date to be converted

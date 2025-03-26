@@ -66,12 +66,12 @@ class CompleteVisitsAdapter(
             binding.apply {
                 tvClientName.text = data.clientName
                 tvClientAddress.text = data.clientAddress
-                tvPlanTime.text = data.totalPlannedTime
+                tvPlanTime.text = data.TotalActualTimeDiff[0]
                 tvUserRequired.text = data.usersRequired.toString()
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
-                tvPlannedStartTime.text = "Check in time\n${data.plannedStartTime}"
-                tvPlannedEndTime.text = "Check out time\n${data.plannedEndTime}"
+                tvPlannedStartTime.text = "Check in time\n${data.actualStartTime[0]}"
+                tvPlannedEndTime.text = "Check out time\n${data.actualEndTime[0]}"
 
                 val userList = data.userName.mapIndexed { index, name ->
                     User(name, data.profile_photo.getOrElse(index) { "" })

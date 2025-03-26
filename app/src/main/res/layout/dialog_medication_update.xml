@@ -232,7 +232,6 @@
                     android:background="@null"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:gravity="center_vertical"
-                    android:drawableEnd="@drawable/ic_edit_round_pencil"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -252,6 +252,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
+            android:enabled="false"
             android:id="@+id/btnCheckIn"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"

@@ -16,6 +16,7 @@ data class TodoListResponse(
         val carerNotes: String,
         val todoDetailsId: Int,
         val todoName: String,
+        val todoEssential: Boolean,
         val todoOutcome: String
     )
 }

@@ -356,14 +356,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         visitDetailsId: String,
         visitNotes: String,
         createdByUserid: Int,
-        updatedByUserid: Int
+        updatedByUserid: Int,
+        createdAt: String,
     ): Response<JsonObject> {
         return apiService.addClientVisitNotesDetails(
             hashToken = hashToken,
             visitDetailsId = visitDetailsId,
             visitNotes = visitNotes,
             createdByUserid = createdByUserid,
-            updatedByUserid = updatedByUserid
+            updatedByUserid = updatedByUserid,
+            createdAt = createdAt
         )
     }
 
@@ -488,6 +490,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             status = status,
             actualStartTime = actualStartTime,
             createdAt = createdAt
+        )
+    }
+
+    suspend fun checkOutEligible(
+        hashToken: String,
+        visitDetailsId: Int
+    ): Response<JsonObject> {
+        return apiService.checkOutEligible(
+            hashToken = hashToken,
+            visitDetailsId = visitDetailsId
         )
     }
 

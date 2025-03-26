@@ -103,7 +103,8 @@ class VisitNotesViewModel @Inject constructor(
                     visitDetailsId = visitDetailsId,
                     visitNotes = visitNotes,
                     createdByUserid = userData.id,
-                    updatedByUserid = userData.id
+                    updatedByUserid = userData.id,
+                    createdAt = DateTimeUtils.getCurrentTimestampAddVisitNotesGMT()
                 )
 
                 if (response.isSuccessful) {

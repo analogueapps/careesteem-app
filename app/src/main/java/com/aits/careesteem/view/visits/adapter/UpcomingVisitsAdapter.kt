@@ -30,9 +30,15 @@ class UpcomingVisitsAdapter(
     }
 
     private var visitsList = listOf<VisitListResponse.Data>()
+    private var upcomingVisitsList = listOf<VisitListResponse.Data>()
 
     fun updatedList(list: List<VisitListResponse.Data>) {
         visitsList = list
+        notifyDataSetChanged()
+    }
+
+    fun updatedUpcomingList(list: List<VisitListResponse.Data>) {
+        upcomingVisitsList = list
         notifyDataSetChanged()
     }
 
@@ -70,6 +76,8 @@ class UpcomingVisitsAdapter(
 //                tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
                 tvPlannedStartTime.text = data.plannedStartTime
                 tvPlannedEndTime.text = data.plannedEndTime
+
+                btnCheckIn.isEnabled = upcomingVisitsList.isEmpty()
 
                 btnCheckIn.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

@@ -249,7 +249,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         // carePlan
         viewModel.activityAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.toString().isNotEmpty()) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersActivityAssessmentData(clientData, data)
                 binding.apply {
                     activityAssessment.visibility = View.VISIBLE

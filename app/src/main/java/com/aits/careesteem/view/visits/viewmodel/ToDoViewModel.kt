@@ -64,7 +64,8 @@ class ToDoViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _toDoList.value = list.data
-                        _completeCount.value = list.data.count { it.todoOutcome == "Completed" }
+                        //_completeCount.value = list.data.count { it.todoEssential }
+                        _completeCount.value = list.data.count { it.todoOutcome.isNotEmpty() }
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

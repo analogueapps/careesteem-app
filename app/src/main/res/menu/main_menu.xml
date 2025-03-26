@@ -15,7 +15,7 @@
         tools:ignore="AlwaysShowAction,MenuTitle,UnusedAttribute" />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/avatar"
+        android:icon="@drawable/app_logo"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction,MenuTitle,UnusedAttribute" />
 

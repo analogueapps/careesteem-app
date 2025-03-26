@@ -155,7 +155,7 @@ class HomeActivity : AppCompatActivity() {
             menuItem.actionView = profileImageView
         } else {
             // If no image, use default icon
-            menuItem.setIcon(R.drawable.avatar)
+            menuItem.setIcon(R.drawable.app_logo)
         }
 
         // Handle click event manually
