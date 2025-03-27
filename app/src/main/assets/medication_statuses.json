@@ -11,8 +11,6 @@
     "Not Given",
     "No Visit",
     "Other",
-    "Partially Taken",
-    "Scheduled",
-    "Not Scheduled"
+    "Partially Taken"
   ]
 }

@@ -148,10 +148,12 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         )
                     }
                 } else if(args.action == 1) {
-                    viewModel.checkOutEligible(
-                        requireActivity(),
-                        args.visitDetailsId,
-                    )
+                    if (verified) {
+                        viewModel.updateVisitCheckOut(
+                            requireActivity(),
+                            args.visitDetailsId,
+                        )
+                    }
                 }
             }
         }

@@ -274,6 +274,7 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
+        @Field("scheduled_outcome") scheduledOutcome: Int,
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -283,6 +284,7 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
+        @Field("blister_pack_outcome") blisterPackOutcome: Int,
     ): Response<JsonObject>
 
     @FormUrlEncoded
@@ -323,8 +325,7 @@ interface ApiService {
         @Field("created_at") createdAt: String,
     ): Response<AddVisitCheckInResponse>
 
-    @FormUrlEncoded
-    @PUT("update-visit-checkout/{visitDetailsId}/")
+    @GET("get-todo-essential-details/{visitDetailsId}/")
     suspend fun checkOutEligible(
         @Path("visitDetailsId") visitDetailsId: Int,
         @Query("hash_token") hashToken: String

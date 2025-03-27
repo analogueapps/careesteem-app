@@ -45,6 +45,9 @@ class ToDoViewModel @Inject constructor(
     private val _completeCount = MutableLiveData<Int>().apply { value = 0 }
     val completeCount: LiveData<Int> get() = _completeCount
 
+    private val _totalCount = MutableLiveData<Int>().apply { value = 0 }
+    val totalCount: LiveData<Int> get() = _totalCount
+
     fun getToDoList(activity: Activity, visitDetailsId: String) {
         _toDoList.value = emptyList()
         _isLoading.value = true
@@ -65,7 +68,8 @@ class ToDoViewModel @Inject constructor(
                     response.body()?.let { list ->
                         _toDoList.value = list.data
                         //_completeCount.value = list.data.count { it.todoEssential }
-                        _completeCount.value = list.data.count { it.todoOutcome.isNotEmpty() }
+                        _totalCount.value = list.data.count { it.todoEssential }
+                        _completeCount.value = list.data.count { it.todoEssential && it.todoOutcome.isNotEmpty() }
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

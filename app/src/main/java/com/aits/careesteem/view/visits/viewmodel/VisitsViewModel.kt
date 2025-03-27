@@ -12,6 +12,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
@@ -19,6 +21,7 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -91,6 +94,53 @@ class VisitsViewModel @Inject constructor(
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    val _isCheckOutEligible = MutableLiveData<Boolean>()
+    val isCheckOutEligible: LiveData<Boolean> get() = _isCheckOutEligible
+
+    fun checkOutEligible(activity: Activity, visitDetailsId: Int, findNavController: NavController) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.checkOutEligible(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    visitDetailsId = visitDetailsId
+                )
+
+                if (response.isSuccessful) {
+                    _isCheckOutEligible.value = true
+                    val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+                        visitDetailsId = visitDetailsId,
+                        action = 1
+                    )
+                    findNavController.navigate(direction)
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                    when (response.code()) {
+                        404 -> {
+                            AlertUtils.showToast(activity, "Please complete all essential tasks before checkout")
+                        }
+                        else -> errorHandler.handleErrorResponse(response, activity)
+                    }
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

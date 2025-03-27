@@ -33,6 +33,9 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isCheckOutEligible = MutableLiveData<Boolean>()
+    val isCheckOutEligible: LiveData<Boolean> get() = _isCheckOutEligible
+
     private val _visitsDetails = MutableLiveData<VisitDetailsResponse.Data>()
     val visitsDetails: LiveData<VisitDetailsResponse.Data> get() = _visitsDetails
 
@@ -62,6 +65,45 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun checkOutEligible(activity: Activity, visitDetailsId: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.checkOutEligible(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    visitDetailsId = visitDetailsId
+                )
+
+                if (response.isSuccessful) {
+                    _isCheckOutEligible.value = true
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                    when (response.code()) {
+                        404 -> {
+                            AlertUtils.showToast(activity, "Please complete all essential tasks before checkout")
+                        }
+                        else -> errorHandler.handleErrorResponse(response, activity)
+                    }
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

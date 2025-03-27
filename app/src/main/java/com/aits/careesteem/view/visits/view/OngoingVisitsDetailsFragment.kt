@@ -73,6 +73,16 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 setupCardData(data)
             }
         }
+
+        viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { verified ->
+            if (verified) {
+                val direction = OngoingVisitsDetailsFragmentDirections.actionOngoingVisitsDetailsFragmentToCheckOutFragment(
+                    visitDetailsId = args.visitDetailsId,
+                    action = 1
+                )
+                findNavController().navigate(direction)
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -88,11 +98,10 @@ class OngoingVisitsDetailsFragment : Fragment() {
             tvPlanTime.text = data?.totalPlannedTime
 
             btnCheckout.setOnClickListener {
-                val direction = OngoingVisitsDetailsFragmentDirections.actionOngoingVisitsDetailsFragmentToCheckOutFragment(
-                    visitDetailsId = args.visitDetailsId,
-                    action = 1
+                viewModel.checkOutEligible(
+                    requireActivity(),
+                    args.visitDetailsId,
                 )
-                findNavController().navigate(direction)
             }
 
             // Cancel any previous timer if this view is recycled

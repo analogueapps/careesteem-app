@@ -77,6 +77,11 @@ class MedicationViewModel @Inject constructor(
                         //_medicationList.value = list.data
                         val normalList = list.data.filter { it.medication_type.equals("Blister Pack", ignoreCase = true) || it.medication_type.equals("Scheduled", ignoreCase = true) }
                         val prnList = list.data.filter { it.medication_type.equals("PRN", ignoreCase = true) }
+                        _completeCount.value = list.data.count {
+                            (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
+                                    it.status != "Scheduled" && it.status != "Not Scheduled"
+                        }
                         _medicationList.value = normalList
                         _prnMedicationList.value = prnList
                     }

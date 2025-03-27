@@ -9,6 +9,7 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +63,25 @@ class MedicationListAdapter(
             binding.apply {
                 todoName.text = data.nhs_medicine_name
 
+                if(data.status == "Scheduled" || data.status == "Not Scheduled") {
+                    todoStatus.visibility = View.GONE
+                } else {
+                    todoStatus.visibility = View.VISIBLE
+                }
+
+                todoStatus.text = data.status
+                when (data.status) {
+                    "FullyTaken" -> todoStatus.apply {
+                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+                        //setTextColor(ContextCompat.getColor(context, R.color.white))
+                    }
+                    else -> todoStatus.apply {
+                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
+                        //setTextColor(ContextCompat.getColor(context, R.color.black))
+                    }
+                }
                 layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)
                 }

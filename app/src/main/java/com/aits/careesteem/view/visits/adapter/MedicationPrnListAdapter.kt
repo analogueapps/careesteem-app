@@ -9,6 +9,7 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -60,6 +61,13 @@ class MedicationPrnListAdapter(
         fun bind(data: MedicationDetailsListResponse.Data) {
             binding.apply {
                 todoName.text = data.nhs_medicine_name
+
+                if(data.status == "Scheduled" || data.status == "Not Scheduled") {
+                    todoStatus.visibility = View.GONE
+                } else {
+                    todoStatus.visibility = View.VISIBLE
+                }
+
                 todoStatus.text = data.status
                 when (data.status) {
                     "FullyTaken" -> todoStatus.apply {

@@ -409,7 +409,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             scheduledDetailsId = scheduledDetailsId,
             status = status,
-            carerNotes = carerNotes
+            carerNotes = carerNotes,
+            scheduledOutcome = 1
         )
     }
 
@@ -423,7 +424,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             blisterPackDetailsId = blisterPackDetailsId,
             status = status,
-            carerNotes = carerNotes
+            carerNotes = carerNotes,
+            blisterPackOutcome = 1
         )
     }
 

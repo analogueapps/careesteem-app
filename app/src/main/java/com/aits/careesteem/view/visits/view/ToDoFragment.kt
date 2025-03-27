@@ -118,9 +118,16 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         }
 
         // Data visibility
+        viewModel.totalCount.observe(viewLifecycleOwner) { count ->
+            if (count != null) {
+                binding.totalCount.text = count.toString()
+            }
+        }
+
+        // Data visibility
         viewModel.toDoList.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                binding.totalCount.text = data.size.toString()
+                //binding.totalCount.text = data.size.toString()
                 todoListAdapter.updatedList(data)
             }
         }

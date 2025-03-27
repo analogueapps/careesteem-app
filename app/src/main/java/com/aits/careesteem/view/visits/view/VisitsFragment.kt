@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import java.time.format.DateTimeFormatter
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
@@ -22,15 +20,12 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
-import com.aits.careesteem.view.auth.view.WelcomeFragmentDirections
 import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter
 import com.aits.careesteem.view.visits.adapter.OngoingVisitsAdapter
 import com.aits.careesteem.view.visits.adapter.UpcomingVisitsAdapter
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
@@ -364,11 +359,7 @@ class VisitsFragment : Fragment(),
     }
 
     override fun ongoingCheckoutItemItemClicked(data: VisitListResponse.Data) {
-        val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-            visitDetailsId = data.visitDetailsId,
-            action = 1
-        )
-        findNavController().navigate(direction)
+        viewModel.checkOutEligible(requireActivity(), data.visitDetailsId, findNavController())
     }
 
     override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {
