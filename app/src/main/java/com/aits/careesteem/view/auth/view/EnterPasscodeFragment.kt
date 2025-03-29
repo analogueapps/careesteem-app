@@ -60,7 +60,13 @@ class EnterPasscodeFragment : Fragment() {
         }
 
         binding.pinView.forgotPasscode.setOnClickListener {
-            viewModel.forgotPasscode(requireActivity())
+            //viewModel.forgotPasscode(requireActivity())
+            editor.clear()
+            editor.apply()
+            val intent = Intent(requireActivity(), AuthActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
         }
     }
 

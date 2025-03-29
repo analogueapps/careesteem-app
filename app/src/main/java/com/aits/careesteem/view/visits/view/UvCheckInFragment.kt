@@ -2,6 +2,7 @@ package com.aits.careesteem.view.visits.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +18,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AlertDialog
@@ -30,13 +32,16 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentUvCheckInBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -58,6 +63,10 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.CaptureActivity
 import com.journeyapps.barcodescanner.camera.CameraSettings
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -132,19 +141,46 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         // add uv visit
         viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                //viewModel.addVisitCheckIn(requireActivity(), data.client_id, data.visit_details_id)
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(
-                        R.id.uvCheckInFragment,
-                        true
-                    ) // This removes CheckOutFragment from the back stack
-                    .build()
-
-                val direction =
-                    UvCheckInFragmentDirections.actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                        visitDetailsId = data.visit_details_id
-                    )
-                findNavController().navigate(direction, navOptions)
+                val visitData = VisitDetailsResponse.Data(
+                    clientId = data.client_id,
+                    visitDetailsId = data.visit_details_id,
+                    TotalActualTimeDiff = emptyList(),
+                    actualEndTime = emptyList(),
+                    actualStartTime = emptyList(),
+                    chooseSessions = "null",
+                    clientAddress = "",
+                    clientName = "John Doe",
+                    latitude = "null",
+                    longitude = "null",
+                    placeId = "place123",
+                    plannedEndTime = "12:00 PM",
+                    plannedStartTime = "9:00 AM",
+                    profile_photo = listOf("photo1.jpg"),
+                    profile_photo_name = listOf("photo_name1"),
+                    radius = "null",
+                    sessionTime = "3 hours",
+                    sessionType = "Consultation",
+                    totalPlannedTime = "4 hours",
+                    uatId = 123,
+                    userId = "user123",
+                    userName = listOf("John", "Doe"),
+                    usersRequired = "null",
+                    visitDate = "2025-03-28",
+                    visitStatus = "Completed",
+                    visitType = "Routine"
+                )
+//                val navOptions = NavOptions.Builder()
+//                    .setPopUpTo(
+//                        R.id.uvCheckInFragment,
+//                        true
+//                    ) // This removes CheckOutFragment from the back stack
+//                    .build()
+//
+//                val direction =
+//                    UvCheckInFragmentDirections.actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
+//                        visitDetailsId = data.visit_details_id
+//                    )
+//                findNavController().navigate(direction, navOptions)
             }
         }
 
@@ -234,6 +270,12 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                                 layoutQr.visibility = View.VISIBLE
                             }
                             binding.qrView.resume()
+                            CoroutineScope(Dispatchers.Main).launch {
+                                delay(5000)
+                                if(viewModel.isAutoCheckIn.value == true) {
+                                    showCheckPopup()
+                                }
+                            }
                         }
 
                         else -> {}
@@ -301,6 +343,37 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 //            }
 //
 //        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showCheckPopup() {
+        val dialog = Dialog(requireContext())
+        val binding: DialogForceCheckBinding =
+            DialogForceCheckBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        binding.dialogTitle.text = "Check In"
+        binding.dialogBody.text = "Are you sure you want to check in now?"
+
+        // Handle button clicks
+        binding.btnPositive.setOnClickListener {
+            dialog.dismiss()
+            viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!)
+        }
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     private fun isWithinRadius(

@@ -343,6 +343,18 @@ interface ApiService {
     ): Response<UpdateVisitCheckoutResponse>
 
     @FormUrlEncoded
+    @POST("add-Alert-Check-In-Out")
+    suspend fun automaticAlerts(
+        @Query("hash_token") hashToken: String,
+        @Field("uat_id") uatId: Int,
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("client_id") clientId: Int,
+        @Field("alert_type") alertType: String,
+        @Field("alert_status") alertStatus: String,
+        @Field("created_at") createdAt: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
     @POST("verify-qrcode/{clientId}")
     suspend fun verifyQrCode(
         @Path("clientId") clientId: Int,

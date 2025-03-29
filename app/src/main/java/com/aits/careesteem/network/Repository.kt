@@ -523,6 +523,27 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun automaticAlerts(
+        hashToken: String,
+        uatId: Int,
+        visitDetailsId: Int,
+        clientId: Int,
+        alertType: String,
+        alertStatus: String,
+        createdAt: String
+    ): Response<JsonObject> {
+        return apiService.automaticAlerts(
+            hashToken = hashToken,
+            uatId = uatId,
+            visitDetailsId = visitDetailsId,
+            clientId = clientId,
+            alertType = alertType,
+            alertStatus = alertStatus,
+            createdAt = createdAt
+        )
+    }
+
+
     suspend fun verifyQrCode(
         hashToken: String,
         clientId: Int,

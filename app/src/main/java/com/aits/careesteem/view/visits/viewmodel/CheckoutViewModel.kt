@@ -30,14 +30,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.aits.careesteem.utils.DateTimeUtils
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.URLDecoder
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,6 +50,10 @@ class CheckoutViewModel @Inject constructor(
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
+
+    // LiveData for UI
+    private val _isAutoCheckIn = MutableLiveData<Boolean>(true)
+    val isAutoCheckIn: LiveData<Boolean> get() = _isAutoCheckIn
 
     // LiveData for UI
     private val _qrVerified = MutableLiveData<Boolean>()
@@ -70,7 +72,11 @@ class CheckoutViewModel @Inject constructor(
     private val _isCheckOutEligible = MutableLiveData<Boolean>()
     val isCheckOutEligible: LiveData<Boolean> get() = _isCheckOutEligible
 
-    fun addVisitCheckIn(activity: Activity, clientId: Int, visitDetailsId: Int) {
+    fun addVisitCheckIn(
+        activity: Activity,
+        visitsDetails: VisitDetailsResponse.Data,
+        normalCheckInOut: Boolean
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -86,8 +92,8 @@ class CheckoutViewModel @Inject constructor(
 
                 val response = repository.addVisitCheckIn(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    clientId = clientId,
-                    visitDetailsId = visitDetailsId,
+                    clientId = visitsDetails.clientId,
+                    visitDetailsId = visitsDetails.visitDetailsId,
                     userId = userData.id,
                     status = "checkin",
                     actualStartTime = DateTimeUtils.getCurrentTimeGMT(),
@@ -148,7 +154,11 @@ class CheckoutViewModel @Inject constructor(
         }
     }
 
-    fun updateVisitCheckOut(activity: Activity, visitDetailsId: Int) {
+    fun updateVisitCheckOut(
+        activity: Activity,
+        visitsDetails: VisitDetailsResponse.Data,
+        normalCheckInOut: Boolean
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -165,7 +175,7 @@ class CheckoutViewModel @Inject constructor(
                 val response = repository.updateVisitCheckout(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     userId = userData.id,
-                    visitDetailsId = visitDetailsId,
+                    visitDetailsId = visitsDetails.visitDetailsId,
                     actualEndTime = URLDecoder.decode(DateTimeUtils.getCurrentTimeAndSecGMT(), "UTF-8"),
                     status = "checkout",
                     updatedAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
@@ -194,6 +204,7 @@ class CheckoutViewModel @Inject constructor(
 
     fun createUnscheduledVisit(activity: Activity, clientId: Int) {
         _isLoading.value = true
+        _isAutoCheckIn.value = false
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -221,6 +232,7 @@ class CheckoutViewModel @Inject constructor(
                         _userActualTimeData.value = list.userActualTimeData[0]
                     }
                 } else {
+                    _isAutoCheckIn.value = true
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
@@ -238,6 +250,7 @@ class CheckoutViewModel @Inject constructor(
 
     fun verifyQrCode(activity: Activity, clientId: Int, scanResult: String) {
         _isLoading.value = true
+        _isAutoCheckIn.value = false
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -260,6 +273,7 @@ class CheckoutViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     _qrVerified.value = true
                 } else {
+                    _isAutoCheckIn.value = true
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
