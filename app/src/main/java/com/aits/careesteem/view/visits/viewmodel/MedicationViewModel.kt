@@ -101,7 +101,7 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationBlisterPack(activity: Activity, visitDetailsId: String, blisterPackDetailsId: Int, status: String, carerNotes: String) {
+    fun medicationBlisterPack(activity: Activity, clientId: String, visitDetailsId: String, blisterPackDetailsId: Int, status: String, carerNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -139,11 +139,64 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
+                if(status != "FullyTaken") {
+                    automaticAlerts(
+                        activity = activity,
+                        status = status,
+                        scheduledId = "",
+                        blisterPackId = blisterPackDetailsId,
+                        visitDetailsId = visitDetailsId.toInt(),
+                        clientId = clientId.toInt()
+                    )
+                }
             }
         }
     }
 
-    fun medicationScheduled(activity: Activity, visitDetailsId: String, scheduledDetailsId: Int, status: String, carerNotes: String) {
+    private fun automaticAlerts(
+        activity: Activity,
+        status: String,
+        scheduledId: Any,
+        blisterPackId: Any,
+        visitDetailsId: Int,
+        clientId: Int,
+    ) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.automaticMedicationAlerts(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    scheduledId = scheduledId,
+                    blisterPackId = blisterPackId,
+                    visitDetailsId = visitDetailsId,
+                    clientId = clientId,
+                    alertType = "Medication $status",
+                    alertStatus = "Action Required",
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                )
+
+                if (response.isSuccessful) {
+                    //_isCheckOutEligible.value = true
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showLog("activity","Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showLog("activity", "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showLog("activity","An error occurred: ${e.message}")
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun medicationScheduled(activity: Activity, clientId: String, visitDetailsId: String, scheduledDetailsId: Int, status: String, carerNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -181,6 +234,16 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
+                if(status != "FullyTaken") {
+                    automaticAlerts(
+                        activity = activity,
+                        status = status,
+                        scheduledId = scheduledDetailsId,
+                        blisterPackId = "",
+                        visitDetailsId = visitDetailsId.toInt(),
+                        clientId = clientId.toInt()
+                    )
+                }
             }
         }
     }

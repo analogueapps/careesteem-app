@@ -134,53 +134,25 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 
         viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
             if (verified) {
-                viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!)
+                viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!, true)
             }
         }
 
         // add uv visit
         viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                val visitData = VisitDetailsResponse.Data(
-                    clientId = data.client_id,
-                    visitDetailsId = data.visit_details_id,
-                    TotalActualTimeDiff = emptyList(),
-                    actualEndTime = emptyList(),
-                    actualStartTime = emptyList(),
-                    chooseSessions = "null",
-                    clientAddress = "",
-                    clientName = "John Doe",
-                    latitude = "null",
-                    longitude = "null",
-                    placeId = "place123",
-                    plannedEndTime = "12:00 PM",
-                    plannedStartTime = "9:00 AM",
-                    profile_photo = listOf("photo1.jpg"),
-                    profile_photo_name = listOf("photo_name1"),
-                    radius = "null",
-                    sessionTime = "3 hours",
-                    sessionType = "Consultation",
-                    totalPlannedTime = "4 hours",
-                    uatId = 123,
-                    userId = "user123",
-                    userName = listOf("John", "Doe"),
-                    usersRequired = "null",
-                    visitDate = "2025-03-28",
-                    visitStatus = "Completed",
-                    visitType = "Routine"
-                )
-//                val navOptions = NavOptions.Builder()
-//                    .setPopUpTo(
-//                        R.id.uvCheckInFragment,
-//                        true
-//                    ) // This removes CheckOutFragment from the back stack
-//                    .build()
-//
-//                val direction =
-//                    UvCheckInFragmentDirections.actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
-//                        visitDetailsId = data.visit_details_id
-//                    )
-//                findNavController().navigate(direction, navOptions)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(
+                        R.id.uvCheckInFragment,
+                        true
+                    ) // This removes CheckOutFragment from the back stack
+                    .build()
+
+                val direction =
+                    UvCheckInFragmentDirections.actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
+                        visitDetailsId = data.visit_details_id
+                    )
+                findNavController().navigate(direction, navOptions)
             }
         }
 
@@ -300,6 +272,10 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.btnCheckIn.setOnClickListener {
+            if(viewModel.markerPosition.value == null) {
+                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+                return@setOnClickListener
+            }
             val currentLocation = LatLng(
                 viewModel.markerPosition.value!!.latitude,
                 viewModel.markerPosition.value!!.longitude
@@ -308,7 +284,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             //val radius = 5000f  // Example: 5 km radius
             if (isWithinRadius(currentLocation, destinationLatLng, clientData?.radius.toString().toFloat())) {
                 AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
-                viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!)
+                viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!, true)
             } else {
                 AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
                 //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
@@ -360,7 +336,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         // Handle button clicks
         binding.btnPositive.setOnClickListener {
             dialog.dismiss()
-            viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!)
+            viewModel.createUnscheduledVisit(requireActivity(), clientData?.id!!, false)
         }
         binding.btnNegative.setOnClickListener {
             dialog.dismiss()
@@ -575,67 +551,71 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun drawRoute(destination: LatLng) {
-        val origin =
-            "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
-        val dest = "${destination.latitude},${destination.longitude}"
-        // Create a logging interceptor
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
-        }
+        try {
+            val origin =
+                "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
+            val dest = "${destination.latitude},${destination.longitude}"
+            // Create a logging interceptor
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
+            }
 
-        // Configure OkHttpClient
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+            // Configure OkHttpClient
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://maps.googleapis.com/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-        val apiService = retrofit.create(GoogleApiService::class.java)
-        val call =
-            apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
+            val apiService = retrofit.create(GoogleApiService::class.java)
+            val call =
+                apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
 
-        call.enqueue(object : Callback<DirectionsResponse> {
-            override fun onResponse(
-                call: Call<DirectionsResponse>,
-                response: Response<DirectionsResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val route = response.body()?.routes?.firstOrNull()
-                    if (route == null) {
-                        return
-                    }
-                    val polylinePoints = route?.overview_polyline?.points
+            call.enqueue(object : Callback<DirectionsResponse> {
+                override fun onResponse(
+                    call: Call<DirectionsResponse>,
+                    response: Response<DirectionsResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val route = response.body()?.routes?.firstOrNull()
+                        if (route == null) {
+                            return
+                        }
+                        val polylinePoints = route?.overview_polyline?.points
 
 
-                    if (!polylinePoints.isNullOrEmpty()) {
-                        val decodedPath = PolyUtil.decode(polylinePoints)
+                        if (!polylinePoints.isNullOrEmpty()) {
+                            val decodedPath = PolyUtil.decode(polylinePoints)
 
-                        if (::googleMap.isInitialized) {
-                            googleMap.addPolyline(
-                                PolylineOptions()
-                                    .addAll(decodedPath)
-                                    .width(10f)
-                                    .color(Color.BLUE)
-                            )
+                            if (::googleMap.isInitialized) {
+                                googleMap.addPolyline(
+                                    PolylineOptions()
+                                        .addAll(decodedPath)
+                                        .width(10f)
+                                        .color(Color.BLUE)
+                                )
+                            }
+                        } else {
+                            AlertUtils.showLog("MapsActivity", "Polyline points are empty")
                         }
                     } else {
-                        AlertUtils.showLog("MapsActivity", "Polyline points are empty")
+                        AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
                     }
-                } else {
-                    AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
                 }
-            }
 
-            override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
+                override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
 //                Toast.makeText(requireContext(), "Failed to fetch directions", Toast.LENGTH_SHORT)
 //                    .show()
-                AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
-            }
-        })
+                    AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun showLocationSettingsDialog() {

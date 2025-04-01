@@ -355,6 +355,31 @@ interface ApiService {
     ): Response<JsonObject>
 
     @FormUrlEncoded
+    @POST("add-Todo-Alert-Details")
+    suspend fun automaticTodoAlerts(
+        @Query("hash_token") hashToken: String,
+        @Field("todo_details_id") todoDetailsId: Int,
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("client_id") clientId: Int,
+        @Field("alert_type") alertType: String,
+        @Field("alert_status") alertStatus: String,
+        @Field("created_at") createdAt: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("add-Medication-Alert-Details")
+    suspend fun automaticMedicationAlerts(
+        @Query("hash_token") hashToken: String,
+        @Field("scheduled_id") scheduledId: Any,
+        @Field("blister_pack_id") blisterPackId: Any,
+        @Field("visit_details_id") visitDetailsId: Int,
+        @Field("client_id") clientId: Int,
+        @Field("alert_type") alertType: String,
+        @Field("alert_status") alertStatus: String,
+        @Field("created_at") createdAt: String,
+    ): Response<JsonObject>
+
+    @FormUrlEncoded
     @POST("verify-qrcode/{clientId}")
     suspend fun verifyQrCode(
         @Path("clientId") clientId: Int,

@@ -36,6 +36,9 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.URLDecoder
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,6 +81,7 @@ class CheckoutViewModel @Inject constructor(
         normalCheckInOut: Boolean
     ) {
         _isLoading.value = true
+        val actualStartTime = DateTimeUtils.getCurrentTimeGMT()
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -96,7 +100,7 @@ class CheckoutViewModel @Inject constructor(
                     visitDetailsId = visitsDetails.visitDetailsId,
                     userId = userData.id,
                     status = "checkin",
-                    actualStartTime = DateTimeUtils.getCurrentTimeGMT(),
+                    actualStartTime = actualStartTime,
                     createdAt = DateTimeUtils.getCurrentTimestampGMT()
                 )
 
@@ -117,6 +121,96 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
+                if(!normalCheckInOut) {
+                   // automaticAlerts(activity = activity, visitsDetails = visitsDetails)
+                    automaticAlerts(
+                        activity = activity,
+                        uatId = _addVisitCheckInResponse.value!![0].id,
+                        visitDetailsId = visitsDetails.visitDetailsId,
+                        clientId = visitsDetails.clientId,
+                        actualStartTime = visitsDetails.plannedStartTime,
+                        startTime = actualStartTime,
+                        actualEndTime = visitsDetails.plannedEndTime,
+                        endTime = "",
+                        checkInOut = "checkin",
+                        isSchedule = visitsDetails.visitType != "Unscheduled"
+                    )
+                }
+            }
+        }
+    }
+
+    private fun automaticAlerts(
+        activity: Activity,
+        uatId: Int,
+        visitDetailsId: Int,
+        clientId: Int,
+        actualStartTime: String,
+        startTime: String,
+        actualEndTime: String,
+        endTime: String,
+        checkInOut: String,
+        isSchedule: Boolean
+    ) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                var alertType = ""
+                if(checkInOut == "checkin") {
+                    alertType = if(isSchedule) {
+                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+                        val givenTime = LocalTime.parse(actualStartTime, formatter)
+                        val currentUtcTime = LocalTime.parse(startTime, formatter)
+                        when {
+                            currentUtcTime.isBefore(givenTime) -> "Early Check In"
+                            currentUtcTime.isAfter(givenTime) -> "Late Check In"
+                            else -> "Force Check In"
+                        }
+                    } else {
+                        "Force Check In"
+                    }
+                } else if(checkInOut == "checkout") {
+                    alertType = if(isSchedule) {
+                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+                        val givenTime = LocalTime.parse(actualEndTime, formatter)
+                        val currentUtcTime = LocalTime.parse(endTime, formatter)
+                        when {
+                            currentUtcTime.isBefore(givenTime) -> "Early Check Out"
+                            currentUtcTime.isAfter(givenTime) -> "Late Check Out"
+                            else -> "Force Check Out"
+                        }
+                    } else {
+                        "Force Check Out"
+                    }
+                }
+
+                val response = repository.automaticAlerts(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    uatId = uatId,
+                    visitDetailsId = visitDetailsId,
+                    clientId = clientId,
+                    alertType = alertType,
+                    alertStatus = "Action Required",
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                )
+
+                if (response.isSuccessful) {
+                    //_isCheckOutEligible.value = true
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showLog("activity","Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showLog("activity", "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showLog("activity","An error occurred: ${e.message}")
+                e.printStackTrace()
             }
         }
     }
@@ -160,6 +254,7 @@ class CheckoutViewModel @Inject constructor(
         normalCheckInOut: Boolean
     ) {
         _isLoading.value = true
+        val actualEndTime = DateTimeUtils.getCurrentTimeGMT()
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -176,7 +271,8 @@ class CheckoutViewModel @Inject constructor(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
                     userId = userData.id,
                     visitDetailsId = visitsDetails.visitDetailsId,
-                    actualEndTime = URLDecoder.decode(DateTimeUtils.getCurrentTimeAndSecGMT(), "UTF-8"),
+                    //actualEndTime = URLDecoder.decode(DateTimeUtils.getCurrentTimeAndSecGMT(), "UTF-8"),
+                    actualEndTime = actualEndTime,
                     status = "checkout",
                     updatedAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
                 )
@@ -198,11 +294,26 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
+                if(!normalCheckInOut) {
+                    // automaticAlerts(activity = activity, visitsDetails = visitsDetails)
+                    automaticAlerts(
+                        activity = activity,
+                        uatId = _updateVisitCheckoutResponse.value!![0].id,
+                        visitDetailsId = visitsDetails.visitDetailsId,
+                        clientId = visitsDetails.clientId,
+                        actualStartTime = visitsDetails.plannedStartTime,
+                        startTime = "",
+                        actualEndTime = visitsDetails.plannedEndTime,
+                        endTime = actualEndTime,
+                        checkInOut = "checkout",
+                        isSchedule = visitsDetails.visitType != "Unscheduled"
+                    )
+                }
             }
         }
     }
 
-    fun createUnscheduledVisit(activity: Activity, clientId: Int) {
+    fun createUnscheduledVisit(activity: Activity, clientId: Int, normalCheckInOut: Boolean) {
         _isLoading.value = true
         _isAutoCheckIn.value = false
         viewModelScope.launch {
@@ -244,6 +355,20 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
+                if(!normalCheckInOut) {
+                    automaticAlerts(
+                        activity = activity,
+                        uatId = _userActualTimeData.value!!.id,
+                        visitDetailsId = _userActualTimeData.value!!.visit_details_id,
+                        clientId = _userActualTimeData.value!!.client_id,
+                        actualStartTime = "",
+                        startTime = "",
+                        actualEndTime = "",
+                        endTime = "",
+                        checkInOut = "checkin",
+                        isSchedule = false
+                    )
+                }
             }
         }
     }

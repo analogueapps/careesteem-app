@@ -118,7 +118,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 tvPlanTime.text = "00:00"
             }
 
-            val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString())
+            val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString())
             binding.viewPager.adapter = adapter
 
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

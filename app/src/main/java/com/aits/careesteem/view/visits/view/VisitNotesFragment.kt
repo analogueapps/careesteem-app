@@ -43,20 +43,24 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
     private lateinit var visitNotesAdapter: VisitNotesAdapter
 
     private var id: String? = null
+    private var clientId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
-        id = arguments?.getString(ARG_ID)
+        id = arguments?.getString(ARG_VISIT_ID)
+        clientId = arguments?.getString(ARG_CLIENT_ID)
     }
 
     companion object {
-        private const val ARG_ID = "ARG_ID"
+        private const val ARG_VISIT_ID = "ARG_VISIT_ID"
+        private const val ARG_CLIENT_ID = "ARG_CLIENT_ID"
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(paramVisitId: String, paramClientId: String) =
             VisitNotesFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_ID, param1)
+                    putString(ARG_VISIT_ID, paramVisitId)
+                    putString(ARG_CLIENT_ID, paramClientId)
                 }
             }
     }

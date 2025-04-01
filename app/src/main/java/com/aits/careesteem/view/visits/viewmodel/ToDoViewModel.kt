@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -87,7 +90,7 @@ class ToDoViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(activity: Activity, todoOutcome: Int, visitDetailsId: String, todoDetailsId: Int, carerNotes: String) {
+    fun updateTodo(activity: Activity, todoOutcome: Int, clientId: String, visitDetailsId: String, todoDetailsId: Int, carerNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -125,6 +128,54 @@ class ToDoViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
+                if(todoOutcome == 0) {
+                    automaticAlerts(
+                        activity = activity,
+                        todoDetailsId = todoDetailsId,
+                        visitDetailsId = visitDetailsId.toInt(),
+                        clientId = clientId.toInt(),
+                    )
+                }
+            }
+        }
+    }
+
+    private fun automaticAlerts(
+        activity: Activity,
+        todoDetailsId: Int,
+        visitDetailsId: Int,
+        clientId: Int,
+    ) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.automaticTodoAlerts(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    todoDetailsId = todoDetailsId,
+                    visitDetailsId = visitDetailsId,
+                    clientId = clientId,
+                    alertType = "To Do Notcompleted",
+                    alertStatus = "Action Required",
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                )
+
+                if (response.isSuccessful) {
+                    //_isCheckOutEligible.value = true
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showLog("activity","Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showLog("activity", "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showLog("activity","An error occurred: ${e.message}")
+                e.printStackTrace()
             }
         }
     }

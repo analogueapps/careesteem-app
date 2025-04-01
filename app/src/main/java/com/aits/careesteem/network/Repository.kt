@@ -543,6 +543,47 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun automaticTodoAlerts(
+        hashToken: String,
+        todoDetailsId: Int,
+        visitDetailsId: Int,
+        clientId: Int,
+        alertType: String,
+        alertStatus: String,
+        createdAt: String
+    ): Response<JsonObject> {
+        return apiService.automaticTodoAlerts(
+            hashToken = hashToken,
+            todoDetailsId = todoDetailsId,
+            visitDetailsId = visitDetailsId,
+            clientId = clientId,
+            alertType = alertType,
+            alertStatus = alertStatus,
+            createdAt = createdAt
+        )
+    }
+
+    suspend fun automaticMedicationAlerts(
+        hashToken: String,
+        scheduledId: Any,
+        blisterPackId: Any,
+        visitDetailsId: Int,
+        clientId: Int,
+        alertType: String,
+        alertStatus: String,
+        createdAt: String
+    ): Response<JsonObject> {
+        return apiService.automaticMedicationAlerts(
+            hashToken = hashToken,
+            scheduledId = scheduledId,
+            blisterPackId = blisterPackId,
+            visitDetailsId = visitDetailsId,
+            clientId = clientId,
+            alertType = alertType,
+            alertStatus = alertStatus,
+            createdAt = createdAt
+        )
+    }
 
     suspend fun verifyQrCode(
         hashToken: String,

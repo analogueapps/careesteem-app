@@ -45,20 +45,24 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
     private lateinit var medicationPnrListAdapter: MedicationPrnListAdapter
 
     private var id: String? = null
+    private var clientId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
-        id = arguments?.getString(ARG_ID)
+        id = arguments?.getString(ARG_VISIT_ID)
+        clientId = arguments?.getString(ARG_CLIENT_ID)
     }
 
     companion object {
-        private const val ARG_ID = "ARG_ID"
+        private const val ARG_VISIT_ID = "ARG_VISIT_ID"
+        private const val ARG_CLIENT_ID = "ARG_CLIENT_ID"
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(paramVisitId: String, paramClientId: String) =
             MedicationFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_ID, param1)
+                    putString(ARG_VISIT_ID, paramVisitId)
+                    putString(ARG_CLIENT_ID, paramClientId)
                 }
             }
     }
@@ -211,6 +215,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                 "Blister Pack" -> {
                     viewModel.medicationBlisterPack(
                         activity = requireActivity(),
+                        clientId = clientId.toString(),
                         visitDetailsId = id.toString(),
                         blisterPackDetailsId = data.blister_pack_details_id,
                         status = binding.medicationStatus.text.toString(),
@@ -220,6 +225,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                 "Scheduled" -> {
                     viewModel.medicationScheduled(
                         activity = requireActivity(),
+                        clientId = clientId.toString(),
                         visitDetailsId = id.toString(),
                         scheduledDetailsId = data.scheduled_details_id,
                         status = binding.medicationStatus.text.toString(),

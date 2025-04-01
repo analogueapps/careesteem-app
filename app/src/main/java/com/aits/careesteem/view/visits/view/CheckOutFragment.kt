@@ -145,7 +145,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             if (verified) {
                 if(args.action == 0) {
                     if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
-                        viewModel.createUnscheduledVisit(requireActivity(), ongoingVisitsDetailsViewModel.visitsDetails.value?.clientId!!)
+                        viewModel.createUnscheduledVisit(requireActivity(), ongoingVisitsDetailsViewModel.visitsDetails.value?.clientId!!, true)
                     } else {
                         viewModel.addVisitCheckIn(
                             requireActivity(),
@@ -355,6 +355,10 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.btnCheckIn.setOnClickListener {
+            if(viewModel.markerPosition.value == null) {
+                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+                return@setOnClickListener
+            }
             val currentLocation = LatLng(
                 viewModel.markerPosition.value!!.latitude,
                 viewModel.markerPosition.value!!.longitude
@@ -364,7 +368,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             if (isWithinRadius(currentLocation, destinationLatLng, data?.radius.toString().toFloat())) {
                 AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
                 if (data?.visitStatus == "Unscheduled") {
-                    viewModel.createUnscheduledVisit(requireActivity(), data?.clientId!!)
+                    viewModel.createUnscheduledVisit(requireActivity(), data?.clientId!!, true)
                 } else {
                     viewModel.addVisitCheckIn(
                         requireActivity(),
@@ -384,6 +388,10 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnCheckOut.setOnClickListener {
+            if(viewModel.markerPosition.value == null) {
+                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+                return@setOnClickListener
+            }
             val currentLocation = LatLng(
                 viewModel.markerPosition.value!!.latitude,
                 viewModel.markerPosition.value!!.longitude
@@ -734,61 +742,65 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun drawRoute(destination: LatLng) {
-        val origin =
-            "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
-        val dest = "${destination.latitude},${destination.longitude}"
-        // Create a logging interceptor
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
-        }
+        try {
+            val origin =
+                "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
+            val dest = "${destination.latitude},${destination.longitude}"
+            // Create a logging interceptor
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
+            }
 
-        // Configure OkHttpClient
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+            // Configure OkHttpClient
+            val client = OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://maps.googleapis.com/")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-        val apiService = retrofit.create(GoogleApiService::class.java)
-        val call =
-            apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
+            val apiService = retrofit.create(GoogleApiService::class.java)
+            val call =
+                apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
 
-        call.enqueue(object : Callback<DirectionsResponse> {
-            override fun onResponse(
-                call: Call<DirectionsResponse>,
-                response: Response<DirectionsResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val route = response.body()?.routes?.firstOrNull() ?: return
-                    val polylinePoints = route.overview_polyline.points
+            call.enqueue(object : Callback<DirectionsResponse> {
+                override fun onResponse(
+                    call: Call<DirectionsResponse>,
+                    response: Response<DirectionsResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val route = response.body()?.routes?.firstOrNull() ?: return
+                        val polylinePoints = route.overview_polyline.points
 
-                    if (polylinePoints.isNotEmpty()) {
-                        val decodedPath = PolyUtil.decode(polylinePoints)
+                        if (polylinePoints.isNotEmpty()) {
+                            val decodedPath = PolyUtil.decode(polylinePoints)
 
-                        if (::googleMap.isInitialized) {
-                            googleMap.addPolyline(
-                                PolylineOptions()
-                                    .addAll(decodedPath)
-                                    .width(10f)
-                                    .color(Color.BLUE)
-                            )
+                            if (::googleMap.isInitialized) {
+                                googleMap.addPolyline(
+                                    PolylineOptions()
+                                        .addAll(decodedPath)
+                                        .width(10f)
+                                        .color(Color.BLUE)
+                                )
+                            }
+                        } else {
+                            AlertUtils.showLog("MapsActivity", "Polyline points are empty")
                         }
                     } else {
-                        AlertUtils.showLog("MapsActivity", "Polyline points are empty")
+                        AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
                     }
-                } else {
-                    AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
                 }
-            }
 
-            override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
-            }
-        })
+                override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
+                    AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
+                }
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }
