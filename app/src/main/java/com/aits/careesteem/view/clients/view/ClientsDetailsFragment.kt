@@ -249,7 +249,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         // carePlan
         viewModel.activityAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null && data.toString().isNotEmpty()) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersActivityAssessmentData(clientData, data)
                 binding.apply {
                     activityAssessment.visibility = View.VISIBLE
@@ -263,7 +263,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.environmentAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersEnvironmentAssessmentData(clientData, data)
                 binding.apply {
                     environmentAssessment.visibility = View.VISIBLE
@@ -277,7 +277,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.financialAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersFinancialAssessmentData(clientData, data)
                 binding.apply {
                     financialAssessment.visibility = View.VISIBLE
@@ -291,7 +291,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.mentalHealthAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMentalHealthAssessmentData(clientData, data)
                 binding.apply {
                     mentalHealthAssessment.visibility = View.VISIBLE
@@ -305,7 +305,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.communicationAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersCommunicationAssessmentData(clientData, data)
                 binding.apply {
                     communicationAssessment.visibility = View.VISIBLE
@@ -319,7 +319,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.personalHygieneAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersPersonalHygieneAssessmentData(clientData, data)
                 binding.apply {
                     personalHygieneAssessment.visibility = View.VISIBLE
@@ -333,7 +333,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.medicationAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMedicationAssessmentData(clientData, data)
                 binding.apply {
                     medicationAssessment.visibility = View.VISIBLE
@@ -347,7 +347,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.clinicalAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersClinicalAssessmentData(clientData, data)
                 binding.apply {
                     clinicalAssessment.visibility = View.VISIBLE
@@ -361,7 +361,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.culturalSpiritualSocialRelationshipsAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersCulturalSpiritualSocialRelationshipsAssessmentData(clientData, data)
                 binding.apply {
                     socialRelationshipsAssessment.visibility = View.VISIBLE
@@ -375,7 +375,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.behaviourAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersBehaviourAssessmentData(clientData, data)
                 binding.apply {
                     behaviourAssessment.visibility = View.VISIBLE
@@ -389,7 +389,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.oralCareAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersOralCareAssessmentData(clientData, data)
                 binding.apply {
                     oralCareAssessment.visibility = View.VISIBLE
@@ -403,7 +403,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.breathingAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersBreathingAssessmentData(clientData, data)
                 binding.apply {
                     breathingAssessment.visibility = View.VISIBLE
@@ -417,7 +417,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.continenceAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersContinenceAssessmentData(clientData, data)
                 binding.apply {
                     continenceAssessment.visibility = View.VISIBLE
@@ -431,7 +431,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.domesticAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersDomesticAssessmentData(clientData, data)
                 binding.apply {
                     domesticAssessment.visibility = View.VISIBLE
@@ -445,7 +445,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.equipmentAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersEquipmentAssessmentData(clientData, data)
                 binding.apply {
                     equipmentAssessment.visibility = View.VISIBLE
@@ -459,7 +459,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.movingHandlingAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersMovingHandlingAssessmentData(clientData, data)
                 binding.apply {
                     movingHandlingAssessment.visibility = View.VISIBLE
@@ -473,7 +473,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.painAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersPainAssessmentData(clientData, data)
                 binding.apply {
                     painAssessment.visibility = View.VISIBLE
@@ -487,7 +487,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.sleepingAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersSleepingAssessmentData(clientData, data)
                 binding.apply {
                     sleepingAssessment.visibility = View.VISIBLE
@@ -501,7 +501,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.skinAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersSkinAssessmentData(clientData, data)
                 binding.apply {
                     skinAssessment.visibility = View.VISIBLE
@@ -515,7 +515,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         viewModel.nutritionHydrationAssessmentData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.consent) {
                 val filteredList = FilterQuestionAndAnswers.filterQuestionsAndAnswersNutritionHydrationAssessmentData(clientData, data)
                 binding.apply {
                     nutritionHydrationAssessment.visibility = View.VISIBLE

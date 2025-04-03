@@ -67,7 +67,7 @@ class CompleteVisitsAdapter(
                 tvClientName.text = data.clientName
                 tvClientAddress.text = data.clientAddress
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
-                tvUserRequired.text = data.usersRequired.toString()
+                tvUserRequired.text = "${data.usersRequired}"
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
                 tvPlannedStartTime.text = "Check in time\n${data.actualStartTime[0]}"

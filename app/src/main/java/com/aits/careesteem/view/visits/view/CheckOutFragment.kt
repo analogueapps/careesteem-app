@@ -251,21 +251,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("InflateParams")
     private fun setupWidget(data: VisitDetailsResponse.Data) {
-        val cameraSettings = CameraSettings().apply {
-            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
-        }
-
-        binding.qrView.barcodeView.cameraSettings = cameraSettings
-
-        binding.qrView.decodeSingle(object : BarcodeCallback {
-            override fun barcodeResult(result: BarcodeResult) {
-                Log.d("barcode result:", result.text)
-                // do your thing with result
-                viewModel.verifyQrCode(requireActivity(), data.clientId, result.text)
-            }
-
-            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
-        })
 
         if (args.action == 0) {
             if (data.placeId.toString().isEmpty()) {
@@ -315,6 +300,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                                 layoutMap.visibility = View.VISIBLE
                                 layoutQr.visibility = View.GONE
                             }
+                            stopCamera()
                         }
 
                         1 -> {
@@ -324,13 +310,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                                 layoutMap.visibility = View.GONE
                                 layoutQr.visibility = View.VISIBLE
                             }
-                            binding.qrView.resume()
-                            CoroutineScope(Dispatchers.Main).launch {
-                                delay(5000)
-                                if(viewModel.isAutoCheckIn.value == true) {
-                                    showCheckPopup()
-                                }
-                            }
+                            //binding.qrView.resume()
+                            callQr(data)
                         }
 
                         else -> {}
@@ -417,6 +398,39 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun callQr(data: VisitDetailsResponse.Data) {
+        val cameraSettings = CameraSettings().apply {
+            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
+        }
+
+        binding.qrView.barcodeView.cameraSettings = cameraSettings
+
+        binding.qrView.decodeSingle(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult) {
+                Log.d("barcode result:", result.text)
+                // do your thing with result
+                viewModel.verifyQrCode(requireActivity(), data.clientId, result.text)
+                stopCamera()
+            }
+
+            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        })
+        binding.qrView.resume()
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(5000)
+            if(viewModel.isAutoCheckIn.value == true) {
+                stopCamera()
+                showCheckPopup()
+            }
+        }
+    }
+
+    // Stop or release the camera after scanning is complete
+    fun stopCamera() {
+        binding.qrView.barcodeView.pause() // Pause decoding QR codes
+        binding.qrView.barcodeView.stopDecoding() // Stop decoding QR codes
+    }
+
     @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
         val dialog = Dialog(requireContext())
@@ -427,11 +441,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         dialog.setCancelable(AppConstant.FALSE)
 
         if(args.action == 0) {
-            binding.dialogTitle.text = "Check In"
-            binding.dialogBody.text = "Are you sure you want to check in now?"
+            binding.dialogTitle.text = "Force Check In"
+            binding.dialogBody.text = "Are you sure want to force check in?"
         } else if(args.action == 1) {
-            binding.dialogTitle.text = "Check Out"
-            binding.dialogBody.text = "Are you sure you want to check out now?"
+            binding.dialogTitle.text = "Force Check Out"
+            binding.dialogBody.text = "Are you sure want to force check out?"
         }
 
         // Handle button clicks
@@ -513,7 +527,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateMarkerOnMap(latLng: LatLng) {
         googleMap.clear()  // Clear existing markers
-        googleMap.addMarker(MarkerOptions().position(latLng).draggable(true))
+        //googleMap.addMarker(MarkerOptions().position(latLng).draggable(true))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
     }
 
@@ -712,7 +726,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         destinationLatLng = destinationLatLng,
                         radius = ongoingVisitsDetailsViewModel.visitsDetails.value?.radius.toString().toDouble()
                     )
-                    drawRoute(destinationLatLng)
+                    //drawRoute(destinationLatLng)
                 }
             }
 
@@ -726,7 +740,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         // Add marker at destination
         googleMap.addMarker(
             MarkerOptions().position(destinationLatLng).title(ongoingVisitsDetailsViewModel.visitsDetails.value?.clientName).icon(
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
             )
         )
 

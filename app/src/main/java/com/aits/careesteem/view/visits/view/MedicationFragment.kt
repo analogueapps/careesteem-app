@@ -210,6 +210,11 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
             dialog.dismiss()
         }
         binding.btnSave.setOnClickListener {
+            if(binding.medicationStatus.text == "Select") {
+                AlertUtils.showToast(requireActivity(), "Please select status")
+                return@setOnClickListener
+            }
+
             dialog.dismiss()
             when (data.medication_type) {
                 "Blister Pack" -> {

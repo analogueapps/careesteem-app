@@ -50,6 +50,7 @@ data class MedicationDetailsListResponse(
         val prn_be_given: String,
         val prn_user_id: String,
         val status: String,
+        val prn_details_status: String,
         val prn_created_by: String
     )
 }

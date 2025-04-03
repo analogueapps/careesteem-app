@@ -21,7 +21,7 @@ data class VisitListResponse(
         var plannedStartTime: String,
         var totalPlannedTime: String,
         var userId: String,
-        var usersRequired: Any = "1",
+        var usersRequired: Int,
         var latitude: Any,
         var longitude: Any,
         var radius: Any,

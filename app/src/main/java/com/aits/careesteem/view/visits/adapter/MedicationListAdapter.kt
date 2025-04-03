@@ -71,7 +71,7 @@ class MedicationListAdapter(
 
                 todoStatus.text = data.status
                 when (data.status) {
-                    "FullyTaken" -> todoStatus.apply {
+                    "Fully Taken" -> todoStatus.apply {
                         background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
                         backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
                         //setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -83,7 +83,9 @@ class MedicationListAdapter(
                     }
                 }
                 layout.setOnClickListener {
-                    onItemItemClick.onItemItemClicked(data)
+                    if(data.medication_type != "PRN") {
+                        onItemItemClick.onItemItemClicked(data)
+                    }
                 }
             }
         }

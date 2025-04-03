@@ -176,21 +176,6 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("InflateParams")
     private fun setupWidget() {
-        val cameraSettings = CameraSettings().apply {
-            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
-        }
-
-        binding.qrView.barcodeView.cameraSettings = cameraSettings
-
-        binding.qrView.decodeSingle(object : BarcodeCallback {
-            override fun barcodeResult(result: BarcodeResult) {
-                Log.d("barcode result:", result.text)
-                // do your thing with result
-                viewModel.verifyQrCode(requireActivity(), clientData.id, result.text)
-            }
-
-            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
-        })
 
         if (clientData?.place_id.toString().isEmpty()) {
             binding.btnCheckIn.visibility = View.GONE
@@ -232,6 +217,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                                 layoutMap.visibility = View.VISIBLE
                                 layoutQr.visibility = View.GONE
                             }
+                            stopCamera()
                         }
 
                         1 -> {
@@ -241,13 +227,14 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                                 layoutMap.visibility = View.GONE
                                 layoutQr.visibility = View.VISIBLE
                             }
-                            binding.qrView.resume()
-                            CoroutineScope(Dispatchers.Main).launch {
-                                delay(5000)
-                                if(viewModel.isAutoCheckIn.value == true) {
-                                    showCheckPopup()
-                                }
-                            }
+//                            binding.qrView.resume()
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                delay(5000)
+//                                if(viewModel.isAutoCheckIn.value == true) {
+//                                    showCheckPopup()
+//                                }
+//                            }
+                            callQr()
                         }
 
                         else -> {}
@@ -321,6 +308,39 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 //        }
     }
 
+    private fun callQr() {
+        val cameraSettings = CameraSettings().apply {
+            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
+        }
+
+        binding.qrView.barcodeView.cameraSettings = cameraSettings
+
+        binding.qrView.decodeSingle(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult) {
+                Log.d("barcode result:", result.text)
+                // do your thing with result
+                viewModel.verifyQrCode(requireActivity(), clientData.id, result.text)
+                stopCamera()
+            }
+
+            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        })
+        binding.qrView.resume()
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(5000)
+            if(viewModel.isAutoCheckIn.value == true) {
+                stopCamera()
+                showCheckPopup()
+            }
+        }
+    }
+
+    // Stop or release the camera after scanning is complete
+    fun stopCamera() {
+        binding.qrView.barcodeView.pause() // Pause decoding QR codes
+        binding.qrView.barcodeView.stopDecoding() // Stop decoding QR codes
+    }
+
     @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
         val dialog = Dialog(requireContext())
@@ -330,8 +350,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
-        binding.dialogTitle.text = "Check In"
-        binding.dialogBody.text = "Are you sure you want to check in now?"
+        binding.dialogTitle.text = "Force Check In"
+        binding.dialogBody.text = "Are you sure want to force check in?"
 
         // Handle button clicks
         binding.btnPositive.setOnClickListener {
@@ -514,7 +534,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                         destinationLatLng = destinationLatLng,
                         radius = clientData?.radius.toString().toDouble()
                     )
-                    drawRoute(destinationLatLng)
+                    //drawRoute(destinationLatLng)
                 }
             }
 
@@ -528,7 +548,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         // Add marker at destination
         googleMap.addMarker(
             MarkerOptions().position(destinationLatLng).title(clientData.full_name).icon(
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
             )
         )
 
@@ -695,7 +715,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateMarkerOnMap(latLng: LatLng) {
         googleMap.clear()  // Clear existing markers
-        googleMap.addMarker(MarkerOptions().position(latLng).draggable(true))
+        //googleMap.addMarker(MarkerOptions().position(latLng).draggable(true))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
     }
 }

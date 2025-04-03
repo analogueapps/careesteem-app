@@ -62,23 +62,23 @@ class MedicationPrnListAdapter(
             binding.apply {
                 todoName.text = data.nhs_medicine_name
 
-                if(data.status == "Scheduled" || data.status == "Not Scheduled") {
+                //if(data.prn_details_status == "Scheduled" || data.prn_details_status == "Not Scheduled") {
                     todoStatus.visibility = View.GONE
-                } else {
-                    todoStatus.visibility = View.VISIBLE
-                }
+                //} else {
+                    //todoStatus.visibility = View.VISIBLE
+                //}
 
-                todoStatus.text = data.status
-                when (data.status) {
-                    "FullyTaken" -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
-                    }
-                    else -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
-                    }
-                }
+//                todoStatus.text = data.prn_details_status
+//                when (data.prn_details_status) {
+//                    "Fully Taken" -> todoStatus.apply {
+//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+//                    }
+//                    else -> todoStatus.apply {
+//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
+//                    }
+//                }
 
                 layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

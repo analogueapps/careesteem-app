@@ -75,8 +75,14 @@ class MedicationViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         //_medicationList.value = list.data
-                        val normalList = list.data.filter { it.medication_type.equals("Blister Pack", ignoreCase = true) || it.medication_type.equals("Scheduled", ignoreCase = true) }
-                        val prnList = list.data.filter { it.medication_type.equals("PRN", ignoreCase = true) }
+                        val normalList = list.data.filter {
+                            it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+                                    it.medication_type.equals("Scheduled", ignoreCase = true) ||
+                                    ( it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id == visitDetailsId)
+                        }
+                        val prnList = list.data.filter {
+                            it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id != visitDetailsId
+                        }
                         _completeCount.value = list.data.count {
                             (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
                                     it.medication_type.equals("Scheduled", ignoreCase = true)) &&
@@ -139,7 +145,7 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
-                if(status != "FullyTaken") {
+                if(status != "Fully Taken") {
                     automaticAlerts(
                         activity = activity,
                         status = status,
@@ -234,7 +240,7 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
-                if(status != "FullyTaken") {
+                if(status != "Fully Taken") {
                     automaticAlerts(
                         activity = activity,
                         status = status,

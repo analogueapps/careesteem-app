@@ -20,6 +20,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -33,6 +34,9 @@ class BaseApplication : Application() {
     @SuppressLint("ObsoleteSdkInt")
     override fun onCreate() {
         super.onCreate()
+
+        // Set the default time zone to UK time
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"))
 
 //        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
 //            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
