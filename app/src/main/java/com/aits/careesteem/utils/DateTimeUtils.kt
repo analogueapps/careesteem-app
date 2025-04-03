@@ -16,7 +16,8 @@ import java.time.format.DateTimeFormatter
 
 object DateTimeUtils {
 
-    private val gmtTimeZone: TimeZone = TimeZone.getTimeZone("GMT")
+    //private val gmtTimeZone: TimeZone = TimeZone.getTimeZone("GMT")
+    private val gmtTimeZone: TimeZone = TimeZone.getTimeZone("Europe/London")
 
     /**
      * Get current date in GMT with format "yyyy-MM-dd"
@@ -69,8 +70,8 @@ object DateTimeUtils {
     }
 
     fun getCurrentTimestampAddVisitNotesGMT(): String {
-        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).apply {
-            timeZone = TimeZone.getTimeZone("UTC")  // Ensures GMT (UTC) timezone
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+            timeZone = gmtTimeZone
         }
         return timestampFormat.format(Date())
     }
