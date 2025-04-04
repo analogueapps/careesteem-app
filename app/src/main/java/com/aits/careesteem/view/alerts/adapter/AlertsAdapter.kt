@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemAlertListBinding
-import com.aits.careesteem.databinding.ItemClientBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.AlertListResponse
-import com.aits.careesteem.view.clients.model.ClientsList
 
 class AlertsAdapter(
     private val context: Context

@@ -8,6 +8,7 @@ package com.aits.careesteem.view.auth.model
 
 data class OtpVerifyResponse(
     val data: List<Data>,
+    val dbList: List<DbList>,
     val message: String,
     val statusCode: Int
 ) {
@@ -33,5 +34,12 @@ data class OtpVerifyResponse(
         val hash_token: Any,
         val token_status: Any,
         val updated_at: String
+    )
+
+    data class DbList(
+        val id: Int,
+        val contact_number: String,
+        val user_db_name: String,
+        val agency_name: String
     )
 }

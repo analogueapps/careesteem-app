@@ -18,6 +18,7 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.google.gson.Gson
@@ -40,7 +41,7 @@ class PasscodeViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    var userData: OtpVerifyResponse.Data? = null
+    var userData: CreateHashToken.Data? = null
 
     val isPasscodeVerified = MutableLiveData<Boolean>()
 
@@ -48,11 +49,7 @@ class PasscodeViewModel @Inject constructor(
     private val _createPasscodeResponse = MutableLiveData<OtpVerifyResponse?>()
     val createPasscodeResponse: LiveData<OtpVerifyResponse?> get() = _createPasscodeResponse
 
-    // SendOtpUserLoginResponse
-    private val _sendOtpUserLoginResponse = MutableLiveData<SendOtpUserLoginResponse?>()
-    val sendOtpUserLoginResponse: LiveData<SendOtpUserLoginResponse?> get() = _sendOtpUserLoginResponse
-
-    fun createPasscode(activity: Activity, passcode: String, action: Int) {
+    fun createPasscode(activity: Activity, passcode: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -62,43 +59,20 @@ class PasscodeViewModel @Inject constructor(
                     return@launch
                 }
 
-                if(action == 1) {
-                    val response = repository.createPasscode(
-                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                        contactNumber = userData?.contact_number!!,
-                        passcode = passcode.toInt()
-                    )
+                val response = repository.createPasscode(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    contactNumber = userData?.contact_number!!,
+                    passcode = passcode.toInt()
+                )
 
-                    if (response.isSuccessful) {
-                        response.body()?.let { apiResponse ->
-                            _createPasscodeResponse.value = response.body()
-                            AlertUtils.showToast(activity, apiResponse.message ?: "Created passcode successfully")
-                            //editor.putString(SharedPrefConstant.LOGIN_PASSCODE, BCrypt.hashpw(passcode, BCrypt.gensalt()))
-                            editor.putString(SharedPrefConstant.LOGIN_PASSCODE, apiResponse.data[0].passcode)
-                            editor.apply()
-                        }
-                    } else {
-                        errorHandler.handleErrorResponse(response, activity)
+                if (response.isSuccessful) {
+                    response.body()?.let { apiResponse ->
+                        _createPasscodeResponse.value = response.body()
+                        AlertUtils.showToast(activity, apiResponse.message ?: "Created passcode successfully")
+                        editor.apply()
                     }
-                } else if(action == 2) {
-                    val response = repository.resetPasscode(
-                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                        contactNumber = userData?.contact_number!!,
-                        otp = userData?.otp!!,
-                        passcode = passcode.toInt()
-                    )
-
-                    if (response.isSuccessful) {
-                        response.body()?.let { apiResponse ->
-                            _createPasscodeResponse.value = response.body()
-                            AlertUtils.showToast(activity, apiResponse.message ?: "Created passcode successfully")
-                            //editor.putString(SharedPrefConstant.LOGIN_PASSCODE, BCrypt.hashpw(passcode, BCrypt.gensalt()))
-                            editor.putString(SharedPrefConstant.LOGIN_PASSCODE, apiResponse.data[0].passcode)
-                            editor.apply()
-                        }
-                    } else {
-                        errorHandler.handleErrorResponse(response, activity)
-                    }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")
@@ -153,43 +127,6 @@ class PasscodeViewModel @Inject constructor(
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                     isPasscodeVerified.value = false
-                }
-            } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
-            } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
-            } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
-                e.printStackTrace()
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun forgotPasscode(activity: Activity) {
-        _isLoading.value = true
-        viewModelScope.launch {
-            try {
-                // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
-                    return@launch
-                }
-
-                val response = repository.forgotPasscode(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
-                    telephoneCodes = sharedPreferences.getInt(SharedPrefConstant.TELEPHONE_CODE, 0)
-                )
-
-                if (response.isSuccessful) {
-                    response.body()?.let { apiResponse ->
-                        _sendOtpUserLoginResponse.value = apiResponse
-                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
-                    }
-                } else {
-                    errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

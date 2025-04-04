@@ -130,8 +130,6 @@ class WelcomeViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { apiResponse ->
-                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.hash_token.toString())
-                        editor.apply()
                         _sendOtpUserLoginResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
                     }

@@ -18,9 +18,9 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +41,6 @@ class VerifyOtpViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     var userData:SendOtpUserLoginResponse.Data? = null
-    var action:Int? = 1
 
     // OtpVerifyResponse
     private val _otpVerifyResponse = MutableLiveData<OtpVerifyResponse?>()
@@ -100,80 +99,41 @@ class VerifyOtpViewModel @Inject constructor(
 
     // Method to handle resend OTP
     fun onResendOtp(activity: Activity) {
-        if (action == 1) {
-            _isLoading.value = true
-            viewModelScope.launch {
-                try {
-                    // Check if network is available before making the request
-                    if (!NetworkUtils.isNetworkAvailable(activity)) {
-                        AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
-                        return@launch
-                    }
-
-                    val response = repository.sendOtpUserLogin(
-                        contactNumber = userData?.contact_number!!,
-                        telephoneCodes = userData?.telephone_codes!!
-                    )
-
-                    if (response.isSuccessful) {
-                        response.body()?.let { apiResponse ->
-                            AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
-                            editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
-                            editor.apply()
-                        }
-                        _resendVisible.value = false
-                        _timerVisible.value = true
-                        startTimer() // Restart the timer when resend is clicked
-                    } else {
-                        errorHandler.handleErrorResponse(response, activity)
-                    }
-                } catch (e: SocketTimeoutException) {
-                    AlertUtils.showToast(activity,"Request Timeout. Please try again.")
-                } catch (e: HttpException) {
-                    AlertUtils.showToast(activity, "Server error: ${e.message}")
-                } catch (e: Exception) {
-                    AlertUtils.showToast(activity,"An error occurred: ${e.message}")
-                    e.printStackTrace()
-                } finally {
-                    _isLoading.value = false
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
                 }
-            }
-        } else if (action == 2) {
-            _isLoading.value = true
-            viewModelScope.launch {
-                try {
-                    // Check if network is available before making the request
-                    if (!NetworkUtils.isNetworkAvailable(activity)) {
-                        AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
-                        return@launch
-                    }
 
-                    val response = repository.forgotPasscode(
-                        hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                        contactNumber = sharedPreferences.getString(SharedPrefConstant.CONTACT_NUMBER, null).toString(),
-                        telephoneCodes = sharedPreferences.getInt(SharedPrefConstant.TELEPHONE_CODE, 0)
-                    )
+                val response = repository.sendOtpUserLogin(
+                    contactNumber = userData?.contact_number!!,
+                    telephoneCodes = userData?.telephone_codes!!
+                )
 
-                    if (response.isSuccessful) {
-                        response.body()?.let { apiResponse ->
-                            AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
-                        }
-                        _resendVisible.value = false
-                        _timerVisible.value = true
-                        startTimer() // Restart the timer when resend is clicked
-                    } else {
-                        errorHandler.handleErrorResponse(response, activity)
+                if (response.isSuccessful) {
+                    response.body()?.let { apiResponse ->
+                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
+                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
+                        editor.apply()
                     }
-                } catch (e: SocketTimeoutException) {
-                    AlertUtils.showToast(activity,"Request Timeout. Please try again.")
-                } catch (e: HttpException) {
-                    AlertUtils.showToast(activity, "Server error: ${e.message}")
-                } catch (e: Exception) {
-                    AlertUtils.showToast(activity,"An error occurred: ${e.message}")
-                    e.printStackTrace()
-                } finally {
-                    _isLoading.value = false
+                    _resendVisible.value = false
+                    _timerVisible.value = true
+                    startTimer() // Restart the timer when resend is clicked
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
                 }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
             }
         }
     }
@@ -225,6 +185,51 @@ class VerifyOtpViewModel @Inject constructor(
                     response.body()?.let { apiResponse ->
                         _otpVerifyResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully")
+                        editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
+                        editor.putInt(SharedPrefConstant.TELEPHONE_CODE, userData?.telephone_codes!!)
+                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())
+                        editor.apply()
+                    }
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    // CreateHashToken
+    private val _createHashToken = MutableLiveData<CreateHashToken?>()
+    val createHashToken: LiveData<CreateHashToken?> get() = _createHashToken
+
+    fun onAgencySelected(activity: Activity, dbData: OtpVerifyResponse.DbList) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val response = repository.selectDbName(
+                    contactNumber = dbData.contact_number,
+                    dbName = dbData.user_db_name,
+                    id = dbData.id
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { apiResponse ->
+                        _createHashToken.value = apiResponse
+                        AlertUtils.showToast(activity, "Agency Selected Successfully")
                         editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
                         editor.putInt(SharedPrefConstant.TELEPHONE_CODE, userData?.telephone_codes!!)
                         editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())

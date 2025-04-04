@@ -29,16 +29,11 @@
             android:name="response"
             app:argType="string" />
         <action
-            android:id="@+id/action_verifyOtpFragment_to_enterPasscodeFragment"
-            app:destination="@id/enterPasscodeFragment"
-            app:launchSingleTop="true" />
+            android:id="@+id/action_verifyOtpFragment_to_selectAgencyFragment"
+            app:destination="@id/selectAgencyFragment" />
         <action
             android:id="@+id/action_verifyOtpFragment_to_setupPasscodeFragment"
-            app:destination="@id/setupPasscodeFragment"
-            app:launchSingleTop="true" />
-        <argument
-            android:name="action"
-            app:argType="integer" />
+            app:destination="@id/setupPasscodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/preloaderFragment"
@@ -49,15 +44,7 @@
         android:id="@+id/enterPasscodeFragment"
         android:name="com.aits.careesteem.view.auth.view.EnterPasscodeFragment"
         android:label="fragment_enter_passcode"
-        tools:layout="@layout/fragment_enter_passcode" >
-        <argument
-            android:name="response"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_enterPasscodeFragment_to_verifyOtpFragment"
-            app:destination="@id/verifyOtpFragment"
-            app:launchSingleTop="true" />
-    </fragment>
+        tools:layout="@layout/fragment_enter_passcode" />
     <fragment
         android:id="@+id/setupPasscodeFragment"
         android:name="com.aits.careesteem.view.auth.view.SetupPasscodeFragment"
@@ -70,9 +57,6 @@
             android:id="@+id/action_setupPasscodeFragment_to_confirmPasscodeFragment"
             app:destination="@id/confirmPasscodeFragment"
             app:launchSingleTop="true" />
-        <argument
-            android:name="action"
-            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/confirmPasscodeFragment"
@@ -85,8 +69,17 @@
         <argument
             android:name="passcode"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectAgencyFragment"
+        android:name="com.aits.careesteem.view.auth.view.SelectAgencyFragment"
+        android:label="SelectAgencyFragment"
+        tools:layout="@layout/fragment_select_agency" >
         <argument
-            android:name="action"
-            app:argType="integer" />
+            android:name="response"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_selectAgencyFragment_to_setupPasscodeFragment"
+            app:destination="@id/setupPasscodeFragment" />
     </fragment>
 </navigation>

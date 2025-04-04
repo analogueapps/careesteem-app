@@ -15,6 +15,7 @@ import com.aits.careesteem.databinding.DialogTodoEditBinding
 import com.aits.careesteem.databinding.DialogVisitNotesBinding
 import com.aits.careesteem.databinding.FragmentVisitNotesBinding
 import com.aits.careesteem.databinding.FragmentVisitsBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
@@ -44,23 +45,27 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 
     private var id: String? = null
     private var clientId: String? = null
+    private var isChanges = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
         id = arguments?.getString(ARG_VISIT_ID)
         clientId = arguments?.getString(ARG_CLIENT_ID)
+        isChanges = arguments?.getBoolean(ARG_CHANGES)!!
     }
 
     companion object {
         private const val ARG_VISIT_ID = "ARG_VISIT_ID"
         private const val ARG_CLIENT_ID = "ARG_CLIENT_ID"
+        private const val ARG_CHANGES = "ARG_CHANGES"
         @JvmStatic
-        fun newInstance(paramVisitId: String, paramClientId: String) =
+        fun newInstance(paramVisitId: String, paramClientId: String, paramChanges: Boolean) =
             VisitNotesFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_VISIT_ID, paramVisitId)
                     putString(ARG_CLIENT_ID, paramClientId)
+                    putBoolean(ARG_CHANGES, paramChanges)
                 }
             }
     }
@@ -154,6 +159,11 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 
 
     override fun onItemItemClicked(data: ClientVisitNotesDetails.Data) {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            return
+        }
+
         val dialog = Dialog(requireContext())
         val binding: DialogVisitNotesBinding =
             DialogVisitNotesBinding.inflate(layoutInflater)
@@ -190,6 +200,11 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
     }
 
     private fun addVisitNotes() {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            return
+        }
+
         val dialog = Dialog(requireContext())
         val binding: DialogVisitNotesBinding =
             DialogVisitNotesBinding.inflate(layoutInflater)

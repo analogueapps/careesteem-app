@@ -16,6 +16,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.viewmodel.PasscodeViewModel
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -29,7 +30,7 @@ class ConfirmPasscodeFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: ConfirmPasscodeFragmentArgs by navArgs()
     private val viewModel: PasscodeViewModel by viewModels()
-    private var userData: OtpVerifyResponse.Data? = null
+    private var userData: CreateHashToken.Data? = null
 
     @Inject
     lateinit var editor: SharedPreferences.Editor
@@ -37,7 +38,7 @@ class ConfirmPasscodeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gson = Gson()
-        userData = gson.fromJson(args.response, OtpVerifyResponse.Data::class.java)
+        userData = gson.fromJson(args.response, CreateHashToken.Data::class.java)
         viewModel.userData = userData
     }
 
@@ -64,8 +65,7 @@ class ConfirmPasscodeFragment : Fragment() {
     private fun addPinToServer(passcode: String) {
         viewModel.createPasscode(
             activity = requireActivity(),
-            passcode = passcode,
-            action = args.action
+            passcode = passcode
         )
     }
 
@@ -81,9 +81,6 @@ class ConfirmPasscodeFragment : Fragment() {
 
         viewModel.createPasscodeResponse.observe(viewLifecycleOwner) { response ->
             if (response != null) {
-                val gson = Gson()
-                val dataString = gson.toJson(response.data[0])
-                editor.putString(SharedPrefConstant.USER_DATA, dataString)
                 editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
                 editor.apply()
                 val intent = Intent(requireActivity(), HomeActivity::class.java)

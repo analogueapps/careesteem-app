@@ -184,7 +184,7 @@ class WelcomeFragment : Fragment() {
                 val dataString = gson.toJson(response.data)
                 viewLifecycleOwner.lifecycleScope.launch {
                     val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
-                        response = dataString, action = 1
+                        response = dataString
                     )
                     findNavController().navigate(direction)
                 }

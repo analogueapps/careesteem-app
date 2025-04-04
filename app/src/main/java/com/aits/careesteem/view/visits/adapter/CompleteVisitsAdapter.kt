@@ -19,16 +19,18 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.visits.adapter.MedicationListAdapter.OnItemItemClick
 import com.aits.careesteem.view.visits.model.User
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
 class CompleteVisitsAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onViewItemItemClick: OnViewItemItemClick
 ) : RecyclerView.Adapter<CompleteVisitsAdapter.ViewHolder>() {
 
-//    interface OnItemItemClick {
-//        fun onItemItemClicked(data: VisitListResponse.Data)
-//    }
+    interface OnViewItemItemClick {
+        fun onViewItemItemClicked(data: VisitListResponse.Data)
+    }
 
     private var visitsList = listOf<VisitListResponse.Data>()
 
@@ -67,7 +69,7 @@ class CompleteVisitsAdapter(
                 tvClientName.text = data.clientName
                 tvClientAddress.text = data.clientAddress
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
-                tvUserRequired.text = "${data.usersRequired}"
+                tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
                 tvPlannedStartTime.text = "Check in time\n${data.actualStartTime[0]}"
@@ -81,9 +83,9 @@ class CompleteVisitsAdapter(
                 recyclerView.adapter = customAdapter
 
 
-//                itemView.setOnClickListener {
-//                    onItemItemClick.onItemItemClicked(data)
-//                }
+                tvViewVisit.setOnClickListener {
+                    onViewItemItemClick.onViewItemItemClicked(data)
+                }
             }
         }
     }

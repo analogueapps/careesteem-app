@@ -7,6 +7,7 @@
 package com.aits.careesteem.view.visits.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemTodoListBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 
@@ -85,6 +87,8 @@ class MedicationListAdapter(
                 layout.setOnClickListener {
                     if(data.medication_type != "PRN") {
                         onItemItemClick.onItemItemClicked(data)
+                    } else {
+                        AlertUtils.showToast(context as Activity, "PRN Medication not allowed")
                     }
                 }
             }

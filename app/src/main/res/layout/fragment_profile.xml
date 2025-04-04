@@ -36,6 +36,21 @@
                     android:layout_gravity="center"
                     app:shapeAppearanceOverlay="@style/Circular" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSwitch"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/arvo_regular"
+                    app:icon="@drawable/ic_swap"
+                    app:iconTintMode="multiply"
+                    android:text="@string/switch_account"
+                    android:textAllCaps="false"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_12ssp"
+                    tools:targetApi="p" />
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:padding="@dimen/_5sdp"
                     android:background="@drawable/ic_upcoming_inside"

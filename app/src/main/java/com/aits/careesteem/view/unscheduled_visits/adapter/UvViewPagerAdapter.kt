@@ -12,7 +12,7 @@ import com.aits.careesteem.view.unscheduled_visits.view.UvMedicationFragment
 import com.aits.careesteem.view.unscheduled_visits.view.UvToDoFragment
 import com.aits.careesteem.view.unscheduled_visits.view.UvVisitNotesFragment
 
-class UvViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitData: String) : FragmentStateAdapter(fragmentActivity) {
+class UvViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitData: String, private val changes: Boolean) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 3
 
     // Return a unique ID for each fragment position.
@@ -27,9 +27,9 @@ class UvViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitDa
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> UvToDoFragment.newInstance(visitData)
-            1 -> UvMedicationFragment.newInstance(visitData)
-            2 -> UvVisitNotesFragment.newInstance(visitData)
+            0 -> UvToDoFragment.newInstance(visitData, changes)
+            1 -> UvMedicationFragment.newInstance(visitData, changes)
+            2 -> UvVisitNotesFragment.newInstance(visitData, changes)
             else -> throw IllegalArgumentException("Invalid position")
         }
     }

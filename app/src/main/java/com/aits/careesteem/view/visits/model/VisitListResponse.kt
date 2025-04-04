@@ -28,6 +28,7 @@ data class VisitListResponse(
         var placeId: Any,
         var visitDate: String,
         var visitStatus: String,
+        var visitType: String,
         var actualStartTime: List<String> = emptyList(),
         var actualEndTime: List<String> = emptyList(),
         var TotalActualTimeDiff: List<String> = emptyList(),

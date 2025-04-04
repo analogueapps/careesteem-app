@@ -40,7 +40,8 @@ class VisitsFragment : Fragment(),
     OngoingVisitsAdapter.OngoingItemItemClick,
     OngoingVisitsAdapter.OngoingCheckoutItemItemClick,
     UpcomingVisitsAdapter.OnItemItemClick,
-    UpcomingVisitsAdapter.OnCheckoutItemItemClick
+    UpcomingVisitsAdapter.OnCheckoutItemItemClick,
+    CompleteVisitsAdapter.OnViewItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
@@ -95,7 +96,7 @@ class VisitsFragment : Fragment(),
         binding.rvUpcomingVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUpcomingVisits.adapter = upcomingVisitsAdapter
 
-        completeVisitsAdapter = CompleteVisitsAdapter(requireContext())
+        completeVisitsAdapter = CompleteVisitsAdapter(requireContext(), this@VisitsFragment)
         binding.rvCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCompletedVisits.adapter = completeVisitsAdapter
     }
@@ -367,6 +368,20 @@ class VisitsFragment : Fragment(),
 
         } else {
             AlertUtils.showToast(requireActivity(), "Client location not found")
+        }
+    }
+
+    override fun onViewItemItemClicked(data: VisitListResponse.Data) {
+        if(data.visitType == "Unscheduled") {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+                visitDetailsId = data.visitDetailsId
+            )
+            findNavController().navigate(direction)
+        } else {
+            val direction = VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(
+                visitDetailsId = data.visitDetailsId
+            )
+            findNavController().navigate(direction)
         }
     }
 

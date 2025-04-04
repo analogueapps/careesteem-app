@@ -261,6 +261,20 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/tvViewVisit"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:text="@string/view"
+            android:textAllCaps="false"
+            android:textFontWeight="500"
+            android:textSize="@dimen/_10ssp"
+            tools:targetApi="p" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </com.google.android.material.card.MaterialCardView>

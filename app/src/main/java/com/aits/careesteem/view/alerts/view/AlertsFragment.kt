@@ -21,8 +21,6 @@ import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.alerts.adapter.AlertsAdapter
 import com.aits.careesteem.view.alerts.viewmodel.AlertsViewModel
-import com.aits.careesteem.view.clients.adapter.ClientAdapter
-import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

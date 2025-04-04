@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
-import com.aits.careesteem.view.alerts.adapter.AlertsAdapter
 import com.aits.careesteem.view.notification.adapter.NotificationAdapter
 import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint

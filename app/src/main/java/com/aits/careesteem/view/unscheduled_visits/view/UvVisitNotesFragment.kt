@@ -15,6 +15,7 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogVisitNotesBinding
 import com.aits.careesteem.databinding.FragmentUvMedicationBinding
 import com.aits.careesteem.databinding.FragmentUvVisitNotesBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
@@ -43,20 +44,24 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     private lateinit var uvVisitNotesListAdapter: UvVisitNotesListAdapter
 
     private var id: String? = null
+    private var isChanges = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
         id = arguments?.getString(ARG_ID)
+        isChanges = arguments?.getBoolean(ARG_CHANGES)!!
     }
 
     companion object {
         private const val ARG_ID = "ARG_ID"
+        private const val ARG_CHANGES = "ARG_CHANGES"
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(param1: String, param2: Boolean) =
             UvVisitNotesFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_ID, param1)
+                    putBoolean(ARG_CHANGES, param2)
                 }
             }
     }
@@ -151,6 +156,11 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
 
     @SuppressLint("SetTextI18n")
     override fun onItemItemClicked(data: UvVisitNotesListResponse.Data) {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            return
+        }
+
         val dialog = Dialog(requireContext())
         val binding: DialogVisitNotesBinding =
             DialogVisitNotesBinding.inflate(layoutInflater)
@@ -190,6 +200,11 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
 
     @SuppressLint("SetTextI18n")
     private fun addNotes() {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            return
+        }
+
         val dialog = Dialog(requireContext())
         val binding: DialogVisitNotesBinding =
             DialogVisitNotesBinding.inflate(layoutInflater)

@@ -19,6 +19,7 @@
     <string name="clients">Clients</string>
     <string name="alerts">Alerts</string>
     <string name="list_of_clients">List of Clients</string>
+    <string name="list_of_agencies">List of Agencies</string>
     <string name="create_an_unscheduled_visit">Create an unscheduled Visit</string>
     <string name="raise_an_alert">Raise an Alert</string>
     <string name="create_an_alert">Create an Alert</string>
@@ -50,6 +51,7 @@
     <string name="developed_by">Developed by</string>
     <string name="care_esteem_ltd">Care Esteem LTD</string>
     <string name="logout">Logout</string>
+    <string name="switch_account">Switch Account</string>
     <string name="enter_passcode">Enter Passcode</string>
     <string name="enter_your_6_digit_passcode_to_log_in">Enter your 6-digit passcode to log in</string>
     <string name="setup_passcode">Setup Passcode</string>
@@ -92,4 +94,6 @@
     <string name="pain_assessment">Pain Assessment</string>
     <string name="skin_assessment">Skin Assessment</string>
     <string name="sleeping_assessment">Sleeping Assessment</string>
+    <string name="select_your_agency">Select your Agency</string>
+    <string name="view">View</string>
 </resources>

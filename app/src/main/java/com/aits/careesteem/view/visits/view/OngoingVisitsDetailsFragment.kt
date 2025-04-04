@@ -107,7 +107,11 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // Cancel any previous timer if this view is recycled
             timerJob?.cancel()
 
-            if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
+            if(data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
+                btnCheckout.text = "Completed"
+                btnCheckout.isEnabled = false
+                tvPlanTime.text = data.TotalActualTimeDiff[0]
+            } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isEmpty()) {
                 btnCheckout.text = "Check out"
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     println("Remaining Time: $remainingTime")
@@ -118,7 +122,10 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 tvPlanTime.text = "00:00"
             }
 
-            val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString())
+            var changes = true
+            changes = !(data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isNotEmpty())
+
+            val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString(), changes)
             binding.viewPager.adapter = adapter
 
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

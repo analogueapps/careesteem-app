@@ -25,9 +25,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentVerifyOtpBinding
-import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
@@ -35,13 +33,9 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.SmsBroadcastReceiver
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
-import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -228,7 +222,6 @@ class VerifyOtpFragment : Fragment() {
         binding.lifecycleOwner = this
 
         viewModel.userData = userData
-        viewModel.action = args.action
 
         binding.onClickResendOtp.setOnClickListener {
             viewModel.onResendOtp(requireActivity())
@@ -259,25 +252,34 @@ class VerifyOtpFragment : Fragment() {
             if (response != null) {
                 val gson = Gson()
                 val dataString = gson.toJson(response.data[0])
-                editor.putString(SharedPrefConstant.USER_DATA, dataString)
-                editor.apply()
-                if(args.action == 1 && AppConstant.checkNull(response.data[0].passcode) != "N/A") {
-                    editor.putString(SharedPrefConstant.LOGIN_PASSCODE, response.data[0].passcode)
-                    editor.apply()
+                if (response.dbList.size == 1) {
+                    viewModel.onAgencySelected(requireActivity(), response.dbList[0])
+                } else if(response.dbList.size > 1) {
+                    val dbString = gson.toJson(response.dbList)
                     viewLifecycleOwner.lifecycleScope.launch {
-                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToEnterPasscodeFragment(
-                            response = dataString
+                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSelectAgencyFragment(
+                            response = dbString
                         )
                         findNavController().navigate(direction)
                     }
                 } else {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSetupPasscodeFragment(
-                            response = dataString,
-                            action = args.action
-                        )
-                        findNavController().navigate(direction)
-                    }
+                    AlertUtils.showToast(requireActivity(), "No agency found. Contact admin")
+                    requireActivity().finishAffinity()
+                }
+            }
+        })
+
+        viewModel.createHashToken.observe(viewLifecycleOwner, Observer { response ->
+            if (response != null) {
+                val gson = Gson()
+                val dataString = gson.toJson(response.data[0])
+                editor.putString(SharedPrefConstant.USER_DATA, dataString)
+                editor.apply()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSetupPasscodeFragment(
+                        response = dataString
+                    )
+                    findNavController().navigate(direction)
                 }
             }
         })

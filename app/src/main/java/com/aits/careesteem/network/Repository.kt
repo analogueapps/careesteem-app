@@ -10,6 +10,7 @@ import android.content.Context
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
@@ -74,6 +75,18 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             contactNumber = contactNumber,
             passcode = passcode,
             hashToken = hashToken,
+        )
+    }
+
+    suspend fun selectDbName(
+        dbName: String,
+        contactNumber: String,
+        id: Int,
+    ): Response<CreateHashToken> {
+        return apiService.selectDbName(
+            contactNumber = contactNumber,
+            dbName = dbName,
+            id = id,
         )
     }
 

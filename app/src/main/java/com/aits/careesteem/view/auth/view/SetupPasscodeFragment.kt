@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentEnterPasscodeBinding
 import com.aits.careesteem.databinding.FragmentSetupPasscodeBinding
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,12 +22,12 @@ class SetupPasscodeFragment : Fragment() {
     private var _binding: FragmentSetupPasscodeBinding? = null
     private val binding get() = _binding!!
     private val args: SetupPasscodeFragmentArgs by navArgs()
-    private var userData: OtpVerifyResponse.Data? = null
+    private var userData: CreateHashToken.Data? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gson = Gson()
-        userData = gson.fromJson(args.response, OtpVerifyResponse.Data::class.java)
+        userData = gson.fromJson(args.response, CreateHashToken.Data::class.java)
     }
 
     override fun onCreateView(
@@ -48,8 +49,7 @@ class SetupPasscodeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val direction = SetupPasscodeFragmentDirections.actionSetupPasscodeFragmentToConfirmPasscodeFragment(
                 response = args.response,
-                passcode = passcode,
-                action = args.action
+                passcode = passcode
             )
             findNavController().navigate(direction)
         }

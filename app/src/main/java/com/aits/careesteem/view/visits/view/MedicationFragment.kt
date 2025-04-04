@@ -46,23 +46,27 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
 
     private var id: String? = null
     private var clientId: String? = null
+    private var isChanges = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
         id = arguments?.getString(ARG_VISIT_ID)
         clientId = arguments?.getString(ARG_CLIENT_ID)
+        isChanges = arguments?.getBoolean(ARG_CHANGES)!!
     }
 
     companion object {
         private const val ARG_VISIT_ID = "ARG_VISIT_ID"
         private const val ARG_CLIENT_ID = "ARG_CLIENT_ID"
+        private const val ARG_CHANGES = "ARG_CHANGES"
         @JvmStatic
-        fun newInstance(paramVisitId: String, paramClientId: String) =
+        fun newInstance(paramVisitId: String, paramClientId: String, paramChanges: Boolean) =
             MedicationFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_VISIT_ID, paramVisitId)
                     putString(ARG_CLIENT_ID, paramClientId)
+                    putBoolean(ARG_CHANGES, paramChanges)
                 }
             }
     }
@@ -154,6 +158,11 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
 
     @SuppressLint("SetTextI18n")
     override fun onItemItemClicked(data: MedicationDetailsListResponse.Data) {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            return
+        }
+
         val dialog = Dialog(requireContext())
         val binding: DialogMedicationUpdateBinding =
             DialogMedicationUpdateBinding.inflate(layoutInflater)

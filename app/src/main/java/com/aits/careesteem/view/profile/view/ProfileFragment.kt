@@ -18,6 +18,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
@@ -79,6 +80,48 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             showLogout()
         }
+
+        binding.btnSwitch.setOnClickListener {
+            showSwitch()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showSwitch() {
+        val dialog = Dialog(requireContext())
+        val binding: DialogForceCheckBinding =
+            DialogForceCheckBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        binding.dialogTitle.text = "Switch Account"
+        binding.dialogBody.text = "If you wish to switch your account, please check your current ongoing visits beforehand, as you may lose the status of your ongoing visits."
+        binding.btnPositive.text = "Proceed"
+        binding.btnNegative.text = "Cancel"
+
+        // Handle button clicks
+        binding.btnPositive.setOnClickListener {
+            dialog.dismiss()
+            editor.clear()
+            editor.apply()
+            val intent = Intent(requireActivity(), AuthActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     private fun showLogout() {

@@ -8,6 +8,7 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
+import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
@@ -65,6 +66,14 @@ interface ApiService {
         @Field("contact_number") contactNumber: String,
         @Field("passcode") passcode: Int
     ): Response<JsonObject>
+
+    @FormUrlEncoded
+    @POST("select-dbname")
+    suspend fun selectDbName(
+        @Field("id") id: Int,
+        @Field("contact_number") contactNumber: String,
+        @Field("db_name") dbName: String
+    ): Response<CreateHashToken>
 
     @FormUrlEncoded
     @POST("create-passcode")
