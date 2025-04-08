@@ -107,9 +107,6 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         val dataString = args.clinetData
         // Convert the JSON string back to your data model.
         clientData = Gson().fromJson(dataString, ClientsList.Data::class.java)
-        if(clientData?.place_id != null && clientData?.place_id != "") {
-            requestLocationPermissions()
-        }
     }
 
     override fun onCreateView(
@@ -221,20 +218,20 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                         }
 
                         1 -> {
-                            // Handle Tab 2 selection
-                            //openBarCodeScanner()
-                            binding.apply {
-                                layoutMap.visibility = View.GONE
-                                layoutQr.visibility = View.VISIBLE
+                            // Tab 2 (QR) - Check permission first
+                            if (isCameraPermissionGranted()) {
+                                // Permission granted
+                                binding.apply {
+                                    layoutMap.visibility = View.GONE
+                                    layoutQr.visibility = View.VISIBLE
+                                }
+                                callQr()
+                            } else {
+                                requestCameraPermission()
+
+                                // Revert back to previous tab (Map tab)
+                                tabLayout.getTabAt(0)?.select()
                             }
-//                            binding.qrView.resume()
-//                            CoroutineScope(Dispatchers.Main).launch {
-//                                delay(5000)
-//                                if(viewModel.isAutoCheckIn.value == true) {
-//                                    showCheckPopup()
-//                                }
-//                            }
-                            callQr()
                         }
 
                         else -> {}
@@ -343,6 +340,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
+        if (!isAdded) return  // Fragment is not attached yet
+
         val dialog = Dialog(requireContext())
         val binding: DialogForceCheckBinding =
             DialogForceCheckBinding.inflate(layoutInflater)
@@ -404,21 +403,40 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     private fun isCameraPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.CAMERA
+            Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             showPermissionExplanationDialog()
+        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED
+        ) {
+            showGoToSettingsDialog()
         } else {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(android.Manifest.permission.CAMERA),
+                arrayOf(Manifest.permission.CAMERA),
                 REQUEST_CAMERA_PERMISSION_CODE
             )
         }
     }
+
+    private fun showGoToSettingsDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Required")
+            .setMessage("Camera permission is permanently denied. Please go to settings to enable it.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
 
     private fun showPermissionExplanationDialog() {
         AlertDialog.Builder(requireContext())
@@ -427,7 +445,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             .setPositiveButton("OK") { _, _ ->
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.CAMERA),
+                    arrayOf(Manifest.permission.CAMERA),
                     REQUEST_CAMERA_PERMISSION_CODE
                 )
             }

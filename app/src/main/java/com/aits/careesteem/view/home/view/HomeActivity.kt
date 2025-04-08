@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.view.home.view
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
@@ -220,7 +221,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun requestNotificationPermissions() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            val permission = android.Manifest.permission.POST_NOTIFICATIONS
+            val permission = Manifest.permission.POST_NOTIFICATIONS
             val hasPermission = ContextCompat.checkSelfPermission(this, permission) == android.content.pm.PackageManager.PERMISSION_GRANTED
 
             if (!hasPermission) {

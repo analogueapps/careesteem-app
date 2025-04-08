@@ -304,14 +304,20 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         }
 
                         1 -> {
-                            // Handle Tab 2 selection
-                            //openBarCodeScanner()
-                            binding.apply {
-                                layoutMap.visibility = View.GONE
-                                layoutQr.visibility = View.VISIBLE
+                            // Tab 2 (QR) - Check permission first
+                            if (isCameraPermissionGranted()) {
+                                // Permission granted
+                                binding.apply {
+                                    layoutMap.visibility = View.GONE
+                                    layoutQr.visibility = View.VISIBLE
+                                }
+                                callQr(data)
+                            } else {
+                                requestCameraPermission()
+
+                                // Revert back to previous tab (Map tab)
+                                tabLayout.getTabAt(0)?.select()
                             }
-                            //binding.qrView.resume()
-                            callQr(data)
                         }
 
                         else -> {}
@@ -433,6 +439,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
+        if (!isAdded) return  // Fragment is not attached yet
+
         val dialog = Dialog(requireContext())
         val binding: DialogForceCheckBinding =
             DialogForceCheckBinding.inflate(layoutInflater)
@@ -513,6 +521,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 googleMap.isMyLocationEnabled = true
             }
             updateMarkerOnMap(latLng)
+            getDestinationLatLng()
         }
 
         // Enable zoom controls & gestures
@@ -520,7 +529,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         googleMap.uiSettings.isZoomGesturesEnabled = true
         if(ongoingVisitsDetailsViewModel.visitsDetails.value != null) {
             if(ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId!!.isNotEmpty()) {
-                getDestinationLatLng()
+                //getDestinationLatLng()
+                requestLocationPermissions()
             }
         }
     }
@@ -616,21 +626,39 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun isCameraPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.CAMERA
+            Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
 
     private fun requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             showPermissionExplanationDialog()
+        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED
+        ) {
+            showGoToSettingsDialog()
         } else {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(android.Manifest.permission.CAMERA),
+                arrayOf(Manifest.permission.CAMERA),
                 REQUEST_CAMERA_PERMISSION_CODE
             )
         }
+    }
+
+    private fun showGoToSettingsDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Required")
+            .setMessage("Camera permission is permanently denied. Please go to settings to enable it.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showPermissionExplanationDialog() {
@@ -640,7 +668,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .setPositiveButton("OK") { _, _ ->
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.CAMERA),
+                    arrayOf(Manifest.permission.CAMERA),
                     REQUEST_CAMERA_PERMISSION_CODE
                 )
             }

@@ -182,6 +182,7 @@ class VerifyOtpViewModel @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
+                    _isLoading.value = false
                     response.body()?.let { apiResponse ->
                         _otpVerifyResponse.value = apiResponse
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully")
@@ -227,13 +228,12 @@ class VerifyOtpViewModel @Inject constructor(
                 )
 
                 if (response.isSuccessful) {
+                    _isLoading.value = false
                     response.body()?.let { apiResponse ->
-                        _createHashToken.value = apiResponse
                         AlertUtils.showToast(activity, "Agency Selected Successfully")
-                        editor.putString(SharedPrefConstant.CONTACT_NUMBER, userData?.contact_number)
-                        editor.putInt(SharedPrefConstant.TELEPHONE_CODE, userData?.telephone_codes!!)
                         editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())
                         editor.apply()
+                        _createHashToken.value = apiResponse
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)

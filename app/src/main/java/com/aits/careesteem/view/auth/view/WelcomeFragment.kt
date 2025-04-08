@@ -1,6 +1,7 @@
 package com.aits.careesteem.view.auth.view
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -29,6 +31,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WelcomeFragment : Fragment() {
@@ -37,6 +40,9 @@ class WelcomeFragment : Fragment() {
     private val viewModel: WelcomeViewModel by viewModels()
 
     private val phoneNumberUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
 //    override fun onResume() {
 //        super.onResume()
@@ -52,6 +58,10 @@ class WelcomeFragment : Fragment() {
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         setupViewmodel()
         setupWidget()
+
+        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.FALSE) {
+            initAutoDetect()
+        }
         return binding.root
     }
 
@@ -116,7 +126,7 @@ class WelcomeFragment : Fragment() {
         binding.spinner.adapter = adapter
 
         // Find the country with ID 219 (for example)
-        val countryId = 219
+        val countryId = 96
 
         // Find the index of the item corresponding to country ID 219
         val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }

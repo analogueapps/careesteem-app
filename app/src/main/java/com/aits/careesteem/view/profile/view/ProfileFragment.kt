@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
         dialog.setCancelable(AppConstant.FALSE)
 
         binding.dialogTitle.text = "Switch Account"
-        binding.dialogBody.text = "If you wish to switch your account, please check your current ongoing visits beforehand, as you may lose the status of your ongoing visits."
+        binding.dialogBody.text = "If you wish to switch your account, please check your current ongoing visits and any unsaved data will be lost beforehand, as you may lose the status of your ongoing visits."
         binding.btnPositive.text = "Proceed"
         binding.btnNegative.text = "Cancel"
 
