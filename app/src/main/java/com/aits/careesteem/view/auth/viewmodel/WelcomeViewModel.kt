@@ -68,10 +68,11 @@ class WelcomeViewModel @Inject constructor(
         if(number.isBlank()) {
             phoneNumberError.value =  "Phone number is required"
             return
-        }
-        if(!number.matches(Regex("^[0-9]+\$"))) {
+        } else if(!number.matches(Regex("^[0-9]+\$"))) {
             phoneNumberError.value = "Phone number must contain only digits"
             return
+        } else {
+            phoneNumberError.value = null
         }
 //        val phoneUtil = PhoneNumberUtil.getInstance()
 //        try {

@@ -1,7 +1,6 @@
 package com.aits.careesteem.view.visits.view
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -10,21 +9,20 @@ import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.TextView
-import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -34,10 +32,9 @@ import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentCheckOutBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.home.view.HomeActivity
-import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
@@ -50,28 +47,24 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.vision.CameraSource
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.tabs.TabLayout
-import com.google.maps.android.PolyUtil
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.CaptureActivity
 import com.journeyapps.barcodescanner.camera.CameraSettings
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -79,25 +72,25 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentCheckOutBinding? = null
     private val binding get() = _binding!!
     private val args: CheckOutFragmentArgs by navArgs()
-    // Viewmodel
+
     private val viewModel: CheckoutViewModel by viewModels()
-    // Viewmodel
     private val ongoingVisitsDetailsViewModel: OngoingVisitsDetailsViewModel by viewModels()
 
     private lateinit var googleMap: GoogleMap
     private lateinit var placesClient: PlacesClient
-    private lateinit var destinationLatLng: LatLng
+    private var destinationLatLng: LatLng? = null
 
-    private lateinit var startForResult: ActivityResultLauncher<Intent>
+    private var cameraSource: CameraSource? = null
+    private var qrScanning = false
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1100
+        private const val QR_SCAN_TIMEOUT = 5000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize Places API
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), getString(R.string.google_api_key))
         }
@@ -105,153 +98,97 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCheckOutBinding.inflate(inflater, container, false)
-        //setupWidget(data)
-        setupViewModel()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupUI()
+    }
+
+    private fun setupUI() {
+        setupTabLayout()
+        setupMap()
+    }
+
+    private fun setupTabLayout() {
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Geo Location"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("QR-Code"))
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> showMapView()
+                    1 -> showQrView()
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
+    private fun showMapView() {
+        binding.layoutMap.visibility = View.VISIBLE
+        binding.layoutQr.visibility = View.GONE
+        stopQrScanning()
+    }
+
+    private fun showQrView() {
+        if (!isCameraPermissionGranted()) {
+            requestCameraPermission()
+            binding.tabLayout.getTabAt(0)?.select()
+            return
+        }
+
+        binding.layoutMap.visibility = View.GONE
+        binding.layoutQr.visibility = View.VISIBLE
+        startQrScanning()
+    }
+
+    private fun setupMap() {
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+    }
+
     private fun setupViewModel() {
-        // Observe loading state
+        setupLoadingObservers()
+        setupVisitDetailsObserver()
+        setupLocationObservers()
+        setupQrVerificationObservers()
+        setupCheckInOutObservers()
+    }
+
+    private fun setupLoadingObservers() {
         ongoingVisitsDetailsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                ProgressLoader.showProgress(requireActivity())
-            } else {
-                ProgressLoader.dismissProgress()
-            }
+            if (isLoading) ProgressLoader.showProgress(requireActivity())
+            else ProgressLoader.dismissProgress()
         }
 
-        // Data visibility
-        ongoingVisitsDetailsViewModel.visitsDetails.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                requestLocationPermissions()
-                setupWidget(data)
-            }
-        }
-
-        // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                ProgressLoader.showProgress(requireActivity())
-            } else {
-                ProgressLoader.dismissProgress()
-            }
+            if (isLoading) ProgressLoader.showProgress(requireActivity())
+            else ProgressLoader.dismissProgress()
         }
+    }
 
-        viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
-            if (verified) {
-                if(args.action == 0) {
-                    if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
-                        viewModel.createUnscheduledVisit(requireActivity(), ongoingVisitsDetailsViewModel.visitsDetails.value?.clientId!!, true)
-                    } else {
-                        viewModel.addVisitCheckIn(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            true,
-                        )
-                    }
-                } else if(args.action == 1) {
-                    if (verified) {
-                        viewModel.updateVisitCheckOut(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            true
-                        )
-                    }
-                }
-            }
-        }
-
-        viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { verified ->
-            if (verified) {
-                viewModel.updateVisitCheckOut(
-                    requireActivity(),
-                    ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                    true
-                )
-            }
-        }
-
-        // add uv visit
-        viewModel.userActualTimeData.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                val visitData = VisitDetailsResponse.Data(
-                    clientId = data.client_id,
-                    visitDetailsId = data.visit_details_id,
-                    TotalActualTimeDiff = emptyList(),
-                    actualEndTime = emptyList(),
-                    actualStartTime = emptyList(),
-                    chooseSessions = "null",
-                    clientAddress = "",
-                    clientName = "John Doe",
-                    latitude = "null",
-                    longitude = "null",
-                    placeId = "place123",
-                    plannedEndTime = "12:00 PM",
-                    plannedStartTime = "9:00 AM",
-                    profile_photo = listOf("photo1.jpg"),
-                    profile_photo_name = listOf("photo_name1"),
-                    radius = "null",
-                    sessionTime = "3 hours",
-                    sessionType = "Consultation",
-                    totalPlannedTime = "4 hours",
-                    uatId = 123,
-                    userId = "user123",
-                    userName = listOf("John", "Doe"),
-                    usersRequired = "null",
-                    visitDate = "2025-03-28",
-                    visitStatus = "Completed",
-                    visitType = "Routine"
-                )
-
-                viewModel.addVisitCheckIn(
-                    requireActivity(),
-                    visitData,
-                    true
-                )
-            }
-        }
-
-        viewModel.addVisitCheckInResponse.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(
-                        R.id.checkOutFragment,
-                        true
-                    ) // This removes CheckOutFragment from the back stack
-                    .build()
-
-                if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
-                    val direction =
-                        CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                            visitDetailsId = args.visitDetailsId
-                        )
-                    findNavController().navigate(direction, navOptions)
-                } else {
-                    val direction =
-                        CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
-                            visitDetailsId = args.visitDetailsId
-                        )
-                    findNavController().navigate(direction, navOptions)
-                }
-            }
-        }
-
-        viewModel.updateVisitCheckoutResponse.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                val intent = Intent(requireActivity(), HomeActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
+    private fun setupVisitDetailsObserver() {
+        ongoingVisitsDetailsViewModel.visitsDetails.observe(viewLifecycleOwner) { data ->
+            data?.let {
+                updateUIForVisitDetails(it)
+                requestLocationPermissions()
             }
         }
     }
 
-    @SuppressLint("InflateParams")
-    private fun setupWidget(data: VisitDetailsResponse.Data) {
-
+    private fun updateUIForVisitDetails(data: VisitDetailsResponse.Data) {
+//        binding.btnCheckIn.visibility = if (args.action == 0 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
+//        binding.btnCheckOut.visibility = if (args.action == 1 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
         if (args.action == 0) {
             if (data.placeId.toString().isEmpty()) {
                 binding.btnCheckIn.visibility = View.GONE
@@ -266,112 +203,18 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        val tabLayout: TabLayout = binding.tabLayout
-
-        val tab1 = tabLayout.newTab().setText("Geo Location")
-        val tab2 = tabLayout.newTab().setText("QR-Code")
-
-        // Add tabs to TabLayout
-        tabLayout.addTab(tab1)
-        tabLayout.addTab(tab2)
-
-        for (i in 0 until tabLayout.tabCount) {
-            val tab = tabLayout.getTabAt(i)
-            val textView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.lyt_tab_title, null) as TextView
-            textView.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            // Set tab text correctly
-            textView.text = tab?.text
-            tab?.customView = textView
-        }
-
-        // Set a listener for tab selection events
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                // Handle tab selection
-                tab?.let {
-                    when (it.position) {
-                        0 -> {
-                            // Handle Tab 1 selection
-                            binding.apply {
-                                layoutMap.visibility = View.VISIBLE
-                                layoutQr.visibility = View.GONE
-                            }
-                            stopCamera()
-                        }
-
-                        1 -> {
-                            // Tab 2 (QR) - Check permission first
-                            if (isCameraPermissionGranted()) {
-                                // Permission granted
-                                binding.apply {
-                                    layoutMap.visibility = View.GONE
-                                    layoutQr.visibility = View.VISIBLE
-                                }
-                                callQr(data)
-                            } else {
-                                requestCameraPermission()
-
-                                // Revert back to previous tab (Map tab)
-                                tabLayout.getTabAt(0)?.select()
-                            }
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // Handle tab unselection
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // Handle tab reselection
-            }
-        })
-
-        placesClient = Places.createClient(requireContext())
-
-        // Load Google Map
-        val mapFragment =
-            childFragmentManager.findFragmentById(binding.map.id) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
         binding.btnCheckIn.setOnClickListener {
             if(viewModel.markerPosition.value == null) {
                 AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
                 return@setOnClickListener
             }
-            val currentLocation = LatLng(
-                viewModel.markerPosition.value!!.latitude,
-                viewModel.markerPosition.value!!.longitude
-            )  // Example: Your current location
-            //val destinationLocation = LatLng(18.7858015, 77.9852853)  // Example: API response destination
-            //val radius = 5000f  // Example: 5 km radius
-            if (isWithinRadius(currentLocation, destinationLatLng, data?.radius.toString().toFloat())) {
-                AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
+            checkLocationAndProceed { ->
                 if (data?.visitStatus == "Unscheduled") {
                     viewModel.createUnscheduledVisit(requireActivity(), data?.clientId!!, true)
                 } else {
-                    viewModel.addVisitCheckIn(
-                        requireActivity(),
-                        data,
-                        true
-                    )
+                    showCheckInPopup(data)
                 }
-            } else {
-                AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
-                //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
-                AlertUtils.showToast(
-                    requireActivity(),
-                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
-                )
             }
-
         }
 
         binding.btnCheckOut.setOnClickListener {
@@ -379,197 +222,363 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
                 return@setOnClickListener
             }
-            val currentLocation = LatLng(
-                viewModel.markerPosition.value!!.latitude,
-                viewModel.markerPosition.value!!.longitude
-            )  // Example: Your current location
-            //val destinationLocation = LatLng(18.7858015, 77.9852853)  // Example: API response destination
-            //val radius = 5000f  // Example: 5 km radius
-            if (isWithinRadius(currentLocation, destinationLatLng, data?.radius.toString().toFloat())) {
-                AlertUtils.showLog("LocationCheck", "Current location is within the radius!")
-                viewModel.updateVisitCheckOut(
-                    requireActivity(),
-                    data,
-                    true
+            checkLocationAndProceed { ->
+                showCheckOutPopup(data)
+            }
+        }
+    }
+
+    private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
+        val startTime = DateTimeUtils.getCurrentTimeGMT()
+//        val alertType =  {
+//            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+//            val givenTime = LocalTime.parse(data.plannedEndTime.toString(), formatter)
+//            val currentUtcTime = LocalTime.parse(startTime, formatter)
+//            when {
+//                currentUtcTime.isBefore(givenTime) -> "Early Check Out"
+//                currentUtcTime.isAfter(givenTime) -> "Late Check Out"
+//                else -> ""
+//            }
+//        }
+        val alertType = try {
+            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+            // Parse the given time and current time
+            val givenTime = LocalTime.parse(data.plannedEndTime.toString(), formatter)
+            val currentUtcTime = LocalTime.parse(startTime, formatter)
+
+            // Check the comparison between the current time and planned end time
+            when {
+                currentUtcTime.isBefore(givenTime) -> "Early Check Out"
+                currentUtcTime.isAfter(givenTime) -> "Late Check Out"
+                else -> ""
+            }
+        } catch (e: Exception) {
+            // Handle the exception here (log it, show a message, etc.)
+            e.printStackTrace()  // You can replace this with proper logging or message display
+            "" // Return a default error message or handle it as needed
+        }
+
+        if(alertType.isNotEmpty()) {
+            if (!isAdded) return
+
+            val dialog = Dialog(requireContext()).apply {
+                val binding = DialogForceCheckBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+                setCancelable(false)
+
+                binding.dialogTitle.text = alertType.toString()
+                binding.dialogBody.text = if (alertType.toString() == "Early Check Out")
+                    "You’re checking out earlier than planned time. Do you want to continue?"
+                else
+                    "You’re checking out later than planned time. Do you want to continue?\n"
+
+                binding.btnPositive.setOnClickListener {
+                    dismiss()
+                    viewModel.updateVisitCheckOut(
+                        requireActivity(),
+                        data,
+                        false
+                    )
+                }
+
+                binding.btnNegative.setOnClickListener { dismiss() }
+
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
+                window?.setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
                 )
+            }
+            dialog.show()
+        } else {
+            viewModel.updateVisitCheckOut(
+                requireActivity(),
+                data,
+                true
+            )
+        }
+    }
+
+
+    private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
+        val startTime = DateTimeUtils.getCurrentTimeGMT()
+//        val alertType =  {
+//            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+//            val givenTime = LocalTime.parse(data.plannedStartTime, formatter)
+//            val currentUtcTime = LocalTime.parse(startTime, formatter)
+//            when {
+//                currentUtcTime.isBefore(givenTime) -> "Early Check In"
+//                currentUtcTime.isAfter(givenTime) -> "Late Check In"
+//                else -> ""
+//            }
+//        }
+        val alertType = try {
+            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+            // Parse the given time and current time
+            val givenTime = LocalTime.parse(data.plannedStartTime.toString(), formatter)
+            val currentUtcTime = LocalTime.parse(startTime, formatter)
+
+            // Check the comparison between the current time and planned end time
+            when {
+                currentUtcTime.isBefore(givenTime) -> "Early Check In"
+                currentUtcTime.isAfter(givenTime) -> "Late Check In"
+                else -> ""
+            }
+        } catch (e: Exception) {
+            // Handle the exception here (log it, show a message, etc.)
+            e.printStackTrace()  // You can replace this with proper logging or message display
+            "" // Return a default error message or handle it as needed
+        }
+
+        if(alertType.isNotEmpty()) {
+            if (!isAdded) return
+
+            val dialog = Dialog(requireContext()).apply {
+                val binding = DialogForceCheckBinding.inflate(layoutInflater)
+                setContentView(binding.root)
+                setCancelable(false)
+
+                binding.dialogTitle.text = alertType.toString()
+                binding.dialogBody.text = if (alertType.toString() == "Late Check In")
+                    "You’re checking in later than planned time. Do you want to continue?"
+                else
+                    "You’re checking in earlier than planned time. Do you want to continue?"
+
+                binding.btnPositive.setOnClickListener {
+                    dismiss()
+                    viewModel.addVisitCheckIn(
+                        requireActivity(),
+                        data,
+                        false
+                    )
+                }
+
+                binding.btnNegative.setOnClickListener { dismiss() }
+
+                window?.setBackgroundDrawableResource(android.R.color.transparent)
+                window?.setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
+                )
+            }
+            dialog.show()
+        } else {
+            viewModel.addVisitCheckIn(
+                requireActivity(),
+                data,
+                true
+            )
+        }
+    }
+
+    private fun setupLocationObservers() {
+        viewModel.markerPosition.observe(viewLifecycleOwner) { latLng ->
+            latLng?.let {
+                updateMarkerOnMap(it)
+                getDestinationLatLng()
+            }
+        }
+    }
+
+    private fun setupQrVerificationObservers() {
+        viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
+            if (verified) {
+                handleVerifiedQr()
+            }
+        }
+
+        viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
+            if (eligible) {
+                ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+                    viewModel.updateVisitCheckOut(requireActivity(), data, true)
+                }
+            }
+        }
+    }
+
+    private fun handleVerifiedQr() {
+        when (args.action) {
+            0 -> handleCheckIn()
+            1 -> handleCheckOut()
+        }
+    }
+
+    private fun handleCheckIn() {
+        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+            if (data.visitStatus == "Unscheduled") {
+                viewModel.createUnscheduledVisit(requireActivity(), data.clientId, true)
             } else {
-                AlertUtils.showLog("LocationCheck", "Current location is OUTSIDE the radius.")
-                //AlertUtils.showToast(requireActivity(), "Current location is OUTSIDE the radius.")
-                AlertUtils.showToast(
-                    requireActivity(),
-                    "Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification."
-                )
-            }
-
-        }
-    }
-
-    private fun callQr(data: VisitDetailsResponse.Data) {
-        val cameraSettings = CameraSettings().apply {
-            requestedCameraId = 0 // Use 0 for the back camera, or change as needed
-        }
-
-        binding.qrView.barcodeView.cameraSettings = cameraSettings
-
-        binding.qrView.decodeSingle(object : BarcodeCallback {
-            override fun barcodeResult(result: BarcodeResult) {
-                Log.d("barcode result:", result.text)
-                // do your thing with result
-                viewModel.verifyQrCode(requireActivity(), data.clientId, result.text)
-                stopCamera()
-            }
-
-            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
-        })
-        binding.qrView.resume()
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(5000)
-            if(viewModel.isAutoCheckIn.value == true) {
-                stopCamera()
-                showCheckPopup()
+                showCheckInPopup(data)
             }
         }
     }
 
-    // Stop or release the camera after scanning is complete
-    fun stopCamera() {
-        binding.qrView.barcodeView.pause() // Pause decoding QR codes
-        binding.qrView.barcodeView.stopDecoding() // Stop decoding QR codes
+    private fun handleCheckOut() {
+        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+            viewModel.updateVisitCheckOut(requireActivity(), data, true)
+        }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showCheckPopup() {
-        if (!isAdded) return  // Fragment is not attached yet
-
-        val dialog = Dialog(requireContext())
-        val binding: DialogForceCheckBinding =
-            DialogForceCheckBinding.inflate(layoutInflater)
-
-        dialog.setContentView(binding.root)
-        dialog.setCancelable(AppConstant.FALSE)
-
-        if(args.action == 0) {
-            binding.dialogTitle.text = "Force Check In"
-            binding.dialogBody.text = "Are you sure want to force check in?"
-        } else if(args.action == 1) {
-            binding.dialogTitle.text = "Force Check Out"
-            binding.dialogBody.text = "Are you sure want to force check out?"
+    private fun setupCheckInOutObservers() {
+        viewModel.addVisitCheckInResponse.observe(viewLifecycleOwner) { data ->
+            data?.let { navigateAfterCheckIn() }
         }
 
-        // Handle button clicks
-        binding.btnPositive.setOnClickListener {
-            dialog.dismiss()
-            if (args.action == 0) {
-                viewModel.addVisitCheckIn(
-                    requireActivity(),
-                    ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                    false
-                )
-            } else if (args.action == 1) {
-                viewModel.updateVisitCheckOut(
-                    requireActivity(),
-                    ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                    false
-                )
-            }
+        viewModel.updateVisitCheckoutResponse.observe(viewLifecycleOwner) { data ->
+            data?.let { navigateToHome() }
         }
-        binding.btnNegative.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val window = dialog.window
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-        dialog.show()
     }
 
-    private fun isWithinRadius(
-        currentLatLng: LatLng,
-        destinationLatLng: LatLng,
-        radiusMeters: Float
-    ): Boolean {
-        val results = FloatArray(1)
+    private fun navigateAfterCheckIn() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.checkOutFragment, true)
+            .build()
 
-        // Calculate distance between current location and destination
-        Location.distanceBetween(
-            currentLatLng.latitude, currentLatLng.longitude,
-            destinationLatLng.latitude, destinationLatLng.longitude,
-            results
-        )
-
-        val distance = results[0] // Distance in meters
-        AlertUtils.showLog("DistanceCheck", "Distance: $distance meters, Radius: $radiusMeters meters")
-
-        return distance <= radiusMeters
+        val direction = if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
+            CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
+                args.visitDetailsId
+            )
+        } else {
+            CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
+                args.visitDetailsId
+            )
+        }
+        findNavController().navigate(direction, navOptions)
     }
 
+    private fun navigateToHome() {
+        val intent = Intent(requireActivity(), HomeActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
-        //fetchPlaceDetails()
-        // Observe marker position and update the map
-        viewModel.markerPosition.observe(viewLifecycleOwner) { latLng ->
-            // Enable blue dot (Current Location)
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                googleMap.isMyLocationEnabled = true
-            }
-            updateMarkerOnMap(latLng)
-            getDestinationLatLng()
+        googleMap.uiSettings.apply {
+            isZoomControlsEnabled = true
+            isZoomGesturesEnabled = true
         }
+        googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
+        googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
 
-        // Enable zoom controls & gestures
-        googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.uiSettings.isZoomGesturesEnabled = true
-        if(ongoingVisitsDetailsViewModel.visitsDetails.value != null) {
-            if(ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId!!.isNotEmpty()) {
-                //getDestinationLatLng()
+        ongoingVisitsDetailsViewModel.visitsDetails.value?.let {
+            if (it.placeId.isNotEmpty()) {
                 requestLocationPermissions()
             }
         }
     }
 
     private fun updateMarkerOnMap(latLng: LatLng) {
-        googleMap.clear()  // Clear existing markers
-        //googleMap.addMarker(MarkerOptions().position(latLng).draggable(true))
+        if (!::googleMap.isInitialized) return
+
+        googleMap.clear()
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
     }
 
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        if(ongoingVisitsDetailsViewModel.visitsDetails.value != null) {
-            if(ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId!!.isNotEmpty()) {
-                requestLocationPermissions()
+    private fun startQrScanning() {
+        if (qrScanning) return
+
+        qrScanning = true
+        val cameraSettings = CameraSettings().apply {
+            requestedCameraId = 0
+        }
+
+        binding.qrView.barcodeView.cameraSettings = cameraSettings
+        binding.qrView.decodeSingle(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult) {
+                handleQrResult(result.text)
+            }
+
+            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
+        })
+        binding.qrView.resume()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(QR_SCAN_TIMEOUT)
+            if (viewModel.isAutoCheckIn.value == true) {
+                stopQrScanning()
+                showCheckPopup()
+            }
+        }
+    }
+
+    private fun handleQrResult(qrText: String) {
+        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+            viewModel.verifyQrCode(requireActivity(), data.clientId, qrText)
+        }
+        stopQrScanning()
+    }
+
+    private fun stopQrScanning() {
+        if (!qrScanning) return
+
+        qrScanning = false
+        binding.qrView.barcodeView.pause()
+        binding.qrView.barcodeView.stopDecoding()
+    }
+
+    private fun showCheckPopup() {
+        if (!isAdded) return
+
+        val dialog = Dialog(requireContext()).apply {
+            val binding = DialogForceCheckBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setCancelable(false)
+
+            binding.dialogTitle.text = if (args.action == 0) "Force Check In" else "Force Check Out"
+            binding.dialogBody.text = if (args.action == 0)
+                "Are you sure want to force check in?"
+            else
+                "Are you sure want to force check out?"
+
+            binding.btnPositive.setOnClickListener {
+                dismiss()
+                performForceCheck()
+            }
+
+            binding.btnNegative.setOnClickListener { dismiss() }
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+        }
+        dialog.show()
+    }
+
+    private fun performForceCheck() {
+        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+            when (args.action) {
+                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false)
+                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false)
             }
         }
     }
 
     private fun requestLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+        if (hasLocationPermission()) {
+            checkLocationServices()
+        } else {
+            requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION_CODE
             )
-        } else {
-            checkLocationServices()
         }
     }
 
+    private fun hasLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun checkLocationServices() {
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
@@ -591,185 +600,49 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .show()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openBarCodeScanner()
-            } else {
-                showPermissionDeniedDialog()
-            }
-        } else if (requestCode == REQUEST_LOCATION_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                checkLocationServices()
-            } else {
-                showPermissionDeniedLocationDialog()
-            }
-        }
-
-    }
-
-    private fun openBarCodeScanner() {
-        if (isCameraPermissionGranted()) {
-            val intent = Intent(requireContext(), CaptureActivity::class.java)
-            startForResult.launch(intent)
-        } else {
-            requestCameraPermission()
-        }
-    }
-
-    private fun isCameraPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-
-    private fun requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            showPermissionExplanationDialog()
-        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_DENIED
-        ) {
-            showGoToSettingsDialog()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.CAMERA),
-                REQUEST_CAMERA_PERMISSION_CODE
-            )
-        }
-    }
-
-    private fun showGoToSettingsDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Required")
-            .setMessage("Camera permission is permanently denied. Please go to settings to enable it.")
-            .setPositiveButton("Go to Settings") { _, _ ->
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                val uri = Uri.fromParts("package", requireContext().packageName, null)
-                intent.data = uri
-                startActivity(intent)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun showPermissionExplanationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Needed")
-            .setMessage("Camera permission is needed to scan barcodes. Please grant the permission.")
-            .setPositiveButton("OK") { _, _ ->
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_PERMISSION_CODE
-                )
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun showPermissionDeniedDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Needed")
-            .setMessage("Camera permission is needed to take photos. Please grant the permission in your device settings.")
-            .setPositiveButton("OK") { _, _ ->
-                // Optionally open app settings
-                openAppSettings()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
-    private fun openAppSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", requireActivity().packageName, null)
-        intent.data = uri
-        startActivity(intent)
-    }
-
-    private fun showPermissionDeniedLocationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Denied")
-            .setMessage("Location permission is required to access this feature. Please enable it in settings.")
-            .setPositiveButton("Open Settings") { dialog, _ ->
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                val uri = Uri.fromParts("package", requireContext().packageName, null)
-                intent.data = uri
-                startActivity(intent)
-                dialog.dismiss()
-            }
-            .setCancelable(false)
-            .show()
-    }
-
     private fun getDestinationLatLng() {
-        if(ongoingVisitsDetailsViewModel.visitsDetails.value == null) return
-        if(ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId.isNullOrEmpty()) return
-
-        // Create a logging interceptor
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
-        }
-
-        // Configure OkHttpClient
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+        val placeId = ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId ?: return
+        if (placeId.isEmpty()) return
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://maps.googleapis.com/")
-            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val apiService = retrofit.create(GoogleApiService::class.java)
-        val call = apiService.getPlaceDetails(
-            ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId.toString(),
-            BuildConfig.GOOGLE_MAP_PLACES_API_KEY
-        )
-
-        call.enqueue(object : Callback<PlaceDetailsResponse> {
-            override fun onResponse(
-                call: Call<PlaceDetailsResponse>,
-                response: Response<PlaceDetailsResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val result = response.body()?.result
-                    destinationLatLng = LatLng(
-                        result?.geometry?.location?.lat ?: 0.0,
-                        result?.geometry?.location?.lng ?: 0.0
-                    )
-
-                    //googleMap.addMarker(MarkerOptions().position(destinationLatLng).title("Destination"))
-                    addMarkerAndRadius(
-                        googleMap = googleMap,
-                        destinationLatLng = destinationLatLng,
-                        radius = ongoingVisitsDetailsViewModel.visitsDetails.value?.radius.toString().toDouble()
-                    )
-                    //drawRoute(destinationLatLng)
+        apiService.getPlaceDetails(placeId, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
+            .enqueue(object : Callback<PlaceDetailsResponse> {
+                override fun onResponse(
+                    call: Call<PlaceDetailsResponse>,
+                    response: Response<PlaceDetailsResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.result?.geometry?.location?.let { location ->
+                            destinationLatLng = LatLng(location.lat, location.lng)
+                            ongoingVisitsDetailsViewModel.visitsDetails.value?.radius?.let { radius ->
+                                addMarkerAndRadius(
+                                    googleMap,
+                                    destinationLatLng!!,
+                                    radius.toString().toDouble()
+                                )
+                            }
+                        }
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<PlaceDetailsResponse>, t: Throwable) {
-                AlertUtils.showToast(requireActivity(), "Failed to fetch place details")
-            }
-        })
+                override fun onFailure(call: Call<PlaceDetailsResponse>, t: Throwable) {
+                    showToast("Failed to fetch place details")
+                }
+            })
     }
 
-    fun addMarkerAndRadius(googleMap: GoogleMap, destinationLatLng: LatLng, radius: Double) {
-        // Add marker at destination
+    private fun addMarkerAndRadius(googleMap: GoogleMap, destinationLatLng: LatLng, radius: Double) {
+
         googleMap.addMarker(
-            MarkerOptions().position(destinationLatLng).title(ongoingVisitsDetailsViewModel.visitsDetails.value?.clientName).icon(
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
-            )
+            MarkerOptions()
+                .position(destinationLatLng)
+                .title(ongoingVisitsDetailsViewModel.visitsDetails.value?.clientName)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         )
 
         // Draw radius
@@ -783,66 +656,139 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
-    private fun drawRoute(destination: LatLng) {
-        try {
-            val origin =
-                "${viewModel.markerPosition.value!!.latitude},${viewModel.markerPosition.value!!.longitude}"
-            val dest = "${destination.latitude},${destination.longitude}"
-            // Create a logging interceptor
-            val loggingInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY  // Log full request & response body
-            }
+    private fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
-            // Configure OkHttpClient
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://maps.googleapis.com/")
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val apiService = retrofit.create(GoogleApiService::class.java)
-            val call =
-                apiService.getDirections(origin, dest, BuildConfig.GOOGLE_MAP_PLACES_API_KEY, "driving")
-
-            call.enqueue(object : Callback<DirectionsResponse> {
-                override fun onResponse(
-                    call: Call<DirectionsResponse>,
-                    response: Response<DirectionsResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val route = response.body()?.routes?.firstOrNull() ?: return
-                        val polylinePoints = route.overview_polyline.points
-
-                        if (polylinePoints.isNotEmpty()) {
-                            val decodedPath = PolyUtil.decode(polylinePoints)
-
-                            if (::googleMap.isInitialized) {
-                                googleMap.addPolyline(
-                                    PolylineOptions()
-                                        .addAll(decodedPath)
-                                        .width(10f)
-                                        .color(Color.BLUE)
-                                )
-                            }
-                        } else {
-                            AlertUtils.showLog("MapsActivity", "Polyline points are empty")
-                        }
-                    } else {
-                        AlertUtils.showLog("MapsActivity", "API Response Failed: ${response.errorBody()?.string()}")
-                    }
-                }
-
-                override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                    AlertUtils.showToast(requireActivity(), "Failed to fetch directions")
-                }
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun requestCameraPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            showPermissionExplanationDialog()
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CAMERA_PERMISSION_CODE
+            )
         }
     }
 
+    private fun showPermissionExplanationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Needed")
+            .setMessage("Camera permission is needed to scan barcodes. Please grant the permission.")
+            .setPositiveButton("OK") { _, _ ->
+                requestPermissions(
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CAMERA_PERMISSION_CODE
+                )
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_CAMERA_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    binding.tabLayout.getTabAt(1)?.select()
+                } else {
+                    showPermissionDeniedDialog()
+                }
+            }
+            REQUEST_LOCATION_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkLocationServices()
+                } else {
+                    showPermissionDeniedLocationDialog()
+                }
+            }
+        }
+    }
+
+    private fun showPermissionDeniedDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Needed")
+            .setMessage("Camera permission is needed to take photos. Please grant the permission in your device settings.")
+            .setPositiveButton("Open Settings") { _, _ ->
+                openAppSettings()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showPermissionDeniedLocationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permission Denied")
+            .setMessage("Location permission is required to access this feature. Please enable it in settings.")
+            .setPositiveButton("Open Settings") { dialog, _ ->
+                openAppSettings()
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun openAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", requireContext().packageName, null)
+        }
+        startActivity(intent)
+    }
+
+    private fun checkLocationAndProceed(action: () -> Unit) {
+        viewModel.markerPosition.value?.let { currentLatLng ->
+            destinationLatLng?.let { destLatLng ->
+                ongoingVisitsDetailsViewModel.visitsDetails.value?.radius?.let { radius ->
+                    if (isWithinRadius(
+                            LatLng(currentLatLng.latitude, currentLatLng.longitude),
+                            destLatLng,
+                            radius.toString().toFloat()
+                        )) {
+                        action()
+                    } else {
+                        showLocationOutOfRangeMessage()
+                    }
+                } ?: showDestinationNotAvailableMessage()
+            } ?: showDestinationNotAvailableMessage()
+        } ?: showLocationNotAvailableMessage()
+    }
+
+    private fun isWithinRadius(currentLatLng: LatLng, destinationLatLng: LatLng, radiusMeters: Float): Boolean {
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            currentLatLng.latitude, currentLatLng.longitude,
+            destinationLatLng.latitude, destinationLatLng.longitude,
+            results
+        )
+        return results[0] <= radiusMeters
+    }
+
+    private fun showLocationOutOfRangeMessage() {
+        showToast("Your current location is outside the client's designated radius. Please visit the client's location for assistance or try checking in/out using QR code verification.")
+    }
+
+    private fun showDestinationNotAvailableMessage() {
+        showToast("Please check destination location and try again.")
+    }
+
+    private fun showLocationNotAvailableMessage() {
+        showToast("Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+    }
+
+    private fun showToast(message: String) {
+        AlertUtils.showToast(requireActivity(), message)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopQrScanning()
+        _binding = null
+    }
 }

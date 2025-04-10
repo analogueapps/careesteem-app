@@ -1,6 +1,7 @@
 package com.aits.careesteem.view.auth.view
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
@@ -25,6 +27,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentVerifyOtpBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -239,7 +243,11 @@ class VerifyOtpFragment : Fragment() {
         // Observe OTP validation success
         viewModel.isOtpValid.observe(viewLifecycleOwner, Observer { isValid ->
             if (isValid) {
-                viewModel.callVerifyOtpApi(requireActivity())
+                if(viewModel.onTermsCheck.value == true) {
+                    viewModel.callVerifyOtpApi(requireActivity())
+                } else {
+                    AlertUtils.showToast(requireActivity(), "Please accept the terms and conditions")
+                }
             } else {
                 val errorMessage = viewModel.otpError.value
                 errorMessage?.let {
@@ -263,8 +271,9 @@ class VerifyOtpFragment : Fragment() {
                         findNavController().navigate(direction)
                     }
                 } else {
-                    AlertUtils.showToast(requireActivity(), "No agency found. Contact admin")
-                    requireActivity().finishAffinity()
+                    //AlertUtils.showToast(requireActivity(), "No agency found. Contact admin")
+                    //requireActivity().finishAffinity()
+                    showNoDbList()
                 }
             }
         })
@@ -283,5 +292,41 @@ class VerifyOtpFragment : Fragment() {
                 }
             }
         })
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showNoDbList() {
+        if (!isAdded) return  // Fragment is not attached yet
+
+        val dialog = Dialog(requireContext())
+        val binding: DialogForceCheckBinding =
+            DialogForceCheckBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        binding.dialogTitle.text = "No Agency Found"
+        binding.dialogBody.text = "We couldn't find an agency with the provided number. Would you like to try another number or exit?"
+        binding.btnPositive.text = "Try Again"
+        binding.btnNegative.text = "Exit"
+
+        // Handle button clicks
+        binding.btnPositive.setOnClickListener {
+            dialog.dismiss()
+            findNavController().navigate(R.id.welcomeFragment)
+        }
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+            requireActivity().finishAffinity()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 }

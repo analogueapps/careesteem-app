@@ -50,6 +50,19 @@ class VerifyOtpViewModel @Inject constructor(
     val otp = MutableLiveData<String>()
     val otpError = MutableLiveData<String?>()
 
+    // MutableLiveData for checkbox state
+    private val _onTermsCheck = MutableLiveData<Boolean>()
+    val onTermsCheck: LiveData<Boolean> get() = _onTermsCheck
+
+    init {
+        _onTermsCheck.value = false // Default state (unchecked)
+    }
+
+    // Function to update checkbox state
+    fun onCheckboxChecked(isChecked: Boolean) {
+        _onTermsCheck.value = isChecked
+    }
+
     // LiveData to track OTP validation success and API call state
     val isOtpValid = MutableLiveData<Boolean>()
     val isOtpApiCall = MutableLiveData<Boolean>()

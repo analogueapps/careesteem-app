@@ -92,7 +92,7 @@ class MedicationViewModel @Inject constructor(
                         _prnMedicationList.value = prnList
                     }
                 } else {
-                    errorHandler.handleErrorResponse(response, activity)
+                    //errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

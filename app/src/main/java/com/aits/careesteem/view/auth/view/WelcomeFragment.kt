@@ -3,6 +3,8 @@ package com.aits.careesteem.view.auth.view
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -113,6 +115,24 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun setupWidget() {
+        // Add a TextWatcher to the EditText
+        binding.etMobile.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                // This is called before the text is changed
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                // This is called when the text is being changed
+                viewModel.setPhoneNumber(charSequence.toString(), start, before, count)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                // This is called after the text has changed
+                // You can update the TextView here with the new text from the EditText
+            }
+        })
+
+
         // Retrieve the list of statuses
         val statuses = AppConstant.getCountryList(requireContext())
         val spinnerList = ArrayList<String>()
@@ -126,7 +146,7 @@ class WelcomeFragment : Fragment() {
         binding.spinner.adapter = adapter
 
         // Find the country with ID 219 (for example)
-        val countryId = 96
+        val countryId = 217
 
         // Find the index of the item corresponding to country ID 219
         val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }

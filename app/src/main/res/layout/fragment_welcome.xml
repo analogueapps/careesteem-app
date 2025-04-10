@@ -152,7 +152,6 @@
                         android:autofillHints="phone"
                         android:background="@null"
                         android:fontFamily="@font/lora_regular"
-                        android:hint="@string/enter_your_mobile_number"
                         android:imeOptions="actionDone"
                         android:inputType="number"
                         android:paddingEnd="@dimen/_5sdp"

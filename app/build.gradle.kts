@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.libphonenumber)
     implementation(libs.play.services.auth)
     implementation(libs.play.services.auth.api.phone)
+    implementation(libs.play.services.vision.common)
 
     // Testing dependencies
     testImplementation(libs.junit)
