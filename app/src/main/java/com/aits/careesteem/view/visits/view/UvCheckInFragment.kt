@@ -41,6 +41,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
@@ -313,8 +314,10 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
         if (!isAdded) return
+        if(binding.tabLayout.selectedTabPosition == 0) return
 
         Dialog(requireContext()).apply {
             val binding = DialogForceCheckBinding.inflate(layoutInflater)
@@ -329,7 +332,10 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                     dismiss()
                     viewModel.createUnscheduledVisit(requireActivity(), clientData.id, false)
                 }
-                btnNegative.setOnClickListener { dismiss() }
+                btnNegative.setOnClickListener {
+                    dismiss()
+                    navigateToHome()
+                }
             }
 
             window?.apply {
@@ -341,6 +347,12 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             }
             show()
         }
+    }
+
+    private fun navigateToHome() {
+        val intent = Intent(requireActivity(), HomeActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun isWithinRadius(

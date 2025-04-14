@@ -1,8 +1,6 @@
 package com.aits.careesteem.view.visits.view
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,30 +8,23 @@ import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.DialogForceCheckBinding
-import com.aits.careesteem.databinding.FragmentCheckOutBinding
+import com.aits.careesteem.databinding.FragmentMapCheckInBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
@@ -48,46 +39,46 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.vision.CameraSource
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.material.tabs.TabLayout
-import com.google.zxing.ResultPoint
-import com.journeyapps.barcodescanner.BarcodeCallback
-import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.camera.CameraSettings
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-
 
 @AndroidEntryPoint
-class CheckOutFragment : Fragment(), OnMapReadyCallback {
-    private var _binding: FragmentCheckOutBinding? = null
+class MapCheckInFragment : Fragment(), OnMapReadyCallback {
+    private var _binding: FragmentMapCheckInBinding? = null
     private val binding get() = _binding!!
-    private val args: CheckOutFragmentArgs by navArgs()
 
     private val viewModel: CheckoutViewModel by viewModels()
     private val ongoingVisitsDetailsViewModel: OngoingVisitsDetailsViewModel by viewModels()
+
+    private var visitsDetails: VisitDetailsResponse.Data? = null
+    private var visitDetailsString: String? = null
+    private var action: Int? = 0
+    private var isChanges = true
 
     private lateinit var googleMap: GoogleMap
     private lateinit var placesClient: PlacesClient
     private var destinationLatLng: LatLng? = null
 
-    private var cameraSource: CameraSource? = null
-    private var qrScanning = false
-
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 1100
-        private const val QR_SCAN_TIMEOUT = 5000L
+
+        private const val ARG_VISIT_DETAILS = "ARG_VISIT_DETAILS"
+        private const val ARG_ACTION = "ARG_ACTION"
+        @JvmStatic
+        fun newInstance(visitDetails: String, action: Int) =
+            MapCheckInFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_VISIT_DETAILS, visitDetails)
+                    putInt(ARG_ACTION, action)
+                }
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,15 +86,19 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), getString(R.string.google_api_key))
         }
-        ongoingVisitsDetailsViewModel.getVisitDetails(requireActivity(), args.visitDetailsId)
+
+        visitDetailsString = arguments?.getString(ARG_VISIT_DETAILS)
+        action = arguments?.getInt(ARG_ACTION)
+
+        val gson = Gson()
+        visitsDetails = gson.fromJson(visitDetailsString, VisitDetailsResponse.Data::class.java)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCheckOutBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentMapCheckInBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -114,43 +109,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupUI() {
-        setupTabLayout()
         setupMap()
-    }
-
-    private fun setupTabLayout() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Geo Location"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("QR-Code"))
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> showMapView()
-                    1 -> showQrView()
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-    }
-
-    private fun showMapView() {
-        binding.layoutMap.visibility = View.VISIBLE
-        binding.layoutQr.visibility = View.GONE
-        stopQrScanning()
-    }
-
-    private fun showQrView() {
-        if (!isCameraPermissionGranted()) {
-            requestCameraPermission()
-            binding.tabLayout.getTabAt(0)?.select()
-            return
-        }
-
-        binding.layoutMap.visibility = View.GONE
-        binding.layoutQr.visibility = View.VISIBLE
-        startQrScanning()
     }
 
     private fun setupMap() {
@@ -162,7 +121,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         setupLoadingObservers()
         setupVisitDetailsObserver()
         setupLocationObservers()
-        setupQrVerificationObservers()
         setupCheckInOutObservers()
     }
 
@@ -179,24 +137,18 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupVisitDetailsObserver() {
-        ongoingVisitsDetailsViewModel.visitsDetails.observe(viewLifecycleOwner) { data ->
-            data?.let {
-                updateUIForVisitDetails(it)
-                requestLocationPermissions()
-            }
-        }
+        updateUIForVisitDetails(visitsDetails!!)
+        requestLocationPermissions()
     }
 
     private fun updateUIForVisitDetails(data: VisitDetailsResponse.Data) {
-//        binding.btnCheckIn.visibility = if (args.action == 0 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
-//        binding.btnCheckOut.visibility = if (args.action == 1 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
-        if (args.action == 0) {
+        if (action == 0) {
             if (data.placeId.toString().isEmpty()) {
                 binding.btnCheckIn.visibility = View.GONE
             } else {
                 binding.btnCheckIn.visibility = View.VISIBLE
             }
-        } else if (args.action == 1) {
+        } else if (action == 1) {
             if (data.placeId.toString().isEmpty()) {
                 binding.btnCheckOut.visibility = View.GONE
             } else {
@@ -393,29 +345,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setupQrVerificationObservers() {
-        viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
-            if (verified) {
-                handleVerifiedQr()
-            }
-        }
-
-        viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
-            if (eligible) {
-                ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                    viewModel.updateVisitCheckOut(requireActivity(), data, true)
-                }
-            }
-        }
-    }
-
-    private fun handleVerifiedQr() {
-        when (args.action) {
-            0 -> handleCheckIn()
-            1 -> handleCheckOut()
-        }
-    }
-
     private fun handleCheckIn() {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
             if (data.visitStatus == "Unscheduled") {
@@ -447,13 +376,13 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .setPopUpTo(R.id.checkOutFragment, true)
             .build()
 
-        val direction = if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
+        val direction = if (visitsDetails?.visitStatus == "Unscheduled") {
             CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                args.visitDetailsId
+                visitDetailsId = visitsDetails!!.visitDetailsId
             )
         } else {
             CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
-                args.visitDetailsId
+                visitDetailsId = visitsDetails!!.visitDetailsId
             )
         }
         findNavController().navigate(direction, navOptions)
@@ -475,7 +404,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
         googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
 
-        ongoingVisitsDetailsViewModel.visitsDetails.value?.let {
+        visitsDetails?.let {
             if (it.placeId.isNotEmpty()) {
                 requestLocationPermissions()
             }
@@ -487,215 +416,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
         googleMap.clear()
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-    }
-
-    private fun startQrScanning() {
-        if (qrScanning) return
-
-        qrScanning = true
-        val cameraSettings = CameraSettings().apply {
-            requestedCameraId = 0
-        }
-
-        binding.qrView.barcodeView.cameraSettings = cameraSettings
-        binding.qrView.decodeSingle(object : BarcodeCallback {
-            override fun barcodeResult(result: BarcodeResult) {
-                handleQrResult(result.text)
-            }
-
-            override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
-        })
-        binding.qrView.resume()
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            delay(QR_SCAN_TIMEOUT)
-            if (viewModel.isAutoCheckIn.value == true) {
-                stopQrScanning()
-                showCheckPopup()
-            }
-        }
-    }
-
-    private fun handleQrResult(qrText: String) {
-        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.verifyQrCode(requireActivity(), data.clientId, qrText)
-        }
-        stopQrScanning()
-    }
-
-    private fun stopQrScanning() {
-        if (!qrScanning) return
-
-        qrScanning = false
-        binding.qrView.barcodeView.pause()
-        binding.qrView.barcodeView.stopDecoding()
-    }
-
-    private fun showCheckPopup() {
-        if (!isAdded) return
-        if(binding.tabLayout.selectedTabPosition == 0) return
-
-        val dialog = Dialog(requireContext()).apply {
-            val binding = DialogForceCheckBinding.inflate(layoutInflater)
-            setContentView(binding.root)
-            setCancelable(false)
-
-            /*binding.dialogTitle.text = if (args.action == 0) "Force Check In" else "Force Check Out"
-            binding.dialogBody.text = if (args.action == 0)
-                "Are you sure want to force check in?"
-            else
-                "Are you sure want to force check out?"
-
-            binding.btnPositive.setOnClickListener {
-                dismiss()
-                performForceCheck()
-            }
-
-            binding.btnNegative.setOnClickListener { dismiss() }*/
-
-            if (args.action == 0)
-                binding.imgPopup.setImageResource(R.drawable.ic_force_check_in)
-            else if (args.action == 0)
-                binding.imgPopup.setImageResource(R.drawable.ic_force_check_out)
-
-            binding.dialogTitle.text = if (args.action == 0)
-                "Force Check In" else "Force Check Out"
-            binding.dialogBody.text = if (args.action == 0)
-                "GPS and QR Code didn’t work Do you want to force check-in?"
-            else
-                "GPS and QR Code didn’t work Do you want to force check-out?"
-
-            binding.btnPositive.setOnClickListener {
-                dismiss()
-                //performForceCheck()
-
-                val startTime = DateTimeUtils.getCurrentTimeGMT()
-                val alertType = try {
-                    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                    val actualTime = LocalTime.parse(startTime, formatter)
-
-                    val plannedTime = when (args.action) {
-                        0 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedStartTime
-                        1 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime
-                        else -> null
-                    }?.let { LocalTime.parse(it, formatter) }
-
-                    if (plannedTime != null) {
-                        when (args.action) {
-                            0 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check In"
-                                actualTime.isAfter(plannedTime)  -> "Late Check In"
-                                else                              -> ""
-                            }
-                            1 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check Out"
-                                actualTime.isAfter(plannedTime)  -> "Late Check Out"
-                                else                              -> ""
-                            }
-                            else -> ""
-                        }
-                    } else {
-                        ""
-                    }
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    ""
-                }
-
-                showAnotherDialog(alertType)
-            }
-
-            binding.btnNegative.setOnClickListener {
-                dismiss()
-                navigateToHome()
-            }
-
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-            window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
-            )
-        }
-        dialog.show()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun showAnotherDialog(alertType: String) {
-        if(alertType.isNotEmpty()) {
-            if (!isAdded) return
-
-            val dialog = Dialog(requireContext()).apply {
-                val binding = DialogForceCheckBinding.inflate(layoutInflater)
-                setContentView(binding.root)
-                setCancelable(false)
-
-                binding.dialogTitle.text = alertType.toString()
-
-                when (alertType) {
-                    "Early Check In" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_in)
-                    "Late Check In" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_in)
-                    "Early Check Out" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_out)
-                    "Late Check Out" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_out)
-                }
-
-                when (alertType) {
-                    "Early Check In" -> binding.dialogBody.text = "You’re checking in earlier than planned time. Do you want to continue?"
-                    "Late Check In" -> binding.dialogBody.text = "You’re checking in later than planned time. Do you want to continue?"
-                    "Early Check Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time. Do you want to continue?"
-                    "Late Check Out" -> binding.dialogBody.text = "You’re checking out later than planned time. Do you want to continue?"
-                }
-
-                binding.btnPositive.setOnClickListener {
-                    dismiss()
-                    when (alertType) {
-                        "Early Check In" -> viewModel.addVisitCheckIn(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
-                        )
-                        "Late Check In" -> viewModel.addVisitCheckIn(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
-                        )
-                        "Early Check Out" -> viewModel.updateVisitCheckOut(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
-                        )
-                        "Late Check Out" -> viewModel.updateVisitCheckOut(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
-                        )
-                    }
-                }
-
-                binding.btnNegative.setOnClickListener {
-                    dismiss()
-                    navigateToHome()
-                }
-
-                window?.setBackgroundDrawableResource(android.R.color.transparent)
-                window?.setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT
-                )
-            }
-            dialog.show()
-        } else {
-            handleVerifiedQr()
-        }
-    }
-
-    private fun performForceCheck() {
-        ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            when (args.action) {
-                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false)
-                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false)
-            }
-        }
     }
 
     private fun requestLocationPermissions() {
@@ -740,7 +460,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getDestinationLatLng() {
-        val placeId = ongoingVisitsDetailsViewModel.visitsDetails.value?.placeId ?: return
+        val placeId = visitsDetails?.placeId ?: return
         if (placeId.isEmpty()) return
 
         val retrofit = Retrofit.Builder()
@@ -758,7 +478,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     if (response.isSuccessful) {
                         response.body()?.result?.geometry?.location?.let { location ->
                             destinationLatLng = LatLng(location.lat, location.lng)
-                            ongoingVisitsDetailsViewModel.visitsDetails.value?.radius?.let { radius ->
+                            visitsDetails?.radius?.let { radius ->
                                 addMarkerAndRadius(
                                     googleMap,
                                     destinationLatLng!!,
@@ -780,7 +500,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         googleMap.addMarker(
             MarkerOptions()
                 .position(destinationLatLng)
-                .title(ongoingVisitsDetailsViewModel.visitsDetails.value?.clientName)
+                .title(visitsDetails?.clientName)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         )
 
@@ -795,38 +515,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
-    private fun isCameraPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            showPermissionExplanationDialog()
-        } else {
-            requestPermissions(
-                arrayOf(Manifest.permission.CAMERA),
-                REQUEST_CAMERA_PERMISSION_CODE
-            )
-        }
-    }
-
-    private fun showPermissionExplanationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Needed")
-            .setMessage("Camera permission is needed to scan barcodes. Please grant the permission.")
-            .setPositiveButton("OK") { _, _ ->
-                requestPermissions(
-                    arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_PERMISSION_CODE
-                )
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -834,13 +522,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            REQUEST_CAMERA_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    binding.tabLayout.getTabAt(1)?.select()
-                } else {
-                    showPermissionDeniedDialog()
-                }
-            }
             REQUEST_LOCATION_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkLocationServices()
@@ -849,17 +530,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         }
-    }
-
-    private fun showPermissionDeniedDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Needed")
-            .setMessage("Camera permission is needed to take photos. Please grant the permission in your device settings.")
-            .setPositiveButton("Open Settings") { _, _ ->
-                openAppSettings()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
     }
 
     private fun showPermissionDeniedLocationDialog() {
@@ -884,7 +554,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun checkLocationAndProceed(action: () -> Unit) {
         viewModel.markerPosition.value?.let { currentLatLng ->
             destinationLatLng?.let { destLatLng ->
-                ongoingVisitsDetailsViewModel.visitsDetails.value?.radius?.let { radius ->
+                visitsDetails?.radius?.let { radius ->
                     if (isWithinRadius(
                             LatLng(currentLatLng.latitude, currentLatLng.longitude),
                             destLatLng,
@@ -927,7 +597,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        stopQrScanning()
         _binding = null
     }
 }

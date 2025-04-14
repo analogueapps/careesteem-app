@@ -22,6 +22,7 @@ import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.clients.adapter.ActivityRiskAssessmentAdapter
@@ -42,6 +43,10 @@ import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.reflect.full.memberProperties
 
@@ -93,7 +98,25 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         setupAdapter()
         setupWidget()
         setupViewModel()
+        setupSwipeRefresh()
         return binding.root
+    }
+
+    private fun setupSwipeRefresh() {
+        val coroutineScope = SafeCoroutineScope(SupervisorJob() + Dispatchers.Main)
+        binding.swipeRefresh.setOnRefreshListener {
+            coroutineScope.launch {
+                try {
+                    delay(2000)
+                    binding.swipeRefresh.isRefreshing = AppConstant.FALSE
+                    viewModel.getClientDetails(requireActivity(), clientData.id)
+                    viewModel.getClientCarePlanAss(requireActivity(), clientData.id)
+                    viewModel.getClientCarePlanRiskAss(requireActivity(), clientData.id)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     private fun setupAdapter() {
