@@ -185,7 +185,8 @@ class MapCheckInFragment : Fragment(), OnMapReadyCallback {
         viewModel.updateVisitCheckOut(
             requireActivity(),
             data,
-            true
+            true,
+            ""
         )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
@@ -263,7 +264,8 @@ class MapCheckInFragment : Fragment(), OnMapReadyCallback {
         viewModel.addVisitCheckIn(
             requireActivity(),
             data,
-            true
+            true,
+            ""
         )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
@@ -357,7 +359,7 @@ class MapCheckInFragment : Fragment(), OnMapReadyCallback {
 
     private fun handleCheckOut() {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, true)
+            viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
         }
     }
 

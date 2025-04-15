@@ -17,6 +17,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
@@ -233,7 +235,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         viewModel.updateVisitCheckOut(
             requireActivity(),
             data,
-            true
+            true,
+            ""
         )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
@@ -311,7 +314,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         viewModel.addVisitCheckIn(
             requireActivity(),
             data,
-            true
+            true,
+            ""
         )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
@@ -403,7 +407,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
             if (eligible) {
                 ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                    viewModel.updateVisitCheckOut(requireActivity(), data, true)
+                    viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
                 }
             }
         }
@@ -428,7 +432,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     private fun handleCheckOut() {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, true)
+            viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
         }
     }
 
@@ -468,12 +472,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+        checkLocationPermissionAndEnable()
         googleMap.uiSettings.apply {
             isZoomControlsEnabled = true
             isZoomGesturesEnabled = true
         }
-        googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
-        googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
 
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let {
             if (it.placeId.isNotEmpty()) {
@@ -481,6 +484,36 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
+
+    private val locationPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                enableMyLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun checkLocationPermissionAndEnable() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            enableMyLocation()
+        } else {
+            locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    private fun enableMyLocation() {
+        try {
+            googleMap.isMyLocationEnabled = true
+            googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
+            googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
+    }
+
 
     private fun updateMarkerOnMap(latLng: LatLng) {
         if (!::googleMap.isInitialized) return
@@ -561,9 +594,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             binding.dialogTitle.text = if (args.action == 0)
                 "Force Check In" else "Force Check Out"
             binding.dialogBody.text = if (args.action == 0)
-                "GPS and QR Code didn’t work Do you want to force check-in?"
+                "GPS and QR Code didn’t work\nDo you want to force check-in?"
             else
-                "GPS and QR Code didn’t work Do you want to force check-out?"
+                "GPS and QR Code didn’t work\nDo you want to force check-out?"
 
             binding.btnPositive.setOnClickListener {
                 dismiss()
@@ -640,10 +673,10 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 when (alertType) {
-                    "Early Check In" -> binding.dialogBody.text = "You’re checking in earlier than planned time. Do you want to continue?"
-                    "Late Check In" -> binding.dialogBody.text = "You’re checking in later than planned time. Do you want to continue?"
-                    "Early Check Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time. Do you want to continue?"
-                    "Late Check Out" -> binding.dialogBody.text = "You’re checking out later than planned time. Do you want to continue?"
+                    "Early Check In" -> binding.dialogBody.text = "You’re checking in earlier than planned time.\nDo you want to continue?"
+                    "Late Check In" -> binding.dialogBody.text = "You’re checking in later than planned time.\nDo you want to continue?"
+                    "Early Check Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time.\nDo you want to continue?"
+                    "Late Check Out" -> binding.dialogBody.text = "You’re checking out later than planned time.\nDo you want to continue?"
                 }
 
                 binding.btnPositive.setOnClickListener {
@@ -652,22 +685,26 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         "Early Check In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
+                            false,
+                            "Early Check In"
                         )
                         "Late Check In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
+                            false,
+                            "Late Check In"
                         )
                         "Early Check Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
+                            false,
+                            "Early Check Out"
                         )
                         "Late Check Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false
+                            false,
+                            "Late Check Out"
                         )
                     }
                 }
@@ -692,8 +729,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun performForceCheck() {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
             when (args.action) {
-                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false)
-                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false)
+                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false,"")
+                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false,"")
             }
         }
     }

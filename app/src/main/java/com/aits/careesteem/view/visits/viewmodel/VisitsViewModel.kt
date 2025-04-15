@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.view.visits.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
@@ -27,6 +28,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,6 +57,10 @@ class VisitsViewModel @Inject constructor(
     private val _completedVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val completedVisits: LiveData<List<VisitListResponse.Data>> get() = _completedVisits
 
+    private val _notCompletedVisits = MutableLiveData<List<VisitListResponse.Data>>()
+    val notCompletedVisits: LiveData<List<VisitListResponse.Data>> get() = _notCompletedVisits
+
+    @SuppressLint("NewApi")
     fun getVisits(activity: Activity, visitDate: String) {
         _visitsList.value = emptyList()
         _scheduledVisits.value = emptyList()
@@ -84,13 +92,34 @@ class VisitsViewModel @Inject constructor(
 //                        val inProgress = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
 //                        val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
 
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+
                         val scheduled = list.data.filter { it.actualStartTime[0].isEmpty() && it.actualEndTime[0].isEmpty() }
                         val inProgress = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isEmpty() }
                         val completed = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isNotEmpty() }
+                        // New: notCompleted = scheduled but past 4 hours of planned start time
+                        val notCompleted = list.data.filter {
+                            val startTimeEmpty = it.actualStartTime.getOrNull(0).isNullOrEmpty()
+                            val endTimeEmpty = it.actualEndTime.getOrNull(0).isNullOrEmpty()
+
+                            if (startTimeEmpty && endTimeEmpty) {
+                                try {
+                                    val plannedDateTime = LocalDateTime.parse("${it.visitDate}T${it.plannedStartTime}")
+                                    val now = LocalDateTime.now()
+                                    val duration = Duration.between(plannedDateTime, now)
+                                    return@filter duration.toHours() >= 4
+                                } catch (e: Exception) {
+                                    return@filter false // In case parsing fails
+                                }
+                            } else {
+                                false
+                            }
+                        }
 
                         _scheduledVisits.value = scheduled
                         _inProgressVisits.value = inProgress
                         _completedVisits.value = completed
+                        _notCompletedVisits.value = notCompleted
                     }
                 } else {
                     //errorHandler.handleErrorResponse(response, activity)

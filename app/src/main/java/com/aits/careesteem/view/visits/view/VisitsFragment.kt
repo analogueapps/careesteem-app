@@ -1,6 +1,8 @@
 package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +23,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.NotCompleteVisitsAdapter
 import com.aits.careesteem.view.visits.adapter.OngoingVisitsAdapter
 import com.aits.careesteem.view.visits.adapter.UpcomingVisitsAdapter
 import com.aits.careesteem.view.visits.model.VisitListResponse
@@ -34,6 +37,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class VisitsFragment : Fragment(),
@@ -41,7 +45,8 @@ class VisitsFragment : Fragment(),
     OngoingVisitsAdapter.OngoingCheckoutItemItemClick,
     UpcomingVisitsAdapter.OnItemItemClick,
     UpcomingVisitsAdapter.OnCheckoutItemItemClick,
-    CompleteVisitsAdapter.OnViewItemItemClick
+    CompleteVisitsAdapter.OnViewItemItemClick,
+    NotCompleteVisitsAdapter.OnDirectionItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
@@ -53,6 +58,7 @@ class VisitsFragment : Fragment(),
     private lateinit var ongoingVisitsAdapter: OngoingVisitsAdapter
     private lateinit var upcomingVisitsAdapter: UpcomingVisitsAdapter
     private lateinit var completeVisitsAdapter: CompleteVisitsAdapter
+    private lateinit var notCompleteVisitsAdapter: NotCompleteVisitsAdapter
 
     // Date
     @RequiresApi(Build.VERSION_CODES.O)
@@ -99,6 +105,10 @@ class VisitsFragment : Fragment(),
         completeVisitsAdapter = CompleteVisitsAdapter(requireContext(), this@VisitsFragment)
         binding.rvCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCompletedVisits.adapter = completeVisitsAdapter
+
+        notCompleteVisitsAdapter = NotCompleteVisitsAdapter(requireContext(), this@VisitsFragment)
+        binding.rvNotCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvNotCompletedVisits.adapter = notCompleteVisitsAdapter
     }
 
 
@@ -185,6 +195,18 @@ class VisitsFragment : Fragment(),
                     tvCompletedVisits.tag = "Invisible"
                     tvCompletedVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
                     rvCompletedVisits.visibility = View.GONE
+                }
+            }
+
+            tvNotCompletedVisits.setOnClickListener {
+                if(tvNotCompletedVisits.tag == "Invisible") {
+                    tvNotCompletedVisits.tag = "Visible"
+                    tvNotCompletedVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    rvNotCompletedVisits.visibility = View.VISIBLE
+                } else {
+                    tvNotCompletedVisits.tag = "Invisible"
+                    tvNotCompletedVisits.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    rvNotCompletedVisits.visibility = View.GONE
                 }
             }
         }
@@ -335,6 +357,20 @@ class VisitsFragment : Fragment(),
                 }
             }
         }
+
+        // Not Completed visibility
+        viewModel.notCompletedVisits.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                binding.apply {
+                    tvNotCompletedVisits.text = requireContext().getString(R.string.not_completed_visits) + " (${data.size})"
+                }
+                notCompleteVisitsAdapter.updatedList(data)
+            } else {
+                binding.apply {
+                    tvNotCompletedVisits.text = requireContext().getString(R.string.not_completed_visits) + " (0)"
+                }
+            }
+        }
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
@@ -364,7 +400,19 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {
-        if(data.placeId != null && data.placeId.toString().isNotEmpty()) {
+        if(data.placeId.toString().isNotEmpty()) {
+            val placeId = data.placeId // your place ID
+            val gmmIntentUri =
+                "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$placeId".toUri()
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+
+            // Check if Google Maps is installed
+            if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(mapIntent)
+            } else {
+                AlertUtils.showToast(requireActivity(), "Google Maps is not installed")
+            }
 
         } else {
             AlertUtils.showToast(requireActivity(), "Client location not found")

@@ -62,6 +62,9 @@ class CheckoutViewModel @Inject constructor(
     private val _qrVerified = MutableLiveData<Boolean>()
     val qrVerified: LiveData<Boolean> get() = _qrVerified
 
+    private val _addVisitCheckInResponseStart = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
+    val addVisitCheckInResponseStart: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponseStart
+
     private val _addVisitCheckInResponse = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
     val addVisitCheckInResponse: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponse
 
@@ -78,7 +81,8 @@ class CheckoutViewModel @Inject constructor(
     fun addVisitCheckIn(
         activity: Activity,
         visitsDetails: VisitDetailsResponse.Data,
-        normalCheckInOut: Boolean
+        normalCheckInOut: Boolean,
+        alertType: String,
     ) {
         _isLoading.value = true
         val actualStartTime = DateTimeUtils.getCurrentTimeGMT()
@@ -107,7 +111,7 @@ class CheckoutViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         AlertUtils.showToast(activity, list.message)
-                        _addVisitCheckInResponse.value = list.data
+                        _addVisitCheckInResponseStart.value = list.data
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
@@ -123,9 +127,10 @@ class CheckoutViewModel @Inject constructor(
                 _isLoading.value = false
                 if(!normalCheckInOut) {
                    // automaticAlerts(activity = activity, visitsDetails = visitsDetails)
+
                     automaticAlerts(
                         activity = activity,
-                        uatId = _addVisitCheckInResponse.value!![0].id,
+                        uatId = _addVisitCheckInResponseStart.value!![0].id,
                         visitDetailsId = visitsDetails.visitDetailsId,
                         clientId = visitsDetails.clientId,
                         actualStartTime = visitsDetails.plannedStartTime,
@@ -133,8 +138,27 @@ class CheckoutViewModel @Inject constructor(
                         actualEndTime = visitsDetails.plannedEndTime,
                         endTime = "",
                         checkInOut = "checkin",
-                        isSchedule = visitsDetails.visitType != "Unscheduled"
+                        isSchedule = visitsDetails.visitType != "Unscheduled",
+                        alertType = "Force Check In"
                     )
+
+                    if(alertType.isNotEmpty()) {
+                        automaticAlerts(
+                            activity = activity,
+                            uatId = _addVisitCheckInResponseStart.value!![0].id,
+                            visitDetailsId = visitsDetails.visitDetailsId,
+                            clientId = visitsDetails.clientId,
+                            actualStartTime = visitsDetails.plannedStartTime,
+                            startTime = actualStartTime,
+                            actualEndTime = visitsDetails.plannedEndTime,
+                            endTime = "",
+                            checkInOut = "checkin",
+                            isSchedule = visitsDetails.visitType != "Unscheduled",
+                            alertType = alertType
+                        )
+                    }
+                } else {
+                    _addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
                 }
             }
         }
@@ -150,7 +174,8 @@ class CheckoutViewModel @Inject constructor(
         actualEndTime: String,
         endTime: String,
         checkInOut: String,
-        isSchedule: Boolean
+        isSchedule: Boolean,
+        alertType: String
     ) {
         viewModelScope.launch {
             try {
@@ -160,34 +185,34 @@ class CheckoutViewModel @Inject constructor(
                     return@launch
                 }
 
-                var alertType = ""
-                if(checkInOut == "checkin") {
-                    alertType = if(isSchedule) {
-                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                        val givenTime = LocalTime.parse(actualStartTime, formatter)
-                        val currentUtcTime = LocalTime.parse(startTime, formatter)
-                        when {
-                            currentUtcTime.isBefore(givenTime) -> "Early Check In"
-                            currentUtcTime.isAfter(givenTime) -> "Late Check In"
-                            else -> "Force Check In"
-                        }
-                    } else {
-                        "Force Check In"
-                    }
-                } else if(checkInOut == "checkout") {
-                    alertType = if(isSchedule) {
-                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                        val givenTime = LocalTime.parse(actualEndTime, formatter)
-                        val currentUtcTime = LocalTime.parse(endTime, formatter)
-                        when {
-                            currentUtcTime.isBefore(givenTime) -> "Early Check Out"
-                            currentUtcTime.isAfter(givenTime) -> "Late Check Out"
-                            else -> "Force Check Out"
-                        }
-                    } else {
-                        "Force Check Out"
-                    }
-                }
+//                var alertType = ""
+//                if(checkInOut == "checkin") {
+//                    alertType = if(isSchedule) {
+//                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+//                        val givenTime = LocalTime.parse(actualStartTime, formatter)
+//                        val currentUtcTime = LocalTime.parse(startTime, formatter)
+//                        when {
+//                            currentUtcTime.isBefore(givenTime) -> "Early Check In"
+//                            currentUtcTime.isAfter(givenTime) -> "Late Check In"
+//                            else -> "Force Check In"
+//                        }
+//                    } else {
+//                        "Force Check In"
+//                    }
+//                } else if(checkInOut == "checkout") {
+//                    alertType = if(isSchedule) {
+//                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+//                        val givenTime = LocalTime.parse(actualEndTime, formatter)
+//                        val currentUtcTime = LocalTime.parse(endTime, formatter)
+//                        when {
+//                            currentUtcTime.isBefore(givenTime) -> "Early Check Out"
+//                            currentUtcTime.isAfter(givenTime) -> "Late Check Out"
+//                            else -> "Force Check Out"
+//                        }
+//                    } else {
+//                        "Force Check Out"
+//                    }
+//                }
 
                 val response = repository.automaticAlerts(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
@@ -211,6 +236,10 @@ class CheckoutViewModel @Inject constructor(
             } catch (e: Exception) {
                 AlertUtils.showLog("activity","An error occurred: ${e.message}")
                 e.printStackTrace()
+            } finally {
+                if(alertType != "Force Check In") {
+                    _addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
+                }
             }
         }
     }
@@ -251,7 +280,8 @@ class CheckoutViewModel @Inject constructor(
     fun updateVisitCheckOut(
         activity: Activity,
         visitsDetails: VisitDetailsResponse.Data,
-        normalCheckInOut: Boolean
+        normalCheckInOut: Boolean,
+        alertType: String,
     ) {
         _isLoading.value = true
         val actualEndTime = DateTimeUtils.getCurrentTimeGMT()
@@ -306,8 +336,25 @@ class CheckoutViewModel @Inject constructor(
                         actualEndTime = visitsDetails.plannedEndTime,
                         endTime = actualEndTime,
                         checkInOut = "checkout",
-                        isSchedule = visitsDetails.visitType != "Unscheduled"
+                        isSchedule = visitsDetails.visitType != "Unscheduled",
+                        alertType = "Force Check Out",
                     )
+
+                    if(alertType.isNotEmpty()) {
+                        automaticAlerts(
+                            activity = activity,
+                            uatId = _updateVisitCheckoutResponse.value!![0].id,
+                            visitDetailsId = visitsDetails.visitDetailsId,
+                            clientId = visitsDetails.clientId,
+                            actualStartTime = visitsDetails.plannedStartTime,
+                            startTime = "",
+                            actualEndTime = visitsDetails.plannedEndTime,
+                            endTime = actualEndTime,
+                            checkInOut = "checkout",
+                            isSchedule = visitsDetails.visitType != "Unscheduled",
+                            alertType = alertType,
+                        )
+                    }
                 }
             }
         }
@@ -366,7 +413,8 @@ class CheckoutViewModel @Inject constructor(
                         actualEndTime = "",
                         endTime = "",
                         checkInOut = "checkin",
-                        isSchedule = false
+                        isSchedule = false,
+                        alertType = "Force Check In"
                     )
                 }
             }

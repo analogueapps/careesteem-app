@@ -87,6 +87,34 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvNotCompletedVisits"
+                        android:tag="Invisible"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:background="@drawable/ic_risk_level_bg"
+                        android:backgroundTint="@color/notCompleteCardCorner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:fontFamily="@font/arvo_regular"
+                        android:text="@string/not_completed_visits"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:textFontWeight="500"
+                        android:textSize="@dimen/_11ssp"
+                        android:singleLine="true"
+                        tools:targetApi="p" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvNotCompletedVisits"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvCompletedVisits"
                         android:tag="Invisible"
                         android:layout_marginStart="@dimen/_10sdp"

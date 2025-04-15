@@ -137,7 +137,7 @@ class QrCheckInFragment : Fragment() {
         viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
             if (eligible) {
                 ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                    viewModel.updateVisitCheckOut(requireActivity(), data, true)
+                    viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
                 }
             }
         }
@@ -164,7 +164,8 @@ class QrCheckInFragment : Fragment() {
         viewModel.addVisitCheckIn(
             requireActivity(),
             data,
-            true
+            true,
+            ""
         )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
@@ -239,7 +240,7 @@ class QrCheckInFragment : Fragment() {
 
     private fun handleCheckOut() {
         visitsDetails?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, true)
+            viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
         }
     }
 
@@ -442,8 +443,8 @@ class QrCheckInFragment : Fragment() {
     private fun performForceCheck() {
         visitsDetails?.let { data ->
             when (action) {
-                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false)
-                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false)
+                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false,"")
+                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false, "")
             }
         }
     }

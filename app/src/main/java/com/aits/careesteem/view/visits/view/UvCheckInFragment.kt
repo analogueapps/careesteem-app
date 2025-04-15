@@ -21,7 +21,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -259,11 +261,38 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             uiSettings.isZoomControlsEnabled = true
             uiSettings.isZoomGesturesEnabled = true
         }
-        googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
-        googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
-
+        checkLocationPermissionAndEnable()
         if (clientData.place_id?.isNotEmpty() == true) {
             requestLocationPermissions()
+        }
+    }
+
+    private val locationPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                enableMyLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun checkLocationPermissionAndEnable() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            enableMyLocation()
+        } else {
+            locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    private fun enableMyLocation() {
+        try {
+            googleMap.isMyLocationEnabled = true
+            googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
+            googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
+        } catch (e: SecurityException) {
+            e.printStackTrace()
         }
     }
 

@@ -87,8 +87,6 @@ class MedicationListAdapter(
                 layout.setOnClickListener {
                     if(data.medication_type != "PRN") {
                         onItemItemClick.onItemItemClicked(data)
-                    } else {
-                        AlertUtils.showToast(context as Activity, "PRN Medication not allowed")
                     }
                 }
             }
