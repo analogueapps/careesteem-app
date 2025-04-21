@@ -173,7 +173,8 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
                 clientId = clientId.toString(),
                 visitDetailsId = id.toString(),
                 todoDetailsId = data.todoDetailsId,
-                carerNotes = binding.carerNotes.text.toString().trim()
+                carerNotes = binding.carerNotes.text.toString().trim(),
+                todoEssential = data.todoEssential
             )
         }
         binding.btnNotCompleted.setOnClickListener {
@@ -184,7 +185,8 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
                 clientId = clientId.toString(),
                 visitDetailsId = id.toString(),
                 todoDetailsId = data.todoDetailsId,
-                carerNotes = binding.carerNotes.text.toString().trim()
+                carerNotes = binding.carerNotes.text.toString().trim(),
+                todoEssential = data.todoEssential
             )
         }
 

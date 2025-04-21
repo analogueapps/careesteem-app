@@ -80,7 +80,7 @@ class MedicationListAdapter(
                     }
                     else -> todoStatus.apply {
                         background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
+                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.notCompleteCardCorner)
                         //setTextColor(ContextCompat.getColor(context, R.color.black))
                     }
                 }

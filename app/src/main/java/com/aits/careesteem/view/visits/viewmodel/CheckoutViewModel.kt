@@ -139,7 +139,7 @@ class CheckoutViewModel @Inject constructor(
                         endTime = "",
                         checkInOut = "checkin",
                         isSchedule = visitsDetails.visitType != "Unscheduled",
-                        alertType = "Force Check In"
+                        alertType = "Force Check-In"
                     )
 
                     if(alertType.isNotEmpty()) {
@@ -194,10 +194,10 @@ class CheckoutViewModel @Inject constructor(
 //                        when {
 //                            currentUtcTime.isBefore(givenTime) -> "Early Check In"
 //                            currentUtcTime.isAfter(givenTime) -> "Late Check In"
-//                            else -> "Force Check In"
+//                            else -> "Force Check-In"
 //                        }
 //                    } else {
-//                        "Force Check In"
+//                        "Force Check-In"
 //                    }
 //                } else if(checkInOut == "checkout") {
 //                    alertType = if(isSchedule) {
@@ -207,12 +207,16 @@ class CheckoutViewModel @Inject constructor(
 //                        when {
 //                            currentUtcTime.isBefore(givenTime) -> "Early Check Out"
 //                            currentUtcTime.isAfter(givenTime) -> "Late Check Out"
-//                            else -> "Force Check Out"
+//                            else -> "Force Check-Out"
 //                        }
 //                    } else {
-//                        "Force Check Out"
+//                        "Force Check-Out"
 //                    }
 //                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.automaticAlerts(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
@@ -221,7 +225,8 @@ class CheckoutViewModel @Inject constructor(
                     clientId = clientId,
                     alertType = alertType,
                     alertStatus = "Action Required",
-                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT(),
+                    userId = userData.id
                 )
 
                 if (response.isSuccessful) {
@@ -237,7 +242,7 @@ class CheckoutViewModel @Inject constructor(
                 AlertUtils.showLog("activity","An error occurred: ${e.message}")
                 e.printStackTrace()
             } finally {
-                if(alertType != "Force Check In") {
+                if(alertType != "Force Check-In") {
                     _addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
                 }
             }
@@ -337,7 +342,7 @@ class CheckoutViewModel @Inject constructor(
                         endTime = actualEndTime,
                         checkInOut = "checkout",
                         isSchedule = visitsDetails.visitType != "Unscheduled",
-                        alertType = "Force Check Out",
+                        alertType = "Force Check-Out",
                     )
 
                     if(alertType.isNotEmpty()) {
@@ -414,7 +419,7 @@ class CheckoutViewModel @Inject constructor(
                         endTime = "",
                         checkInOut = "checkin",
                         isSchedule = false,
-                        alertType = "Force Check In"
+                        alertType = "Force Check-In"
                     )
                 }
             }

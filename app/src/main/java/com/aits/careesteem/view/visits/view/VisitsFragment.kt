@@ -46,7 +46,8 @@ class VisitsFragment : Fragment(),
     UpcomingVisitsAdapter.OnItemItemClick,
     UpcomingVisitsAdapter.OnCheckoutItemItemClick,
     CompleteVisitsAdapter.OnViewItemItemClick,
-    NotCompleteVisitsAdapter.OnDirectionItemItemClick
+    NotCompleteVisitsAdapter.OnDirectionItemItemClick,
+    NotCompleteVisitsAdapter.OnViewItemItemClick
 {
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
@@ -106,7 +107,7 @@ class VisitsFragment : Fragment(),
         binding.rvCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCompletedVisits.adapter = completeVisitsAdapter
 
-        notCompleteVisitsAdapter = NotCompleteVisitsAdapter(requireContext(), this@VisitsFragment)
+        notCompleteVisitsAdapter = NotCompleteVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
         binding.rvNotCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNotCompletedVisits.adapter = notCompleteVisitsAdapter
     }
@@ -317,7 +318,7 @@ class VisitsFragment : Fragment(),
 
         // Upcoming visibility
         viewModel.scheduledVisits.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.isNotEmpty()) {
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (${data.size})"
                 }
@@ -326,12 +327,13 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvUpcomingVisits.text = requireContext().getString(R.string.upcoming_visits) + " (0)"
                 }
+                upcomingVisitsAdapter.updatedList(emptyList())
             }
         }
 
         // Ongoing visibility
         viewModel.inProgressVisits.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.isNotEmpty()) {
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (${data.size})"
                 }
@@ -341,12 +343,14 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvOngoingVisits.text = requireContext().getString(R.string.ongoing_visits) + " (0)"
                 }
+                ongoingVisitsAdapter.updatedList(emptyList())
+                upcomingVisitsAdapter.updatedUpcomingList(emptyList())
             }
         }
 
         // Completed visibility
         viewModel.completedVisits.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.isNotEmpty()) {
                 binding.apply {
                     tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (${data.size})"
                 }
@@ -355,12 +359,13 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvCompletedVisits.text = requireContext().getString(R.string.completed_visits) + " (0)"
                 }
+                completeVisitsAdapter.updatedList(emptyList())
             }
         }
 
         // Not Completed visibility
         viewModel.notCompletedVisits.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
+            if (data != null && data.isNotEmpty()) {
                 binding.apply {
                     tvNotCompletedVisits.text = requireContext().getString(R.string.not_completed_visits) + " (${data.size})"
                 }
@@ -369,6 +374,7 @@ class VisitsFragment : Fragment(),
                 binding.apply {
                     tvNotCompletedVisits.text = requireContext().getString(R.string.not_completed_visits) + " (0)"
                 }
+                notCompleteVisitsAdapter.updatedList(emptyList())
             }
         }
     }
@@ -396,7 +402,7 @@ class VisitsFragment : Fragment(),
     }
 
     override fun ongoingCheckoutItemItemClicked(data: VisitListResponse.Data) {
-        viewModel.checkOutEligible(requireActivity(), data.visitDetailsId, findNavController())
+        viewModel.checkOutEligible(requireActivity(), data, findNavController())
     }
 
     override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {

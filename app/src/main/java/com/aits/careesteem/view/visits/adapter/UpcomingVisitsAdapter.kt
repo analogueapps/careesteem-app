@@ -77,7 +77,10 @@ class UpcomingVisitsAdapter(
                 tvPlannedStartTime.text = data.plannedStartTime
                 tvPlannedEndTime.text = data.plannedEndTime
 
-                btnCheckIn.isEnabled = upcomingVisitsList.isEmpty()
+                val today = java.time.LocalDate.now().toString()
+                val isToday = data.visitDate == today
+
+                btnCheckIn.isEnabled = isToday && upcomingVisitsList.isEmpty()
 
                 btnCheckIn.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

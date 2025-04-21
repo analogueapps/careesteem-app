@@ -14,12 +14,18 @@ import com.aits.careesteem.databinding.ItemNotCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter.OnViewItemItemClick
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
 class NotCompleteVisitsAdapter(
     private val context: Context,
     private val onDirectionItemItemClick: OnDirectionItemItemClick,
+    private val onViewItemItemClick: OnViewItemItemClick
 ) : RecyclerView.Adapter<NotCompleteVisitsAdapter.ViewHolder>() {
+
+    interface OnViewItemItemClick {
+        fun onViewItemItemClicked(data: VisitListResponse.Data)
+    }
 
     interface OnDirectionItemItemClick {
         fun onDirectionItemItemClicked(data: VisitListResponse.Data)
@@ -77,6 +83,9 @@ class NotCompleteVisitsAdapter(
                     onDirectionItemItemClick.onDirectionItemItemClicked(data)
                 }
 
+                tvViewVisit.setOnClickListener {
+                    onViewItemItemClick.onViewItemItemClicked(data)
+                }
             }
         }
     }

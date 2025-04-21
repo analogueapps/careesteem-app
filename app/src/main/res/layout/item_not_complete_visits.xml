@@ -253,6 +253,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/tvViewVisit"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"
             app:backgroundTint="@null"

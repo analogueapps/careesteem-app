@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.databinding.FragmentOngoingVisitsDetailsBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
@@ -28,6 +29,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDateTime
 
 @AndroidEntryPoint
 class OngoingVisitsDetailsFragment : Fragment() {
@@ -76,11 +78,15 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
         viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { verified ->
             if (verified) {
-                val direction = OngoingVisitsDetailsFragmentDirections.actionOngoingVisitsDetailsFragmentToCheckOutFragment(
-                    visitDetailsId = args.visitDetailsId,
-                    action = 1
-                )
-                findNavController().navigate(direction)
+                if(AppConstant.isMoreThanTwoMinutesPassed(viewModel.visitsDetails.value?.visitDate.toString(), viewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
+                    val direction = OngoingVisitsDetailsFragmentDirections.actionOngoingVisitsDetailsFragmentToCheckOutFragment(
+                        visitDetailsId = args.visitDetailsId,
+                        action = 1
+                    )
+                    findNavController().navigate(direction)
+                } else {
+                    AlertUtils.showToast(requireActivity(), "Checkout is only allowed after 2 minutes from check-in.")
+                }
             }
         }
     }
@@ -125,6 +131,13 @@ class OngoingVisitsDetailsFragment : Fragment() {
             var changes = true
             changes = !(data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isNotEmpty())
 
+            if(isNotCompleted(data)) {
+                btnCheckout.text = "Not Completed"
+                btnCheckout.isEnabled = false
+                tvPlanTime.text = "00:00"
+                changes = false
+            }
+
             val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString(), changes)
             binding.viewPager.adapter = adapter
 
@@ -139,6 +152,23 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
             // Disable swiping by intercepting touch events
             binding.viewPager.isUserInputEnabled = AppConstant.TRUE
+        }
+    }
+
+    private fun isNotCompleted(data: VisitDetailsResponse.Data): Boolean {
+        val startEmpty = data.actualStartTime.getOrNull(0).isNullOrEmpty()
+        val endEmpty = data.actualEndTime.getOrNull(0).isNullOrEmpty()
+
+        return if (startEmpty && endEmpty) {
+            try {
+                val plannedStart = LocalDateTime.parse("${data.visitDate}T${data.plannedStartTime}")
+                val now = LocalDateTime.now()
+                Duration.between(plannedStart, now).toHours() >= 4
+            } catch (e: Exception) {
+                false
+            }
+        } else {
+            false
         }
     }
 

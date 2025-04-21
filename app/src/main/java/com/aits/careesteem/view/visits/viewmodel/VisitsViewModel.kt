@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -66,6 +67,7 @@ class VisitsViewModel @Inject constructor(
         _scheduledVisits.value = emptyList()
         _inProgressVisits.value = emptyList()
         _completedVisits.value = emptyList()
+        _notCompletedVisits.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -88,34 +90,44 @@ class VisitsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _visitsList.value = list.data
-//                        val scheduled = list.data.filter { it.visitStatus.equals("Scheduled", ignoreCase = true) || it.visitStatus.equals("Unscheduled", ignoreCase = true) }
-//                        val inProgress = list.data.filter { it.visitStatus.equals("In Progress", ignoreCase = true) }
-//                        val completed = list.data.filter { it.visitStatus.equals("Completed", ignoreCase = true) }
 
-                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+                        val notCompleted = list.data.filter { visit ->
+                            val startEmpty = visit.actualStartTime.getOrNull(0).isNullOrEmpty()
+                            val endEmpty = visit.actualEndTime.getOrNull(0).isNullOrEmpty()
 
-                        val scheduled = list.data.filter { it.actualStartTime[0].isEmpty() && it.actualEndTime[0].isEmpty() }
-                        val inProgress = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isEmpty() }
-                        val completed = list.data.filter { it.actualStartTime[0].isNotEmpty() && it.actualEndTime[0].isNotEmpty() }
-                        // New: notCompleted = scheduled but past 4 hours of planned start time
-                        val notCompleted = list.data.filter {
-                            val startTimeEmpty = it.actualStartTime.getOrNull(0).isNullOrEmpty()
-                            val endTimeEmpty = it.actualEndTime.getOrNull(0).isNullOrEmpty()
-
-                            if (startTimeEmpty && endTimeEmpty) {
+                            if (startEmpty && endEmpty) {
                                 try {
-                                    val plannedDateTime = LocalDateTime.parse("${it.visitDate}T${it.plannedStartTime}")
+                                    val planned = LocalDateTime.parse("${visit.visitDate}T${visit.plannedStartTime}")
                                     val now = LocalDateTime.now()
-                                    val duration = Duration.between(plannedDateTime, now)
-                                    return@filter duration.toHours() >= 4
+                                    Duration.between(planned, now).toHours() >= 4
                                 } catch (e: Exception) {
-                                    return@filter false // In case parsing fails
+                                    false
                                 }
-                            } else {
-                                false
+                            } else false
+                        }.sortedBy { it.plannedStartTime }
+
+                        // Scheduled = visits that are not in notCompleted, but still have empty actual start and end time
+                        val scheduled = list.data
+                            .filter {
+                                it.actualStartTime.getOrNull(0).isNullOrEmpty() &&
+                                        it.actualEndTime.getOrNull(0).isNullOrEmpty() &&
+                                        !notCompleted.contains(it)
                             }
+                            .sortedBy { it.plannedStartTime }
+
+                        val inProgress = list.data.filter {
+                            it.actualStartTime.getOrNull(0)?.isNotEmpty() == true &&
+                                    it.actualEndTime.getOrNull(0).isNullOrEmpty()
                         }
 
+                        val completed = list.data
+                            .filter {
+                                it.actualStartTime.getOrNull(0)?.isNotEmpty() == true &&
+                                        it.actualEndTime.getOrNull(0)?.isNotEmpty() == true
+                            }
+                            .sortedBy { it.actualStartTime[0] }
+
+                        // Set values
                         _scheduledVisits.value = scheduled
                         _inProgressVisits.value = inProgress
                         _completedVisits.value = completed
@@ -140,7 +152,7 @@ class VisitsViewModel @Inject constructor(
     val _isCheckOutEligible = MutableLiveData<Boolean>()
     val isCheckOutEligible: LiveData<Boolean> get() = _isCheckOutEligible
 
-    fun checkOutEligible(activity: Activity, visitDetailsId: Int, findNavController: NavController) {
+    fun checkOutEligible(activity: Activity, visitDetails: VisitListResponse.Data, findNavController: NavController) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -152,16 +164,21 @@ class VisitsViewModel @Inject constructor(
 
                 val response = repository.checkOutEligible(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    visitDetailsId = visitDetailsId
+                    visitDetailsId = visitDetails.visitDetailsId
                 )
 
                 if (response.isSuccessful) {
                     _isCheckOutEligible.value = true
-                    val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-                        visitDetailsId = visitDetailsId,
-                        action = 1
-                    )
-                    findNavController.navigate(direction)
+                    if(AppConstant.isMoreThanTwoMinutesPassed(visitDetails.visitDate.toString(), visitDetails.actualStartTime!![0].toString())) {
+                        val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+                            visitDetailsId = visitDetails.visitDetailsId,
+                            action = 1
+                        )
+                        findNavController.navigate(direction)
+                    } else {
+                        //showToast("Checkout is only allowed after 2 minutes from check-in.")
+                        AlertUtils.showToast(activity, "Checkout is only allowed after 2 minutes from check-in.")
+                    }
                 } else {
                     //errorHandler.handleErrorResponse(response, activity)
                     when (response.code()) {

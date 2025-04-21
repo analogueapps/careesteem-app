@@ -358,6 +358,7 @@ interface ApiService {
         @Field("uat_id") uatId: Int,
         @Field("visit_details_id") visitDetailsId: Int,
         @Field("client_id") clientId: Int,
+        @Field("user_id") userId: Int,
         @Field("alert_type") alertType: String,
         @Field("alert_status") alertStatus: String,
         @Field("created_at") createdAt: String,

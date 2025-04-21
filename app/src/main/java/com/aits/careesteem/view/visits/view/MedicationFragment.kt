@@ -176,7 +176,22 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
         binding.medicationSupport.text = data.medication_support
         binding.doseQty.text = data.quantity_each_dose.toString()
         binding.medicationRoute.text = data.medication_route_name
-        binding.frequencyMedication.text = data.day_name
+        when (data.medication_type) {
+            "Blister Pack" -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+            "Scheduled" -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+            "PRN" -> {
+                binding.frequencyMedication.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+            }
+            else -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+        }
+
+
         binding.medicationStatus.text = ""
         binding.medicationType.text = data.medication_type
 

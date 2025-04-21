@@ -90,7 +90,7 @@ class ToDoViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(activity: Activity, todoOutcome: Int, clientId: String, visitDetailsId: String, todoDetailsId: Int, carerNotes: String) {
+    fun updateTodo(activity: Activity, todoOutcome: Int, clientId: String, visitDetailsId: String, todoDetailsId: Int, carerNotes: String, todoEssential: Boolean) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -129,12 +129,14 @@ class ToDoViewModel @Inject constructor(
                     visitDetailsId = visitDetailsId
                 )
                 if(todoOutcome == 0) {
-                    automaticAlerts(
-                        activity = activity,
-                        todoDetailsId = todoDetailsId,
-                        visitDetailsId = visitDetailsId.toInt(),
-                        clientId = clientId.toInt(),
-                    )
+                    if(todoEssential) {
+                        automaticAlerts(
+                            activity = activity,
+                            todoDetailsId = todoDetailsId,
+                            visitDetailsId = visitDetailsId.toInt(),
+                            clientId = clientId.toInt(),
+                        )
+                    }
                 }
             }
         }

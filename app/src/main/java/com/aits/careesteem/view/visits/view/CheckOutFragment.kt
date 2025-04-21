@@ -35,6 +35,7 @@ import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentCheckOutBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -232,12 +233,16 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
-        viewModel.updateVisitCheckOut(
+        viewModel.checkOutEligible(
             requireActivity(),
-            data,
-            true,
-            ""
+            data.visitDetailsId
         )
+//        viewModel.updateVisitCheckOut(
+//            requireActivity(),
+//            data,
+//            true,
+//            ""
+//        )
         /*val startTime = DateTimeUtils.getCurrentTimeGMT()
 //        val alertType =  {
 //            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -406,8 +411,12 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
         viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
             if (eligible) {
-                ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                    viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+                if(AppConstant.isMoreThanTwoMinutesPassed(ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate.toString(), ongoingVisitsDetailsViewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
+                    ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+                        viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+                    }
+                } else {
+                    showToast("Checkout is only allowed after 2 minutes from check-in.")
                 }
             }
         }
@@ -573,7 +582,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             setContentView(binding.root)
             setCancelable(false)
 
-            /*binding.dialogTitle.text = if (args.action == 0) "Force Check In" else "Force Check Out"
+            /*binding.dialogTitle.text = if (args.action == 0) "Force Check-In" else "Force Check-Out"
             binding.dialogBody.text = if (args.action == 0)
                 "Are you sure want to force check in?"
             else
@@ -686,25 +695,25 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
-                            "Early Check In"
+                            "Early Check-In"
                         )
                         "Late Check In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
-                            "Late Check In"
+                            "Late Check-In"
                         )
                         "Early Check Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
-                            "Early Check Out"
+                            "Early Check-Out"
                         )
                         "Late Check Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
-                            "Late Check Out"
+                            "Late Check-Out"
                         )
                     }
                 }

@@ -543,7 +543,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         clientId: Int,
         alertType: String,
         alertStatus: String,
-        createdAt: String
+        createdAt: String,
+        userId: Int,
     ): Response<JsonObject> {
         return apiService.automaticAlerts(
             hashToken = hashToken,
@@ -552,7 +553,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             clientId = clientId,
             alertType = alertType,
             alertStatus = alertStatus,
-            createdAt = createdAt
+            createdAt = createdAt,
+            userId = userId
         )
     }
 

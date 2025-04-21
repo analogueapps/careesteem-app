@@ -309,4 +309,31 @@ object AppConstant {
         }
         return fileName
     }
+
+    fun isMoreThanTwoMinutesPassed(visitDate: String, visitTime: String): Boolean {
+        return try {
+            // Combine date and time into a single string
+            val dateTimeString = "${visitDate}T${visitTime}"
+
+            // Parse to LocalDateTime
+            val plannedDateTime = LocalDateTime.parse(dateTimeString)
+
+            // Define UK time zone
+            val ukZone = ZoneId.of("Europe/London")
+
+            // Convert planned time to ZonedDateTime in UK time
+            val plannedZoned = plannedDateTime.atZone(ukZone)
+
+            // Get current time in UK time zone
+            val nowUK = ZonedDateTime.now(ukZone)
+
+            // Calculate the duration
+            val duration = Duration.between(plannedZoned, nowUK)
+
+            duration.toMinutes() > 2
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
 }
