@@ -11,6 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
+import android.widget.TextView
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -122,8 +123,30 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupTabLayout() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Geo Location"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("QR-Code"))
+//        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Geo Location"))
+//        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("QR-Code"))
+
+        val tabLayout: TabLayout = binding.tabLayout
+
+        val tab1 = tabLayout.newTab().setText("Geo Location")
+        val tab2 = tabLayout.newTab().setText("QR-Code")
+
+        // Add tabs to TabLayout
+        tabLayout.addTab(tab1)
+        tabLayout.addTab(tab2)
+
+        for (i in 0 until tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            val textView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.lyt_tab_title, null) as TextView
+            textView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            // Set tab text correctly
+            textView.text = tab?.text
+            tab?.customView = textView
+        }
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -227,33 +250,24 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
-                showCheckOutPopup(data)
+                //showCheckOutPopup(data)
+                viewModel.checkOutEligible(
+                    requireActivity(),
+                    data.visitDetailsId
+                )
             }
         }
     }
 
+    @SuppressLint("NewApi")
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
-        viewModel.checkOutEligible(
-            requireActivity(),
-            data.visitDetailsId
-        )
 //        viewModel.updateVisitCheckOut(
 //            requireActivity(),
 //            data,
 //            true,
 //            ""
 //        )
-        /*val startTime = DateTimeUtils.getCurrentTimeGMT()
-//        val alertType =  {
-//            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-//            val givenTime = LocalTime.parse(data.plannedEndTime.toString(), formatter)
-//            val currentUtcTime = LocalTime.parse(startTime, formatter)
-//            when {
-//                currentUtcTime.isBefore(givenTime) -> "Early Check Out"
-//                currentUtcTime.isAfter(givenTime) -> "Late Check Out"
-//                else -> ""
-//            }
-//        }
+        val startTime = DateTimeUtils.getCurrentTimeGMT()
         val alertType = try {
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
@@ -283,16 +297,17 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                 binding.dialogTitle.text = alertType.toString()
                 binding.dialogBody.text = if (alertType.toString() == "Early Check Out")
-                    "You’re checking out earlier than planned time. Do you want to continue?"
+                    "You’re checking out earlier than planned time.\nDo you want to continue?"
                 else
-                    "You’re checking out later than planned time. Do you want to continue?\n"
+                    "You’re checking out later than planned time.\nDo you want to continue?"
 
                 binding.btnPositive.setOnClickListener {
                     dismiss()
                     viewModel.updateVisitCheckOut(
                         requireActivity(),
                         data,
-                        false
+                        false,
+                        alertType
                     )
                 }
 
@@ -309,30 +324,22 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             viewModel.updateVisitCheckOut(
                 requireActivity(),
                 data,
-                true
+                true,
+                ""
             )
-        }*/
+        }
     }
 
 
+    @SuppressLint("NewApi")
     private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
-        viewModel.addVisitCheckIn(
-            requireActivity(),
-            data,
-            true,
-            ""
-        )
-        /*val startTime = DateTimeUtils.getCurrentTimeGMT()
-//        val alertType =  {
-//            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-//            val givenTime = LocalTime.parse(data.plannedStartTime, formatter)
-//            val currentUtcTime = LocalTime.parse(startTime, formatter)
-//            when {
-//                currentUtcTime.isBefore(givenTime) -> "Early Check In"
-//                currentUtcTime.isAfter(givenTime) -> "Late Check In"
-//                else -> ""
-//            }
-//        }
+//        viewModel.addVisitCheckIn(
+//            requireActivity(),
+//            data,
+//            true,
+//            ""
+//        )
+        val startTime = DateTimeUtils.getCurrentTimeGMT()
         val alertType = try {
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
@@ -362,16 +369,17 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                 binding.dialogTitle.text = alertType.toString()
                 binding.dialogBody.text = if (alertType.toString() == "Late Check In")
-                    "You’re checking in later than planned time. Do you want to continue?"
+                    "You’re checking in later than planned time.\nDo you want to continue?"
                 else
-                    "You’re checking in earlier than planned time. Do you want to continue?"
+                    "You’re checking in earlier than planned time.\nDo you want to continue?"
 
                 binding.btnPositive.setOnClickListener {
                     dismiss()
                     viewModel.addVisitCheckIn(
                         requireActivity(),
                         data,
-                        false
+                        false,
+                        alertType
                     )
                 }
 
@@ -388,9 +396,10 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             viewModel.addVisitCheckIn(
                 requireActivity(),
                 data,
-                true
+                true,
+                ""
             )
-        }*/
+        }
     }
 
     private fun setupLocationObservers() {
@@ -413,7 +422,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             if (eligible) {
                 if(AppConstant.isMoreThanTwoMinutesPassed(ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate.toString(), ongoingVisitsDetailsViewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
                     ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                        viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+                       // viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+                        showCheckOutPopup(data)
                     }
                 } else {
                     showToast("Checkout is only allowed after 2 minutes from check-in.")
@@ -573,6 +583,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         binding.qrView.barcodeView.stopDecoding()
     }
 
+    @SuppressLint("NewApi")
     private fun showCheckPopup() {
         if (!isAdded) return
         if(binding.tabLayout.selectedTabPosition == 0) return

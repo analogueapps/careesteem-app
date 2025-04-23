@@ -418,6 +418,7 @@ interface ApiService {
         @Part("file_name") fileName: RequestBody,
         @Part images: List<MultipartBody.Part>,
         @Part("created_at") createdAt: RequestBody,
+        @Part("alerts_status") alertsStatus: RequestBody,
     ): Response<JsonObject>
 
     @GET("alert-get-list/{userId}")

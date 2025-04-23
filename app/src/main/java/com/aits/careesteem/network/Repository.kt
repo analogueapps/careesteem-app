@@ -653,7 +653,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             bodyPartNames = AppConstant.createRequestBody(bodyPartNames),
             fileName = AppConstant.createRequestBody(fileName),
             createdAt = AppConstant.createRequestBody(createdAt),
-            images = imageParts
+            images = imageParts,
+            alertsStatus = AppConstant.createRequestBody("Action Required")
         )
     }
 

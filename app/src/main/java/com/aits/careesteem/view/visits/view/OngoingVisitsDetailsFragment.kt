@@ -122,6 +122,13 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
+                    btnCheckout.isEnabled = false
+                    val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
+                    println("Has more than 2 minutes passed? $hasPassed")
+                    if (hasPassed) {
+                        btnCheckout.text = "Check out"
+                        btnCheckout.isEnabled = true
+                    }
                 }
             } else {
                 btnCheckout.text = "Check in"

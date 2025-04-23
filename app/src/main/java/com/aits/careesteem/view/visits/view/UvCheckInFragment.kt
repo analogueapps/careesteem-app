@@ -138,21 +138,38 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupTabLayout() {
-        binding.tabLayout.apply {
-            addTab(newTab().setText("Geo Location"))
-            addTab(newTab().setText("QR-Code"))
+        val tabLayout: TabLayout = binding.tabLayout
 
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    when (tab?.position) {
-                        0 -> showMapView()
-                        1 -> showQrView()
-                    }
-                }
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-            })
+        val tab1 = tabLayout.newTab().setText("Geo Location")
+        val tab2 = tabLayout.newTab().setText("QR-Code")
+
+        // Add tabs to TabLayout
+        tabLayout.addTab(tab1)
+        tabLayout.addTab(tab2)
+
+        for (i in 0 until tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            val textView = LayoutInflater.from(requireContext())
+                .inflate(R.layout.lyt_tab_title, null) as TextView
+            textView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            // Set tab text correctly
+            textView.text = tab?.text
+            tab?.customView = textView
         }
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> showMapView()
+                    1 -> showQrView()
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     private fun showMapView() {

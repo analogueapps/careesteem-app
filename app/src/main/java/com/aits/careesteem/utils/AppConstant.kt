@@ -310,27 +310,21 @@ object AppConstant {
         return fileName
     }
 
+    @SuppressLint("NewApi")
     fun isMoreThanTwoMinutesPassed(visitDate: String, visitTime: String): Boolean {
         return try {
-            // Combine date and time into a single string
-            val dateTimeString = "${visitDate}T${visitTime}"
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
 
-            // Parse to LocalDateTime
-            val plannedDateTime = LocalDateTime.parse(dateTimeString)
+            val dateTimeString = "${visitDate}T${visitTime.padEnd(8, '0')}" // Ensure format has seconds
 
-            // Define UK time zone
+            val plannedDateTime = LocalDateTime.parse(dateTimeString, formatter)
             val ukZone = ZoneId.of("Europe/London")
 
-            // Convert planned time to ZonedDateTime in UK time
             val plannedZoned = plannedDateTime.atZone(ukZone)
-
-            // Get current time in UK time zone
             val nowUK = ZonedDateTime.now(ukZone)
 
-            // Calculate the duration
             val duration = Duration.between(plannedZoned, nowUK)
-
-            duration.toMinutes() > 2
+            duration.toMinutes() >= 2 // ✅ Changed from > 2 to >= 2
         } catch (e: Exception) {
             e.printStackTrace()
             false

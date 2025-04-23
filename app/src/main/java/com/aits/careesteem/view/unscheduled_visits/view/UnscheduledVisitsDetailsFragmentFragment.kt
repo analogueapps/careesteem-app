@@ -11,11 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.databinding.FragmentUnscheduledVisitsDetailsFragmentBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.view.OngoingVisitsDetailsFragmentDirections
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,11 +88,15 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
             tvPlanTime.text = data?.totalPlannedTime
 
             btnCheckout.setOnClickListener {
-                val direction = UnscheduledVisitsDetailsFragmentFragmentDirections.actionUnscheduledVisitsDetailsFragmentFragmentToCheckOutFragment(
-                    visitDetailsId = args.visitDetailsId,
-                    action = 1
-                )
-                findNavController().navigate(direction)
+                if(AppConstant.isMoreThanTwoMinutesPassed(viewModel.visitsDetails.value?.visitDate.toString(), viewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
+                    val direction = UnscheduledVisitsDetailsFragmentFragmentDirections.actionUnscheduledVisitsDetailsFragmentFragmentToCheckOutFragment(
+                        visitDetailsId = args.visitDetailsId,
+                        action = 1
+                    )
+                    findNavController().navigate(direction)
+                } else {
+                    AlertUtils.showToast(requireActivity(), "Checkout is only allowed after 2 minutes from check-in.")
+                }
             }
 
             // Cancel any previous timer if this view is recycled
@@ -111,10 +117,22 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
                 btnCheckout.isEnabled = false
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
             } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isEmpty()) {
+//                btnCheckout.text = "Check out"
+//                timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
+//                    println("Remaining Time: $remainingTime")
+//                    tvPlanTime.text = remainingTime
+//                }
                 btnCheckout.text = "Check out"
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
+                    btnCheckout.isEnabled = false
+                    val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
+                    println("Has more than 2 minutes passed? $hasPassed")
+                    if (hasPassed) {
+                        btnCheckout.text = "Check out"
+                        btnCheckout.isEnabled = true
+                    }
                 }
             } else {
                 btnCheckout.text = "Check in"
