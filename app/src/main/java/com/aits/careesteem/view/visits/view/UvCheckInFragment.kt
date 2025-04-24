@@ -12,6 +12,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.net.Uri.*
+import kotlinx.coroutines.Job
 import androidx.lifecycle.lifecycleScope
 import android.os.Bundle
 import android.provider.Settings
@@ -47,6 +48,7 @@ import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.view.CheckOutFragment.Companion
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -93,6 +95,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     private lateinit var placesClient: PlacesClient
     private var destinationLatLng: LatLng? = null
     private var qrScanning = false
+
+    private var qrTimeoutJob: Job? = null
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
@@ -163,8 +167,21 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> showMapView()
-                    1 -> showQrView()
+                    0 -> {
+                        qrTimeoutJob?.cancel() // Cancel previous
+                        showMapView()
+                    }
+                    1 -> {
+                        showQrView()
+                        qrTimeoutJob?.cancel() // Cancel previous
+                        qrTimeoutJob = viewLifecycleOwner.lifecycleScope.launch {
+                            delay(QR_SCAN_TIMEOUT)
+                            if (viewModel.isAutoCheckIn.value == true) {
+                                stopQrScanning()
+                                showCheckPopup()
+                            }
+                        }
+                    }
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -336,13 +353,13 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             resume()
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            delay(QR_SCAN_TIMEOUT)
-            if (viewModel.isAutoCheckIn.value == true) {
-                stopQrScanning()
-                showCheckPopup()
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            delay(QR_SCAN_TIMEOUT)
+//            if (viewModel.isAutoCheckIn.value == true) {
+//                stopQrScanning()
+//                showCheckPopup()
+//            }
+//        }
     }
 
     private fun handleQrResult(qrText: String) {

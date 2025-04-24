@@ -32,6 +32,9 @@ import com.google.gson.Gson
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
@@ -112,6 +115,37 @@ class CheckoutViewModel @Inject constructor(
                     response.body()?.let { list ->
                         AlertUtils.showToast(activity, list.message)
                         _addVisitCheckInResponseStart.value = list.data
+//                        if(!normalCheckInOut) {
+//                            automaticAlerts(
+//                                activity = activity,
+//                                uatId = _addVisitCheckInResponseStart.value!![0].id,
+//                                visitDetailsId = visitsDetails.visitDetailsId,
+//                                clientId = visitsDetails.clientId,
+//                                actualStartTime = visitsDetails.plannedStartTime,
+//                                startTime = actualStartTime,
+//                                actualEndTime = visitsDetails.plannedEndTime,
+//                                endTime = "",
+//                                checkInOut = "checkin",
+//                                isSchedule = visitsDetails.visitType != "Unscheduled",
+//                                alertType = "Force Check-In"
+//                            )
+//                        }
+//                        if(alertType.isNotEmpty()) {
+//                            automaticAlerts(
+//                                activity = activity,
+//                                uatId = _addVisitCheckInResponseStart.value!![0].id,
+//                                visitDetailsId = visitsDetails.visitDetailsId,
+//                                clientId = visitsDetails.clientId,
+//                                actualStartTime = visitsDetails.plannedStartTime,
+//                                startTime = actualStartTime,
+//                                actualEndTime = visitsDetails.plannedEndTime,
+//                                endTime = "",
+//                                checkInOut = "checkin",
+//                                isSchedule = visitsDetails.visitType != "Unscheduled",
+//                                alertType = alertType
+//                            )
+//                        }
+
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
@@ -125,46 +159,62 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                if(!normalCheckInOut) {
-                   // automaticAlerts(activity = activity, visitsDetails = visitsDetails)
+                //_addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
+                try {
+                    val alertJobs = mutableListOf<Deferred<Boolean>>()
 
-                    automaticAlerts(
-                        activity = activity,
-                        uatId = _addVisitCheckInResponseStart.value!![0].id,
-                        visitDetailsId = visitsDetails.visitDetailsId,
-                        clientId = visitsDetails.clientId,
-                        actualStartTime = visitsDetails.plannedStartTime,
-                        startTime = actualStartTime,
-                        actualEndTime = visitsDetails.plannedEndTime,
-                        endTime = "",
-                        checkInOut = "checkin",
-                        isSchedule = visitsDetails.visitType != "Unscheduled",
-                        alertType = "Force Check-In"
-                    )
-
-                    if(alertType.isNotEmpty()) {
-                        automaticAlerts(
-                            activity = activity,
-                            uatId = _addVisitCheckInResponseStart.value!![0].id,
-                            visitDetailsId = visitsDetails.visitDetailsId,
-                            clientId = visitsDetails.clientId,
-                            actualStartTime = visitsDetails.plannedStartTime,
-                            startTime = actualStartTime,
-                            actualEndTime = visitsDetails.plannedEndTime,
-                            endTime = "",
-                            checkInOut = "checkin",
-                            isSchedule = visitsDetails.visitType != "Unscheduled",
-                            alertType = alertType
-                        )
+                    if (!normalCheckInOut) {
+                        val job1 = viewModelScope.async {
+                            automaticAlerts(
+                                activity,
+                                uatId = _addVisitCheckInResponseStart.value!![0].id,
+                                visitDetailsId = visitsDetails.visitDetailsId,
+                                clientId = visitsDetails.clientId,
+                                actualStartTime = visitsDetails.plannedStartTime,
+                                startTime = actualStartTime,
+                                actualEndTime = visitsDetails.plannedEndTime,
+                                endTime = "",
+                                checkInOut = "checkin",
+                                isSchedule = visitsDetails.visitType != "Unscheduled",
+                                alertType = "Force Check-In"
+                            )
+                        }
+                        alertJobs.add(job1)
                     }
-                } else {
+
+                    if (alertType.isNotEmpty()) {
+                        val job2 = viewModelScope.async {
+                            automaticAlerts(
+                                activity,
+                                uatId = _addVisitCheckInResponseStart.value!![0].id,
+                                visitDetailsId = visitsDetails.visitDetailsId,
+                                clientId = visitsDetails.clientId,
+                                actualStartTime = visitsDetails.plannedStartTime,
+                                startTime = actualStartTime,
+                                actualEndTime = visitsDetails.plannedEndTime,
+                                endTime = "",
+                                checkInOut = "checkin",
+                                isSchedule = visitsDetails.visitType != "Unscheduled",
+                                alertType = alertType
+                            )
+                        }
+                        alertJobs.add(job2)
+                    }
+
+                    // Wait for both alert API calls to complete
+                    alertJobs.awaitAll()
+
+                    // Only then update list and LiveData
                     _addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
+
+                } finally {
+                    _isLoading.value = false
                 }
             }
         }
     }
 
-    private fun automaticAlerts(
+    suspend fun automaticAlerts(
         activity: Activity,
         uatId: Int,
         visitDetailsId: Int,
@@ -176,76 +226,32 @@ class CheckoutViewModel @Inject constructor(
         checkInOut: String,
         isSchedule: Boolean,
         alertType: String
-    ) {
-        viewModelScope.launch {
-            try {
-                // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
-                    return@launch
-                }
+    ): Boolean {
+        return try {
+            val gson = Gson()
+            val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+            val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
-//                var alertType = ""
-//                if(checkInOut == "checkin") {
-//                    alertType = if(isSchedule) {
-//                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-//                        val givenTime = LocalTime.parse(actualStartTime, formatter)
-//                        val currentUtcTime = LocalTime.parse(startTime, formatter)
-//                        when {
-//                            currentUtcTime.isBefore(givenTime) -> "Early Check In"
-//                            currentUtcTime.isAfter(givenTime) -> "Late Check In"
-//                            else -> "Force Check-In"
-//                        }
-//                    } else {
-//                        "Force Check-In"
-//                    }
-//                } else if(checkInOut == "checkout") {
-//                    alertType = if(isSchedule) {
-//                        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-//                        val givenTime = LocalTime.parse(actualEndTime, formatter)
-//                        val currentUtcTime = LocalTime.parse(endTime, formatter)
-//                        when {
-//                            currentUtcTime.isBefore(givenTime) -> "Early Check Out"
-//                            currentUtcTime.isAfter(givenTime) -> "Late Check Out"
-//                            else -> "Force Check-Out"
-//                        }
-//                    } else {
-//                        "Force Check-Out"
-//                    }
-//                }
+            val response = repository.automaticAlerts(
+                hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                uatId = uatId,
+                visitDetailsId = visitDetailsId,
+                clientId = clientId,
+                alertType = alertType,
+                alertStatus = "Action Required",
+                createdAt = DateTimeUtils.getCurrentTimestampGMT(),
+                userId = userData.id
+            )
 
-                val gson = Gson()
-                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
-
-                val response = repository.automaticAlerts(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    uatId = uatId,
-                    visitDetailsId = visitDetailsId,
-                    clientId = clientId,
-                    alertType = alertType,
-                    alertStatus = "Action Required",
-                    createdAt = DateTimeUtils.getCurrentTimestampGMT(),
-                    userId = userData.id
-                )
-
-                if (response.isSuccessful) {
-                    //_isCheckOutEligible.value = true
-                } else {
-                    //errorHandler.handleErrorResponse(response, activity)
-                }
-            } catch (e: SocketTimeoutException) {
-                AlertUtils.showLog("activity","Request Timeout. Please try again.")
-            } catch (e: HttpException) {
-                AlertUtils.showLog("activity", "Server error: ${e.message}")
-            } catch (e: Exception) {
-                AlertUtils.showLog("activity","An error occurred: ${e.message}")
-                e.printStackTrace()
-            } finally {
-                if(alertType != "Force Check-In") {
-                    _addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
-                }
+            if (response.isSuccessful) {
+                true
+            } else {
+                // You can still log or handle error
+                false
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
 
@@ -344,22 +350,21 @@ class CheckoutViewModel @Inject constructor(
                         isSchedule = visitsDetails.visitType != "Unscheduled",
                         alertType = "Force Check-Out",
                     )
-
-                    if(alertType.isNotEmpty()) {
-                        automaticAlerts(
-                            activity = activity,
-                            uatId = _updateVisitCheckoutResponse.value!![0].id,
-                            visitDetailsId = visitsDetails.visitDetailsId,
-                            clientId = visitsDetails.clientId,
-                            actualStartTime = visitsDetails.plannedStartTime,
-                            startTime = "",
-                            actualEndTime = visitsDetails.plannedEndTime,
-                            endTime = actualEndTime,
-                            checkInOut = "checkout",
-                            isSchedule = visitsDetails.visitType != "Unscheduled",
-                            alertType = alertType,
-                        )
-                    }
+                }
+                if(alertType.isNotEmpty()) {
+                    automaticAlerts(
+                        activity = activity,
+                        uatId = _updateVisitCheckoutResponse.value!![0].id,
+                        visitDetailsId = visitsDetails.visitDetailsId,
+                        clientId = visitsDetails.clientId,
+                        actualStartTime = visitsDetails.plannedStartTime,
+                        startTime = "",
+                        actualEndTime = visitsDetails.plannedEndTime,
+                        endTime = actualEndTime,
+                        checkInOut = "checkout",
+                        isSchedule = visitsDetails.visitType != "Unscheduled",
+                        alertType = alertType,
+                    )
                 }
             }
         }

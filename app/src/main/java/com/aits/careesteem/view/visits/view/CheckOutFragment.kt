@@ -11,6 +11,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
+import kotlinx.coroutines.Job
 import android.widget.TextView
 import android.os.Bundle
 import android.provider.Settings
@@ -88,6 +89,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private var cameraSource: CameraSource? = null
     private var qrScanning = false
 
+    private var qrTimeoutJob: Job? = null
+
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
         private const val REQUEST_CAMERA_PERMISSION_CODE = 1100
@@ -151,8 +154,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> showMapView()
-                    1 -> showQrView()
+                    0 -> {
+                        qrTimeoutJob?.cancel() // Cancel previous
+                        showMapView()
+                    }
+                    1 -> {
+                        showQrView()
+                        qrTimeoutJob?.cancel() // Cancel previous
+                        qrTimeoutJob = viewLifecycleOwner.lifecycleScope.launch {
+                            delay(QR_SCAN_TIMEOUT)
+                            if (viewModel.isAutoCheckIn.value == true) {
+                                stopQrScanning()
+                                showCheckPopup()
+                            }
+                        }
+                    }
                 }
             }
 
@@ -306,7 +322,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     viewModel.updateVisitCheckOut(
                         requireActivity(),
                         data,
-                        false,
+                        true,
                         alertType
                     )
                 }
@@ -378,7 +394,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     viewModel.addVisitCheckIn(
                         requireActivity(),
                         data,
-                        false,
+                        true,
                         alertType
                     )
                 }
@@ -559,13 +575,13 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         })
         binding.qrView.resume()
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            delay(QR_SCAN_TIMEOUT)
-            if (viewModel.isAutoCheckIn.value == true) {
-                stopQrScanning()
-                showCheckPopup()
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            delay(QR_SCAN_TIMEOUT)
+//            if (viewModel.isAutoCheckIn.value == true) {
+//                stopQrScanning()
+//                showCheckPopup()
+//            }
+//        }
     }
 
     private fun handleQrResult(qrText: String) {
