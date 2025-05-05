@@ -66,6 +66,14 @@ object AppConstant {
         }
     }
 
+    fun checkNullOrNull(value: String?): String {
+        return if (value.isNullOrEmpty()) {
+            "N/A"
+        } else {
+            value
+        }
+    }
+
     fun maskPhoneNumber(phoneNumber: String): String {
         return if (phoneNumber.length > 2) {
             // Mask all characters except the last two

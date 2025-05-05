@@ -624,7 +624,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             if (args.action == 0)
                 binding.imgPopup.setImageResource(R.drawable.ic_force_check_in)
-            else if (args.action == 0)
+            else if (args.action == 1)
                 binding.imgPopup.setImageResource(R.drawable.ic_force_check_out)
 
             binding.dialogTitle.text = if (args.action == 0)
@@ -637,6 +637,18 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             binding.btnPositive.setOnClickListener {
                 dismiss()
                 //performForceCheck()
+
+                if (args.action == 1) {
+                    if(ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime!!.isEmpty()) {
+                        viewModel.updateVisitCheckOut(
+                            requireActivity(),
+                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
+                            false,
+                            ""
+                        )
+                        return@setOnClickListener
+                    }
+                }
 
                 val startTime = DateTimeUtils.getCurrentTimeGMT()
                 val alertType = try {

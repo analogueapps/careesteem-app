@@ -6,14 +6,18 @@
 
 package com.aits.careesteem.view.clients.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.databinding.ItemActivityRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemBehaviourRiskAssessmentBinding
+import com.aits.careesteem.databinding.ItemBehaviourRiskAssessmentHazardsBinding
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class BehaviourRiskAssessmentAdapter(
+    private val context: Context,
     private val adapterList: List<CarePlanRiskAssList.Data.BehaviourRiskAssessmentData>,
 ) : RecyclerView.Adapter<BehaviourRiskAssessmentAdapter.ViewHolder>() {
 
@@ -45,13 +49,35 @@ class BehaviourRiskAssessmentAdapter(
             binding.apply {
                 tvFrequencyPotential.text = data.frequency_potential
                 tvAffectedByBehaviour.text = data.affected_by_behaviour
+
+//                val adapter = BehaviourRiskAssessmentHazardsAdapter(adapterList)
+//                binding.recyclerView.adapter = adapter
+//                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+                // Convert BehaviourRiskAssessmentData to RiskAssessmentRow list
+                val rowList = data.potential_hazards.mapIndexedNotNull { index, hazard ->
+                    if (hazard.isNotBlank()) {
+                        RiskAssessmentRow(
+                            potentialHazard = hazard,
+                            levelOfRisk = data.level_of_risk.getOrNull(index).orEmpty().ifBlank { "N/A" },
+                            riskRange = data.risk_range.getOrNull(index).orEmpty().ifBlank { "N/A" },
+                            supportMethod = data.support_methods.getOrNull(index).orEmpty().ifBlank { "N/A" },
+                            controlAdequate = data.controls_adequate.getOrNull(index).orEmpty().ifBlank { "N/A" },
+                            regulatoryMeasure = data.regulatory_measures.getOrNull(index).orEmpty().ifBlank { "N/A" }
+                        )
+                    } else null
+                }
+
+                val adapter = BehaviourRiskAssessmentHazardsAdapter(rowList)
+                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+                binding.recyclerView.adapter = adapter
+
+
+                // Optional: handle others that don’t rely on potential_hazards
                 tvPotentialTriggers.text = data.potential_triggers
-                tvPotentialHazards.text = data.potential_hazards
-                tvLevelOfRisk.text = data.level_of_risk
-                tvRiskRange.text = data.risk_range
-                tvSupportMethods.text = data.support_methods
-                tvControlsAdequate.text = data.controls_adequate
-                tvRegulatoryMeasures.text = data.regulatory_measures
+                    .filter { it.isNotBlank() }
+                    .joinToString(", ")
+
                 tvName1.text = data.sign_1
                 tvName2.text = data.sign_2
                 tvDate1.text = data.date_1
@@ -60,3 +86,46 @@ class BehaviourRiskAssessmentAdapter(
         }
     }
 }
+
+class BehaviourRiskAssessmentHazardsAdapter(
+    private val rowList: List<RiskAssessmentRow>
+) : RecyclerView.Adapter<BehaviourRiskAssessmentHazardsAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemBehaviourRiskAssessmentHazardsBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(rowList[position])
+    }
+
+    override fun getItemCount(): Int = rowList.size
+
+    inner class ViewHolder(private val binding: ItemBehaviourRiskAssessmentHazardsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(row: RiskAssessmentRow) {
+            binding.apply {
+                hazardName.text = row.potentialHazard
+                //tvPotentialHazards.text = row.potentialHazard
+                tvLevelOfRisk.text = row.levelOfRisk
+                tvRiskRange.text = row.riskRange
+                tvSupportMethods.text = row.supportMethod
+                tvControlsAdequate.text = row.controlAdequate
+                tvRegulatoryMeasures.text = row.regulatoryMeasure
+            }
+        }
+    }
+}
+
+data class RiskAssessmentRow(
+    val potentialHazard: String,
+    val levelOfRisk: String,
+    val riskRange: String,
+    val supportMethod: String,
+    val controlAdequate: String,
+    val regulatoryMeasure: String
+)

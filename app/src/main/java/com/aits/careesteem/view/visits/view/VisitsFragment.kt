@@ -2,6 +2,7 @@ package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -38,6 +39,10 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 import androidx.core.net.toUri
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.view.profile.model.UserDetailsResponse
+import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class VisitsFragment : Fragment(),
@@ -52,8 +57,16 @@ class VisitsFragment : Fragment(),
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
+
     // Viewmodel
     private val viewModel: VisitsViewModel by viewModels()
+    // Viewmodel
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     // Adapters
     private lateinit var ongoingVisitsAdapter: OngoingVisitsAdapter
@@ -79,6 +92,7 @@ class VisitsFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        profileViewModel.getUserDetailsById(requireActivity())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -377,6 +391,22 @@ class VisitsFragment : Fragment(),
                 notCompleteVisitsAdapter.updatedList(emptyList())
             }
         }
+
+        // Data visibility
+        profileViewModel.userDetails.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                updateProfileDetails(data)
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateProfileDetails(data: UserDetailsResponse.Data) {
+        if(data.profile_photo.isNotEmpty()) {
+            editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_photo)
+            editor.apply()
+        }
+        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {

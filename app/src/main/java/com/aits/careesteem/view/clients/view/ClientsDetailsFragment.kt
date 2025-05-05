@@ -844,7 +844,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         // Add data
         binding.dialogTitle.text = "Self Administration Risk Assessment"
-        val adapter = SelfAdministrationRiskAssessmentAdapter(data!!)
+        val adapter = SelfAdministrationRiskAssessmentAdapter(requireContext(), data!!)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -875,7 +875,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         // Add data
         binding.dialogTitle.text = "Behaviour Risk Assessment"
-        val adapter = BehaviourRiskAssessmentAdapter(data!!)
+        val adapter = BehaviourRiskAssessmentAdapter(requireContext(), data!!)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

@@ -11,6 +11,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -49,6 +50,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -87,6 +89,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -125,6 +128,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -163,6 +167,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -201,6 +206,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -239,6 +245,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
+        android:visibility="gone"
         android:layout_margin="@dimen/_1sdp"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -755,6 +762,18 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
+        android:background="@color/colorAccent"
+        android:layout_margin="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="@color/colorAccent"
         android:layout_margin="@dimen/_1sdp"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -861,6 +880,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <View
+        android:visibility="gone"
         android:id="@+id/viewLay"
         android:background="@color/colorAccent"
         android:layout_marginTop="@dimen/_5sdp"

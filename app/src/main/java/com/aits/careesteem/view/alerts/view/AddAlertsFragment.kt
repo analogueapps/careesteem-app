@@ -548,10 +548,12 @@ class AddAlertsFragment : Fragment() {
                 for (client in data) {
                     spinnerList.add(client.clientName)
                 }
+                // remove duplicates
+                val uniqueSpinnerList = spinnerList.distinct()
                 val adapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_item,
-                    spinnerList
+                    uniqueSpinnerList
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.allClientNameSpinner.adapter = adapter
@@ -565,8 +567,18 @@ class AddAlertsFragment : Fragment() {
                             position: Int,
                             id: Long
                         ) {
+//                            binding.clientName.text = adapter.getItem(position).toString()
+//                            clientId = data[position].clientId
+//                            visitDetailsId = -1
+//                            binding.visitName.text = ""
+//                            viewModel.getFilterVisits(clientId)
                             binding.clientName.text = adapter.getItem(position).toString()
-                            clientId = data[position].clientId
+
+                            // This might be incorrect if 'data' and 'uniqueSpinnerList' lengths differ
+                            val selectedName = adapter.getItem(position)
+                            val selectedClient = data.find { it.clientName == selectedName }
+                            clientId = selectedClient?.clientId ?: -1
+
                             visitDetailsId = -1
                             binding.visitName.text = ""
                             viewModel.getFilterVisits(clientId)
