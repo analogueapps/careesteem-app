@@ -76,6 +76,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 
 # Glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-okhttp-integration = { group = "com.github.bumptech.glide", name = "okhttp3-integration", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
 # Navigation

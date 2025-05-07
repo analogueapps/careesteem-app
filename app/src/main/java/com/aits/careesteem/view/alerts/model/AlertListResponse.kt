@@ -9,7 +9,7 @@ data class AlertListResponse(
         val body_image: List<String>,
         val body_part_names: List<String>,
         val body_part_type: List<String>,
-        val choose_sessions: Int,
+        val choose_sessions: Any,
         val client_id: Int,
         val client_name: String,
         val concern_details: String,

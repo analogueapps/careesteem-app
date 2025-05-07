@@ -35,6 +35,7 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.Query
@@ -637,9 +638,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         createdAt: String,
         images: List<File>
     ): Response<JsonObject> {
-        val imageParts = images.map { imageFile ->
-            val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), imageFile)
-            MultipartBody.Part.createFormData("images", imageFile.name, requestFile)
+
+        val imageParts = images.mapNotNull { imageFile ->
+            if (imageFile.exists() && imageFile.name.isNotBlank()) {
+                val mediaType = "image/png".toMediaTypeOrNull()
+                val requestBody = imageFile.asRequestBody(mediaType)
+                MultipartBody.Part.createFormData("images", imageFile.name, requestBody)
+            } else {
+                println("Invalid or missing file: ${imageFile.path}")
+                null
+            }
         }
 
         return apiService.sendAlert(

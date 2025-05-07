@@ -166,6 +166,11 @@
             tools:targetApi="p"
             tools:ignore="HardcodedText,RtlHardcoded" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

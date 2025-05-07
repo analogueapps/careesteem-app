@@ -112,6 +112,7 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+    implementation(libs.glide.okhttp.integration)
     kapt(libs.glide.compiler) // Use `kapt` for Glide annotation processing
 
     // Navigation

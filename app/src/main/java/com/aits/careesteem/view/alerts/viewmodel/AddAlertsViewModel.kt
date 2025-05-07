@@ -202,11 +202,18 @@ class AddAlertsViewModel @Inject constructor(
         }
     }
 
+//    private fun createFiles(fileModels: List<FileModel>, context: Context): List<File> {
+//        return fileModels.mapNotNull { fileModel ->
+//            println(fileModel.filePath)
+//            val fileUri = Uri.fromFile(File(fileModel.filePath)) // Convert filePath to Uri
+//            AppConstant.uriToFile(context, fileUri) // Return the file directly
+//        }
+//    }
+
     private fun createFiles(fileModels: List<FileModel>, context: Context): List<File> {
         return fileModels.mapNotNull { fileModel ->
-            println(fileModel.filePath)
-            val fileUri = Uri.fromFile(File(fileModel.filePath)) // Convert filePath to Uri
-            AppConstant.uriToFile(context, fileUri) // Return the file directly
+            val file = File(fileModel.filePath)
+            if (file.exists() && file.name.isNotBlank()) file else null
         }
     }
 
