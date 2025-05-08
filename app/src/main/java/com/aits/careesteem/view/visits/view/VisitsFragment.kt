@@ -315,21 +315,6 @@ class VisitsFragment : Fragment(),
             }
         }
 
-        // Data visibility
-        viewModel.visitsList.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                binding.apply {
-                    dataLayout.visibility = View.VISIBLE
-                    emptyLayout.visibility = View.GONE
-                }
-            } else {
-                binding.apply {
-                    emptyLayout.visibility = View.VISIBLE
-                    dataLayout.visibility = View.GONE
-                }
-            }
-        }
-
         // Upcoming visibility
         viewModel.scheduledVisits.observe(viewLifecycleOwner) { data ->
             if (data != null && data.isNotEmpty()) {
@@ -389,6 +374,21 @@ class VisitsFragment : Fragment(),
                     tvNotCompletedVisits.text = requireContext().getString(R.string.not_completed_visits) + " (0)"
                 }
                 notCompleteVisitsAdapter.updatedList(emptyList())
+            }
+        }
+
+        // Data visibility
+        viewModel.visitsList.observe(viewLifecycleOwner) { data ->
+            if (data != null && data.isNotEmpty()) {
+                binding.apply {
+                    dataLayout.visibility = View.VISIBLE
+                    emptyLayout.visibility = View.GONE
+                }
+            } else {
+                binding.apply {
+                    emptyLayout.visibility = View.VISIBLE
+                    dataLayout.visibility = View.GONE
+                }
             }
         }
 

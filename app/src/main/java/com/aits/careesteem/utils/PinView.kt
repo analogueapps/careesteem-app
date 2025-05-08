@@ -27,6 +27,7 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
 
     var setOnCompletedListener: (pinCode: String) -> Unit = {}
     var setOnPinKeyClickListener: (keyPressed: String) -> Unit = {}
+    var onFingerprintClickListener: (() -> Unit)? = null
 
     private lateinit var attributes: TypedArray
 
@@ -55,9 +56,13 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         if (newValue.length >= 6) pinSixProgress.background = drawable
     }
 
+    private var isFingerVisible = false
+
     init {
         inflate(context, R.layout.pin_view, this)
         attributes = context.obtainStyledAttributes(attrs, R.styleable.PinView)
+
+        isFingerVisible = attributes.getBoolean(R.styleable.PinView_fingerVisible, false)
 
         initializeViews()
 
@@ -70,7 +75,7 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         setDotProgressLayoutParams(pinFiveProgress)
         setDotProgressLayoutParams(pinSixProgress)
 
-        numbersGridView.adapter = NumbersAdapter(attributes)
+        numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
     }
 
     private fun initializeViews() {
@@ -140,7 +145,11 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         }
     }
 
-    private inner class NumbersAdapter(private val attributes: TypedArray) :
+    private inner class NumbersAdapter(
+        private val attributes: TypedArray,
+        private val isFingerVisible: Boolean,
+        private val onFingerprintClick: (() -> Unit)?
+    ) :
         RecyclerView.Adapter<NumbersAdapter.ViewHolder>() {
 
         override fun getItemId(position: Int): Long {
@@ -165,6 +174,7 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
             RecyclerView.ViewHolder(itemView) {
             val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
             val deleteImageView: ImageView = itemView.findViewById(R.id.deleteImageView)
+            val fingerImageView: ImageView = itemView.findViewById(R.id.fingerImageView)
 
             init {
                 initializeViewHolderViews()
@@ -174,8 +184,14 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
                 val fontSize =
                     attributes.getDimensionPixelSize(R.styleable.PinView_numbersTextSize, 64)
 
+                val fontSizePass =
+                    attributes.getDimensionPixelSize(R.styleable.PinView_numbersTextSize, 70)
+
                 deleteImageView.layoutParams.width = fontSize
                 deleteImageView.layoutParams.height = fontSize
+
+//                fingerImageView.layoutParams.width = fontSizePass
+//                fingerImageView.layoutParams.height = fontSizePass
 
                 deleteImageView.setColorFilter(
                     attributes.getColor(
@@ -197,13 +213,27 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
                         }
                     }
 
+//                    position == 9 -> {
+//                        viewHolder.apply {
+//                            numberTextView.visibility = View.GONE
+//                            fingerImageView.visibility = View.VISIBLE
+//                            itemView.setOnClickListener {
+//                                deleteLastPin()
+//                                setOnPinKeyClickListener("delete")
+//                            }
+//                        }
+//                    }
+
                     position == 9 -> {
                         viewHolder.apply {
                             numberTextView.visibility = View.GONE
-                            deleteImageView.visibility = View.VISIBLE
+                            fingerImageView.visibility = if (isFingerVisible) View.VISIBLE else View.GONE
                             itemView.setOnClickListener {
-                                deleteLastPin()
-                                setOnPinKeyClickListener("delete")
+                                if (isFingerVisible) {
+//                                    deleteLastPin()
+//                                    setOnPinKeyClickListener("fingerprint")
+                                    onFingerprintClickListener?.invoke()
+                                }
                             }
                         }
                     }

@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aits.careesteem.databinding.FragmentEnterPasscodeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.BiometricAuthListener
+import com.aits.careesteem.utils.BiometricUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -20,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EnterPasscodeFragment : Fragment() {
+class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     private var _binding: FragmentEnterPasscodeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PasscodeViewModel by viewModels()
@@ -56,6 +60,24 @@ class EnterPasscodeFragment : Fragment() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+
+        binding.tvForgotPassword.setOnClickListener {
+            editor.clear()
+            editor.apply()
+            val intent = Intent(requireActivity(), AuthActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        binding.pinView.onFingerprintClickListener = {
+            //AlertUtils.showToast(requireActivity(), "Fingerprint clicked")
+            BiometricUtils.showBiometricPrompt(
+                activity = requireActivity() as AppCompatActivity,
+                listener = this,
+                cryptoObject = null,
+            )
+        }
     }
 
     private fun addPinToServer(passcode: String) {
@@ -87,6 +109,23 @@ class EnterPasscodeFragment : Fragment() {
                 AlertUtils.showToast(requireActivity(),"Passcode does not match.")
             }
         }
+    }
+
+    override fun onBiometricAuthenticateError(error: Int, errMsg: String) {
+        when (error) {
+            BiometricPrompt.ERROR_USER_CANCELED -> activity?.finish()
+            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
+
+            }
+        }
+    }
+
+    override fun onBiometricAuthenticateSuccess(result: BiometricPrompt.AuthenticationResult) {
+        editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
+        editor.apply()
+        val intent = Intent(requireActivity(), HomeActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
 }

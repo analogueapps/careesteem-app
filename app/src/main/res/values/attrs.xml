@@ -18,5 +18,6 @@
         <attr name="errorMessageTextSize" format="dimension" />
         <attr name="errorMessageColor" format="color" />
         <attr name="showForgotPasscode" format="boolean" />
+        <attr name="fingerVisible" format="boolean" />
     </declare-styleable>
 </resources>

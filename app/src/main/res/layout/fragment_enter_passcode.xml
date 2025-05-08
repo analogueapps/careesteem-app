@@ -61,7 +61,30 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_50sdp"
                 app:dotProgressColor="@color/colorPrimary"
-                app:showForgotPasscode="true" />
+                app:fingerVisible="true"
+                app:showForgotPasscode="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvForgotPassword"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:drawableStart="@drawable/ic_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/arvo_regular"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/forgot_password"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_14ssp"
+                    android:gravity="center_vertical"
+                    tools:targetApi="p" />
+            </LinearLayout>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
