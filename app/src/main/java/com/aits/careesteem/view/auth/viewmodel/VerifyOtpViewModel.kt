@@ -129,8 +129,9 @@ class VerifyOtpViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { apiResponse ->
                         AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
-                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
-                        editor.apply()
+                        // check token null or not
+//                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
+//                        editor.apply()
                     }
                     _resendVisible.value = false
                     _timerVisible.value = true

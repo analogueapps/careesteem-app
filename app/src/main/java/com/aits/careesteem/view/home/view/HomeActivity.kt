@@ -8,8 +8,14 @@ package com.aits.careesteem.view.home.view
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -45,6 +51,10 @@ import com.aits.careesteem.view.auth.view.AuthActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.toColorInt
+import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.google.gson.Gson
 
 
 @AndroidEntryPoint
@@ -136,15 +146,21 @@ class HomeActivity : AppCompatActivity() {
         val menuItem = menu.findItem(R.id.menu_profile)
         val profileImageView = ImageView(this).apply {
             layoutParams = LinearLayout.LayoutParams(100, 100).apply {
-                setMargins(0, 0, 24, 0) // Adding 24px margin on the right
+                setMargins(0, 0, 24, 0)
             }
             scaleType = ImageView.ScaleType.CENTER_CROP
             isClickable = true
             isFocusable = true
         }
 
-        // Retrieve image from SharedPreferences
+        val gson = Gson()
+        val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+        val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
         val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
+        //val savedName = sharedPreferences.getString(SharedPrefConstant.PROFILE_NAME, "User")
+
+        println(savedPhoto)
 
         if (!savedPhoto.isNullOrEmpty()) {
             AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
@@ -153,18 +169,58 @@ class HomeActivity : AppCompatActivity() {
                 }
                 profileImageView.setImageDrawable(roundedDrawable)
             }
-            menuItem.actionView = profileImageView
         } else {
-            // If no image, use default icon
-            menuItem.setIcon(R.drawable.app_logo)
+            val initials = getInitials(userData.first_name, userData.last_name)
+            val initialsBitmap = createInitialsAvatar(this, initials)
+            profileImageView.setImageBitmap(initialsBitmap)
         }
 
-        // Handle click event manually
+        menuItem.actionView = profileImageView
+
         profileImageView.setOnClickListener {
             onOptionsItemSelected(menuItem)
         }
 
         return true
+    }
+
+//    private fun getInitials(fullName: String?): String {
+//        if (fullName.isNullOrBlank()) return ""
+//        val parts = fullName.trim().split("\\s+".toRegex())
+//        val first = parts.getOrNull(0)?.firstOrNull()?.uppercaseChar() ?: ""
+//        val second = parts.getOrNull(1)?.firstOrNull()?.uppercaseChar() ?: ""
+//        return "$first$second"
+//    }
+
+    private fun getInitials(first: String?, last: String?): String {
+        val firstInitial = first?.firstOrNull()?.uppercaseChar() ?: ""
+        val lastInitial = last?.firstOrNull()?.uppercaseChar() ?: ""
+        return "$firstInitial$lastInitial"
+    }
+
+    private fun createInitialsAvatar(context: Context, initials: String): Bitmap {
+        val size = 100
+        val bitmap = createBitmap(size, size)
+        val canvas = Canvas(bitmap)
+
+        val paintCircle = Paint().apply {
+            color = "#279989".toColorInt() // or random color
+            isAntiAlias = true
+        }
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paintCircle)
+
+        val paintText = Paint().apply {
+            color = Color.WHITE
+            textSize = 40f
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            textAlign = Paint.Align.CENTER
+            isAntiAlias = true
+        }
+        val xPos = size / 2f
+        val yPos = (canvas.height / 2f) - ((paintText.descent() + paintText.ascent()) / 2)
+        canvas.drawText(initials, xPos, yPos, paintText)
+
+        return bitmap
     }
 
     // Handle menu item clicks

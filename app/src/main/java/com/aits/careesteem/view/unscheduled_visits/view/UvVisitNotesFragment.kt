@@ -87,7 +87,20 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
         setupAdapter()
         setupSwipeRefresh()
         setupViewModel()
+        setupUi()
         return binding.root
+    }
+
+    private fun setupUi() {
+        binding.apply {
+            if(isChanges) {
+                btnAddVisitNotes.visibility = View.VISIBLE
+                btnTopAddVisitNotes.visibility = View.VISIBLE
+            } else {
+                btnAddVisitNotes.visibility = View.GONE
+                btnTopAddVisitNotes.visibility = View.GONE
+            }
+        }
     }
 
     private fun setupWidget() {

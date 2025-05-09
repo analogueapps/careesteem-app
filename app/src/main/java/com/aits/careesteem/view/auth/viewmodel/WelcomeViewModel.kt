@@ -66,10 +66,10 @@ class WelcomeViewModel @Inject constructor(
 
     private fun validatePhoneNumber(number: String, country: String) {
         if(number.isBlank()) {
-            phoneNumberError.value =  "Phone number is required"
+            phoneNumberError.value =  "Mobile number is required"
             return
         } else if(!number.matches(Regex("^[0-9]+\$"))) {
-            phoneNumberError.value = "Phone number must contain only digits"
+            phoneNumberError.value = "Mobile number must contain only digits"
             return
         } else {
             phoneNumberError.value = null
@@ -90,10 +90,10 @@ class WelcomeViewModel @Inject constructor(
     // Method to handle error field
     private fun validateUKPhoneNumber(phoneNumber: String): String? {
         return when {
-            phoneNumber.isBlank() -> "Phone number is required"
+            phoneNumber.isBlank() -> "Mobile number is required"
             //phoneNumber.length != 11 -> "Phone number must be 11 digits long"
             //!phoneNumber.startsWith("7") -> "Phone number must start with 7"
-            !phoneNumber.matches(Regex("^[0-9]+\$")) -> "Phone number must contain only digits"
+            !phoneNumber.matches(Regex("^[0-9]+\$")) -> "Mobile number must contain only digits"
             else -> null
         }
     }
@@ -109,7 +109,7 @@ class WelcomeViewModel @Inject constructor(
                 isRequestOtpApiCall.value = false
             }
         } else {
-            phoneNumberError.value = "Please enter a valid phone number"
+            phoneNumberError.value = "Please enter a valid mobile number"
             isRequestOtpApiCall.value = false
         }
     }
