@@ -53,6 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.toColorInt
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.google.gson.Gson
 
@@ -170,8 +171,8 @@ class HomeActivity : AppCompatActivity() {
                 profileImageView.setImageDrawable(roundedDrawable)
             }
         } else {
-            val initials = getInitials(userData.first_name, userData.last_name)
-            val initialsBitmap = createInitialsAvatar(this, initials)
+            val initials = GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
+            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
             profileImageView.setImageBitmap(initialsBitmap)
         }
 
@@ -182,45 +183,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return true
-    }
-
-//    private fun getInitials(fullName: String?): String {
-//        if (fullName.isNullOrBlank()) return ""
-//        val parts = fullName.trim().split("\\s+".toRegex())
-//        val first = parts.getOrNull(0)?.firstOrNull()?.uppercaseChar() ?: ""
-//        val second = parts.getOrNull(1)?.firstOrNull()?.uppercaseChar() ?: ""
-//        return "$first$second"
-//    }
-
-    private fun getInitials(first: String?, last: String?): String {
-        val firstInitial = first?.firstOrNull()?.uppercaseChar() ?: ""
-        val lastInitial = last?.firstOrNull()?.uppercaseChar() ?: ""
-        return "$firstInitial$lastInitial"
-    }
-
-    private fun createInitialsAvatar(context: Context, initials: String): Bitmap {
-        val size = 100
-        val bitmap = createBitmap(size, size)
-        val canvas = Canvas(bitmap)
-
-        val paintCircle = Paint().apply {
-            color = "#279989".toColorInt() // or random color
-            isAntiAlias = true
-        }
-        canvas.drawCircle(size / 2f, size / 2f, size / 2f, paintCircle)
-
-        val paintText = Paint().apply {
-            color = Color.WHITE
-            textSize = 40f
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-        }
-        val xPos = size / 2f
-        val yPos = (canvas.height / 2f) - ((paintText.descent() + paintText.ascent()) / 2)
-        canvas.drawText(initials, xPos, yPos, paintText)
-
-        return bitmap
     }
 
     // Handle menu item clicks

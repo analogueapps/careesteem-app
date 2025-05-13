@@ -134,7 +134,10 @@ class VisitsViewModel @Inject constructor(
                         _notCompletedVisits.value = notCompleted
                     }
                 } else {
-                    //errorHandler.handleErrorResponse(response, activity)
+                    if(response.code() == 404) {
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

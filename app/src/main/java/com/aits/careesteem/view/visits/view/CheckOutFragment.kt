@@ -293,8 +293,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             // Check the comparison between the current time and planned end time
             when {
-                currentUtcTime.isBefore(givenTime) -> "Early Check Out"
-                currentUtcTime.isAfter(givenTime) -> "Late Check Out"
+                currentUtcTime.isBefore(givenTime) -> "Early Check-Out"
+                currentUtcTime.isAfter(givenTime) -> "Late Check-Out"
                 else -> ""
             }
         } catch (e: Exception) {
@@ -312,7 +312,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 setCancelable(false)
 
                 binding.dialogTitle.text = alertType.toString()
-                binding.dialogBody.text = if (alertType.toString() == "Early Check Out")
+                binding.dialogBody.text = if (alertType.toString() == "Early Check-Out")
                     "You’re checking out earlier than planned time.\nDo you want to continue?"
                 else
                     "You’re checking out later than planned time.\nDo you want to continue?"
@@ -365,8 +365,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             // Check the comparison between the current time and planned end time
             when {
-                currentUtcTime.isBefore(givenTime) -> "Early Check In"
-                currentUtcTime.isAfter(givenTime) -> "Late Check In"
+                currentUtcTime.isBefore(givenTime) -> "Early Check-In"
+                currentUtcTime.isAfter(givenTime) -> "Late Check-In"
                 else -> ""
             }
         } catch (e: Exception) {
@@ -384,7 +384,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 setCancelable(false)
 
                 binding.dialogTitle.text = alertType.toString()
-                binding.dialogBody.text = if (alertType.toString() == "Late Check In")
+                binding.dialogBody.text = if (alertType.toString() == "Late Check-In")
                     "You’re checking in later than planned time.\nDo you want to continue?"
                 else
                     "You’re checking in earlier than planned time.\nDo you want to continue?"
@@ -664,13 +664,13 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     if (plannedTime != null) {
                         when (args.action) {
                             0 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check In"
-                                actualTime.isAfter(plannedTime)  -> "Late Check In"
+                                actualTime.isBefore(plannedTime) -> "Early Check-In"
+                                actualTime.isAfter(plannedTime)  -> "Late Check-In"
                                 else                              -> ""
                             }
                             1 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check Out"
-                                actualTime.isAfter(plannedTime)  -> "Late Check Out"
+                                actualTime.isBefore(plannedTime) -> "Early Check-Out"
+                                actualTime.isAfter(plannedTime)  -> "Late Check-Out"
                                 else                              -> ""
                             }
                             else -> ""
@@ -714,41 +714,41 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 binding.dialogTitle.text = alertType.toString()
 
                 when (alertType) {
-                    "Early Check In" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_in)
-                    "Late Check In" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_in)
-                    "Early Check Out" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_out)
-                    "Late Check Out" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_out)
+                    "Early Check-In" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_in)
+                    "Late Check-In" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_in)
+                    "Early Check-Out" -> binding.imgPopup.setImageResource(R.drawable.ic_early_check_out)
+                    "Late Check-Out" -> binding.imgPopup.setImageResource(R.drawable.ic_late_check_out)
                 }
 
                 when (alertType) {
-                    "Early Check In" -> binding.dialogBody.text = "You’re checking in earlier than planned time.\nDo you want to continue?"
-                    "Late Check In" -> binding.dialogBody.text = "You’re checking in later than planned time.\nDo you want to continue?"
-                    "Early Check Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time.\nDo you want to continue?"
-                    "Late Check Out" -> binding.dialogBody.text = "You’re checking out later than planned time.\nDo you want to continue?"
+                    "Early Check-In" -> binding.dialogBody.text = "You’re checking in earlier than planned time.\nDo you want to continue?"
+                    "Late Check-In" -> binding.dialogBody.text = "You’re checking in later than planned time.\nDo you want to continue?"
+                    "Early Check-Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time.\nDo you want to continue?"
+                    "Late Check-Out" -> binding.dialogBody.text = "You’re checking out later than planned time.\nDo you want to continue?"
                 }
 
                 binding.btnPositive.setOnClickListener {
                     dismiss()
                     when (alertType) {
-                        "Early Check In" -> viewModel.addVisitCheckIn(
+                        "Early Check-In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
                             "Early Check-In"
                         )
-                        "Late Check In" -> viewModel.addVisitCheckIn(
+                        "Late Check-In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
                             "Late Check-In"
                         )
-                        "Early Check Out" -> viewModel.updateVisitCheckOut(
+                        "Early Check-Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
                             "Early Check-Out"
                         )
-                        "Late Check Out" -> viewModel.updateVisitCheckOut(
+                        "Late Check-Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
@@ -878,6 +878,31 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 .fillColor(0x44FF4081) // Transparent fill
                 .strokeWidth(3f)
         )
+
+        viewModel.markerPosition.value?.let { currentLatLng ->
+            destinationLatLng.let { destLatLng ->
+                ongoingVisitsDetailsViewModel.visitsDetails.value?.radius?.let { radius ->
+                    if (isWithinRadius(
+                            LatLng(currentLatLng.latitude, currentLatLng.longitude),
+                            destLatLng,
+                            radius.toString().toFloat()
+                        )) {
+                        if (args.action == 0) {
+                            binding.btnCheckIn.visibility = View.VISIBLE
+                        } else if (args.action == 1) {
+                            binding.btnCheckOut.visibility = View.VISIBLE
+                        }
+                    } else {
+                        if (args.action == 0) {
+                            binding.btnCheckIn.visibility = View.GONE
+                        } else if (args.action == 1) {
+                            binding.btnCheckOut.visibility = View.GONE
+                        }
+                    }
+                } ?: showDestinationNotAvailableMessage()
+            }
+        }
+
     }
 
     private fun isCameraPermissionGranted(): Boolean {

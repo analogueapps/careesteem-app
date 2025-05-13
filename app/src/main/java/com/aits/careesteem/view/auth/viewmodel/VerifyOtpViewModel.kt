@@ -54,8 +54,28 @@ class VerifyOtpViewModel @Inject constructor(
     private val _onTermsCheck = MutableLiveData<Boolean>()
     val onTermsCheck: LiveData<Boolean> get() = _onTermsCheck
 
+    private val _isVerifyButtonEnabled = MutableLiveData<Boolean>()
+    val isVerifyButtonEnabled: LiveData<Boolean> get() = _isVerifyButtonEnabled
+
     init {
         _onTermsCheck.value = false // Default state (unchecked)
+        _isVerifyButtonEnabled.value = false
+        startTimer()
+
+        otp.observeForever {
+            updateVerifyButtonState()
+        }
+
+        _onTermsCheck.observeForever {
+            updateVerifyButtonState()
+        }
+    }
+
+    private fun updateVerifyButtonState() {
+        val otpValue = otp.value
+        val isOtpValid = otpValue != null && otpValue.length == 6 && otpValue.matches(Regex("^[0-9]{6}$"))
+        val isCheckboxChecked = _onTermsCheck.value == true
+        _isVerifyButtonEnabled.value = isOtpValid && isCheckboxChecked
     }
 
     // Function to update checkbox state

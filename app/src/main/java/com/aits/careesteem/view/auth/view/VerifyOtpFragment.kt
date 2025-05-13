@@ -227,6 +227,10 @@ class VerifyOtpFragment : Fragment() {
 
         viewModel.userData = userData
 
+//        viewModel.isVerifyButtonEnabled.observe(viewLifecycleOwner) { enabled ->
+//            binding.btnVerifyOtp.isEnabled = enabled
+//        }
+
         binding.onClickResendOtp.setOnClickListener {
             viewModel.onResendOtp(requireActivity())
         }

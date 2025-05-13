@@ -240,8 +240,7 @@ class ClientDetailsViewModel @Inject constructor(
 
                 val response = repository.getClientCarePlanRiskAss(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    //clientId = clientId
-                    clientId = 234
+                    clientId = clientId
                 )
 
                 if (response.isSuccessful) {

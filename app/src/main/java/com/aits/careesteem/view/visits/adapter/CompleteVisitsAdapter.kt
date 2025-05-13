@@ -19,6 +19,7 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.visits.adapter.MedicationListAdapter.OnItemItemClick
 import com.aits.careesteem.view.visits.model.User
 import com.aits.careesteem.view.visits.model.VisitListResponse
@@ -117,21 +118,34 @@ class UserAdapter(
         val item = itemList[position]
         if (holder is EvenViewHolder) {
             holder.tvTitleEven.text = item.name
-            // Convert the Base64 string to a Bitmap
-            val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
+            if (item.photoUrl.isNotEmpty()) {
+                // Convert the Base64 string to a Bitmap
+                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
 
-            // Set the Bitmap to the ImageView (if conversion was successful)
-            bitmap?.let {
-                holder.imgEven.setImageBitmap(it)
+                // Set the Bitmap to the ImageView (if conversion was successful)
+                bitmap?.let {
+                    holder.imgEven.setImageBitmap(it)
+                }
+            } else {
+                val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                holder.imgEven.setImageBitmap(initialsBitmap)
             }
+
         } else if (holder is OddViewHolder) {
             holder.tvTitleOdd.text = item.name
-            // Convert the Base64 string to a Bitmap
-            val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
+            if (item.photoUrl.isNotEmpty()) {
+                // Convert the Base64 string to a Bitmap
+                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
 
-            // Set the Bitmap to the ImageView (if conversion was successful)
-            bitmap?.let {
-                holder.imgOdd.setImageBitmap(it)
+                // Set the Bitmap to the ImageView (if conversion was successful)
+                bitmap?.let {
+                    holder.imgOdd.setImageBitmap(it)
+                }
+            } else {
+                val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                holder.imgOdd.setImageBitmap(initialsBitmap)
             }
         }
     }

@@ -75,7 +75,10 @@ class ToDoViewModel @Inject constructor(
                         _completeCount.value = list.data.count { it.todoEssential && it.todoOutcome.isNotEmpty() }
                     }
                 } else {
-                    //errorHandler.handleErrorResponse(response, activity)
+                    if(response.code() == 404) {
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

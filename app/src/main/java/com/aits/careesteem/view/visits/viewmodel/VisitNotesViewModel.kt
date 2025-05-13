@@ -69,7 +69,10 @@ class VisitNotesViewModel @Inject constructor(
                         _visitNotesList.value = list.data
                     }
                 } else {
-                    //errorHandler.handleErrorResponse(response, activity)
+                    if(response.code() == 404) {
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
                 AlertUtils.showToast(activity,"Request Timeout. Please try again.")

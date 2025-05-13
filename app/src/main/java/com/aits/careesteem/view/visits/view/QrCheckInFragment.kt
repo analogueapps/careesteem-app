@@ -358,13 +358,13 @@ class QrCheckInFragment : Fragment() {
                     if (plannedTime != null) {
                         when (action) {
                             0 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check In"
-                                actualTime.isAfter(plannedTime)  -> "Late Check In"
+                                actualTime.isBefore(plannedTime) -> "Early Check-In"
+                                actualTime.isAfter(plannedTime)  -> "Late Check-In"
                                 else                              -> ""
                             }
                             1 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check Out"
-                                actualTime.isAfter(plannedTime)  -> "Late Check Out"
+                                actualTime.isBefore(plannedTime) -> "Early Check-Out"
+                                actualTime.isAfter(plannedTime)  -> "Late Check-Out"
                                 else                              -> ""
                             }
                             else -> ""

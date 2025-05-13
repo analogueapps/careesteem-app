@@ -39,6 +39,7 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
@@ -64,7 +65,7 @@ class VisitsFragment : Fragment(),
     lateinit var editor: SharedPreferences.Editor
 
     // Viewmodel
-    private val viewModel: VisitsViewModel by viewModels()
+    private val viewModel: VisitsViewModel by activityViewModels()
     // Viewmodel
     private val profileViewModel: ProfileViewModel by viewModels()
 

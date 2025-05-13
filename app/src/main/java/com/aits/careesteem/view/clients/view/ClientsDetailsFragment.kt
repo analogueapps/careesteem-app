@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +21,7 @@ import com.aits.careesteem.databinding.DialogCarePlanBinding
 import com.aits.careesteem.databinding.DialogMyCareNetworkBinding
 import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
@@ -41,12 +43,16 @@ import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.reflect.full.memberProperties
 
@@ -58,6 +64,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
     // Viewmodel
     private val viewModel: ClientDetailsViewModel by viewModels()
+    private val visitViewModel: VisitsViewModel by activityViewModels()
 
     // Selected client object
     private lateinit var clientData: ClientsList.Data
@@ -197,12 +204,19 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 //                        visitStatus = "Unscheduled"
 //                    )
 //                )
-                val gson = Gson()
-                val dataString = gson.toJson(clientData)
-                val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
-                    clinetData = dataString
-                )
-                findNavController().navigate(action)
+
+                visitViewModel.inProgressVisits.value.let { data ->
+                    if (!data.isNullOrEmpty()) {
+                        AlertUtils.showToast(requireActivity(), "You have ongoing visits")
+                    } else {
+                        val gson = Gson()
+                        val dataString = gson.toJson(clientData)
+                        val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
+                            clinetData = dataString
+                        )
+                        findNavController().navigate(action)
+                    }
+                }
             }
             binding.btnNegative.setOnClickListener {
                 dialog.dismiss()

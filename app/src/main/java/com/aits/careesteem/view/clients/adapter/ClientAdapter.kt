@@ -7,6 +7,11 @@
 package com.aits.careesteem.view.clients.adapter
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +19,15 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemClientBinding
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
@@ -92,12 +101,18 @@ class ClientAdapter(
                     }
                 }
 
-                // Convert the Base64 string to a Bitmap
-                val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
+                if (data.profile_photo.isNotEmpty()) {
+                    // Convert the Base64 string to a Bitmap
+                    val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
 
-                // Set the Bitmap to the ImageView (if conversion was successful)
-                bitmap?.let {
-                    clientImage.setImageBitmap(it)
+                    // Set the Bitmap to the ImageView (if conversion was successful)
+                    bitmap?.let {
+                        clientImage.setImageBitmap(it)
+                    }
+                } else {
+                    val initials = GooglePlaceHolder().getInitialsSingle(data.full_name)
+                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                    clientImage.setImageBitmap(initialsBitmap)
                 }
 
                 layout.setOnClickListener {
@@ -106,4 +121,6 @@ class ClientAdapter(
             }
         }
     }
+
+
 }

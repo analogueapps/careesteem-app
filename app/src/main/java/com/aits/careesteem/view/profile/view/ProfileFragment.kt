@@ -2,8 +2,14 @@ package com.aits.careesteem.view.profile.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,7 +20,9 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aits.careesteem.R
@@ -23,6 +31,7 @@ import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.SharedPrefConstant
@@ -193,7 +202,7 @@ class ProfileFragment : Fragment() {
     private fun updateProfileDetails(data: UserDetailsResponse.Data) {
         binding.profileName.text = data.name
         binding.profileAgency.text = data.Agency
-        binding.profileAge.text = data.age.toString()
+        binding.profileAge.text = if (data.age == 0) "" else data.age.toString()
         binding.profileEmail.text = data.email
         binding.profileContactNumber.text = data.contact_number
         binding.profileAddress.text = data.address
@@ -204,15 +213,29 @@ class ProfileFragment : Fragment() {
             editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_photo)
             editor.apply()
         }
-
-        // Convert the Base64 string to a Bitmap
-        val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
-
-        // Set the Bitmap to the ImageView (if conversion was successful)
-        bitmap?.let {
-            binding.profileImage.setImageBitmap(it)
-        }
         requireActivity().invalidateOptionsMenu()
+
+//        // Convert the Base64 string to a Bitmap
+//        val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
+//
+//        // Set the Bitmap to the ImageView (if conversion was successful)
+//        bitmap?.let {
+//            binding.profileImage.setImageBitmap(it)
+//        }
+
+        val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
+        if (!savedPhoto.isNullOrEmpty()) {
+            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
+                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
+                    isCircular = true
+                }
+                binding.profileImage.setImageDrawable(roundedDrawable)
+            }
+        } else {
+            val initials = GooglePlaceHolder().getInitialsSingle(data.name)
+            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+            binding.profileImage.setImageBitmap(initialsBitmap)
+        }
     }
 
 }
