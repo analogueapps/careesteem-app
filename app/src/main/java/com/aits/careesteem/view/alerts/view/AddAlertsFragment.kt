@@ -18,6 +18,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,9 @@ import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
+import com.aits.careesteem.view.clients.view.ClientsDetailsFragmentDirections
+import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -41,6 +45,7 @@ class AddAlertsFragment : Fragment() {
 
     // Viewmodel
     private val viewModel: AddAlertsViewModel by viewModels()
+    private val visitViewModel: VisitsViewModel by activityViewModels()
 
     private var fileList: MutableList<FileModel> = mutableListOf()
 
@@ -64,7 +69,7 @@ class AddAlertsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getClientsList(requireActivity())
-        viewModel.getVisits(requireActivity())
+        //viewModel.getVisits(requireActivity())
     }
 
     override fun onCreateView(
@@ -541,52 +546,73 @@ class AddAlertsFragment : Fragment() {
             }
         }
 
-        // Data visibility
-        viewModel.clientsList.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                val spinnerList = ArrayList<String>()
-                for (client in data) {
-                    spinnerList.add(client.clientName)
-                }
-                // remove duplicates
-                val uniqueSpinnerList = spinnerList.distinct()
-                val adapter = ArrayAdapter(
+        // Observe and populate client names in spinner
+        viewModel.clientsList.observe(viewLifecycleOwner) { clients ->
+            if (!clients.isNullOrEmpty()) {
+                // Get distinct client names
+                val uniqueClientNames = clients.map { it.clientName }.distinct()
+
+                // Setup adapter for client name spinner
+                val clientNameAdapter = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_item,
-                    uniqueSpinnerList
-                )
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.allClientNameSpinner.adapter = adapter
+                    uniqueClientNames
+                ).apply {
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
 
-                binding.allClientNameSpinner.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        @SuppressLint("SetTextI18n")
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View,
-                            position: Int,
-                            id: Long
-                        ) {
-//                            binding.clientName.text = adapter.getItem(position).toString()
-//                            clientId = data[position].clientId
-//                            visitDetailsId = -1
-//                            binding.visitName.text = ""
-//                            viewModel.getFilterVisits(clientId)
-                            binding.clientName.text = adapter.getItem(position).toString()
+                binding.allClientNameSpinner.adapter = clientNameAdapter
 
-                            // This might be incorrect if 'data' and 'uniqueSpinnerList' lengths differ
-                            val selectedName = adapter.getItem(position)
-                            val selectedClient = data.find { it.clientName == selectedName }
-                            clientId = selectedClient?.clientId ?: -1
+                binding.allClientNameSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    @SuppressLint("SetTextI18n")
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selectedClientName = clientNameAdapter.getItem(position) ?: return
+                        binding.clientName.text = selectedClientName
 
-                            visitDetailsId = -1
-                            binding.visitName.text = ""
-                            viewModel.getFilterVisits(clientId)
+                        // Match selected name to client object
+                        val selectedClient = clients.find { it.clientName == selectedClientName }
+                        clientId = selectedClient?.clientId ?: -1
+
+                        // Reset previous selection
+                        visitDetailsId = -1
+                        binding.visitName.text = ""
+
+                        // Filter and display visits for the selected client
+                        val filteredVisits = visitViewModel.visitsList.value
+                            ?.filter { it.clientId == clientId }
+                            .orEmpty()
+
+                        val visitTimeOptions = filteredVisits.map { visit ->
+                            "${visit.plannedStartTime} - ${visit.plannedEndTime}"
                         }
 
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        val visitTimeAdapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            visitTimeOptions
+                        ).apply {
+                            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        }
+
+                        binding.allVisitTimeSpinner.adapter = visitTimeAdapter
+
+                        binding.allVisitTimeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            @SuppressLint("SetTextI18n")
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                binding.visitName.text = visitTimeOptions[position]
+                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: -1
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                // No action required
+                            }
                         }
                     }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // No action required
+                    }
+                }
             }
         }
 

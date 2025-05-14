@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,9 +42,11 @@ import java.time.format.TextStyle
 import java.util.Locale
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
+import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -143,9 +147,22 @@ class VisitsFragment : Fragment(),
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupWidget() {
+        lifecycleScope.launch {
+            val formatter = DateTimeFormatter.ofPattern("hh:mm:ss a")
+            while (true) {
+                val currentTime = LocalTime.now()
+                val formattedTime = currentTime.format(formatter)
+
+                binding.currentDate.text = "Current time in UK : $formattedTime"  // Replace with your TextView
+
+                delay(1000) // wait for 1 second
+            }
+        }
+
+
         // Initialize the calendar with the current week
         addCheckedDate(currentStartOfWeek)
         updateCalendar(currentStartOfWeek)
