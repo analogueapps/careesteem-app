@@ -27,7 +27,7 @@ class TodoListAdapter(
 
     private var todoList = listOf<TodoListResponse.Data>()
 
-    fun updatedList(list: List<TodoListResponse.Data>) {
+    fun updateList(list: List<TodoListResponse.Data>) {
         todoList = list
         notifyDataSetChanged()
     }

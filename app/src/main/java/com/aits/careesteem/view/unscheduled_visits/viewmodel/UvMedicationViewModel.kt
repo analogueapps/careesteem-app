@@ -67,6 +67,9 @@ class UvMedicationViewModel @Inject constructor(
                         _medicationList.value = list.data
                     }
                 } else {
+                    if(response.code() == 404) {
+                        return@launch
+                    }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {

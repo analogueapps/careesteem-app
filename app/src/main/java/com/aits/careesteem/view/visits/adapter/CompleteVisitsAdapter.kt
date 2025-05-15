@@ -17,10 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
-import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
-import com.aits.careesteem.view.visits.adapter.MedicationListAdapter.OnItemItemClick
 import com.aits.careesteem.view.visits.model.User
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
@@ -35,7 +33,7 @@ class CompleteVisitsAdapter(
 
     private var visitsList = listOf<VisitListResponse.Data>()
 
-    fun updatedList(list: List<VisitListResponse.Data>) {
+    fun updateList(list: List<VisitListResponse.Data>) {
         visitsList = list
         notifyDataSetChanged()
     }
@@ -79,7 +77,7 @@ class CompleteVisitsAdapter(
                 val userList = data.userName.mapIndexed { index, name ->
                     User(name, data.profile_photo.getOrElse(index) { "" })
                 }
-                val customAdapter = UserAdapter(userList)
+                val customAdapter = UserAdapter(context, userList)
                 recyclerView.layoutManager = GridLayoutManager(context, 2)
                 recyclerView.adapter = customAdapter
 
@@ -93,6 +91,7 @@ class CompleteVisitsAdapter(
 }
 
 class UserAdapter(
+    private val context: Context,
     private val itemList: List<User>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
@@ -128,7 +127,7 @@ class UserAdapter(
                 }
             } else {
                 val initials = GooglePlaceHolder().getInitialsSingle(item.name)
-                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                 holder.imgEven.setImageBitmap(initialsBitmap)
             }
 
@@ -144,7 +143,7 @@ class UserAdapter(
                 }
             } else {
                 val initials = GooglePlaceHolder().getInitialsSingle(item.name)
-                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                 holder.imgOdd.setImageBitmap(initialsBitmap)
             }
         }

@@ -15,7 +15,7 @@ class NotificationAdapter(
 
     private var adapterList = listOf<NotificationListResponse.Data>()
 
-    fun updatedList(list: List<NotificationListResponse.Data>) {
+    fun updateList(list: List<NotificationListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }

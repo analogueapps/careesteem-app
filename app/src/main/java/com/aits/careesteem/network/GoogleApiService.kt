@@ -27,4 +27,11 @@ interface GoogleApiService {
         @Query("key") apiKey: String,
         @Query("mode") mode: String,
     ): Call<DirectionsResponse>
+
+    @GET("maps/api/directions/json")
+    fun getTravelTime(
+        @Query("origin") origin: String,
+        @Query("destination") destination: String,
+        @Query("key") apiKey: String
+    ): Call<DirectionsResponse>
 }

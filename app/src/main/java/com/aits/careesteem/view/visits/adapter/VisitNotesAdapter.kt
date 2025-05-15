@@ -26,7 +26,7 @@ class VisitNotesAdapter(
 
     private var visitNotesList = listOf<ClientVisitNotesDetails.Data>()
 
-    fun updatedList(list: List<ClientVisitNotesDetails.Data>) {
+    fun updateList(list: List<ClientVisitNotesDetails.Data>) {
         visitNotesList = list
         notifyDataSetChanged()
     }

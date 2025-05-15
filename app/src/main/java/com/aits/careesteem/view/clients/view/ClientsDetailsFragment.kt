@@ -280,7 +280,7 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         // Data visibility
         viewModel.clientMyCareNetwork.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                myCareNetworkAdapter.updatedList(data)
+                myCareNetworkAdapter.updateList(data)
             }
         }
 

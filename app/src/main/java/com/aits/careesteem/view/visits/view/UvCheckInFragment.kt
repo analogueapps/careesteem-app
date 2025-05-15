@@ -479,6 +479,22 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                 .fillColor(0x44FF4081)
                 .strokeWidth(3f)
         )
+
+        viewModel.markerPosition.value?.let { currentLatLng ->
+            destinationLatLng.let { destLatLng ->
+                clientData.radius.let { radius ->
+                    if (isWithinRadius(
+                            LatLng(currentLatLng.latitude, currentLatLng.longitude),
+                            destLatLng,
+                            radius.toString().toFloat()
+                        )) {
+                        binding.btnCheckIn.visibility = View.VISIBLE
+                    } else {
+                        binding.btnCheckIn.visibility = View.GONE
+                    }
+                } ?: showDestinationNotAvailableMessage()
+            }
+        }
     }
 
     private fun requestLocationPermissions() {

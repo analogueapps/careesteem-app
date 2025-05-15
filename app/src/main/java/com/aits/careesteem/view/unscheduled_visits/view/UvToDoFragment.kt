@@ -150,7 +150,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
-                uvTodoListAdapter.updatedList(data)
+                uvTodoListAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE

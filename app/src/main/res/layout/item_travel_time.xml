@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="15dp"
+        android:background="@drawable/dotted_line" />
+
+    <TextView
+        android:id="@+id/tvTravelTime"
+        android:maxLines="1"
+        android:maxWidth="@dimen/_300sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0min"
+        android:textFontWeight="400"
+        android:fontFamily="@font/lora_regular"
+        android:textColor="#727272"
+        android:background="@drawable/bg_travel_time_indicator"
+        android:padding="6dp"
+        android:textSize="14sp"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="15dp"
+        android:background="@drawable/dotted_line" />
+</LinearLayout>

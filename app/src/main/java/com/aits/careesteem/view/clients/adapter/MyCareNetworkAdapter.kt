@@ -25,7 +25,7 @@ class MyCareNetworkAdapter(
 
     private var adapterList = listOf<ClientDetailsResponse.Data.MyCareNetworkData>()
 
-    fun updatedList(list: List<ClientDetailsResponse.Data.MyCareNetworkData>) {
+    fun updateList(list: List<ClientDetailsResponse.Data.MyCareNetworkData>) {
         adapterList = list
         notifyDataSetChanged()
     }

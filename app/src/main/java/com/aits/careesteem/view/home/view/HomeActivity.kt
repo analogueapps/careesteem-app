@@ -172,7 +172,7 @@ class HomeActivity : AppCompatActivity() {
             }
         } else {
             val initials = GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
-            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(this, initials)
             profileImageView.setImageBitmap(initialsBitmap)
         }
 

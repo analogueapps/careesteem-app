@@ -90,7 +90,7 @@ class ClientsFragment : Fragment(),
         // Data visibility
         viewModel.clientsList.observe(viewLifecycleOwner) { data ->
             if (data != null) {
-                clientAdapter.updatedList(data)
+                clientAdapter.updateList(data)
             }
         }
     }

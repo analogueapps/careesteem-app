@@ -28,7 +28,7 @@ class UvMedicationListAdapter(
 
     private var adapterList = listOf<UvMedicationListResponse.Data>()
 
-    fun updatedList(list: List<UvMedicationListResponse.Data>) {
+    fun updateList(list: List<UvMedicationListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }

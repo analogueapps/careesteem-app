@@ -69,6 +69,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -125,6 +126,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         setupMap()
     }
 
+    @SuppressLint("InflateParams")
     private fun setupTabLayout() {
 //        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Geo Location"))
 //        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("QR-Code"))
@@ -252,8 +254,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
-                if (data?.visitStatus == "Unscheduled") {
-                    viewModel.createUnscheduledVisit(requireActivity(), data?.clientId!!, true)
+                if (data.visitStatus == "Unscheduled") {
+                    viewModel.createUnscheduledVisit(requireActivity(), data.clientId, true)
                 } else {
                     showCheckInPopup(data)
                 }
@@ -277,24 +279,23 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
-//        viewModel.updateVisitCheckOut(
-//            requireActivity(),
-//            data,
-//            true,
-//            ""
-//        )
         val startTime = DateTimeUtils.getCurrentTimeGMT()
+        val plannedDate = data.visitDate
         val alertType = try {
-            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+            // Combine planned date + planned time
+            val plannedDateTimeStr = "$plannedDate ${data.plannedEndTime}"
 
-            // Parse the given time and current time
-            val givenTime = LocalTime.parse(data.plannedEndTime.toString(), formatter)
-            val currentUtcTime = LocalTime.parse(startTime, formatter)
+            // Define formatter
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-            // Check the comparison between the current time and planned end time
+            // Parse both date-times
+            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+            val currentDateTime = LocalDateTime.parse(startTime, formatter)
+
+            // Compare
             when {
-                currentUtcTime.isBefore(givenTime) -> "Early Check-Out"
-                currentUtcTime.isAfter(givenTime) -> "Late Check-Out"
+                currentDateTime.isBefore(plannedDateTime) -> "Early Check-Out"
+                currentDateTime.isAfter(plannedDateTime) -> "Late Check-Out"
                 else -> ""
             }
         } catch (e: Exception) {
@@ -349,24 +350,23 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
-//        viewModel.addVisitCheckIn(
-//            requireActivity(),
-//            data,
-//            true,
-//            ""
-//        )
         val startTime = DateTimeUtils.getCurrentTimeGMT()
+        val plannedDate = data.visitDate
         val alertType = try {
-            val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+            // Combine planned date + planned time
+            val plannedDateTimeStr = "$plannedDate ${data.plannedEndTime}"
 
-            // Parse the given time and current time
-            val givenTime = LocalTime.parse(data.plannedStartTime.toString(), formatter)
-            val currentUtcTime = LocalTime.parse(startTime, formatter)
+            // Define formatter
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+            // Parse both date-times
+            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+            val currentDateTime = LocalDateTime.parse(startTime, formatter)
 
             // Check the comparison between the current time and planned end time
             when {
-                currentUtcTime.isBefore(givenTime) -> "Early Check-In"
-                currentUtcTime.isAfter(givenTime) -> "Late Check-In"
+                currentDateTime.isBefore(plannedDateTime) -> "Early Check-In"
+                currentDateTime.isAfter(plannedDateTime) -> "Late Check-In"
                 else -> ""
             }
         } catch (e: Exception) {
@@ -609,19 +609,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             setContentView(binding.root)
             setCancelable(false)
 
-            /*binding.dialogTitle.text = if (args.action == 0) "Force Check-In" else "Force Check-Out"
-            binding.dialogBody.text = if (args.action == 0)
-                "Are you sure want to force check in?"
-            else
-                "Are you sure want to force check out?"
-
-            binding.btnPositive.setOnClickListener {
-                dismiss()
-                performForceCheck()
-            }
-
-            binding.btnNegative.setOnClickListener { dismiss() }*/
-
             if (args.action == 0)
                 binding.imgPopup.setImageResource(R.drawable.ic_force_check_in)
             else if (args.action == 1)
@@ -651,26 +638,34 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 val startTime = DateTimeUtils.getCurrentTimeGMT()
+                val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
                 val alertType = try {
-                    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                    val actualTime = LocalTime.parse(startTime, formatter)
-
-                    val plannedTime = when (args.action) {
+                    val planTime = when (args.action) {
                         0 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedStartTime
                         1 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime
                         else -> null
-                    }?.let { LocalTime.parse(it, formatter) }
+                    }
 
-                    if (plannedTime != null) {
+                    // Combine planned date + planned time
+                    val plannedDateTimeStr = "$plannedDate $planTime"
+
+                    // Define formatter
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+                    // Parse both date-times
+                    val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+                    val currentDateTime = LocalDateTime.parse(startTime, formatter)
+
+                    if (currentDateTime != null) {
                         when (args.action) {
                             0 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check-In"
-                                actualTime.isAfter(plannedTime)  -> "Late Check-In"
+                                currentDateTime.isBefore(plannedDateTime) -> "Early Check-In"
+                                currentDateTime.isAfter(plannedDateTime)  -> "Late Check-In"
                                 else                              -> ""
                             }
                             1 -> when {
-                                actualTime.isBefore(plannedTime) -> "Early Check-Out"
-                                actualTime.isAfter(plannedTime)  -> "Late Check-Out"
+                                currentDateTime.isBefore(plannedDateTime) -> "Early Check-Out"
+                                currentDateTime.isAfter(plannedDateTime)  -> "Late Check-Out"
                                 else                              -> ""
                             }
                             else -> ""
@@ -937,6 +932,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .show()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

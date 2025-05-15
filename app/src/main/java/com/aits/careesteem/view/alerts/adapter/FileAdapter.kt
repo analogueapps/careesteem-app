@@ -17,8 +17,7 @@ class FileAdapter(
 ) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,13 +28,9 @@ class FileAdapter(
 
     override fun getItemCount(): Int = adapterList.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemViewType(position: Int): Int = position
 
     inner class ViewHolder(private val binding: ItemBodyMapAddedBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -43,14 +38,16 @@ class FileAdapter(
         fun bind(data: FileModel) {
             binding.apply {
                 tvBodyPartNames.text = data.bodyPartNames
-                // Use Glide to load the image from the file path
+
+                // Load local image using Glide
                 Glide.with(context)
-                    .load(File(data.filePath)) // Assuming the filePath is local
-                    .placeholder(R.drawable.logo_preview) // Optional placeholder
+                    .load(File(data.filePath))
+                    .placeholder(R.drawable.logo_preview)
                     .into(fileImageView)
 
+                // Handle delete button click
                 btnDelete.setOnClickListener {
-                    onDelete(position) // Call the delete function
+                    onDelete(adapterPosition)
                 }
             }
         }

@@ -27,7 +27,7 @@ class UvVisitNotesListAdapter(
 
     private var adapterList = listOf<UvVisitNotesListResponse.Data>()
 
-    fun updatedList(list: List<UvVisitNotesListResponse.Data>) {
+    fun updateList(list: List<UvVisitNotesListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }

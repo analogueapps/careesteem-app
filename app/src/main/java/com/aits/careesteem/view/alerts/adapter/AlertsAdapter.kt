@@ -13,125 +13,96 @@ import com.aits.careesteem.databinding.ItemAlertListBinding
 import com.aits.careesteem.databinding.ItemBodyMapAddedBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.AlertListResponse
-import com.aits.careesteem.view.alerts.model.FileModel
-import com.aits.careesteem.view.clients.adapter.BehaviourRiskAssessmentHazardsAdapter
 import com.bumptech.glide.Glide
-import java.io.File
 
 class AlertsAdapter(
     private val context: Context
-) : RecyclerView.Adapter<AlertsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<AlertsAdapter.AlertViewHolder>() {
 
-    private var adapterList = listOf<AlertListResponse.Data>()
+    private var alertList = listOf<AlertListResponse.Data>()
 
-    fun updatedList(list: List<AlertListResponse.Data>) {
-        adapterList = list
+    fun updateList(newList: List<AlertListResponse.Data>) {
+        alertList = newList
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemAlertListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder {
+        val binding = ItemAlertListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AlertViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataItem = adapterList[position]
-        holder.bind(dataItem)
+    override fun onBindViewHolder(holder: AlertViewHolder, position: Int) {
+        holder.bind(alertList[position])
     }
 
-    override fun getItemCount(): Int = adapterList.size
+    override fun getItemCount(): Int = alertList.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
-
-    inner class ViewHolder(private val binding: ItemAlertListBinding) :
+    inner class AlertViewHolder(private val binding: ItemAlertListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(data: AlertListResponse.Data) {
-            binding.apply {
-                val dateFormatted = AppConstant.alertsListTimer(data.created_at)
-                alertName.text = "${data.client_name}\t\t${dateFormatted}"
+        @SuppressLint("SetTextI18n")
+        fun bind(data: AlertListResponse.Data) = with(binding) {
+            val formattedDate = AppConstant.alertsListTimer(data.created_at)
+            alertName.text = "${data.client_name}\t\t$formattedDate"
 
-                alertLayout.setOnClickListener {
-                    if(alertName.tag == "Invisible") {
-                        alertName.tag = "Visible"
-                        alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(
-                            R.drawable.ic_keyboard_arrow_up), null)
-                        detailLayout.visibility = View.VISIBLE
-                    } else {
-                        alertName.tag = "Invisible"
-                        alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(
-                            R.drawable.ic_keyboard_arrow_down), null)
-                        detailLayout.visibility = View.GONE
-                    }
-                }
-
-                clientName.text = data.client_name
-                visitTime.text = data.session_time
-                severityOfConcern.text = data.severity_of_concern
-                visitNotes.text = data.concern_details
-
-                val bodyMapItems = data.body_part_names.mapIndexed { index, partName ->
-                    BodyMapItem(
-                        partName = partName,
-                        imageUrl = data.body_image.getOrNull(index).orEmpty()
-                    )
-                }
-
-                val adapter = ServerImageAdapter(context, bodyMapItems)
-                binding.recyclerView.layoutManager = LinearLayoutManager(context)
-                binding.recyclerView.adapter = adapter
+            // Toggle expand/collapse on click
+            alertLayout.setOnClickListener {
+                val isVisible = alertName.tag == "Visible"
+                alertName.tag = if (isVisible) "Invisible" else "Visible"
+                val icon = if (isVisible) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up
+                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+                detailLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
             }
+
+            // Populate alert details
+            clientName.text = data.client_name
+            visitTime.text = data.session_time
+            severityOfConcern.text = data.severity_of_concern
+            visitNotes.text = data.concern_details
+
+            // Map body parts with corresponding images
+            val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
+                BodyMapItem(
+                    partName = name,
+                    imageUrl = data.body_image.getOrNull(index).orEmpty()
+                )
+            }
+
+            // Setup nested image recycler
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = ServerImageAdapter(context, bodyMapItems)
         }
     }
 }
 
 class ServerImageAdapter(
     private val context: Context,
-    private val adapterList: List<BodyMapItem>
-) : RecyclerView.Adapter<ServerImageAdapter.ViewHolder>() {
+    private val imageList: List<BodyMapItem>
+) : RecyclerView.Adapter<ServerImageAdapter.ImageViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataItem = adapterList[position]
-        holder.bind(dataItem)
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.bind(imageList[position])
     }
 
-    override fun getItemCount(): Int = adapterList.size
+    override fun getItemCount(): Int = imageList.size
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
-
-    inner class ViewHolder(private val binding: ItemBodyMapAddedBinding) :
+    inner class ImageViewHolder(private val binding: ItemBodyMapAddedBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: BodyMapItem) {
-            binding.apply {
-                binding.tvBodyPartNames.text = data.partName
-                Glide.with(context)
-                    .load(BuildConfig.API_BASE_URL+data.imageUrl.replace("\\", "/")) // Assuming the filePath is local
-                    .placeholder(R.drawable.logo_preview) // Optional placeholder
-                    .into(fileImageView)
+        fun bind(data: BodyMapItem) = with(binding) {
+            tvBodyPartNames.text = data.partName
 
-                btnDelete.visibility = View.GONE
-            }
+            Glide.with(context)
+                .load("${BuildConfig.API_BASE_URL}${data.imageUrl.replace("\\", "/")}")
+                .placeholder(R.drawable.logo_preview)
+                .into(fileImageView)
+
+            btnDelete.visibility = View.GONE
         }
     }
 }

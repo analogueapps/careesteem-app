@@ -153,7 +153,7 @@ class UvMedicationFragment : Fragment(), UvMedicationListAdapter.OnItemItemClick
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
-                uvMedicationListAdapter.updatedList(data)
+                uvMedicationListAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE

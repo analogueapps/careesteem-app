@@ -28,7 +28,7 @@ class MedicationPrnListAdapter(
 
     private var adapterList = listOf<MedicationDetailsListResponse.Data>()
 
-    fun updatedList(list: List<MedicationDetailsListResponse.Data>) {
+    fun updateList(list: List<MedicationDetailsListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }

@@ -94,15 +94,14 @@ class CheckoutViewModel @Inject constructor(
         val actualStartTime = DateTimeUtils.getCurrentTimeGMT()
         viewModelScope.launch {
             try {
-                // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
                     return@launch
                 }
 
-                val gson = Gson()
-                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                } ?: return@launch
 
                 val response = repository.addVisitCheckIn(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),

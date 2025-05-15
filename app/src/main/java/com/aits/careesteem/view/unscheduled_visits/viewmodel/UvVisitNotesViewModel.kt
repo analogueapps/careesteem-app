@@ -68,6 +68,9 @@ class UvVisitNotesViewModel @Inject constructor(
                         _visitNotesList.value = list.data
                     }
                 } else {
+                    if(response.code() == 404) {
+                        return@launch
+                    }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {

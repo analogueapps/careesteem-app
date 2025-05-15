@@ -42,7 +42,7 @@ class ClientAdapter(
 
     private var clientList = listOf<ClientsList.Data>()
 
-    fun updatedList(list: List<ClientsList.Data>) {
+    fun updateList(list: List<ClientsList.Data>) {
         clientList = list
         notifyDataSetChanged()
     }
@@ -111,7 +111,7 @@ class ClientAdapter(
                     }
                 } else {
                     val initials = GooglePlaceHolder().getInitialsSingle(data.full_name)
-                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                     clientImage.setImageBitmap(initialsBitmap)
                 }
 

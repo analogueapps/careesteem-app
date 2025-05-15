@@ -61,7 +61,7 @@ class SelectAgencyFragment : Fragment(), SelectAgencyAdapter.OnItemItemClick {
     }
 
     private fun setupWidgets() {
-        selectAgencyAdapter.updatedList(dbList!!)
+        selectAgencyAdapter.updateList(dbList!!)
         binding.apply {
             recyclerView.adapter = selectAgencyAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())

@@ -6,20 +6,23 @@
 
 package com.aits.careesteem.view.visits.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
+import com.aits.careesteem.databinding.ItemTravelTimeBinding
 import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
 class UpcomingVisitsAdapter(
     private val context: Context,
     private val onItemItemClick: OnItemItemClick,
     private val onDirectionItemItemClick: OnCheckoutItemItemClick,
-) : RecyclerView.Adapter<UpcomingVisitsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemItemClick {
         fun onItemItemClicked(data: VisitListResponse.Data)
@@ -29,11 +32,16 @@ class UpcomingVisitsAdapter(
         fun onDirectionItemItemClicked(data: VisitListResponse.Data)
     }
 
-    private var visitsList = listOf<VisitListResponse.Data>()
+    private var visitItems: List<VisitItem> = emptyList()
     private var upcomingVisitsList = listOf<VisitListResponse.Data>()
 
-    fun updatedList(list: List<VisitListResponse.Data>) {
-        visitsList = list
+    companion object {
+        private const val TYPE_VISIT = 0
+        private const val TYPE_TRAVEL_TIME = 1
+    }
+
+    fun updateList(items: List<VisitItem>) {
+        visitItems = items
         notifyDataSetChanged()
     }
 
@@ -42,55 +50,71 @@ class UpcomingVisitsAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemUpcomingVisitsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataItem = visitsList[position]
-        holder.bind(dataItem)
-    }
-
-    override fun getItemCount(): Int = visitsList.size
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return position
+        return when (visitItems[position]) {
+            is VisitItem.VisitCard -> TYPE_VISIT
+            is VisitItem.TravelTimeIndicator -> TYPE_TRAVEL_TIME
+        }
     }
 
-    inner class ViewHolder(private val binding: ItemUpcomingVisitsBinding) :
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_VISIT -> {
+                val binding = ItemUpcomingVisitsBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                VisitViewHolder(binding)
+            }
+            TYPE_TRAVEL_TIME -> {
+                val binding = ItemTravelTimeBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                TravelTimeViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Unknown view type")
+        }
+    }
+
+    override fun getItemCount(): Int = visitItems.size
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = visitItems[position]) {
+            is VisitItem.VisitCard -> (holder as VisitViewHolder).bind(item.visitData)
+            is VisitItem.TravelTimeIndicator -> (holder as TravelTimeViewHolder).bind(item.timeText)
+        }
+    }
+
+    inner class VisitViewHolder(private val binding: ItemUpcomingVisitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("NewApi")
         fun bind(data: VisitListResponse.Data) {
-            binding.apply {
-                tvClientName.text = data.clientName
-                tvClientAddress.text = data.clientAddress
-                tvPlanTime.text = data.totalPlannedTime
-                tvUserRequired.text = "${data.usersRequired}"
-//                tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)
-//                tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
-                tvPlannedStartTime.text = data.plannedStartTime
-                tvPlannedEndTime.text = data.plannedEndTime
+            binding.tvClientName.text = data.clientName
+            binding.tvClientAddress.text = data.clientAddress
+            binding.tvPlannedStartTime.text = data.plannedStartTime
+            binding.tvPlannedEndTime.text = data.plannedEndTime
+            binding.tvPlanTime.text = data.totalPlannedTime
+            binding.tvUserRequired.text = "${data.usersRequired}"
 
-                val today = java.time.LocalDate.now().toString()
-                val isToday = data.visitDate == today
+            val today = java.time.LocalDate.now().toString()
+            val isToday = data.visitDate == today
 
-                btnCheckIn.isEnabled = isToday && upcomingVisitsList.isEmpty()
+            binding.btnCheckIn.isEnabled = isToday && upcomingVisitsList.isEmpty()
 
-                btnCheckIn.setOnClickListener {
-                    onItemItemClick.onItemItemClicked(data)
-                }
-
-                btnGetDirection.setOnClickListener {
-                    onDirectionItemItemClick.onDirectionItemItemClicked(data)
-                }
-
+            binding.btnCheckIn.setOnClickListener {
+                onItemItemClick.onItemItemClicked(data)
             }
+            binding.btnGetDirection.setOnClickListener {
+                onDirectionItemItemClick.onDirectionItemItemClicked(data)
+            }
+        }
+    }
+
+    inner class TravelTimeViewHolder(private val binding: ItemTravelTimeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(time: String) {
+            binding.tvTravelTime.text = time
         }
     }
 }

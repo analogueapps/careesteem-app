@@ -29,4 +29,12 @@ object ProgressLoader {
         dialog?.dismiss()
         dialog = null // Clear the dialog reference
     }
+
+    fun toggle(activity: Activity, isLoading: Boolean) {
+        if (isLoading) {
+            showProgress(activity)
+        } else {
+            dismissProgress()
+        }
+    }
 }

@@ -26,6 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class AlertsFragment : Fragment() {
@@ -99,7 +101,7 @@ class AlertsFragment : Fragment() {
                     recyclerView.visibility = View.VISIBLE
                     btnCreateAlert.visibility = View.VISIBLE
                 }
-                alertsAdapter.updatedList(data)
+                alertsAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE

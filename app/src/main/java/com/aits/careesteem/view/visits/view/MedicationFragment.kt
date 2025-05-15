@@ -141,7 +141,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
         viewModel.medicationList.observe(viewLifecycleOwner) { data ->
             if (data != null) {
                 binding.totalCount.text = data.size.toString()
-                medicationListAdapter.updatedList(data)
+                medicationListAdapter.updateList(data)
             }
         }
 
@@ -149,7 +149,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
         viewModel.prnMedicationList.observe(viewLifecycleOwner) { data ->
             if (data.isNotEmpty()) {
                 binding.prnLayout.visibility = View.VISIBLE
-                medicationPnrListAdapter.updatedList(data)
+                medicationPnrListAdapter.updateList(data)
             } else {
                 binding.prnLayout.visibility = View.GONE
             }

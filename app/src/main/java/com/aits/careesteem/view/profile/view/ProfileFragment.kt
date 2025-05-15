@@ -233,7 +233,7 @@ class ProfileFragment : Fragment() {
             }
         } else {
             val initials = GooglePlaceHolder().getInitialsSingle(data.name)
-            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(initials)
+            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
             binding.profileImage.setImageBitmap(initialsBitmap)
         }
     }

@@ -34,7 +34,7 @@ class NotCompleteVisitsAdapter(
     private var visitsList = listOf<VisitListResponse.Data>()
     private var upcomingVisitsList = listOf<VisitListResponse.Data>()
 
-    fun updatedList(list: List<VisitListResponse.Data>) {
+    fun updateList(list: List<VisitListResponse.Data>) {
         visitsList = list
         notifyDataSetChanged()
     }

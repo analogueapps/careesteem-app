@@ -153,7 +153,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
-                uvVisitNotesListAdapter.updatedList(data)
+                uvVisitNotesListAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE

@@ -6,8 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.toColorInt
+import com.aits.careesteem.R
 
 class GooglePlaceHolder {
     fun getInitialsDouble(first: String?, last: String?): String {
@@ -24,7 +26,7 @@ class GooglePlaceHolder {
         return "$first$second"
     }
 
-    fun createInitialsAvatar(initials: String): Bitmap {
+    fun createInitialsAvatar(context: Context, initials: String): Bitmap {
         val size = 100
         val bitmap = createBitmap(size, size)
         val canvas = Canvas(bitmap)
@@ -35,10 +37,12 @@ class GooglePlaceHolder {
         }
         canvas.drawCircle(size / 2f, size / 2f, size / 2f, paintCircle)
 
+        val loraTypeface = ResourcesCompat.getFont(context, R.font.lora_bold)
+
         val paintText = Paint().apply {
             color = Color.WHITE
             textSize = 40f
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            typeface = Typeface.create(loraTypeface, Typeface.NORMAL)
             textAlign = Paint.Align.CENTER
             isAntiAlias = true
         }

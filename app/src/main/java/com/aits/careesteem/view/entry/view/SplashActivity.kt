@@ -64,7 +64,7 @@ class SplashActivity : AppCompatActivity(), BiometricAuthListener {
 //                cryptoObject = null,
 //            )
 //        } else {
-            navigation()
+        navigation()
 //        }
     }
 
@@ -74,9 +74,9 @@ class SplashActivity : AppCompatActivity(), BiometricAuthListener {
 //            startActivity(intent)
 //            finish()
 //        } else {
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
-            finish()
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivity(intent)
+        finish()
 //        }
     }
 

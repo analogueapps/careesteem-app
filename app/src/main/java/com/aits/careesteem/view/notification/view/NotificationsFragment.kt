@@ -92,7 +92,7 @@ class NotificationsFragment : Fragment() {
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
-                notificationAdapter.updatedList(data)
+                notificationAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE

@@ -11,9 +11,18 @@ data class DirectionsResponse(
 )
 
 data class Route(
-    val overview_polyline: OverviewPolyline
+    val overview_polyline: OverviewPolyline,
+    val legs: List<Leg>
 )
 
 data class OverviewPolyline(
     val points: String
+)
+
+data class Leg(
+    val duration: Duration
+)
+
+data class Duration(
+    val text: String
 )

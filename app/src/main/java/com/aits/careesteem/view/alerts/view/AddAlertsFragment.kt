@@ -2,20 +2,14 @@ package com.aits.careesteem.view.alerts.view
 
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
-import android.util.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,20 +17,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.DialogAboutClientBinding
-import com.aits.careesteem.databinding.DialogBodyMappingBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
-import com.aits.careesteem.view.clients.view.ClientsDetailsFragmentDirections
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class AddAlertsFragment : Fragment() {
@@ -66,10 +57,17 @@ class AddAlertsFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getClientsList(requireActivity())
         //viewModel.getVisits(requireActivity())
+        if(visitViewModel.visitsList.value!!.isEmpty()) {
+            // date in 2025-01-01 format
+            val currentDate = LocalDate.now()
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            visitViewModel.getVisits(requireActivity(), currentDate.format(formatter))
+        }
     }
 
     override fun onCreateView(

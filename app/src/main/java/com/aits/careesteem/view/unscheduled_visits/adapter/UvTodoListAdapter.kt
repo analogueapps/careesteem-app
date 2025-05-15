@@ -30,7 +30,7 @@ class UvTodoListAdapter(
 
     private var adapterList = listOf<UvTodoListResponse.Data>()
 
-    fun updatedList(list: List<UvTodoListResponse.Data>) {
+    fun updateList(list: List<UvTodoListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }

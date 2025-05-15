@@ -28,7 +28,7 @@ class SelectAgencyAdapter(
         fun onItemItemClicked(data: OtpVerifyResponse.DbList)
     }
 
-    fun updatedList(list: List<OtpVerifyResponse.DbList>) {
+    fun updateList(list: List<OtpVerifyResponse.DbList>) {
         adapterList = list
         notifyDataSetChanged()
     }

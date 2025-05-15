@@ -69,6 +69,9 @@ class UvToDoViewModel @Inject constructor(
                         _toDoList.value = list.data
                     }
                 } else {
+                    if(response.code() == 404) {
+                        return@launch
+                    }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
