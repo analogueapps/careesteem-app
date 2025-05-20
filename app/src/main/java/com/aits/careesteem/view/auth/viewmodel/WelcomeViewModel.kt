@@ -46,6 +46,9 @@ class WelcomeViewModel @Inject constructor(
     val phoneNumberError = MutableLiveData<String?>()
     private val countryCode = MutableLiveData<Int>(219)
 
+    private val _isPhoneNumberValid = MutableLiveData<Boolean>(false)
+    val isPhoneNumberValid: LiveData<Boolean> get() = _isPhoneNumberValid
+
     val isRequestOtpApiCall = MutableLiveData<Boolean>()
 
     // SendOtpUserLoginResponse
@@ -65,26 +68,20 @@ class WelcomeViewModel @Inject constructor(
     }
 
     private fun validatePhoneNumber(number: String, country: String) {
-        if(number.isBlank()) {
-            phoneNumberError.value =  "Mobile number is required"
-            return
-        } else if(!number.matches(Regex("^[0-9]+\$"))) {
-            phoneNumberError.value = "Mobile number must contain only digits"
-            return
-        } else {
-            phoneNumberError.value = null
+        when {
+            number.isBlank() -> {
+                phoneNumberError.value = "Mobile number is required"
+                _isPhoneNumberValid.value = false
+            }
+            !number.matches(Regex("^[0-9]+$")) -> {
+                phoneNumberError.value = "Mobile number must contain only digits"
+                _isPhoneNumberValid.value = false
+            }
+            else -> {
+                phoneNumberError.value = null
+                _isPhoneNumberValid.value = true
+            }
         }
-//        val phoneUtil = PhoneNumberUtil.getInstance()
-//        try {
-//            val parsedNumber = phoneUtil.parse(number, country)
-//            if (phoneUtil.isValidNumber(parsedNumber)) {
-//                phoneNumberError.value = null // Valid phone number
-//            } else {
-//                phoneNumberError.value = "Invalid phone number"
-//            }
-//        } catch (e: NumberParseException) {
-//            phoneNumberError.value = "Invalid format"
-//        }
     }
 
     // Method to handle error field

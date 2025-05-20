@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.aits.careesteem.R
@@ -84,6 +85,29 @@ class BodyMapMarksDialog : DialogFragment() {
 
         binding.btnSave.setOnClickListener {
             //dialog.dismiss() - Dialog will be dismissed by toolbar or menu item clicks
+//            if (binding.bodyMapView.hasMarkers()) {
+//                dismiss()
+//                val bitmap = binding.bodyMapView.getBitmap()
+//                val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
+//                AlertUtils.showLog("FilePath", "File saved at: ${file?.path}")
+//
+//                file?.let {
+//                    listener?.onBodyMapSaved(
+//                        arguments?.getString("bodyPartType") ?: "",
+//                        arguments?.getString("bodyPartName") ?: "",
+//                        it
+//                    )
+//                } ?: run {
+//                    AlertUtils.showToast(requireActivity(), "Something went wrong")
+//                }
+//            } else {
+//                //AlertUtils.showToast(requireActivity(), "Please add at least one marker before saving.")
+//                AlertDialog.Builder(requireContext())
+//                    .setTitle("Alert")
+//                    .setMessage("Please add at least one marker before saving.")
+//                    .setPositiveButton("Okay", null)
+//                    .show()
+//            }
             dismiss()
             val bitmap = binding.bodyMapView.getBitmap()
             val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")

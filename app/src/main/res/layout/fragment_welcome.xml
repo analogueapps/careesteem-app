@@ -181,6 +181,7 @@
                     android:fontFamily="@font/arvo_regular"
                     android:text="@string/request_otp"
                     android:textAllCaps="false"
+                    android:enabled="@{viewModel.isPhoneNumberValid}"
                     android:onClick="@{() -> viewModel.onButtonClicked()}"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_12ssp"

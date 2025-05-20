@@ -73,10 +73,10 @@ class ClientAdapter(
 
         fun bind(data: ClientsList.Data) {
             binding.apply {
-                clientName.text = data.full_name
-                clientPhone.text = data.contact_number
-                clientAddress.text = data.full_address
-                riskLevel.text = data.risk_level
+                clientName.text = AppConstant.checkNull(data.full_name)
+                clientPhone.text = AppConstant.checkNull(data.contact_number)
+                clientAddress.text = AppConstant.checkNull(data.full_address)
+                riskLevel.text = AppConstant.checkNull(data.risk_level)
 
                 when (data.risk_level.lowercase()) {
                     "low" -> {

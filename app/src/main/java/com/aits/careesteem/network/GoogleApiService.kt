@@ -8,7 +8,9 @@ package com.aits.careesteem.network
 
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.DirectionsResponse
+import com.aits.careesteem.view.visits.model.DistanceMatrixResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
@@ -29,9 +31,23 @@ interface GoogleApiService {
     ): Call<DirectionsResponse>
 
     @GET("maps/api/directions/json")
-    fun getTravelTime(
+    suspend fun getTravelTime(
         @Query("origin") origin: String,
         @Query("destination") destination: String,
         @Query("key") apiKey: String
-    ): Call<DirectionsResponse>
+    ): Response<DirectionsResponse>
+
+//    @GET("maps/api/distancematrix/json")
+//    fun getDistanceMatrix(
+//        @Query("origins") origins: String,
+//        @Query("destinations") destinations: String,
+//        @Query("key") apiKey: String
+//    ): Call<DistanceMatrixResponse>
+
+    @GET("maps/api/distancematrix/json")
+    suspend fun getDistanceMatrix(
+        @Query("origins") origins: String,
+        @Query("destinations") destinations: String,
+        @Query("key") apiKey: String
+    ): Response<DistanceMatrixResponse>
 }

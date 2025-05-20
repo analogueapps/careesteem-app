@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemCoshhRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemMedicationRiskAssessmentBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class COSHHRiskAssessmentAdapter(
@@ -43,16 +44,16 @@ class COSHHRiskAssessmentAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.COSHHRiskAssessmentData) {
             binding.apply {
-                tvNameOfProduct.text = data.name_of_product
-                tvTypeOfHarm.text = data.type_of_harm
-                tvDescriptionSubstance.text = data.description_substance
-                tvColor.text = data.color
-                tvDetailsSubstance.text = data.details_substance
-                tvContactSubstance.text = data.contact_substance
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                tvNameOfProduct.text = AppConstant.checkNull(data.name_of_product)
+                tvTypeOfHarm.text = AppConstant.checkNull(data.type_of_harm)
+                tvDescriptionSubstance.text = AppConstant.checkNull(data.description_substance)
+                tvColor.text = AppConstant.checkNull(data.color)
+                tvDetailsSubstance.text = AppConstant.checkNull(data.details_substance)
+                tvContactSubstance.text = AppConstant.checkNull(data.contact_substance)
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }

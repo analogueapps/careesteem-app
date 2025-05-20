@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemActivityRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentMedicationBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class SelfAdministrationRiskAssessmentAdapter(
@@ -48,33 +49,33 @@ class SelfAdministrationRiskAssessmentAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.SelfAdministrationRiskAssessmentData) {
             binding.apply {
-                tvMedicineName.text = data.medicine_name
-                tvDose.text = data.dose
-                tvRoute.text = data.route
-                tvTimeFrequency.text = data.time_frequency
-                tvSelfAdministration.text = data.self_administration
-                tvSelfAdministerFully.text = data.self_administer_fully
-                tvMedicines.text = data.medicines
-                tvTimeToTakeMedicines.text = data.time_to_take_medicines
-                tvDosageToTake.text = data.dosage
-                tvTakeMedicines.text = data.take_medicines
-                tvSpecialInstructions.text = data.special_instructions
-                tvSideEffects.text = data.side_effects
-                tvMissedDose.text = data.missed_dose
-                tvDifficultyReadingLabel.text = data.difficulty_reading_label
-                tvOpensMedication.text = data.opens_medication
-                tvSafeStorage.text = data.safe_storage
-                tvAgreesToNotify.text = data.agrees_to_notify
-                tvResponsibleForReorder.text = data.responsible_for_reorder
+                tvMedicineName.text = AppConstant.checkNull(data.medicine_name)
+                tvDose.text = AppConstant.checkNull(data.dose)
+                tvRoute.text = AppConstant.checkNull(data.route)
+                tvTimeFrequency.text = AppConstant.checkNull(data.time_frequency)
+                tvSelfAdministration.text = AppConstant.checkNull(data.self_administration)
+                tvSelfAdministerFully.text = AppConstant.checkNull(data.self_administer_fully)
+                tvMedicines.text = AppConstant.checkNull(data.medicines)
+                tvTimeToTakeMedicines.text = AppConstant.checkNull(data.time_to_take_medicines)
+                tvDosageToTake.text = AppConstant.checkNull(data.dosage)
+                tvTakeMedicines.text = AppConstant.checkNull(data.take_medicines)
+                tvSpecialInstructions.text = AppConstant.checkNull(data.special_instructions)
+                tvSideEffects.text = AppConstant.checkNull(data.side_effects)
+                tvMissedDose.text = AppConstant.checkNull(data.missed_dose)
+                tvDifficultyReadingLabel.text = AppConstant.checkNull(data.difficulty_reading_label)
+                tvOpensMedication.text = AppConstant.checkNull(data.opens_medication)
+                tvSafeStorage.text = AppConstant.checkNull(data.safe_storage)
+                tvAgreesToNotify.text = AppConstant.checkNull(data.agrees_to_notify)
+                tvResponsibleForReorder.text = AppConstant.checkNull(data.responsible_for_reorder)
 
                 val adapter = SelfAdministrationRiskAssessmentMedicationAdapter(adapterList)
                 binding.recyclerView.adapter = adapter
                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }
@@ -117,12 +118,12 @@ class SelfAdministrationRiskAssessmentMedicationAdapter(
             binding.apply {
                 // Show item index starting from 1
                 medicationId.text = "Medication ${position + 1}"
-                tvMedicineName.text = data.medicine_name
-                tvDose.text = data.dose
-                tvRoute.text = data.route
-                tvTimeFrequency.text = data.time_frequency
-                tvSelfAdministration.text = data.self_administration
-                tvSelfAdministerFully.text = data.self_administer_fully
+                tvMedicineName.text = AppConstant.checkNull(data.medicine_name)
+                tvDose.text = AppConstant.checkNull(data.dose)
+                tvRoute.text = AppConstant.checkNull(data.route)
+                tvTimeFrequency.text = AppConstant.checkNull(data.time_frequency)
+                tvSelfAdministration.text = AppConstant.checkNull(data.self_administration)
+                tvSelfAdministerFully.text = AppConstant.checkNull(data.self_administer_fully)
             }
         }
     }

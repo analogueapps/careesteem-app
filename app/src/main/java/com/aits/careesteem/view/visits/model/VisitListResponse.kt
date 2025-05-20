@@ -25,7 +25,7 @@ data class VisitListResponse(
         var latitude: Any,
         var longitude: Any,
         var radius: Any,
-        var placeId: Any,
+        var placeId: String,
         var visitDate: String,
         var visitStatus: String,
         var visitType: String,

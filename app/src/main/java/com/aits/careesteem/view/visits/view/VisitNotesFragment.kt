@@ -168,6 +168,10 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 
         dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
         dialogBinding.btnUpdate.setOnClickListener {
+            if(dialogBinding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter visit notes")
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.addVisitNotes(
                 requireActivity(),
@@ -188,6 +192,11 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 
         dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
         dialogBinding.btnUpdate.setOnClickListener {
+            // empty block for visit notes text
+            if(dialogBinding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter visit notes")
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.updateVisitNotes(
                 activity = requireActivity(),

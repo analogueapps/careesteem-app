@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemBehaviourRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemBehaviourRiskAssessmentHazardsBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class BehaviourRiskAssessmentAdapter(
@@ -47,8 +48,8 @@ class BehaviourRiskAssessmentAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.BehaviourRiskAssessmentData) {
             binding.apply {
-                tvFrequencyPotential.text = data.frequency_potential
-                tvAffectedByBehaviour.text = data.affected_by_behaviour
+                tvFrequencyPotential.text = AppConstant.checkNull(data.frequency_potential)
+                tvAffectedByBehaviour.text = AppConstant.checkNull(data.affected_by_behaviour)
 
 //                val adapter = BehaviourRiskAssessmentHazardsAdapter(adapterList)
 //                binding.recyclerView.adapter = adapter
@@ -78,10 +79,10 @@ class BehaviourRiskAssessmentAdapter(
                     .filter { it.isNotBlank() }
                     .joinToString(", ")
 
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }

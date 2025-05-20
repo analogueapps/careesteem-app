@@ -220,6 +220,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"/>
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>

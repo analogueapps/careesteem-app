@@ -185,6 +185,10 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
         return bitmap
     }
 
+    fun hasMarkers(): Boolean {
+        return markers.isNotEmpty()
+    }
+
 }
 
 

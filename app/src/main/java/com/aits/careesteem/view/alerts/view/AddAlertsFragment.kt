@@ -201,25 +201,12 @@ class AddAlertsFragment : Fragment() {
 
         binding.apply {
             bodyName.setOnClickListener {
-                if (bodyName.tag == "Invisible") {
-                    bodyName.tag = "Visible"
-                    bodyName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
-                        null
-                    )
-                    bodyItemLayout.visibility = View.VISIBLE
-                } else {
-                    bodyName.tag = "Invisible"
-                    bodyName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
-                        null
-                    )
-                    bodyItemLayout.visibility = View.GONE
-                }
+                bodyName.tag = "Visible"
+                faceName.tag = "Invisible"
+                handName.tag = "Invisible"
+                pelvisName.tag = "Invisible"
+                feetName.tag = "Invisible"
+                callWholeMethods()
             }
 
             layoutBodyFront.setOnClickListener {
@@ -239,25 +226,12 @@ class AddAlertsFragment : Fragment() {
             }
 
             faceName.setOnClickListener {
-                if (faceName.tag == "Invisible") {
-                    faceName.tag = "Visible"
-                    faceName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
-                        null
-                    )
-                    faceItemLayout.visibility = View.VISIBLE
-                } else {
-                    faceName.tag = "Invisible"
-                    faceName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
-                        null
-                    )
-                    faceItemLayout.visibility = View.GONE
-                }
+                bodyName.tag = "Invisible"
+                faceName.tag = "Visible"
+                handName.tag = "Invisible"
+                pelvisName.tag = "Invisible"
+                feetName.tag = "Invisible"
+                callWholeMethods()
             }
 
             layoutFaceFront.setOnClickListener {
@@ -277,25 +251,12 @@ class AddAlertsFragment : Fragment() {
             }
 
             handName.setOnClickListener {
-                if (handName.tag == "Invisible") {
-                    handName.tag = "Visible"
-                    handName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
-                        null
-                    )
-                    handItemLayout.visibility = View.VISIBLE
-                } else {
-                    handName.tag = "Invisible"
-                    handName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
-                        null
-                    )
-                    handItemLayout.visibility = View.GONE
-                }
+                bodyName.tag = "Invisible"
+                faceName.tag = "Invisible"
+                handName.tag = "Visible"
+                pelvisName.tag = "Invisible"
+                feetName.tag = "Invisible"
+                callWholeMethods()
             }
 
             layoutRightFront.setOnClickListener {
@@ -331,25 +292,12 @@ class AddAlertsFragment : Fragment() {
             }
 
             pelvisName.setOnClickListener {
-                if (pelvisName.tag == "Invisible") {
-                    pelvisName.tag = "Visible"
-                    pelvisName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
-                        null
-                    )
-                    pelvisItemLayout.visibility = View.VISIBLE
-                } else {
-                    pelvisName.tag = "Invisible"
-                    pelvisName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
-                        null
-                    )
-                    pelvisItemLayout.visibility = View.GONE
-                }
+                bodyName.tag = "Invisible"
+                faceName.tag = "Invisible"
+                handName.tag = "Invisible"
+                pelvisName.tag = "Visible"
+                feetName.tag = "Invisible"
+                callWholeMethods()
             }
 
             layoutPelvisFront.setOnClickListener {
@@ -369,25 +317,12 @@ class AddAlertsFragment : Fragment() {
             }
 
             feetName.setOnClickListener {
-                if (feetName.tag == "Invisible") {
-                    feetName.tag = "Visible"
-                    feetName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
-                        null
-                    )
-                    feetItemLayout.visibility = View.VISIBLE
-                } else {
-                    feetName.tag = "Invisible"
-                    feetName.setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
-                        null
-                    )
-                    feetItemLayout.visibility = View.GONE
-                }
+                bodyName.tag = "Invisible"
+                faceName.tag = "Invisible"
+                handName.tag = "Invisible"
+                pelvisName.tag = "Invisible"
+                feetName.tag = "Visible"
+                callWholeMethods()
             }
 
             layoutRightFrontFeet.setOnClickListener {
@@ -439,6 +374,111 @@ class AddAlertsFragment : Fragment() {
             }
         }
 
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun callWholeMethods() {
+        binding.apply {
+            if (bodyName.tag == "Visible") {
+                bodyName.tag = "Visible"
+                bodyName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
+                bodyItemLayout.visibility = View.VISIBLE
+            } else {
+                bodyName.tag = "Invisible"
+                bodyName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                    null
+                )
+                bodyItemLayout.visibility = View.GONE
+            }
+
+            if (faceName.tag == "Visible") {
+                faceName.tag = "Visible"
+                faceName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
+                faceItemLayout.visibility = View.VISIBLE
+            } else {
+                faceName.tag = "Invisible"
+                faceName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                    null
+                )
+                faceItemLayout.visibility = View.GONE
+            }
+
+            if (handName.tag == "Visible") {
+                handName.tag = "Visible"
+                handName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
+                handItemLayout.visibility = View.VISIBLE
+            } else {
+                handName.tag = "Invisible"
+                handName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                    null
+                )
+                handItemLayout.visibility = View.GONE
+            }
+
+            if (pelvisName.tag == "Visible") {
+                pelvisName.tag = "Visible"
+                pelvisName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
+                pelvisItemLayout.visibility = View.VISIBLE
+            } else {
+                pelvisName.tag = "Invisible"
+                pelvisName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                    null
+                )
+                pelvisItemLayout.visibility = View.GONE
+            }
+
+            if (feetName.tag == "Visible") {
+                feetName.tag = "Visible"
+                feetName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
+                feetItemLayout.visibility = View.VISIBLE
+            } else {
+                feetName.tag = "Invisible"
+                feetName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                    null
+                )
+                feetItemLayout.visibility = View.GONE
+            }
+        }
     }
 
     private fun showBodyMapDialog(bodyPartType: String, bodyPartName: String, image: Drawable?) {
@@ -581,7 +621,15 @@ class AddAlertsFragment : Fragment() {
                             .orEmpty()
 
                         val visitTimeOptions = filteredVisits.map { visit ->
-                            "${visit.plannedStartTime} - ${visit.plannedEndTime}"
+                            if(visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
+                                "${visit.plannedStartTime} - ${visit.plannedEndTime}"
+                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
+                                "${visit.actualStartTime[0]} (Unscheduled)"
+                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+                                "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
+                            } else {
+                                "N/A"
+                            }
                         }
 
                         val visitTimeAdapter = ArrayAdapter(

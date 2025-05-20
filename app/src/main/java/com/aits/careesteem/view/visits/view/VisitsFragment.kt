@@ -32,6 +32,7 @@ import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.adapter.*
 import com.aits.careesteem.view.visits.model.DirectionsResponse
+import com.aits.careesteem.view.visits.model.DistanceMatrixResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
@@ -41,6 +42,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -256,17 +258,70 @@ class VisitsFragment : Fragment(),
         }
     }
 
-    private fun buildVisitItemList(
-        visits: List<VisitListResponse.Data>,
-        onComplete: (List<VisitItem>) -> Unit
-    ) {
-        val itemList = mutableListOf<VisitItem>()
-        val pendingCalls = mutableListOf<Pair<Int, String>>() // index and travel time
+//    private suspend fun buildVisitItemListSuspending(visits: List<VisitListResponse.Data>): List<VisitItem> = withContext(Dispatchers.Default) {
+//        val itemList = mutableListOf<VisitItem>()
+//
+//        if (visits.isEmpty()) return@withContext itemList
+//        visits.forEach { itemList.add(VisitItem.VisitCard(it)) }
+//        if (visits.size == 1) return@withContext itemList
+//
+//        for (i in 0 until visits.size - 1) {
+//            val originPlaceId = visits[i].placeId
+//            val destinationPlaceId = visits[i+1].placeId
+//
+//            // print orgin and destination place id
+//            println("Origin Place ID: $originPlaceId")
+//            println("Destination Place ID: $destinationPlaceId")
+//
+//            val travelTime = if (originPlaceId.isNotBlank() && destinationPlaceId.isNotBlank()) {
+//                fetchTravelTime("place_id:$originPlaceId", "place_id:$destinationPlaceId") ?: "Unknown"
+//            } else "Unknown"
+//
+//            val insertIndex = (i * 2) + 1
+//            itemList.add(insertIndex, VisitItem.TravelTimeIndicator(travelTime))
+//        }
+//
+//        return@withContext itemList
+//    }
+//
+//    private suspend fun fetchTravelTime(origin: String, destination: String): String? = withContext(Dispatchers.IO) {
+//        try {
+//            val logging = HttpLoggingInterceptor().apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//            }
+//
+//            val client = OkHttpClient.Builder()
+//                .addInterceptor(logging)
+//                .build()
+//
+//            val retrofit = Retrofit.Builder()
+//                .baseUrl("https://maps.googleapis.com/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(client)
+//                .build()
+//
+//            val apiService = retrofit.create(GoogleApiService::class.java)
+//            val response = apiService.getDistanceMatrix(origin, destination, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
+//
+//            if (response.isSuccessful) {
+//                val body = response.body()
+//                if (body?.status == "OK" && body.rows.isNotEmpty()) {
+//                    val element = body.rows[0].elements.firstOrNull()
+//                    if (element?.status == "OK") {
+//                        return@withContext element.duration?.text
+//                    }
+//                }
+//                return@withContext null
+//            } else null
+//        } catch (e: Exception) {
+//            null
+//        }
+//    }
 
-        if (visits.isEmpty()) {
-            onComplete(itemList)
-            return
-        }
+    private suspend fun buildVisitItemListSuspend(visits: List<VisitListResponse.Data>): List<VisitItem> {
+        val itemList = mutableListOf<VisitItem>()
+
+        if (visits.isEmpty()) return itemList
 
         for (i in visits.indices) {
             itemList.add(VisitItem.VisitCard(visits[i]))
@@ -275,77 +330,47 @@ class VisitsFragment : Fragment(),
                 val originId = visits[i].placeId.toString()
                 val destId = visits[i + 1].placeId.toString()
 
-                fetchTravelTime(originId, destId) { travelTime ->
-                    val label = travelTime ?: "Unknown"
-                    pendingCalls.add(Pair(i, label))
-
-                    // When all travel times have returned
-                    if (pendingCalls.size == visits.size - 1) {
-                        // Insert travel times into correct positions
-                        pendingCalls.sortedBy { it.first }.forEachIndexed { index, pair ->
-                            val insertIndex = (index * 2) + 1
-                            itemList.add(insertIndex, VisitItem.TravelTimeIndicator(pair.second))
-                        }
-                        onComplete(itemList)
-                    }
-                }
+                val travelTime = fetchTravelTimeSuspend(originId, destId) ?: "Unknown"
+                itemList.add(VisitItem.TravelTimeIndicator(travelTime))
             }
         }
 
-        // If there's only 1 visit, complete immediately
-        if (visits.size == 1) {
-            onComplete(itemList)
-        }
+        return itemList
     }
 
-    private fun fetchTravelTime(
+    private suspend fun fetchTravelTimeSuspend(
         originPlaceId: String,
-        destinationPlaceId: String,
-        onResult: (String?) -> Unit
-    ) {
-        val origin = "place_id:$originPlaceId"
-        val destination = "place_id:$destinationPlaceId"
+        destinationPlaceId: String
+    ): String? = withContext(Dispatchers.IO) {
+        try {
+            val origin = "place_id:$originPlaceId"
+            val destination = "place_id:$destinationPlaceId"
 
-        // Logging interceptor setup
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY // or HEADERS, BASIC
+            // Optional logging
+            val logging = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val apiService = retrofit.create(GoogleApiService::class.java)
+            val response = apiService.getTravelTime(origin, destination, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
+            if (response.isSuccessful) {
+                val body = response.body()
+                body?.routes!!.firstOrNull()?.legs?.firstOrNull()?.duration?.text
+            } else null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
-
-        // OkHttp client with logging
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://maps.googleapis.com/")
-            .client(client) // attach logging-enabled client
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(GoogleApiService::class.java)
-
-        apiService.getTravelTime(origin, destination, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
-            .enqueue(object : Callback<DirectionsResponse> {
-                override fun onResponse(
-                    call: Call<DirectionsResponse>,
-                    response: Response<DirectionsResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val durationText = response.body()
-                            ?.routes?.firstOrNull()
-                            ?.legs?.firstOrNull()
-                            ?.duration?.text
-                        onResult(durationText)
-                    } else {
-                        onResult(null)
-                    }
-                }
-
-                override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                    //showToast("Failed to fetch place details")
-                    onResult(null)
-                }
-            })
     }
 
     @SuppressLint("SetTextI18n")
@@ -355,30 +380,52 @@ class VisitsFragment : Fragment(),
         }
 
         viewModel.scheduledVisits.observe(viewLifecycleOwner) {
-            binding.tvUpcomingVisits.text = getString(R.string.upcoming_visits) + " (${it?.size ?: 0})"
-            //upcomingAdapter.updateList(it ?: emptyList())
-//            val visitItems = buildVisitItemList(it ?: emptyList())
-//            upcomingAdapter.updateList(visitItems)
             val visits = it ?: emptyList()
-            buildVisitItemList(visits) { visitItems ->
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                val visitItems = buildVisitItemListSuspend(visits)
                 upcomingAdapter.updateList(visitItems)
+                if (!isAdded || view == null) return@launchWhenStarted
+                // Update count after full list is built (including travel time items)
+                binding.tvUpcomingVisits.text =
+                    getString(R.string.upcoming_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
             }
         }
 
         viewModel.inProgressVisits.observe(viewLifecycleOwner) {
-            binding.tvOngoingVisits.text = getString(R.string.ongoing_visits) + " (${it?.size ?: 0})"
-            ongoingAdapter.updateList(it ?: emptyList())
+            val visits = it ?: emptyList()
             upcomingAdapter.updatedUpcomingList(it ?: emptyList())
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                val visitItems = buildVisitItemListSuspend(visits)
+                ongoingAdapter.updateList(visitItems)
+                if (!isAdded || view == null) return@launchWhenStarted
+                // Update count after full list is built (including travel time items)
+                binding.tvOngoingVisits.text =
+                    getString(R.string.ongoing_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+            }
         }
 
         viewModel.completedVisits.observe(viewLifecycleOwner) {
-            binding.tvCompletedVisits.text = getString(R.string.completed_visits) + " (${it?.size ?: 0})"
-            completeAdapter.updateList(it ?: emptyList())
+            val visits = it ?: emptyList()
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                val visitItems = buildVisitItemListSuspend(visits)
+                completeAdapter.updateList(visitItems)
+                if (!isAdded || view == null) return@launchWhenStarted
+                // Update count after full list is built (including travel time items)
+                binding.tvCompletedVisits.text =
+                    getString(R.string.completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+            }
         }
 
         viewModel.notCompletedVisits.observe(viewLifecycleOwner) {
-            binding.tvNotCompletedVisits.text = getString(R.string.not_completed_visits) + " (${it?.size ?: 0})"
-            notCompleteAdapter.updateList(it ?: emptyList())
+            val visits = it ?: emptyList()
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                val visitItems = buildVisitItemListSuspend(visits)
+                notCompleteAdapter.updateList(visitItems)
+                if (!isAdded || view == null) return@launchWhenStarted
+                // Update count after full list is built (including travel time items)
+                binding.tvNotCompletedVisits.text =
+                    getString(R.string.not_completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+            }
         }
 
         viewModel.visitsList.observe(viewLifecycleOwner) {

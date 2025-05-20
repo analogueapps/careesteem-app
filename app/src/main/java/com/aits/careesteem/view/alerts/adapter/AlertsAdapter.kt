@@ -19,6 +19,8 @@ class AlertsAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<AlertsAdapter.AlertViewHolder>() {
 
+    private var expandedPosition = RecyclerView.NO_POSITION
+
     private var alertList = listOf<AlertListResponse.Data>()
 
     fun updateList(newList: List<AlertListResponse.Data>) {
@@ -40,18 +42,36 @@ class AlertsAdapter(
     inner class AlertViewHolder(private val binding: ItemAlertListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(data: AlertListResponse.Data) = with(binding) {
             val formattedDate = AppConstant.alertsListTimer(data.created_at)
             alertName.text = "${data.client_name}\t\t$formattedDate"
 
+//            // Toggle expand/collapse on click
+//            alertLayout.setOnClickListener {
+//                val isVisible = alertName.tag == "Visible"
+//                alertName.tag = if (isVisible) "Invisible" else "Visible"
+//                val icon = if (isVisible) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up
+//                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+//                detailLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+//            }
+
+            val isExpanded = position == expandedPosition
+            detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            alertName.tag = if (isExpanded) "Visible" else "Invisible"
+            val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+            alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+
             // Toggle expand/collapse on click
             alertLayout.setOnClickListener {
-                val isVisible = alertName.tag == "Visible"
-                alertName.tag = if (isVisible) "Invisible" else "Visible"
-                val icon = if (isVisible) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up
-                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
-                detailLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+                val previousExpandedPosition = expandedPosition
+                expandedPosition = if (isExpanded) {
+                    RecyclerView.NO_POSITION // collapse
+                } else {
+                    position // expand this one
+                }
+                notifyItemChanged(previousExpandedPosition)
+                notifyItemChanged(position)
             }
 
             // Populate alert details

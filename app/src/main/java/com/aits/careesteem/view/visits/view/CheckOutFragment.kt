@@ -122,6 +122,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupUI() {
+        binding.qrView.statusView.visibility = View.GONE
         setupTabLayout()
         setupMap()
     }
@@ -234,19 +235,19 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun updateUIForVisitDetails(data: VisitDetailsResponse.Data) {
 //        binding.btnCheckIn.visibility = if (args.action == 0 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
 //        binding.btnCheckOut.visibility = if (args.action == 1 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
-        if (args.action == 0) {
-            if (data.placeId.toString().isEmpty()) {
-                binding.btnCheckIn.visibility = View.GONE
-            } else {
-                binding.btnCheckIn.visibility = View.VISIBLE
-            }
-        } else if (args.action == 1) {
-            if (data.placeId.toString().isEmpty()) {
-                binding.btnCheckOut.visibility = View.GONE
-            } else {
-                binding.btnCheckOut.visibility = View.VISIBLE
-            }
-        }
+//        if (args.action == 0) {
+//            if (data.placeId.toString().isEmpty()) {
+//                binding.btnCheckIn.visibility = View.GONE
+//            } else {
+//                binding.btnCheckIn.visibility = View.VISIBLE
+//            }
+//        } else if (args.action == 1) {
+//            if (data.placeId.toString().isEmpty()) {
+//                binding.btnCheckOut.visibility = View.GONE
+//            } else {
+//                binding.btnCheckOut.visibility = View.VISIBLE
+//            }
+//        }
 
         binding.btnCheckIn.setOnClickListener {
             if(viewModel.markerPosition.value == null) {
@@ -625,17 +626,17 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 dismiss()
                 //performForceCheck()
 
-                if (args.action == 1) {
-                    if(ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime!!.isEmpty()) {
-                        viewModel.updateVisitCheckOut(
-                            requireActivity(),
-                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-                            false,
-                            ""
-                        )
-                        return@setOnClickListener
-                    }
-                }
+//                if (args.action == 1) {
+//                    if(ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime!!.isEmpty()) {
+//                        viewModel.updateVisitCheckOut(
+//                            requireActivity(),
+//                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
+//                            false,
+//                            ""
+//                        )
+//                        return@setOnClickListener
+//                    }
+//                }
 
                 val startTime = DateTimeUtils.getCurrentTimeGMT()
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
@@ -850,7 +851,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 override fun onFailure(call: Call<PlaceDetailsResponse>, t: Throwable) {
-                    showToast("Failed to fetch place details")
+                    //showToast("Failed to fetch place details")
                 }
             })
     }

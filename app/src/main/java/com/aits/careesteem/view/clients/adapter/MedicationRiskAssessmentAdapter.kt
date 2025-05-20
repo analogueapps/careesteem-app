@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemMedicationRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class MedicationRiskAssessmentAdapter(
@@ -43,31 +44,31 @@ class MedicationRiskAssessmentAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.MedicationRiskAssessmentData) {
             binding.apply {
-                tvOrdering.text = data.ordering
-                tvOrderingComments.text = data.ordering_comments
-                tvCollecting.text = data.collecting
-                tvCollectingComments.text = data.collecting_comments
-                tvVerbalPrompt.text = data.verbal_prompt
-                tvVerbalPromptComments.text = data.verbal_prompt_comments
-                tvAssisting.text = data.assisting
-                tvAssistingComments.text = data.assisting_comments
-                tvAdministering.text = data.administering
-                tvAdministeringComments.text = data.administering_comments
-                tvSpecializedSupport.text = data.specialized_support
-                tvSpecializedSupportComments.text = data.specialized_support_comments
-                tvTimeSpecific.text = data.time_specific
-                tvTimeSpecificComments.text = data.time_specific_comments
-                tvControlledDrugs.text = data.controlled_drugs
-                tvControlledDrugsDetails.text = data.controlled_drugs_details
-                tvAgencyNotification.text = data.agency_notification
-                tvMedicationCollectionDetails.text = data.medication_collection_details
-                tvPrnMedication.text = data.prn_medication
-                tvSafeStorage.text = data.safe_storage
-                tvStorageLocation.text = data.storage_location
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                tvOrdering.text = AppConstant.checkNull(data.ordering)
+                tvOrderingComments.text = AppConstant.checkNull(data.ordering_comments)
+                tvCollecting.text = AppConstant.checkNull(data.collecting)
+                tvCollectingComments.text = AppConstant.checkNull(data.collecting_comments)
+                tvVerbalPrompt.text = AppConstant.checkNull(data.verbal_prompt)
+                tvVerbalPromptComments.text = AppConstant.checkNull(data.verbal_prompt_comments)
+                tvAssisting.text = AppConstant.checkNull(data.assisting)
+                tvAssistingComments.text = AppConstant.checkNull(data.assisting_comments)
+                tvAdministering.text = AppConstant.checkNull(data.administering)
+                tvAdministeringComments.text = AppConstant.checkNull(data.administering_comments)
+                tvSpecializedSupport.text = AppConstant.checkNull(data.specialized_support)
+                tvSpecializedSupportComments.text = AppConstant.checkNull(data.specialized_support_comments)
+                tvTimeSpecific.text = AppConstant.checkNull(data.time_specific)
+                tvTimeSpecificComments.text = AppConstant.checkNull(data.time_specific_comments)
+                tvControlledDrugs.text = AppConstant.checkNull(data.controlled_drugs)
+                tvControlledDrugsDetails.text = AppConstant.checkNull(data.controlled_drugs_details)
+                tvAgencyNotification.text = AppConstant.checkNull(data.agency_notification)
+                tvMedicationCollectionDetails.text = AppConstant.checkNull(data.medication_collection_details)
+                tvPrnMedication.text = AppConstant.checkNull(data.prn_medication)
+                tvSafeStorage.text = AppConstant.checkNull(data.safe_storage)
+                tvStorageLocation.text = AppConstant.checkNull(data.storage_location)
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }

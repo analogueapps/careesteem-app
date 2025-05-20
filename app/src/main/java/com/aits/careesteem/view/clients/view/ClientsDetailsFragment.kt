@@ -138,11 +138,18 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             aboutName.text = "About ${clientData.full_name}"
 
             myCareLayout.setOnClickListener {
-                if(myCareName.tag == "Invisible") {
+                if (myCareName.tag == "Invisible") {
+                    // Expand MyCare
                     myCareName.tag = "Visible"
                     myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
                     rvMyCareNetwork.visibility = View.VISIBLE
+
+                    // Collapse MyCarePlan if it's visible
+                    myCarePlanName.tag = "Invisible"
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    carePlanLayout.visibility = View.GONE
                 } else {
+                    // Collapse MyCare
                     myCareName.tag = "Invisible"
                     myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
                     rvMyCareNetwork.visibility = View.GONE
@@ -150,11 +157,18 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
             }
 
             myCarePlanLayout.setOnClickListener {
-                if(myCarePlanName.tag == "Invisible") {
+                if (myCarePlanName.tag == "Invisible") {
+                    // Expand MyCarePlan
                     myCarePlanName.tag = "Visible"
                     myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
                     carePlanLayout.visibility = View.VISIBLE
+
+                    // Collapse MyCare if it's visible
+                    myCareName.tag = "Invisible"
+                    myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    rvMyCareNetwork.visibility = View.GONE
                 } else {
+                    // Collapse MyCarePlan
                     myCarePlanName.tag = "Invisible"
                     myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
                     carePlanLayout.visibility = View.GONE
@@ -244,13 +258,13 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         // Add data
         binding.aboutClientName.text = "About ${clientData.full_name}"
-        binding.tvDob.text = value?.date_of_birth ?: "N/A"
-        binding.tvAge.text = value?.age ?: "N/A"
-        binding.tvNhsNo.text = value?.nhs_number ?: "N/A"
-        binding.tvGender.text = value?.gender ?: "N/A"
-        binding.tvReligion.text = value?.religion ?: "N/A"
-        binding.tvMaritalStatus.text = value?.marital_status ?: "N/A"
-        binding.tvEthnicity.text = value?.ethnicity ?: "N/A"
+        binding.tvDob.text = AppConstant.checkNull(value?.date_of_birth)
+        binding.tvAge.text = AppConstant.checkNull(value?.age)
+        binding.tvNhsNo.text = AppConstant.checkNull(value?.nhs_number)
+        binding.tvGender.text = AppConstant.checkNull(value?.gender)
+        binding.tvReligion.text = AppConstant.checkNull(value?.religion)
+        binding.tvMaritalStatus.text = AppConstant.checkNull(value?.marital_status)
+        binding.tvEthnicity.text = AppConstant.checkNull(value?.ethnicity)
 
         // Handle button clicks
         binding.closeButton.setOnClickListener {
@@ -705,6 +719,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = title
         val adapter = QuestionAnswerAdapter(filteredList)
@@ -734,6 +754,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
 
         // Add data
         binding.dialogTitle.text = "COSHH Risk Assessment"
@@ -765,6 +791,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = "Financial Risk Assessment"
         val adapter = FinancialRiskAssessmentAdapter(data!!)
@@ -795,6 +827,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = "Equipment Register"
         val adapter = EquipmentRegisterAdapter(data!!)
@@ -824,6 +862,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
 
         // Add data
         binding.dialogTitle.text = "Medication Risk Assessment"
@@ -856,6 +900,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = "Self Administration Risk Assessment"
         val adapter = SelfAdministrationRiskAssessmentAdapter(requireContext(), data!!)
@@ -887,6 +937,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = "Behaviour Risk Assessment"
         val adapter = BehaviourRiskAssessmentAdapter(requireContext(), data!!)
@@ -917,6 +973,12 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
         binding.dialogTitle.text = "Activity Risk Assessment"
         val adapter = ActivityRiskAssessmentAdapter(data!!)
@@ -946,15 +1008,21 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
         // Add data
-        binding.occupationType.text = data.occupation_type
-        binding.tvName.text = data.name
-        binding.tvAge.text = data.age
-        binding.tvContactNumber.text = data.contact_number
-        binding.tvEmail.text = data.email
-        binding.tvAddress.text = data.address
-        binding.tvCity.text = data.city
-        binding.tvPostCode.text = data.post_code
+        binding.occupationType.text = AppConstant.checkNull(data.occupation_type)
+        binding.tvName.text = AppConstant.checkNull(data.name)
+        binding.tvAge.text = AppConstant.checkNull(data.age)
+        binding.tvContactNumber.text = AppConstant.checkNull(data.contact_number)
+        binding.tvEmail.text = AppConstant.checkNull(data.email)
+        binding.tvAddress.text = AppConstant.checkNull(data.address)
+        binding.tvCity.text = AppConstant.checkNull(data.city)
+        binding.tvPostCode.text = AppConstant.checkNull(data.post_code)
 
         // Handle button clicks
         binding.closeButton.setOnClickListener {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemEquipmentRegisterBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class EquipmentRegisterAdapter(
@@ -42,16 +43,16 @@ class EquipmentRegisterAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.EquipmentRegisterData) {
             binding.apply {
-                tvEquipment.text = data.equipment
-                tvEquipmentDescription.text = data.equipment_description
-                tvProvidedBy.text = data.provided_by
-                tvPurpose.text = data.purpose
-                tvNextTest.text = data.date_of_next_test
-                tvTestComplete.text = data.test_completed_on
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                tvEquipment.text = AppConstant.checkNull(data.equipment)
+                tvEquipmentDescription.text = AppConstant.checkNull(data.equipment_description)
+                tvProvidedBy.text = AppConstant.checkNull(data.provided_by)
+                tvPurpose.text = AppConstant.checkNull(data.purpose)
+                tvNextTest.text = AppConstant.checkNull(data.date_of_next_test)
+                tvTestComplete.text = AppConstant.checkNull(data.test_completed_on)
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }

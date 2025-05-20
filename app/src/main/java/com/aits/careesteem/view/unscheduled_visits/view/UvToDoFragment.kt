@@ -189,6 +189,10 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             dialog.dismiss()
         }
         binding.btnUpdate.setOnClickListener {
+            if(binding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter Todo notes")
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.updateNotes(
                 activity = requireActivity(),
@@ -232,6 +236,10 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             dialog.dismiss()
         }
         binding.btnUpdate.setOnClickListener {
+            if(binding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter Todo notes")
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.addNotes(
                 activity = requireActivity(),

@@ -17,49 +17,74 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
+import com.aits.careesteem.databinding.ItemTravelTimeBinding
+import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
+import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.model.User
 import com.aits.careesteem.view.visits.model.VisitListResponse
 
 class CompleteVisitsAdapter(
     private val context: Context,
     private val onViewItemItemClick: OnViewItemItemClick
-) : RecyclerView.Adapter<CompleteVisitsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnViewItemItemClick {
         fun onViewItemItemClicked(data: VisitListResponse.Data)
     }
 
-    private var visitsList = listOf<VisitListResponse.Data>()
+    private var visitItems: List<VisitItem> = emptyList()
 
-    fun updateList(list: List<VisitListResponse.Data>) {
-        visitsList = list
+    companion object {
+        private const val TYPE_VISIT = 0
+        private const val TYPE_TRAVEL_TIME = 1
+    }
+
+    fun updateList(items: List<VisitItem>) {
+        visitItems = items
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemCompleteVisitsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_VISIT -> {
+                val binding = ItemCompleteVisitsBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                VisitViewHolder(binding)
+            }
+            TYPE_TRAVEL_TIME -> {
+                val binding = ItemTravelTimeBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+                TravelTimeViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Unknown view type")
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataItem = visitsList[position]
-        holder.bind(dataItem)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = visitItems[position]) {
+            is VisitItem.VisitCard -> (holder as VisitViewHolder).bind(item.visitData)
+            is VisitItem.TravelTimeIndicator -> (holder as TravelTimeViewHolder).bind(item.timeText)
+        }
     }
 
-    override fun getItemCount(): Int = visitsList.size
+    override fun getItemCount(): Int = visitItems.size
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        return when (visitItems[position]) {
+            is VisitItem.VisitCard -> TYPE_VISIT
+            is VisitItem.TravelTimeIndicator -> TYPE_TRAVEL_TIME
+        }
     }
 
-    inner class ViewHolder(private val binding: ItemCompleteVisitsBinding) :
+    inner class VisitViewHolder(private val binding: ItemCompleteVisitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
@@ -86,6 +111,14 @@ class CompleteVisitsAdapter(
                     onViewItemItemClick.onViewItemItemClicked(data)
                 }
             }
+        }
+    }
+
+    inner class TravelTimeViewHolder(private val binding: ItemTravelTimeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(time: String) {
+            binding.tvTravelTime.text = time
         }
     }
 }

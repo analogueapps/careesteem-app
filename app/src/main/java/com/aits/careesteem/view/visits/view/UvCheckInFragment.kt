@@ -137,6 +137,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupUI() {
+        binding.qrView.statusView.visibility = View.GONE
         setupTabLayout()
         setupCheckInButton()
     }
@@ -208,7 +209,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setupCheckInButton() {
-        binding.btnCheckIn.visibility = if (clientData.place_id.isNullOrEmpty()) View.GONE else View.VISIBLE
+        //binding.btnCheckIn.visibility = if (clientData.place_id.isNullOrEmpty()) View.GONE else View.VISIBLE
         binding.btnCheckIn.setOnClickListener { handleCheckInClick() }
     }
 
@@ -455,7 +456,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     override fun onFailure(call: Call<PlaceDetailsResponse>, t: Throwable) {
-                        showToast("Failed to fetch place details")
+                        //showToast("Failed to fetch place details")
                     }
                 })
         }

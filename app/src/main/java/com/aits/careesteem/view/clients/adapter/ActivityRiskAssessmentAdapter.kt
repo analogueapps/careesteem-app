@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemActivityRiskAssessmentBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
 class ActivityRiskAssessmentAdapter(
@@ -42,17 +43,17 @@ class ActivityRiskAssessmentAdapter(
 
         fun bind(data: CarePlanRiskAssList.Data.ActivityRiskAssessmentData) {
             binding.apply {
-                yesOrNo.text = data.require_support
-                tvActivity.text = data.activity
-                tvTaskSupportRequired.text = data.task_support_required
-                tvRisk.text = data.risk_level
-                tvRiskRange.text = data.range
-                tvEquipment.text = data.equipment
-                tvActionToBeTaken.text = data.action_to_be_taken
-                tvName1.text = data.sign_1
-                tvName2.text = data.sign_2
-                tvDate1.text = data.date_1
-                tvDate2.text = data.date_2
+                yesOrNo.text = AppConstant.checkNull(data.require_support)
+                tvActivity.text = AppConstant.checkNull(data.activity)
+                tvTaskSupportRequired.text = AppConstant.checkNull(data.task_support_required)
+                tvRisk.text = AppConstant.checkNull(data.risk_level)
+                tvRiskRange.text = AppConstant.checkNull(data.range)
+                tvEquipment.text = AppConstant.checkNull(data.equipment)
+                tvActionToBeTaken.text = AppConstant.checkNull(data.action_to_be_taken)
+                tvName1.text = AppConstant.checkNull(data.sign_1)
+                tvName2.text = AppConstant.checkNull(data.sign_2)
+                tvDate1.text = AppConstant.checkNull(data.date_1)
+                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }
