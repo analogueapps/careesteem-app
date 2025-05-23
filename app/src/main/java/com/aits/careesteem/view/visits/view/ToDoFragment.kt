@@ -142,6 +142,7 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
 
     private fun showEmptyState() = with(binding) {
         recyclerView.visibility = View.GONE
+        headerView.visibility = View.GONE
         emptyLayout.visibility = View.VISIBLE
         Glide.with(this@ToDoFragment)
             .asGif()
@@ -151,6 +152,7 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
 
     private fun showToDoList(list: List<TodoListResponse.Data>) = with(binding) {
         emptyLayout.visibility = View.GONE
+        headerView.visibility = View.VISIBLE
         recyclerView.visibility = View.VISIBLE
         todoAdapter.updateList(list)
     }

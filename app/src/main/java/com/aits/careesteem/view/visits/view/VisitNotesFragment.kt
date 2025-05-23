@@ -130,6 +130,7 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
     }
 
     private fun showEmptyState() = with(binding) {
+        headerView.visibility = View.GONE
         recyclerView.visibility = View.GONE
         emptyLayout.visibility = View.VISIBLE
         Glide.with(this@VisitNotesFragment)
@@ -140,6 +141,7 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 
     private fun showNotes(data: List<ClientVisitNotesDetails.Data>) = with(binding) {
         emptyLayout.visibility = View.GONE
+        headerView.visibility = View.VISIBLE
         recyclerView.visibility = View.VISIBLE
         visitNotesAdapter.updateList(data)
     }
@@ -165,6 +167,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         val dialog = Dialog(requireContext())
         val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
 
         dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
         dialogBinding.btnUpdate.setOnClickListener {
@@ -194,6 +202,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         val dialog = Dialog(requireContext())
         val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
 
         dialogBinding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.visitNotes)
 

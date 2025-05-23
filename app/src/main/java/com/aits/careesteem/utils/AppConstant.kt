@@ -112,41 +112,36 @@ object AppConstant {
 
     @SuppressLint("NewApi")
     fun visitNotesListTimer(input: String): String {
-        try {
-            // Parse the ISO date string to an Instant
+        return try {
             val instant = Instant.parse(input)
 
-            // Define your desired output format.
-            // Adjust the pattern as needed (here it is: day/month/year at hour:minute)
             val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
-                .withZone(ZoneId.systemDefault()) // or use a specific zone like ZoneId.of("UTC")
+                .withZone(ZoneId.of("UTC"))  // Use UTC to match the Z in the input
 
-            val formattedDate = outputFormatter.format(instant)
-            return formattedDate
+            outputFormatter.format(instant)
         } catch (e: Exception) {
-            println(e)
-            return "00/00/0000 at 00:00"
+            e.printStackTrace()
+            "00/00/0000 at 00:00"
         }
     }
 
     @SuppressLint("NewApi")
     fun visitUvNotesListTimer(input: String): String {
-        try {
-            // Parse the string as an OffsetDateTime (since it has 'Z' timezone)
+        return try {
+            // Parse the string with time zone (Z = UTC)
             val offsetDateTime = OffsetDateTime.parse(input)
 
-            // Convert to LocalDateTime (ignoring UTC offset)
-            val localDateTime = offsetDateTime.toLocalDateTime()
+            // Convert to system default time zone, if needed
+            val zonedDateTime = offsetDateTime.atZoneSameInstant(ZoneId.systemDefault())
 
-            // Define the output format
+            // Define desired output format
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
 
-            // Format the date-time
-            val formattedDate = localDateTime.format(formatter)
-            return formattedDate
+            // Format and return
+            zonedDateTime.format(formatter)
         } catch (e: Exception) {
-            println(e)
-            return "00/00/0000 at 00:00"
+            e.printStackTrace()
+            "00/00/0000 at 00:00"
         }
     }
 

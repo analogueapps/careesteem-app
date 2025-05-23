@@ -201,7 +201,8 @@ class AddAlertsFragment : Fragment() {
 
         binding.apply {
             bodyName.setOnClickListener {
-                bodyName.tag = "Visible"
+                // if visible means in visible
+                if(bodyName.tag == "Invisible") bodyName.tag = "Visible" else bodyName.tag = "Invisible"
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
@@ -227,7 +228,7 @@ class AddAlertsFragment : Fragment() {
 
             faceName.setOnClickListener {
                 bodyName.tag = "Invisible"
-                faceName.tag = "Visible"
+                if(faceName.tag == "Invisible") faceName.tag = "Visible" else faceName.tag = "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
                 feetName.tag = "Invisible"
@@ -253,7 +254,7 @@ class AddAlertsFragment : Fragment() {
             handName.setOnClickListener {
                 bodyName.tag = "Invisible"
                 faceName.tag = "Invisible"
-                handName.tag = "Visible"
+                if(handName.tag == "Invisible") handName.tag = "Visible" else handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
                 feetName.tag = "Invisible"
                 callWholeMethods()
@@ -295,7 +296,7 @@ class AddAlertsFragment : Fragment() {
                 bodyName.tag = "Invisible"
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
-                pelvisName.tag = "Visible"
+                if(pelvisName.tag == "Invisible") pelvisName.tag = "Visible" else pelvisName.tag = "Invisible"
                 feetName.tag = "Invisible"
                 callWholeMethods()
             }
@@ -321,7 +322,7 @@ class AddAlertsFragment : Fragment() {
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
-                feetName.tag = "Visible"
+                if(feetName.tag == "Invisible") feetName.tag = "Visible" else feetName.tag = "Invisible"
                 callWholeMethods()
             }
 

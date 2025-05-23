@@ -166,10 +166,12 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
         if (isMainEmpty && isPrnEmpty) {
             showEmptyState()
             recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
+            headerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
             prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
         } else {
             emptyLayout.visibility = View.GONE
             recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
+            headerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
             prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
 
             mainList?.let {

@@ -27,6 +27,8 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/headerView"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -94,6 +96,7 @@
                     android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
                     android:id="@+id/prnLayout"
                     android:orientation="vertical"
                     android:layout_width="match_parent"

@@ -36,11 +36,11 @@
     <string name="list_of_medications">List of Medications</string>
     <string name="scheduled_medication">Scheduled Medication</string>
     <string name="list_of_visit_notes">List of Visit Notes</string>
-    <string name="no_todos">The to-do note is currently <font color="#279989">empty</font></string>
-    <string name="no_todo">The to-do note is currently <font color="#279989">empty,</font> Please provide your to-do documentation.</string>
-    <string name="no_medications">The medication note is currently <font color="#279989">empty,</font></string>
-    <string name="no_medication">The medication note is currently <font color="#279989">empty,</font> Please provide your medication documentation.</string>
-    <string name="no_visit_notes">The visit note is currently <font color="#279989">empty,</font> Please provide your visit documentation.</string>
+    <string name="no_todos">There are currently no To-do\'s assigned for this visit.</string>
+    <string name="no_todo">To-do\'s are not assigned for unscheduled visits.</string>
+    <string name="no_medications">There are currently no Medications assigned for this visit.</string>
+    <string name="no_medication">Medications are not assigned for unscheduled visits.</string>
+    <string name="no_visit_notes">No Notes Added Yet.\nLooks like there aren\'t any notes for this visit just yet.</string>
     <string name="add_note">Add Note</string>
     <string name="name">Name</string>
     <string name="agency">Agency</string>

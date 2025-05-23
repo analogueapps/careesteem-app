@@ -27,6 +27,8 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:id="@+id/headerView"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
