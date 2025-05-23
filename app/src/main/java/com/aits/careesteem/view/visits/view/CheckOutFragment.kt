@@ -280,7 +280,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
-        val startTime = DateTimeUtils.getCurrentTimeGMT()
+        val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
         val plannedDate = data.visitDate
         val alertType = try {
             // Combine planned date + planned time
@@ -351,11 +351,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
-        val startTime = DateTimeUtils.getCurrentTimeGMT()
+        val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
         val plannedDate = data.visitDate
         val alertType = try {
             // Combine planned date + planned time
-            val plannedDateTimeStr = "$plannedDate ${data.plannedEndTime}"
+            val plannedDateTimeStr = "$plannedDate ${data.plannedStartTime}"
 
             // Define formatter
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -431,7 +431,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun setupQrVerificationObservers() {
         viewModel.qrVerified.observe(viewLifecycleOwner) { verified ->
             if (verified) {
-                handleVerifiedQr()
+                handleVerifiedQr(true)
             }
         }
 
@@ -449,26 +449,26 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun handleVerifiedQr() {
+    private fun handleVerifiedQr(normalCheckIn: Boolean) {
         when (args.action) {
-            0 -> handleCheckIn()
-            1 -> handleCheckOut()
+            0 -> handleCheckIn(normalCheckIn)
+            1 -> handleCheckOut(normalCheckIn)
         }
     }
 
-    private fun handleCheckIn() {
+    private fun handleCheckIn(normalCheckIn: Boolean) {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
             if (data.visitStatus == "Unscheduled") {
-                viewModel.createUnscheduledVisit(requireActivity(), data.clientId, true)
+                viewModel.createUnscheduledVisit(requireActivity(), data.clientId, normalCheckIn)
             } else {
                 showCheckInPopup(data)
             }
         }
     }
 
-    private fun handleCheckOut() {
+    private fun handleCheckOut(normalCheckIn: Boolean) {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+            viewModel.updateVisitCheckOut(requireActivity(), data, normalCheckIn,"")
         }
     }
 
@@ -638,7 +638,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 //                    }
 //                }
 
-                val startTime = DateTimeUtils.getCurrentTimeGMT()
+                val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
+                println("startTime >>>> "+startTime)
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
                 val alertType = try {
                     val planTime = when (args.action) {
@@ -649,7 +650,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                     // Combine planned date + planned time
                     val plannedDateTimeStr = "$plannedDate $planTime"
-
+                    println("plannedDateTimeStr >>>> "+plannedDateTimeStr)
                     // Define formatter
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -679,7 +680,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     e.printStackTrace()
                     ""
                 }
-
+                println("alertType >>>> "+alertType)
                 showAnotherDialog(alertType)
             }
 
@@ -766,7 +767,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             }
             dialog.show()
         } else {
-            handleVerifiedQr()
+            handleVerifiedQr(false)
         }
     }
 

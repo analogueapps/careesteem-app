@@ -10,8 +10,13 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 
 class NotificationAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onDeleteItemItemClick: OnDeleteItemItemClick
 ) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+
+    interface OnDeleteItemItemClick {
+        fun onDeleteItemItemClicked(data: NotificationListResponse.Data)
+    }
 
     private var adapterList = listOf<NotificationListResponse.Data>()
 
@@ -51,6 +56,10 @@ class NotificationAdapter(
                 notificationDate.text = dateFormatted
                 notificationTitle.text = data.notification_title
                 notificationMessage.text = data.notification_body
+
+                btnDelete.setOnClickListener {
+                    onDeleteItemItemClick.onDeleteItemItemClicked(data)
+                }
             }
         }
     }

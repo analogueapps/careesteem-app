@@ -51,6 +51,9 @@ data class MedicationDetailsListResponse(
         val prn_user_id: String,
         val status: String,
         val prn_details_status: String,
-        val prn_created_by: String
+        val prn_created_by: String,
+        // Body map
+        val body_image: List<String>,
+        val body_part_names: List<String>
     )
 }

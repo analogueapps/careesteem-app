@@ -1,18 +1,23 @@
 package com.aits.careesteem.view.notification.view
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.view.notification.adapter.NotificationAdapter
+import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NotificationsFragment : Fragment() {
+class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemClick {
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
 
@@ -55,7 +60,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        notificationAdapter = NotificationAdapter(requireContext())
+        notificationAdapter = NotificationAdapter(requireContext(), this@NotificationsFragment)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = notificationAdapter
     }
@@ -76,6 +81,10 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun setupViewModel() {
+        binding.tvClearAll.setOnClickListener {
+            showClearAllPopup()
+        }
+
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
@@ -91,20 +100,78 @@ class NotificationsFragment : Fragment() {
                 binding.apply {
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
+                    tvClearAll.visibility = View.VISIBLE
                 }
                 notificationAdapter.updateList(data)
             } else {
                 binding.apply {
                     emptyLayout.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
+                    tvClearAll.visibility = View.GONE
                 }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showClearAllPopup() {
+        if (!isAdded) return
+
+        val dialog = Dialog(requireContext()).apply {
+            val binding = DialogForceCheckBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setCancelable(false)
+
+            binding.dialogTitle.text = "Clear Notifications"
+            binding.dialogBody.text = "Are you sure you want to clear all notifications?"
+
+            binding.btnPositive.setOnClickListener {
+                dismiss()
+                viewModel.clearAllNotification(requireActivity())
+            }
+
+            binding.btnNegative.setOnClickListener { dismiss() }
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+        }
+        dialog.show()
     }
 
     private fun setupToolbar() {
         (activity as AppCompatActivity).supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(AppConstant.FALSE)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onDeleteItemItemClicked(data: NotificationListResponse.Data) {
+        if (!isAdded) return
+
+        val dialog = Dialog(requireContext()).apply {
+            val binding = DialogForceCheckBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setCancelable(false)
+
+            binding.dialogTitle.text = "Clear Notification"
+            binding.dialogBody.text = "Are you sure you want to clear this notification?"
+
+            binding.btnPositive.setOnClickListener {
+                dismiss()
+                viewModel.clearSingleNotification(requireActivity(), data)
+            }
+
+            binding.btnNegative.setOnClickListener { dismiss() }
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+        }
+        dialog.show()
     }
 }

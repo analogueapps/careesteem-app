@@ -12,6 +12,8 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.notification.model.ClearNotificationRequest
+import com.aits.careesteem.view.notification.model.NotificationId
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,6 +62,9 @@ class NotificationViewModel @Inject constructor(
                         _notificationList.value = list.data
                     }
                 } else {
+                    if(response.code() == 404) {
+                        return@launch
+                    }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
@@ -71,6 +76,83 @@ class NotificationViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun clearSingleNotification(activity: Activity, data: NotificationListResponse.Data) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val notificationList = listOf(
+                    NotificationId(data.id)
+                )
+                val request = ClearNotificationRequest(notificationList)
+                val response = repository.clearNotification(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    request = request
+                )
+
+                if (response.isSuccessful) {
+
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                getNotificationList(activity)
+            }
+        }
+    }
+
+    fun clearAllNotification(activity: Activity) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    return@launch
+                }
+
+                val notificationList = _notificationList.value?.map { data ->
+                    NotificationId(data.id)
+                } ?: emptyList()
+
+                val request = ClearNotificationRequest(notificationList)
+                val response = repository.clearNotification(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    request = request
+                )
+
+                if (response.isSuccessful) {
+
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                getNotificationList(activity)
             }
         }
     }

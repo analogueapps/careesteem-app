@@ -162,7 +162,7 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             return
         }
 
-        val dialog = createNoteDialog()
+        val dialog = Dialog(requireContext())
         val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
 
@@ -180,11 +180,18 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             )
         }
 
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         dialog.show()
     }
 
     private fun showEditNoteDialog(data: ClientVisitNotesDetails.Data) {
-        val dialog = createNoteDialog()
+        val dialog = Dialog(requireContext())
         val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
 
@@ -207,17 +214,13 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             )
         }
 
-        dialog.show()
-    }
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-    private fun createNoteDialog(): Dialog {
-        return Dialog(requireContext()).apply {
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-            window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
-            )
-            setCancelable(false)
-        }
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 }

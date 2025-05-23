@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:background="@drawable/ic_dialog_bg"
         android:backgroundTint="@color/colorPrimary"
         android:orientation="vertical"
@@ -47,144 +46,151 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_10sdp"
+        <androidx.core.widget.NestedScrollView
             android:background="@drawable/ic_dialog_bottom_bg"
-            android:layout_margin="1dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:text="To-Do Name"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
-                tools:ignore="HardcodedText" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/todoName"
-                android:background="@drawable/ic_todo_dialog_edittext_bg"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:text="Additional Notes"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
-                tools:ignore="HardcodedText" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/additionalNotes"
-                android:background="@drawable/ic_todo_dialog_edittext_bg"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:text="Todo Notes"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
-                tools:ignore="HardcodedText" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/carerNotes"
-                android:background="@drawable/ic_todo_dialog_edittext_bg"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
-                android:hint="Enter todo notes"
-                android:textFontWeight="400"
-                android:gravity="left|top"
-                android:lines="5"
-                android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/ic_dialog_bottom_bg"
+                android:layout_margin="1dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_not_completed"
-                    android:layout_weight="1"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_btn_red_bg"
-                    android:gravity="center"
-                    android:textAllCaps="false"
-                    android:text="Not Completed"
-                    android:textColor="@color/red"
-                    android:fontFamily="@font/arvo_regular"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="To-Do Name"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_10ssp"
                     tools:targetApi="p"
                     tools:ignore="HardcodedText" />
 
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_completed"
-                    android:layout_weight="1"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/todoName"
+                    android:background="@drawable/ic_todo_dialog_edittext_bg"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_btn_green_bg"
-                    android:gravity="center"
-                    android:textAllCaps="false"
-                    android:text="Completed"
-                    android:textColor="#279989"
-                    android:fontFamily="@font/arvo_regular"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="Additional Notes"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_10ssp"
                     tools:targetApi="p"
                     tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/additionalNotes"
+                    android:background="@drawable/ic_todo_dialog_edittext_bg"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="Todo Notes"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/carerNotes"
+                    android:background="@drawable/ic_todo_dialog_edittext_bg"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:hint="Enter todo notes"
+                    android:textFontWeight="400"
+                    android:gravity="left|top"
+                    android:lines="5"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_not_completed"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/ic_btn_red_bg"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:text="Not Completed"
+                        android:textColor="@color/red"
+                        android:fontFamily="@font/arvo_regular"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_10ssp"
+                        tools:targetApi="p"
+                        tools:ignore="HardcodedText" />
+
+                    <Space
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_completed"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/ic_btn_green_bg"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:text="Completed"
+                        android:textColor="#279989"
+                        android:fontFamily="@font/arvo_regular"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_10ssp"
+                        tools:targetApi="p"
+                        tools:ignore="HardcodedText" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

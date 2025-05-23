@@ -127,6 +127,46 @@ class ServerImageAdapter(
     }
 }
 
+class BodyMapImageAdapter(
+    private val context: Context,
+    private val imageList: List<BodyMapItem>
+) : RecyclerView.Adapter<BodyMapImageAdapter.ImageViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        holder.bind(imageList[position])
+    }
+
+    override fun getItemCount(): Int = imageList.size
+
+    inner class ImageViewHolder(private val binding: ItemBodyMapAddedBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: BodyMapItem) = with(binding) {
+            tvBodyPartNames.text = data.partName
+
+//            Glide.with(context)
+//                .load("${BuildConfig.API_BASE_URL}${data.imageUrl.replace("\\", "/")}")
+//                .placeholder(R.drawable.logo_preview)
+//                .into(fileImageView)
+
+            // Convert the Base64 string to a Bitmap
+            val bitmap = AppConstant.base64ToBitmap(data.imageUrl)
+
+            // Set the Bitmap to the ImageView (if conversion was successful)
+            bitmap?.let {
+                fileImageView.setImageBitmap(it)
+            }
+
+            btnDelete.visibility = View.GONE
+        }
+    }
+}
+
 data class BodyMapItem(
     val partName: String,
     val imageUrl: String

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogMedicationUpdateBinding
 import com.aits.careesteem.databinding.DialogTodoEditBinding
 import com.aits.careesteem.databinding.FragmentToDoBinding
 import com.aits.careesteem.utils.AlertUtils
@@ -167,11 +168,21 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
     }
 
     private fun showEditTodoDialog(data: TodoListResponse.Data) {
-        val dialog = createTodoDialog()
-        val dialogBinding = DialogTodoEditBinding.inflate(layoutInflater)
-        dialog.setContentView(dialogBinding.root)
+        val dialog = Dialog(requireContext())
+        val binding: DialogTodoEditBinding =
+            DialogTodoEditBinding.inflate(layoutInflater)
 
-        dialogBinding.apply {
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
+
+
+        binding.apply {
             headTodoName.text = data.todoName
             todoName.text = data.todoName
             additionalNotes.text = data.additionalNotes
@@ -188,6 +199,13 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
             }
         }
 
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         dialog.show()
     }
 
@@ -201,16 +219,5 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
             carerNotes = notes,
             todoEssential = data.todoEssential
         )
-    }
-
-    private fun createTodoDialog(): Dialog {
-        return Dialog(requireContext()).apply {
-            window?.setBackgroundDrawableResource(android.R.color.transparent)
-            window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
-            )
-            setCancelable(false)
-        }
     }
 }

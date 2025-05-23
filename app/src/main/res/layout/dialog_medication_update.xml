@@ -6,56 +6,57 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/_25sdp">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_dialog_bg"
+        android:backgroundTint="@color/colorPrimary"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/ic_dialog_bg"
-            android:backgroundTint="@color/colorPrimary"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:padding="@dimen/_10sdp"
+            <TextView
+                android:id="@+id/nhsMedicineName"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lora_regular"
+                android:textColor="@color/white"
+                android:text="@string/app_name"
+                android:textFontWeight="400"
+                android:textSize="@dimen/_12ssp"
+                tools:targetApi="p" />
 
-                <TextView
-                    android:id="@+id/nhsMedicineName"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/white"
-                    android:text="@string/app_name"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_12ssp"
-                    tools:targetApi="p" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/closeButton"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_close"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/closeButton"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_close"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:background="@drawable/ic_dialog_bottom_bg"
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:padding="@dimen/_10sdp"
-                android:background="@drawable/ic_dialog_bottom_bg"
                 android:layout_margin="1dp"
                 android:orientation="vertical"
+                android:background="@drawable/ic_dialog_bottom_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -195,6 +196,28 @@
                     tools:targetApi="p" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:visibility="gone"
+                    android:id="@+id/tvBodyMap"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:fontFamily="@font/lora_regular"
+                    android:text="Body Maps"
+                    android:textFontWeight="400"
+                    android:textSize="@dimen/_10ssp"
+                    tools:targetApi="p"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -307,8 +330,8 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -58,6 +58,7 @@ class MedicationViewModel @Inject constructor(
 
     fun getMedicationDetails(activity: Activity, visitDetailsId: String) {
         _medicationList.value = emptyList()
+        _prnMedicationList.value = emptyList()
         _isLoading.value = true
         viewModelScope.launch {
             try {

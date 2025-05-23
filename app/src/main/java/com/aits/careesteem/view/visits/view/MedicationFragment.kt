@@ -22,10 +22,15 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.view.alerts.adapter.BodyMapImageAdapter
+import com.aits.careesteem.view.alerts.adapter.BodyMapItem
+import com.aits.careesteem.view.alerts.adapter.ServerImageAdapter
 import com.aits.careesteem.view.visits.adapter.MedicationListAdapter
 import com.aits.careesteem.view.visits.adapter.MedicationPrnListAdapter
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
+import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.MedicationViewModel
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -47,6 +52,9 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
     private var id: String? = null
     private var clientId: String? = null
     private var isChanges = true
+
+    private var mainList: List<MedicationDetailsListResponse.Data>? = null
+    private var prnList: List<MedicationDetailsListResponse.Data>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,23 +145,58 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
             }
         }
 
-        // Data visibility
-        viewModel.medicationList.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                binding.totalCount.text = data.size.toString()
-                medicationListAdapter.updateList(data)
-            }
+        // Observe main list
+        viewModel.medicationList.observe(viewLifecycleOwner) { list ->
+            mainList = list
+            updateUI()
         }
 
-        // Data visibility
-        viewModel.prnMedicationList.observe(viewLifecycleOwner) { data ->
-            if (data.isNotEmpty()) {
-                binding.prnLayout.visibility = View.VISIBLE
-                medicationPnrListAdapter.updateList(data)
-            } else {
-                binding.prnLayout.visibility = View.GONE
+        // Observe PRN list
+        viewModel.prnMedicationList.observe(viewLifecycleOwner) { list ->
+            prnList = list
+            updateUI()
+        }
+    }
+
+
+    private fun updateUI() = with(binding) {
+        val isMainEmpty = mainList.isNullOrEmpty()
+        val isPrnEmpty = prnList.isNullOrEmpty()
+
+        if (isMainEmpty && isPrnEmpty) {
+            showEmptyState()
+            recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
+            prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
+        } else {
+            emptyLayout.visibility = View.GONE
+            recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
+            prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
+
+            mainList?.let {
+                totalCount.text = it.size.toString()
+                medicationListAdapter.updateList(it)
+            }
+
+            prnList?.let {
+                medicationPnrListAdapter.updateList(it)
             }
         }
+    }
+
+    private fun showEmptyState() = with(binding) {
+        recyclerView.visibility = View.GONE
+        emptyLayout.visibility = View.VISIBLE
+        Glide.with(this@MedicationFragment)
+            .asGif()
+            .load(com.aits.careesteem.R.drawable.no_tablet)
+            .into(gifImageView)
+    }
+
+    private fun showToDoList(list: List<MedicationDetailsListResponse.Data>) = with(binding) {
+        emptyLayout.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+        binding.totalCount.text = list.size.toString()
+        medicationListAdapter.updateList(list)
     }
 
     @SuppressLint("SetTextI18n")
@@ -169,6 +212,12 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
 
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
+
+        // Set max height
+        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
+        binding.root.layoutParams = binding.root.layoutParams?.apply {
+            height = maxHeight
+        }
 
         // Add data
         binding.nhsMedicineName.text = data.nhs_medicine_name
@@ -190,6 +239,27 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                 binding.frequencyMedication.text = data.day_name
             }
         }
+
+        if(data.body_image.isNotEmpty() && data.body_part_names.isNotEmpty()) {
+            binding.tvBodyMap.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.VISIBLE
+
+            // Map body parts with corresponding images
+            val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
+                BodyMapItem(
+                    partName = name,
+                    imageUrl = data.body_image.getOrNull(index).orEmpty()
+                )
+            }
+
+            // Setup nested image recycler
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerView.adapter = BodyMapImageAdapter(requireContext(), bodyMapItems)
+        } else {
+            binding.tvBodyMap.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
+        }
+
 
 
         binding.medicationStatus.text = ""

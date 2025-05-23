@@ -7,9 +7,12 @@
 package com.aits.careesteem.base
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.aits.careesteem.R
 import com.aits.careesteem.utils.AlertUtils
@@ -24,7 +27,7 @@ import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltAndroidApp
-class BaseApplication : Application() {
+class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
     @Inject
     lateinit var editor: SharedPreferences.Editor
 
@@ -70,4 +73,16 @@ class BaseApplication : Application() {
                 }
             }
     }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
+    // These are required overrides, but you can leave them empty
+    override fun onActivityStarted(activity: Activity) {}
+    override fun onActivityResumed(activity: Activity) {}
+    override fun onActivityPaused(activity: Activity) {}
+    override fun onActivityStopped(activity: Activity) {}
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+    override fun onActivityDestroyed(activity: Activity) {}
 }
