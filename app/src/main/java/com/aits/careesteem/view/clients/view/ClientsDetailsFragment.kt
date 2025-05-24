@@ -51,6 +51,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -77,6 +79,8 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    private var shouldHandleVisitCheck = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -181,69 +185,8 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
         }
 
         binding.btnCreateUnscheduledVisit.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            val binding: DialogUnscheduledVisitBinding =
-                DialogUnscheduledVisitBinding.inflate(layoutInflater)
-
-            dialog.setContentView(binding.root)
-            dialog.setCancelable(AppConstant.FALSE)
-
-            // Handle button clicks
-            binding.btnPositive.setOnClickListener {
-                isRedirect = AppConstant.FALSE
-                dialog.dismiss()
-                //viewModel.createUnscheduledVisit(requireActivity(), clientData.id)
-
-//                val gson = Gson()
-//                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-//                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
-//
-//
-//                val convertVisit = listOf(
-//                    VisitListResponse.Data(
-//                        clientId = clientData.id,
-//                        visitDetailsId = -1,
-//                        clientAddress = clientData.full_address,
-//                        clientName = clientData.full_name,
-//                        plannedEndTime = "",
-//                        plannedStartTime = "",
-//                        totalPlannedTime = "",
-//                        userId = "[${userData.id}]",
-//                        usersRequired = 1,
-//                        visitDate = "",
-//                        latitude = 0,
-//                        longitude = 0,
-//                        radius = 0,
-//                        placeId = clientData.place_id,
-//                        visitStatus = "Unscheduled"
-//                    )
-//                )
-
-                visitViewModel.inProgressVisits.value.let { data ->
-                    if (!data.isNullOrEmpty()) {
-                        AlertUtils.showToast(requireActivity(), "You have ongoing visits")
-                    } else {
-                        val gson = Gson()
-                        val dataString = gson.toJson(clientData)
-                        val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
-                            clinetData = dataString
-                        )
-                        findNavController().navigate(action)
-                    }
-                }
-            }
-            binding.btnNegative.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-            val window = dialog.window
-            window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
-            )
-            dialog.show()
+            shouldHandleVisitCheck = true
+            visitViewModel.getVisits(requireActivity(), LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
         }
     }
 
@@ -288,6 +231,40 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
                 ProgressLoader.showProgress(requireActivity())
             } else {
                 ProgressLoader.dismissProgress()
+            }
+        }
+
+        // Observe loading state
+        visitViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+            }
+        }
+
+//        visitViewModel.inProgressVisits.observe(viewLifecycleOwner) { data ->
+//            if (shouldHandleVisitCheck) {
+//                shouldHandleVisitCheck = false // Reset after handling
+//
+//                if (data.isNullOrEmpty()) {
+//                    showUnscheduledConfirmDialog()
+//                } else {
+//                    AlertUtils.showToast(requireActivity(), "You have ongoing visits")
+//                }
+//            }
+//        }
+
+        visitViewModel.visitCreated.observe(viewLifecycleOwner) { event ->
+            event?.getContentIfNotHandled()?.let { isSuccess ->
+                if (shouldHandleVisitCheck) {
+                    shouldHandleVisitCheck = false
+                    if (isSuccess) {
+                        showUnscheduledConfirmDialog()
+                    } else {
+                        AlertUtils.showToast(requireActivity(), "You have ongoing visits")
+                    }
+                }
             }
         }
 
@@ -708,6 +685,41 @@ class ClientsDetailsFragment : Fragment(), MyCareNetworkAdapter.OnMyCareNetworkI
 //            }
 //        }
 
+    }
+
+    private fun showUnscheduledConfirmDialog() {
+        val dialog = Dialog(requireContext())
+        val binding: DialogUnscheduledVisitBinding =
+            DialogUnscheduledVisitBinding.inflate(layoutInflater)
+
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Handle button clicks
+        binding.btnPositive.setOnClickListener {
+            isRedirect = AppConstant.FALSE
+            dialog.dismiss()
+            //viewModel.createUnscheduledVisit(requireActivity(), clientData.id)
+
+            val gson = Gson()
+            val dataString = gson.toJson(clientData)
+            val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
+                clinetData = dataString
+            )
+            findNavController().navigate(action)
+        }
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
     }
 
     @SuppressLint("SetTextI18n")

@@ -147,14 +147,14 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         viewModel.toDoList.observe(viewLifecycleOwner) { data ->
             if (data.isNotEmpty()) {
                 binding.apply {
-                    headerView.visibility = View.GONE
+                    headerView.visibility = View.VISIBLE
                     emptyLayout.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                 }
                 uvTodoListAdapter.updateList(data)
             } else {
                 binding.apply {
-                    headerView.visibility = View.VISIBLE
+                    headerView.visibility = View.GONE
                     emptyLayout.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                     Glide.with(this@UvToDoFragment)

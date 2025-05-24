@@ -449,7 +449,7 @@ class VisitsFragment : Fragment(),
     }
 
     override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
-        val action = if (data.visitStatus == "Unscheduled") {
+        val action = if (data.visitType == "Unscheduled") {
             VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(data.visitDetailsId)
         } else {
             VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(data.visitDetailsId)

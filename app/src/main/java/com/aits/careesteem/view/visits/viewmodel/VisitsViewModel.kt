@@ -22,6 +22,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.visits.helper.Event
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.gson.Gson
@@ -61,6 +62,9 @@ class VisitsViewModel @Inject constructor(
     private val _notCompletedVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val notCompletedVisits: LiveData<List<VisitListResponse.Data>> get() = _notCompletedVisits
 
+    private val _visitCreated = MutableLiveData<Event<Boolean>?>()
+    val visitCreated: MutableLiveData<Event<Boolean>?> = _visitCreated
+
     @SuppressLint("NewApi")
     fun getVisits(activity: Activity, visitDate: String) {
         _visitsList.value = emptyList()
@@ -68,6 +72,7 @@ class VisitsViewModel @Inject constructor(
         _inProgressVisits.value = emptyList()
         _completedVisits.value = emptyList()
         _notCompletedVisits.value = emptyList()
+        _visitCreated.value = null
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -132,6 +137,12 @@ class VisitsViewModel @Inject constructor(
                         _inProgressVisits.value = inProgress
                         _completedVisits.value = completed
                         _notCompletedVisits.value = notCompleted
+
+                        if(inProgress.isEmpty()) {
+                            _visitCreated.postValue(Event(true))
+                        } else {
+                            _visitCreated.postValue(Event(false))
+                        }
                     }
                 } else {
                     if(response.code() == 404) {
