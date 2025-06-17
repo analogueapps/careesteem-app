@@ -36,6 +36,7 @@
                         android:textStyle="normal"
                         android:fontFamily="@font/robotoslab_regular"
                         android:textSize="@dimen/_12ssp"
+                        android:visibility="invisible"
                         android:text="@string/scheduled_medication"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
@@ -44,12 +45,14 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:textStyle="normal"
                         android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/submitted"
+                        android:textSize="@dimen/_10ssp"
+                        android:text="@string/completed"
+                        android:textColor="#9B9B9B"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                          />
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_gravity="bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <androidx.appcompat.widget.AppCompatTextView
@@ -57,7 +60,8 @@
                             android:layout_marginStart="@dimen/_2sdp"
                             android:textStyle="normal"
                             android:fontFamily="@font/robotoslab_regular"
-                            android:textSize="@dimen/_12ssp"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/colorPrimary"
                             android:text="0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -66,7 +70,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:textStyle="normal"
                             android:fontFamily="@font/robotoslab_regular"
-                            android:textSize="@dimen/_12ssp"
+                            android:textSize="@dimen/_10ssp"
                             android:layout_marginStart="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:text="/"
@@ -78,8 +82,9 @@
                             android:id="@+id/totalCount"
                             android:textStyle="normal"
                             android:fontFamily="@font/robotoslab_regular"
-                            android:textSize="@dimen/_12ssp"
+                            android:textSize="@dimen/_10ssp"
                             android:text="0"
+                            android:textColor="#9B9B9B"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
@@ -106,9 +111,10 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:textStyle="normal"
                         android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_10ssp"
                         android:text="@string/list_of_prn_medication"
                         android:layout_weight="1"
+                        android:textColor="#9B9B9B"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                          />

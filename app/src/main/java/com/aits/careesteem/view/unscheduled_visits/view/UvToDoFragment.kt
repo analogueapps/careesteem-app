@@ -191,7 +191,10 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         binding.closeButton.setOnClickListener {
             dialog.dismiss()
         }
-        binding.btnUpdate.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnSave.setOnClickListener {
             if(binding.visitNotes.text.toString().isEmpty()) {
                 AlertUtils.showToast(requireActivity(), "Please enter Todo notes", ToastyType.WARNING)
                 return@setOnClickListener
@@ -237,7 +240,10 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
         binding.closeButton.setOnClickListener {
             dialog.dismiss()
         }
-        binding.btnUpdate.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnSave.setOnClickListener {
             if(binding.visitNotes.text.toString().isEmpty()) {
                 AlertUtils.showToast(requireActivity(), "Please enter Todo notes", ToastyType.WARNING)
                 return@setOnClickListener

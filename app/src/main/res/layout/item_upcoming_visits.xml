@@ -69,8 +69,8 @@
                 android:background="@drawable/ic_circle"
                 android:backgroundTint="@color/upcomingCardInsideCount"
                 android:layout_gravity="center"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp">
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvUserRequired"
@@ -98,23 +98,33 @@
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="match_parent"/>
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center"
                 android:id="@+id/btnGetDirection"
-                android:layout_gravity="center"
-                app:backgroundTint="@null"
                 android:background="@drawable/ic_direction_background"
-                android:layout_width="@dimen/_110sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:fontFamily="@font/robotoslab_regular"
-                app:icon="@drawable/ic_directions"
-                app:iconTintMode="multiply"
-                app:iconSize="24dp"
-                app:iconPadding="1dip"
-                android:text="@string/get_directions"
-                android:textAllCaps="false"
-                android:textStyle="normal"
-                android:textSize="@dimen/_8ssp"
-                 />
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:layout_width="@dimen/_85sdp"
+                android:layout_height="@dimen/_25sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:src="@drawable/ic_directions"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textColor="@color/white"
+                    android:text="@string/get_directions"
+                    android:textAllCaps="false"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_8ssp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -253,15 +263,17 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatTextView
+            android:gravity="center"
             android:enabled="false"
             android:id="@+id/btnCheckIn"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"
             app:backgroundTint="@null"
             android:background="@drawable/ic_checkin_background"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_20sdp"
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/check_in"
             android:textAllCaps="false"

@@ -197,7 +197,7 @@ class VisitsFragment : Fragment(),
             recycler.visibility = if (isVisible) View.GONE else View.VISIBLE
             view.setCompoundDrawablesWithIntrinsicBounds(
                 null, null,
-                requireContext().getDrawable(if (isVisible) R.drawable.ic_keyboard_arrow_down else R.drawable.ic_keyboard_arrow_up),
+                requireContext().getDrawable(if (isVisible) R.drawable.ic_keyboard_arrow_down_small else R.drawable.ic_keyboard_arrow_up_small),
                 null
             )
         }
@@ -242,7 +242,8 @@ class VisitsFragment : Fragment(),
             dayName.text = date.dayOfWeek
                 .getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
                 .take(2)
-                .uppercase()
+                .lowercase()
+                .replaceFirstChar { it.uppercase() }
             dayNumber.text = date.dayOfMonth.toString()
 
             if (date == selectedDate) {
@@ -399,7 +400,7 @@ class VisitsFragment : Fragment(),
                 binding.rvUpcomingVisits.visibility = View.VISIBLE
                 binding.tvUpcomingVisits.setCompoundDrawablesWithIntrinsicBounds(
                     null, null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
                     null
                 )
             }

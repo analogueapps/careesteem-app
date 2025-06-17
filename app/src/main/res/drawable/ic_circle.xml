@@ -1,15 +1,13 @@
-<!--
-  ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
-  ~ Use of this source code is governed by a MIT-style license that can be
-  ~ found in the LICENSE file.
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="960"
-    android:viewportHeight="960">
+    android:width="18dp"
+    android:height="17dp"
+    android:viewportWidth="18"
+    android:viewportHeight="17">
   <path
-      android:pathData="M480,880q-83,0 -156,-31.5T197,763q-54,-54 -85.5,-127T80,480q0,-83 31.5,-156T197,197q54,-54 127,-85.5T480,80q83,0 156,31.5T763,197q54,54 85.5,127T880,480q0,83 -31.5,156T763,763q-54,54 -127,85.5T480,880Z"
+      android:pathData="M9,17L9,17A8.5,8.5 0,0 1,0.5 8.5L0.5,8.5A8.5,8.5 0,0 1,9 0L9,0A8.5,8.5 0,0 1,17.5 8.5L17.5,8.5A8.5,8.5 0,0 1,9 17z"
       android:fillColor="#279989"/>
+  <path
+      android:pathData="M11.055,9.443C11.648,8.922 11.648,8.078 11.055,7.557L7.796,4.695C7.5,4.435 7.019,4.435 6.722,4.695C6.426,4.956 6.426,5.378 6.722,5.638L9.982,8.5L6.722,11.362C6.426,11.622 6.426,12.044 6.722,12.305C7.019,12.565 7.5,12.565 7.796,12.305L11.055,9.443Z"
+      android:fillColor="#ffffff"
+      android:fillType="evenOdd"/>
 </vector>

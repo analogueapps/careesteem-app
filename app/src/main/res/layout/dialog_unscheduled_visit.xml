@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone"
             android:gravity="center"
             android:fontFamily="@font/robotoslab_regular"
             android:text="Create an Unscheduled visit"
@@ -71,7 +72,7 @@
                 android:textColor="@color/red"
                 android:fontFamily="@font/robotoslab_regular"
                 android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
 
                 tools:ignore="HardcodedText" />
 
@@ -91,7 +92,7 @@
                 android:textColor="#279989"
                 android:fontFamily="@font/robotoslab_regular"
                 android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                 tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -69,8 +69,8 @@
                 android:background="@drawable/ic_circle"
                 android:backgroundTint="@color/completeCardInsideButton"
                 android:layout_gravity="center"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp">
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvUserRequired"
@@ -210,45 +210,33 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_28sdp"
             app:cardBackgroundColor="@color/completeCardBackground"
             app:strokeColor="@color/completeCardCorner"
-            app:cardCornerRadius="5dp"
+            app:cardCornerRadius="4dp"
             app:strokeWidth="1dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <Space
-                    android:layout_width="@dimen/_5sdp"
+                    android:layout_width="@dimen/_2sdp"
                     android:layout_height="match_parent"/>
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:background="@drawable/ic_comp_time_bg"
+                    android:gravity="center"
+                    android:textColor="@color/white"
                     android:id="@+id/tvPlannedStartTime"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_24sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/check_in_time"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_8ssp"
-                     />
-
-                <Space
-                    android:layout_width="@dimen/_10sdp"
-                    android:layout_height="match_parent"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/tvPlannedEndTime"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="@string/check_out_time"
+                    android:maxLines="2"
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     android:textSize="@dimen/_8ssp"
@@ -256,6 +244,27 @@
 
                 <Space
                     android:layout_width="@dimen/_5sdp"
+                    android:layout_height="match_parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:background="@drawable/ic_comp_time_bg"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/tvPlannedEndTime"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_24sdp"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/check_out_time"
+                    android:maxLines="2"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_8ssp"
+                     />
+
+                <Space
+                    android:layout_width="@dimen/_2sdp"
                     android:layout_height="match_parent"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>

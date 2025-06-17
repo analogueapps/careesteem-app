@@ -47,7 +47,7 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
                 android:textStyle="normal"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_8ssp"
                 android:letterSpacing="0" />
 
             <!-- Client Phone -->
@@ -59,7 +59,7 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
                 android:textStyle="normal"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_8ssp"
                 android:letterSpacing="0" />
 
             <!-- Client Address -->
@@ -71,7 +71,7 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
                 android:textStyle="normal"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_8ssp"
                 android:letterSpacing="0" />
 
             <!-- Divider -->
@@ -96,7 +96,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Risk Level"
                     android:textStyle="normal"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_8ssp"
                     android:letterSpacing="0"
                     android:lines="1"
                     tools:ignore="HardcodedText"
@@ -108,7 +108,7 @@
                     app:cardCornerRadius="@dimen/_10sdp"
                     android:id="@+id/customProgressBar"
                     android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_10sdp"
+                    android:layout_height="@dimen/_7sdp"
                     app:cardBackgroundColor="#E4E4E4"
                     android:background="@drawable/ic_risk_level_bg">
 
@@ -153,7 +153,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="end"
                     android:textStyle="normal"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_8ssp"
                     android:letterSpacing="0"
                     android:lines="1"
                      />

@@ -22,7 +22,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Medicine Name"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,7 +33,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,7 +43,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvMedicineName"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -61,7 +61,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Dose"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -72,7 +72,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -82,7 +82,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvDose"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -100,7 +100,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Route"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -111,7 +111,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -121,7 +121,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvRoute"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -139,7 +139,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Time/Frequency"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -150,7 +150,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -160,7 +160,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvTimeFrequency"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -178,7 +178,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Self-Administration"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -189,7 +189,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -199,7 +199,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSelfAdministration"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -217,7 +217,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Self-administer fully or partially?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -228,7 +228,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -238,7 +238,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSelfAdministerFully"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -261,7 +261,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Medicines they are taking and what they are for?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -272,7 +272,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -282,7 +282,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvMedicines"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -304,7 +304,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="What time to take the medicines?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -315,7 +315,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -325,7 +325,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvTimeToTakeMedicines"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -347,7 +347,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="What dosage to take?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -358,7 +358,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -368,7 +368,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvDosageToTake"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -390,7 +390,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="How to take the medicines?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -401,7 +401,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -411,7 +411,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvTakeMedicines"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -433,7 +433,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="About any special instructions?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -444,7 +444,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -454,7 +454,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSpecialInstructions"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -476,7 +476,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="About common, possible side effects?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -487,7 +487,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -497,7 +497,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSideEffects"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -519,7 +519,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="What to do if they miss a dose?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -530,7 +530,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -540,7 +540,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvMissedDose"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -562,7 +562,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Any difficulty in reading the label on the medicines?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -573,7 +573,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -583,7 +583,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvDifficultyReadingLabel"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -605,7 +605,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Open their medication (blister packs, bottles)?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -616,7 +616,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -626,7 +626,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvOpensMedication"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -648,7 +648,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="About safe storage?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -659,7 +659,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -669,7 +669,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSafeStorage"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -691,7 +691,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Agree to notify?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -702,7 +702,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -712,7 +712,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvAgreesToNotify"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -734,7 +734,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Responsible for reorder?"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -745,7 +745,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -755,7 +755,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvResponsibleForReorder"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -785,7 +785,7 @@
         android:fontFamily="@font/robotoslab_regular"
         android:text="Signatures of All Involved Admins in the Assessment"
         android:textStyle="normal"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_9ssp"
 
         tools:ignore="HardcodedText" />
 
@@ -801,7 +801,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Name"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -811,7 +811,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Date"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -830,7 +830,7 @@
             android:text="Name"
             android:id="@+id/tvName1"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -842,7 +842,7 @@
             android:text="Date"
             android:id="@+id/tvDate1"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -861,7 +861,7 @@
             android:text="Name"
             android:id="@+id/tvName2"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -873,7 +873,7 @@
             android:text="Date"
             android:id="@+id/tvDate2"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 

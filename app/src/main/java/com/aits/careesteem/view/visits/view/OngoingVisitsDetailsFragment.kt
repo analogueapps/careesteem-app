@@ -124,7 +124,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
             if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
                 btnCheckout.text = "Completed"
                 btnCheckout.isEnabled = false
-                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
+                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner)
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
 
                 topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner))
@@ -156,7 +156,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
             if(isNotCompleted(data)) {
                 btnCheckout.text = "Not Completed"
                 btnCheckout.isEnabled = false
-                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
+                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner)
                 tvPlanTime.text = "00:00"
                 changes = false
 
@@ -204,7 +204,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
                     text?.setBackgroundResource(R.drawable.bg_tab_unselected)
                     text?.setTextColor(Color.parseColor("#607D8B"))
-                    arrow?.visibility = View.GONE
+                    arrow?.visibility = View.INVISIBLE
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -229,7 +229,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
         } else {
             text.setBackgroundResource(R.drawable.bg_tab_unselected)
             text.setTextColor(Color.parseColor("#607D8B"))
-            arrow.visibility = View.GONE
+            arrow.visibility = View.INVISIBLE
         }
 
         return view

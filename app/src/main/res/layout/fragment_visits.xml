@@ -53,7 +53,7 @@
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/arrowLeft"
                         android:src="@drawable/ic_arrow_left"
-                        android:background="@drawable/ic_circle"
+                        android:backgroundTint="@android:color/transparent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -61,9 +61,9 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center"
-                        android:background="@drawable/ic_edittext_bg"
+                        android:background="@drawable/ic_home_calender_bg"
                         android:layout_width="@dimen/_120sdp"
-                        android:layout_height="@dimen/_35sdp">
+                        android:layout_height="@dimen/_25sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/dateRangeText"
@@ -72,7 +72,7 @@
                             android:text="@string/app_name"
                             android:fontFamily="@font/robotoslab_regular"
                             android:textStyle="normal"
-                            android:textSize="@dimen/_10ssp"
+                            android:textSize="@dimen/_8ssp"
                             android:letterSpacing="0" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -80,7 +80,7 @@
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/arrowRight"
                         android:src="@drawable/ic_arrow_right"
-                        android:background="@drawable/ic_circle"
+                        android:backgroundTint="@android:color/transparent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -115,18 +115,20 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:padding="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10ssp"
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/notCompleteCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:layout_height="@dimen/_30sdp"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+                        android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/not_completed_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textStyle="normal"
-                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_10ssp"
                         android:singleLine="true"
                          />
                     <androidx.recyclerview.widget.RecyclerView
@@ -143,18 +145,20 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:padding="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10ssp"
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/completeCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:layout_height="@dimen/_30sdp"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+                        android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/completed_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textStyle="normal"
-                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_10ssp"
                         android:singleLine="true"
                          />
                     <androidx.recyclerview.widget.RecyclerView
@@ -171,18 +175,20 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:padding="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10ssp"
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/ongoingCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                        android:layout_height="@dimen/_30sdp"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+                        android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/ongoing_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textStyle="normal"
-                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_10ssp"
                         android:singleLine="true"
                          />
                     <androidx.recyclerview.widget.RecyclerView
@@ -195,6 +201,7 @@
                         android:layout_height="wrap_content"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvUpcomingVisits"
+                        android:visibility="gone"
                         android:tag="Invisible"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
@@ -216,6 +223,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvUpcomingVisits"
                         android:visibility="gone"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:nestedScrollingEnabled="false"

@@ -103,7 +103,8 @@ class CompleteVisitsAdapter(
                     tvPlannedEndTime.text = "Check out time\n${AppConstant.checkNull(data.actualEndTime[0])}"
 
                     val userList = data.userName.mapIndexed { index, name ->
-                        User(name, data.profile_photo_name.getOrElse(index) { "" })
+                        val photoUrl = data.profile_photo_name.getOrNull(index).orEmpty()
+                        User(name, photoUrl)
                     }
                     val customAdapter = UserAdapter(context, userList)
                     recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -166,13 +167,13 @@ class UserAdapter(
 //                    holder.imgEven.setImageBitmap(it)
 //                }
                     Glide.with(context)
-                        .load(item.photoUrl)
+                        .load(AppConstant.checkNull(item.photoUrl))
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
                         .into(holder.imgEven)
                 } else {
-                    val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                    val initials = GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
                     val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                     holder.imgEven.setImageBitmap(initialsBitmap)
                 }
@@ -193,13 +194,13 @@ class UserAdapter(
 //                    holder.imgOdd.setImageBitmap(it)
 //                }
                     Glide.with(context)
-                        .load(item.photoUrl)
+                        .load(AppConstant.checkNull(item.photoUrl))
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
                         .into(holder.imgOdd)
                 } else {
-                    val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                    val initials = GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
                     val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                     holder.imgOdd.setImageBitmap(initialsBitmap)
                 }

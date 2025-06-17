@@ -21,7 +21,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Equipment"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -32,7 +32,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -42,7 +42,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvEquipment"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -59,7 +59,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Equipment Description"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -70,7 +70,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -80,7 +80,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvEquipmentDescription"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -97,7 +97,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Provided by"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -108,7 +108,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -118,7 +118,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvProvidedBy"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -135,7 +135,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Purpose"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -146,7 +146,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -156,7 +156,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvPurpose"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -173,7 +173,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Date of next test"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -184,7 +184,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -194,7 +194,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvNextTest"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -211,7 +211,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Test completed on"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -222,7 +222,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text=":"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -232,7 +232,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvTestComplete"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -250,7 +250,7 @@
         android:fontFamily="@font/robotoslab_regular"
         android:text="Signatures of All Involved Admins in the Assessment"
         android:textStyle="normal"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_9ssp"
 
         tools:ignore="HardcodedText" />
 
@@ -266,7 +266,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Name"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
@@ -276,7 +276,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Date"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -295,7 +295,7 @@
             android:text="Name"
             android:id="@+id/tvName1"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -307,7 +307,7 @@
             android:text="Date"
             android:id="@+id/tvDate1"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -326,7 +326,7 @@
             android:text="Name"
             android:id="@+id/tvName2"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -338,7 +338,7 @@
             android:text="Date"
             android:id="@+id/tvDate2"
             android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_9ssp"
 
             tools:ignore="HardcodedText" />
 

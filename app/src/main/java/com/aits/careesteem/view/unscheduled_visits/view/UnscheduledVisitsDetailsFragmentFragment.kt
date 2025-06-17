@@ -190,7 +190,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 
                     text?.setBackgroundResource(R.drawable.bg_tab_unselected)
                     text?.setTextColor(Color.parseColor("#607D8B"))
-                    arrow?.visibility = View.GONE
+                    arrow?.visibility = View.INVISIBLE
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -215,7 +215,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         } else {
             text.setBackgroundResource(R.drawable.bg_tab_unselected)
             text.setTextColor(Color.parseColor("#607D8B"))
-            arrow.visibility = View.GONE
+            arrow.visibility = View.INVISIBLE
         }
 
         return view

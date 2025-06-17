@@ -10,7 +10,10 @@
         android:layout_margin="@dimen/_15sdp"
         android:id="@+id/mainCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="4dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:orientation="vertical"
@@ -36,6 +39,8 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
@@ -72,6 +77,8 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
@@ -108,6 +115,8 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"

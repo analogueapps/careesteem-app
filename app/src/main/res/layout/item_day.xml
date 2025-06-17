@@ -18,7 +18,8 @@
         android:id="@+id/dayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Da"
+        android:text="Dasds"
+        android:maxLength="2"
         android:singleLine="true"
         android:textSize="@dimen/_8ssp"
         android:fontFamily="@font/robotoslab_regular"
@@ -30,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="15"
+        android:maxLength="2"
         android:textSize="@dimen/_7ssp"
         android:textColor="@android:color/black"
         android:fontFamily="@font/robotoslab_regular" />

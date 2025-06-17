@@ -25,7 +25,7 @@
         android:textColor="#727272"
         android:background="@drawable/bg_travel_time_indicator"
         android:padding="6dp"
-        android:textSize="14sp"
+        android:textSize="@dimen/_9ssp"
         tools:ignore="HardcodedText,UnusedAttribute" />
 
     <View

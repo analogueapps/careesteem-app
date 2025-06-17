@@ -46,12 +46,11 @@
                     <SearchView
                         android:theme="@style/AppSearchView"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/ic_search_bg"
+                        android:background="@drawable/ic_todo_search_bg"
                         android:id="@+id/searchView"
-                        android:layout_weight="1"
                         android:queryHint="Search"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_35sdp"
+                        android:layout_width="@dimen/_140sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:iconifiedByDefault="false"
                         android:queryBackground="@android:color/transparent"
                         tools:ignore="HardcodedText" />

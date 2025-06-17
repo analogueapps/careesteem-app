@@ -22,6 +22,7 @@
             android:clickable="true"
             android:focusable="true"
             android:orientation="horizontal"
+            android:gravity="center"
             android:padding="@dimen/_8sdp">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -31,13 +32,29 @@
                 android:tag="Invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center|left"
                 android:fontFamily="@font/robotoslab_regular"
-                android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                android:text="@string/care_plan"
+                android:textStyle="normal"
+                android:textSize="@dimen/_9ssp"
+                tools:ignore="RtlHardcoded" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginStart="@dimen/_5sdp"
+                android:id="@+id/alertTime"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:tag="Invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:fontFamily="@font/robotoslab_regular"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
                 app:drawableTint="@color/black"
                 android:text="@string/care_plan"
-                android:textStyle="bold"
-                android:textSize="@dimen/_11ssp"
-                 />
+                android:textStyle="normal"
+                android:textSize="@dimen/_9ssp"
+                tools:ignore="RtlHardcoded" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -59,7 +76,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Client name"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -75,26 +92,27 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
             android:textStyle="normal"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
             android:text="Visit time"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/visitTime"
             android:background="@drawable/ic_edittext_light_bg"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
@@ -103,7 +121,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
             android:textStyle="normal"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -116,7 +134,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Severity of Concern"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -132,7 +150,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
             android:textStyle="normal"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
@@ -145,13 +163,13 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="Concern Details"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
 
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/visitNotes"
-            android:background="@drawable/ic_todo_dialog_edittext_bg"
+            android:background="@drawable/ic_edittext_light_bg"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,6 +185,8 @@
             tools:ignore="HardcodedText,RtlHardcoded" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

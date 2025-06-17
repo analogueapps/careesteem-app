@@ -9,7 +9,7 @@
     style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
     android:text="@string/app_name"
-    android:textSize="12sp"
+    android:textSize="@dimen/_9ssp"
     android:fontFamily="@font/robotoslab_regular"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

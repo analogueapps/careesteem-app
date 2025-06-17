@@ -178,7 +178,10 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
 //        }
 
         dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
-        dialogBinding.btnUpdate.setOnClickListener {
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnSave.setOnClickListener {
             if(dialogBinding.visitNotes.text.toString().isEmpty()) {
                 AlertUtils.showToast(requireActivity(), "Please enter visit notes", ToastyType.WARNING)
                 return@setOnClickListener
@@ -217,7 +220,10 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         dialogBinding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.visitNotes)
 
         dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
-        dialogBinding.btnUpdate.setOnClickListener {
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnSave.setOnClickListener {
             // empty block for visit notes text
             if(dialogBinding.visitNotes.text.toString().isEmpty()) {
                 AlertUtils.showToast(requireActivity(), "Please enter visit notes", ToastyType.WARNING)

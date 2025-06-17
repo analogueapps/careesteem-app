@@ -47,7 +47,8 @@ class AlertsAdapter(
         fun bind(data: AlertListResponse.Data) = with(binding) {
             try {
                 val formattedDate = AppConstant.alertsListTimer(data.created_at)
-                alertName.text = "${AppConstant.checkNull(data.client_name)}\t\t$formattedDate"
+                alertName.text = AppConstant.checkNull(data.client_name)
+                alertTime.text = formattedDate
 
 //            // Toggle expand/collapse on click
 //            alertLayout.setOnClickListener {

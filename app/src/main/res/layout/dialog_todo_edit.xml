@@ -9,6 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg_bottom_sheet_rounded"
     android:orientation="vertical"
     tools:ignore="UselessParent">
 
@@ -17,14 +18,15 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_10sdp"
-            android:layout_margin="1dp"
+            android:paddingLeft="@dimen/_14sdp"
+            android:paddingRight="@dimen/_14sdp"
+            android:paddingBottom="@dimen/_14sdp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:padding="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_11sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -35,8 +37,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="To-Do's"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_11ssp"
                     android:letterSpacing="0"
                     android:gravity="center"
                     tools:ignore="HardcodedText" />
@@ -44,31 +46,29 @@
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/closeButton"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:tint="@color/colorPrimary"
-                    android:src="@drawable/ic_close"
+                    android:tint="#4C5664"
+                    android:src="@drawable/ic_close_icon"
+                    android:backgroundTint="@android:color/transparent"
                     android:layout_width="24dp"
                     android:layout_height="24dp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_marginTop="@dimen/_11sdp"
+                android:layout_marginBottom="@dimen/_11sdp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#CCCCCC"
-                android:layout_marginVertical="8dp"/>
+                android:background="#CCCCCC" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="To-Do Name"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
-
+                android:textSize="@dimen/_10ssp"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -76,26 +76,20 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:textStyle="normal"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
                  />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="Additional Notes"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
-
+                android:textSize="@dimen/_10ssp"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -103,26 +97,19 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:textStyle="normal"
-                android:textSize="@dimen/_10ssp"
-                 />
+                android:textSize="@dimen/_9ssp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
-                android:text="Todo Notes"
-                android:textColor="@color/colorPrimary"
+                android:text="Notes"
                 android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
 
                 tools:ignore="HardcodedText" />
 
@@ -133,19 +120,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:hint="Enter todo notes"
                 android:textStyle="normal"
                 android:gravity="left|top"
                 android:lines="10"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_9ssp"
 
                 tools:ignore="HardcodedText,RtlHardcoded" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -154,14 +139,14 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_btn_red_bg"
+                    android:background="@drawable/ic_cancel_btn_bg"
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:text="Not Completed"
                     android:textColor="@color/red"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_9ssp"
 
                     tools:ignore="HardcodedText" />
 
@@ -174,15 +159,14 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_btn_green_bg"
+                    android:background="@drawable/ic_save_btn_bg"
                     android:gravity="center"
                     android:textAllCaps="false"
                     android:text="Completed"
-                    android:textColor="#279989"
+                    android:textColor="@color/white"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/_10ssp"
-
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_9ssp"
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
