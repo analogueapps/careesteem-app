@@ -20,6 +20,7 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
@@ -44,8 +45,8 @@ class AddAlertsFragment : Fragment() {
 
     private val severityList = listOf("Low", "Medium", "High")
 
-    private var clientId: Int = -1
-    private var visitDetailsId: Int = -1
+    private var clientId: String = "-1"
+    private var visitDetailsId: String = "-1"
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -100,28 +101,28 @@ class AddAlertsFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            if (clientId == -1) {
-                AlertUtils.showToast(requireActivity(), "Please select client")
+            if (clientId == "-1") {
+                AlertUtils.showToast(requireActivity(), "Please select client", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
-            if (visitDetailsId == -1) {
-                AlertUtils.showToast(requireActivity(), "Please select visits")
+            if (visitDetailsId == "-1") {
+                AlertUtils.showToast(requireActivity(), "Please select visits", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
             if (binding.severityOfConcern.text.isNullOrEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please select severity of concerns")
+                AlertUtils.showToast(requireActivity(), "Please select severity of concerns", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
             if (binding.visitNotes.text.isNullOrEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter concern details")
+                AlertUtils.showToast(requireActivity(), "Please enter concern details", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
             if (binding.bmEnable.isChecked && fileList.isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please add body maps")
+                AlertUtils.showToast(requireActivity(), "Please add body maps", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
@@ -166,8 +167,8 @@ class AddAlertsFragment : Fragment() {
         }
 
         binding.visitName.setOnClickListener {
-            if (clientId == -1) {
-                AlertUtils.showToast(requireActivity(), "Please select a client")
+            if (clientId == "-1") {
+                AlertUtils.showToast(requireActivity(), "Please select a client", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
@@ -484,89 +485,37 @@ class AddAlertsFragment : Fragment() {
 
     private fun showBodyMapDialog(bodyPartType: String, bodyPartName: String, image: Drawable?) {
         val bitmap = (image as? BitmapDrawable)?.bitmap
-        bitmap?.let {
-            val dialog = BodyMapMarksDialog.newInstance(
-                bodyPartType = bodyPartType,
-                bodyPartName = bodyPartName,
-                bitmap = it // Pass the actual bitmap
-            )
-
-            dialog.setBodyMapDialogListener(object : BodyMapMarksDialog.BodyMapDialogListener {
-                override fun onBodyMapSaved(bodyPartType: String, bodyPartName: String, file: File) {
-                    // Handle the saved file here
-                    AlertUtils.showLog("BodyMap", "Saved file path: ${file.path}")
-                    file.let {
-                        fileList.add(FileModel(bodyPartType, bodyPartName, it.name, it.path))
-                        fileAdapter.notifyDataSetChanged()
-                    } ?: run {
-                        AlertUtils.showToast(requireActivity(), "Something went wrong")
-                    }
-                }
-            })
-
-            dialog.show(childFragmentManager, "BodyMapDialog")
-        }
-
-//        val dialog = BodyMapMarksDialog.newInstance(
-//            bodyPartType = bodyPartType,
-//            bodyPartName = bodyPartName,
-//            imageResId = imageResId
-//        )
+//        bitmap?.let {
+//            val dialog = BodyMapMarksDialog.newInstance(
+//                bodyPartType = bodyPartType,
+//                bodyPartName = bodyPartName,
+//                bitmap = it // Pass the actual bitmap
+//            )
 //
-//        dialog.setBodyMapDialogListener(object : BodyMapMarksDialog.BodyMapDialogListener {
-//            override fun onBodyMapSaved(bodyPartType: String, bodyPartName: String, file: File) {
-//                // Handle the saved file here
-//                AlertUtils.showLog("BodyMap", "Saved file path: ${file.path}")
-//                file.let {
-//                    fileList.add(FileModel(bodyPartType, bodyPartName, it.name, it.path))
-//                    fileAdapter.notifyDataSetChanged()
-//                } ?: run {
-//                    AlertUtils.showToast(requireActivity(), "Something went wrong")
+//            dialog.setBodyMapDialogListener(object : BodyMapMarksDialog.BodyMapDialogListener {
+//                override fun onBodyMapSaved(bodyPartType: String, bodyPartName: String, file: File) {
+//                    // Handle the saved file here
+//                    AlertUtils.showLog("BodyMap", "Saved file path: ${file.path}")
+//                    file.let {
+//                        fileList.add(FileModel(bodyPartType, bodyPartName, it.name, it.path))
+//                        fileAdapter.notifyDataSetChanged()
+//                    } ?: run {
+//                        AlertUtils.showToast(requireActivity(), "Something went wrong")
+//                    }
 //                }
-//            }
-//        })
+//            })
 //
-//        dialog.show(childFragmentManager, "BodyMapDialog")
-//        val dialog = Dialog(requireContext())
-//        val binding: DialogBodyMappingBinding =
-//            DialogBodyMappingBinding.inflate(layoutInflater)
-//
-//        dialog.setContentView(binding.root)
-//        dialog.setCancelable(AppConstant.TRUE)
-//
-//        // Add data
-//        binding.bodyMapView.setImageDrawable(image)
-//
-//        binding.btnUndo.setOnClickListener {
-//            binding.bodyMapView.undo()
+//            dialog.show(childFragmentManager, "BodyMapDialog")
 //        }
-//
-//        binding.btnRedo.setOnClickListener {
-//            binding.bodyMapView.redo()
-//        }
-//
-//        // Handle button clicks
-//        binding.btnSave.setOnClickListener {
-//            dialog.dismiss()
-//            val bitmap = binding.bodyMapView.getBitmap()
-//            val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
-//            Log.d("FilePath", "File saved at: ${file?.path}")
-//            file?.let {
-//                fileList.add(FileModel(bodyPartType, bodyPartName, it.name, it.path))
-//                fileAdapter.notifyDataSetChanged()
-//            } ?: run {
-//                AlertUtils.showToast(requireActivity(), "Something went wrong")
-//            }
-//        }
-//
-//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-//
-//        val window = dialog.window
-//        window?.setLayout(
-//            WindowManager.LayoutParams.MATCH_PARENT,
-//            WindowManager.LayoutParams.WRAP_CONTENT
-//        )
-//        dialog.show()
+        val dialog = BodyMapMarksDialog.newInstance(bodyPartType, bodyPartName, bitmap!!)
+        dialog.setBodyMapDialogListener(object : BodyMapMarksDialog.BodyMapDialogListener {
+            override fun onBodyMapSaved(bodyPartType: String, bodyPartName: String, file: File) {
+                fileList.add(FileModel(bodyPartType, bodyPartName, file.name, file.path))
+                fileAdapter.notifyDataSetChanged()
+            }
+        })
+        dialog.show(childFragmentManager, "BodyMapDialog")
+
     }
 
     private fun setupViewModel() {
@@ -610,10 +559,10 @@ class AddAlertsFragment : Fragment() {
 
                         // Match selected name to client object
                         val selectedClient = clients.find { it.clientName == selectedClientName }
-                        clientId = selectedClient?.clientId ?: -1
+                        clientId = selectedClient?.clientId ?: "-1"
 
                         // Reset previous selection
-                        visitDetailsId = -1
+                        visitDetailsId = "-1"
                         binding.visitName.text = ""
 
                         // Filter and display visits for the selected client
@@ -647,7 +596,7 @@ class AddAlertsFragment : Fragment() {
                             @SuppressLint("SetTextI18n")
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                                 binding.visitName.text = visitTimeOptions[position]
-                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: -1
+                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -695,7 +644,7 @@ class AddAlertsFragment : Fragment() {
                         }
                     }
             } else {
-                visitDetailsId = -1
+                visitDetailsId = "-1"
                 binding.visitName.text = ""
             }
         }

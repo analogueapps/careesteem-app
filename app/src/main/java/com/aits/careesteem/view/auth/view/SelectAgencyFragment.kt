@@ -99,7 +99,7 @@ class SelectAgencyFragment : Fragment(), SelectAgencyAdapter.OnItemItemClick {
         val dialog = Dialog(requireContext())
         val binding: DialogForceCheckBinding =
             DialogForceCheckBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 

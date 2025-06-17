@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
 import com.google.android.material.snackbar.Snackbar
+import es.dmoral.toasty.Toasty
 
 object AlertUtils {
     @SuppressLint("LongLogTag")
@@ -70,22 +71,30 @@ object AlertUtils {
             }
         }
         //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-        showToast(activity, message)
+        showToast(activity, message, ToastyType.ERROR)
     }
 
     @SuppressLint("NewApi", "InflateParams")
-    fun showToast(activity: Activity?, message: String?) {
-        //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-        activity?.findViewById<View>(android.R.id.content)?.let { rootView ->
-            val snackbar = Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG)
-            val snackbarView = snackbar.view
-            val textView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-
-            textView.maxLines = 5  // Allow multi-line text
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f) // Adjust font size if needed
-            textView.typeface = activity.resources?.getFont(R.font.lora_regular) // Set custom font
-
-            snackbar.show()
+    fun showToast(activity: Activity?, message: String?, type: ToastyType) {
+//        //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+//        activity?.findViewById<View>(android.R.id.content)?.let { rootView ->
+//            val snackbar = Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG)
+//            val snackbarView = snackbar.view
+//            val textView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+//
+//            textView.maxLines = 5  // Allow multi-line text
+//            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f) // Adjust font size if needed
+//            textView.typeface = activity.resources?.getFont(R.font.lora_regular) // Set custom font
+//
+//            snackbar.show()
+//        }
+        //Toasty.success(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+        when (type) {
+            ToastyType.SUCCESS -> Toasty.success(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.ERROR -> Toasty.error(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.INFO -> Toasty.info(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.WARNING -> Toasty.warning(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.NORMAL -> Toasty.normal(activity!!, message!!, Toast.LENGTH_SHORT).show()
         }
     }
 }

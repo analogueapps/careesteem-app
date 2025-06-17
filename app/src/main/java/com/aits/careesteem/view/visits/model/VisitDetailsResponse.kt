@@ -11,7 +11,7 @@ data class VisitDetailsResponse(
         val actualStartTime: List<String>,
         val chooseSessions: Any,
         val clientAddress: String,
-        val clientId: Int,
+        val clientId: String,
         val clientName: String,
         val latitude: Any,
         val longitude: Any,
@@ -25,11 +25,11 @@ data class VisitDetailsResponse(
         val sessionType: String,
         val totalPlannedTime: String,
         val uatId: Int,
-        val userId: String,
+        val userId: List<String>,
         val userName: List<String>,
         val usersRequired: Any,
         val visitDate: String,
-        val visitDetailsId: Int,
+        val visitDetailsId: String,
         val visitStatus: String,
         val visitType: String
     )

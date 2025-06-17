@@ -12,7 +12,7 @@ data class SendOtpUserLoginResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val id: Int,
+        val id: String,
         val prefix: String,
         val first_name: String,
         val middle_name: String,

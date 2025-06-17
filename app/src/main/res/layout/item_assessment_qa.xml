@@ -13,11 +13,11 @@
         android:id="@+id/qnsNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lora_regular"
+        android:fontFamily="@font/robotoslab_regular"
         android:text="No."
-        android:textFontWeight="400"
+        android:textStyle="normal"
         android:textSize="@dimen/_10ssp"
-        tools:targetApi="p"
+
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -30,21 +30,21 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/question"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/answer"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

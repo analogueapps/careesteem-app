@@ -12,8 +12,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgOdd"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:src="@mipmap/ic_launcher_round"
         android:layout_gravity="center"
         app:shapeAppearanceOverlay="@style/Circular" />
@@ -26,9 +26,9 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lora_regular"
+        android:fontFamily="@font/robotoslab_regular"
         android:text="@string/app_name"
-        android:textFontWeight="500"
-        android:textSize="@dimen/_10ssp"
-        tools:targetApi="p" />
+        android:textStyle="normal"
+        android:textSize="@dimen/_8ssp"
+         />
 </LinearLayout>

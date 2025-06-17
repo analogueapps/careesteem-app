@@ -35,8 +35,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
     lateinit var pinTwoProgress: View
     lateinit var pinThreeProgress: View
     lateinit var pinFourProgress: View
-    lateinit var pinFiveProgress: View
-    lateinit var pinSixProgress: View
+    //lateinit var pinFiveProgress: View
+    //lateinit var pinSixProgress: View
     lateinit var numbersGridView: RecyclerView
     lateinit var forgotPasscode: TextView
 
@@ -52,8 +52,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         if (newValue.length >= 2) pinTwoProgress.background = drawable
         if (newValue.length >= 3) pinThreeProgress.background = drawable
         if (newValue.length >= 4) pinFourProgress.background = drawable
-        if (newValue.length >= 5) pinFiveProgress.background = drawable
-        if (newValue.length >= 6) pinSixProgress.background = drawable
+//        if (newValue.length >= 5) pinFiveProgress.background = drawable
+//        if (newValue.length >= 6) pinSixProgress.background = drawable
     }
 
     private var isFingerVisible = false
@@ -72,8 +72,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         setDotProgressLayoutParams(pinTwoProgress)
         setDotProgressLayoutParams(pinThreeProgress)
         setDotProgressLayoutParams(pinFourProgress)
-        setDotProgressLayoutParams(pinFiveProgress)
-        setDotProgressLayoutParams(pinSixProgress)
+//        setDotProgressLayoutParams(pinFiveProgress)
+//        setDotProgressLayoutParams(pinSixProgress)
 
         numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
     }
@@ -83,8 +83,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         pinTwoProgress = findViewById<View>(R.id.pinTwoProgress)
         pinThreeProgress = findViewById<View>(R.id.pinThreeProgress)
         pinFourProgress = findViewById<View>(R.id.pinFourProgress)
-        pinFiveProgress = findViewById<View>(R.id.pinFiveProgress)
-        pinSixProgress = findViewById<View>(R.id.pinSixProgress)
+//        pinFiveProgress = findViewById<View>(R.id.pinFiveProgress)
+//        pinSixProgress = findViewById<View>(R.id.pinSixProgress)
         numbersGridView = findViewById<RecyclerView>(R.id.numbersGridView)
         forgotPasscode = findViewById<TextView>(R.id.forgotPasscode)
 
@@ -114,8 +114,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         pinTwoProgress.background = drawable
         pinThreeProgress.background = drawable
         pinFourProgress.background = drawable
-        pinFiveProgress.background = drawable
-        pinSixProgress.background = drawable
+//        pinFiveProgress.background = drawable
+//        pinSixProgress.background = drawable
     }
 
     fun deleteLastPin() {
@@ -136,10 +136,10 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
     }
 
     private fun appendNumber(number: Int) {
-        if (currentPinCode.length < 5) {
+        if (currentPinCode.length < 3) {
             currentPinCode = currentPinCode.plus(number)
             setOnPinKeyClickListener(number.toString())
-        } else if (currentPinCode.length == 5) {
+        } else if (currentPinCode.length == 3) {
             currentPinCode = currentPinCode.plus(number)
             setOnCompletedListener(currentPinCode)
         }
@@ -187,18 +187,18 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
                 val fontSizePass =
                     attributes.getDimensionPixelSize(R.styleable.PinView_numbersTextSize, 70)
 
-                deleteImageView.layoutParams.width = fontSize
-                deleteImageView.layoutParams.height = fontSize
+//                deleteImageView.layoutParams.width = fontSize
+//                deleteImageView.layoutParams.height = fontSize
 
 //                fingerImageView.layoutParams.width = fontSizePass
 //                fingerImageView.layoutParams.height = fontSizePass
 
-                deleteImageView.setColorFilter(
-                    attributes.getColor(
-                        R.styleable.PinView_deleteButtonColor,
-                        Color.BLACK
-                    )
-                )
+//                deleteImageView.setColorFilter(
+//                    attributes.getColor(
+//                        R.styleable.PinView_deleteButtonColor,
+//                        Color.BLACK
+//                    )
+//                )
             }
 
             fun bind(viewHolder: ViewHolder, position: Int) {
@@ -246,11 +246,22 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
                         }
                     }
 
-                    position == 11 -> viewHolder.apply {
-                        numberTextView.text = "C"
-                        itemView.setOnClickListener {
-                            clearPin()
-                            setOnPinKeyClickListener("clear")
+//                    position == 11 -> viewHolder.apply {
+//                        numberTextView.text = "C"
+//                        itemView.setOnClickListener {
+//                            clearPin()
+//                            setOnPinKeyClickListener("clear")
+//                        }
+//                    }
+
+                    position == 11 -> {
+                        viewHolder.apply {
+                            numberTextView.visibility = View.GONE
+                            deleteImageView.visibility = View.VISIBLE
+                            itemView.setOnClickListener {
+                                deleteLastPin()
+                                setOnPinKeyClickListener("delete")
+                            }
                         }
                     }
                 }

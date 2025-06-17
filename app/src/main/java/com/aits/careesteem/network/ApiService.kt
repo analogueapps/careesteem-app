@@ -15,6 +15,7 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
 import com.aits.careesteem.view.notification.model.ClearNotificationRequest
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
@@ -49,13 +50,14 @@ interface ApiService {
     @POST("send-otp-user-login")
     suspend fun sendOtpUserLogin(
         @Field("contact_number") contactNumber: String,
-        @Field("telephone_codes") telephoneCodes: Int,
+        @Field("telephone_codes") telephoneCodes: String,
     ): Response<SendOtpUserLoginResponse>
 
     @FormUrlEncoded
     @POST("verify-otp")
     suspend fun verifyOtp(
         @Field("contact_number") contactNumber: String,
+        @Field("country_code") countryCode: String,
         @Field("otp") otp: Int,
         @Field("hash_token") hashToken: String,
         @Field("fcm_token") fcmToken: String,
@@ -72,9 +74,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("select-dbname")
     suspend fun selectDbName(
-        @Field("id") id: Int,
+        @Field("agency_id") agencyId: String,
         @Field("contact_number") contactNumber: String,
-        @Field("db_name") dbName: String
+        @Field("user_id") userId: String
     ): Response<CreateHashToken>
 
     @FormUrlEncoded
@@ -83,7 +85,7 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("contact_number") contactNumber: String,
         @Field("passcode") passcode: Int,
-    ): Response<OtpVerifyResponse>
+    ): Response<JsonObject>
 
     @FormUrlEncoded
     @POST("forgot-passcode")
@@ -102,17 +104,17 @@ interface ApiService {
         @Field("passcode") passcode: Int,
     ): Response<OtpVerifyResponse>
 
-    @GET("getVisitList/{id}")
+    @GET("getVisitList/{userId}")
     suspend fun getVisitList(
-        @Path("id") id: Int,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String,
         @Query("visit_date") visitDate: String
     ): Response<VisitListResponse>
 
     @GET("get-visit-details/{visitDetailsId}/{userId}")
     suspend fun getVisitDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
-        @Path("userId") userId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String
     ): Response<VisitDetailsResponse>
 
@@ -123,28 +125,34 @@ interface ApiService {
 
     @GET("get-client-details/{clientId}")
     suspend fun getClientDetails(
-        @Path("clientId") clientId: Int,
+        @Path("clientId") clientId: String,
         @Query("hash_token") hashToken: String,
     ): Response<ClientDetailsResponse>
 
     @GET("get-client-careplan-ass/{clientId}")
     suspend fun getClientCarePlanAss(
-        @Path("clientId") clientId: Int,
+        @Path("clientId") clientId: String,
         @Query("hash_token") hashToken: String,
     ): Response<ClientCarePlanAssessment>
 
     @GET("get-client-careplan-risk-ass")
     suspend fun getClientCarePlanRiskAss(
         @Query("hash_token") hashToken: String,
-        @Query("client_id") clientId: Int
+        @Query("client_id") clientId: String
     ): Response<CarePlanRiskAssList>
+
+    @GET("get-uploaded-documents")
+    suspend fun getUploadedDocuments(
+        @Query("hash_token") hashToken: String,
+        @Query("client_id") clientId: String
+    ): Response<UploadedDocumentsResponse>
 
     @FormUrlEncoded
     @POST("addUnscheduledVisits")
     suspend fun addUnscheduledVisits(
         @Query("hash_token") hashToken: String,
         @Field("user_id") userId: String,
-        @Field("client_id") clientId: Int,
+        @Field("client_id") clientId: String,
         @Field("visit_date") visitDate: String,
         @Field("actual_start_time") actualStartTime: String,
         @Field("created_at") createdAt: String,
@@ -152,14 +160,14 @@ interface ApiService {
 
     @GET("gettododetails/{visitDetailsId}")
     suspend fun getToDoList(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<TodoListResponse>
 
     @FormUrlEncoded
     @PUT("updatetododetails/{todoId}")
     suspend fun updateTodoDetails(
-        @Path("todoId") todoId: Int,
+        @Path("todoId") todoId: String,
         @Query("hash_token") hashToken: String,
         @Field("carer_notes") carerNotes: String,
         @Field("todo_outcome") todoOutcome: Int,
@@ -167,7 +175,7 @@ interface ApiService {
 
     @GET("getUnscheduledTodoDetails/{visitDetailsId}")
     suspend fun getUnscheduledTodoDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<UvTodoListResponse>
 
@@ -175,8 +183,8 @@ interface ApiService {
     @POST("addUnscheduledTodoDetails")
     suspend fun addUnscheduledTodoDetails(
         @Query("hash_token") hashToken: String,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("todo_user_id") todoUserId: Int,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("todo_user_id") todoUserId: String,
         @Field("todo_created_at") todoCreatedAt: String,
         @Field("todo_notes") todoNotes: String,
     ): Response<JsonObject>
@@ -184,16 +192,16 @@ interface ApiService {
     @FormUrlEncoded
     @PUT("updateUnscheduledTodoDetails/{todoId}")
     suspend fun updateUnscheduledTodoDetails(
-        @Path("todoId") todoId: Int,
+        @Path("todoId") todoId: String,
         @Query("hash_token") hashToken: String,
         @Field("todo_notes") todoNotes: String,
-        @Field("todo_user_id") todoUserId: Int,
+        @Field("todo_user_id") todoUserId: String,
         @Field("todo_updated_at") todoUpdatedAt: String,
     ): Response<JsonObject>
 
     @GET("getUnscheduledMedicationDetails/{visitDetailsId}")
     suspend fun getUnscheduledMedicationDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<UvMedicationListResponse>
 
@@ -201,8 +209,8 @@ interface ApiService {
     @POST("addUnscheduledMedicationDetails")
     suspend fun addUnscheduledMedicationDetails(
         @Query("hash_token") hashToken: String,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("medication_user_id") medicationUserId: Int,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("medication_user_id") medicationUserId: String,
         @Field("medication_created_at") medicationCreatedAt: String,
         @Field("medication_notes") medicationNotes: String,
     ): Response<JsonObject>
@@ -210,16 +218,16 @@ interface ApiService {
     @FormUrlEncoded
     @PUT("updateUnscheduledMedicationDetails/{medicationId}")
     suspend fun updateUnscheduledMedicationDetails(
-        @Path("medicationId") medicationId: Int,
+        @Path("medicationId") medicationId: String,
         @Query("hash_token") hashToken: String,
         @Field("medication_notes") medicationNotes: String,
-        @Field("medication_user_id") medicationUserId: Int,
+        @Field("medication_user_id") medicationUserId: String,
         @Field("medication_updated_at") medicationUpdatedAt: String,
     ): Response<JsonObject>
 
     @GET("getUnscheduledVisitNotesDetails/{visitDetailsId}")
     suspend fun getUnscheduledVisitNotesDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<UvVisitNotesListResponse>
 
@@ -227,8 +235,8 @@ interface ApiService {
     @POST("addUnscheduledVisitNotesDetails")
     suspend fun addUnscheduledVisitNotesDetails(
         @Query("hash_token") hashToken: String,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("visit_user_id") visitUserId: Int,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("visit_user_id") visitUserId: String,
         @Field("visit_created_at") visitCreatedAt: String,
         @Field("visit_notes") visitNotes: String,
     ): Response<JsonObject>
@@ -236,16 +244,16 @@ interface ApiService {
     @FormUrlEncoded
     @PUT("updateUnscheduledVisitNotesDetails/{visitNotesId}")
     suspend fun updateUnscheduledVisitNotesDetails(
-        @Path("visitNotesId") visitNotesId: Int,
+        @Path("visitNotesId") visitNotesId: String,
         @Query("hash_token") hashToken: String,
         @Field("visit_notes") visitNotes: String,
-        @Field("visit_user_id") visitUserId: Int,
+        @Field("visit_user_id") visitUserId: String,
         @Field("visit_updated_at") visitUpdatedAt: String,
     ): Response<JsonObject>
 
     @GET("getclientvisitnotesdetails/{visitDetailsId}")
     suspend fun getClientVisitNotesDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<ClientVisitNotesDetails>
 
@@ -255,33 +263,33 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("visit_details_id") visitDetailsId: String,
         @Field("visit_notes") visitNotes: String,
-        @Field("createdby_userid") createdByUserid: Int,
-        @Field("updatedby_userid") updatedByUserid: Int,
+        @Field("createdby_userid") createdByUserid: String,
+        @Field("updatedby_userid") updatedByUserid: String,
         @Field("created_at") createdAt: String,
     ): Response<JsonObject>
 
     @FormUrlEncoded
     @PUT("updatevisitnotesdetails/{visitNotesId}")
     suspend fun updateVisitNotesDetail(
-        @Path("visitNotesId") visitNotesId: Int,
+        @Path("visitNotesId") visitNotesId: String,
         @Query("hash_token") hashToken: String,
         @Field("visit_details_id") visitDetailsId: String,
         @Field("visit_notes") visitNotes: String,
-        @Field("createdby_userid") createdByUserid: Int,
-        @Field("updatedby_userid") updatedByUserid: Int,
+        @Field("createdby_userid") createdByUserid: String,
+        @Field("updatedby_userid") updatedByUserid: String,
         @Field("updated_at") updatedAt: String,
     ): Response<JsonObject>
 
     @GET("get-medication-details/{visitDetailsId}")
     suspend fun getMedicationDetails(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
     ): Response<MedicationDetailsListResponse>
 
     @FormUrlEncoded
     @PUT("medication-scheduled/{scheduledDetailsId}")
     suspend fun medicationScheduledDetails(
-        @Path("scheduledDetailsId") scheduledDetailsId: Int,
+        @Path("scheduledDetailsId") scheduledDetailsId: String,
         @Query("hash_token") hashToken: String,
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
@@ -291,7 +299,7 @@ interface ApiService {
     @FormUrlEncoded
     @PUT("medication-blister-pack/{blisterPackDetailsId}")
     suspend fun medicationBpDetails(
-        @Path("blisterPackDetailsId") blisterPackDetailsId: Int,
+        @Path("blisterPackDetailsId") blisterPackDetailsId: String,
         @Query("hash_token") hashToken: String,
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
@@ -302,16 +310,16 @@ interface ApiService {
     @POST("medication-prn-details")
     suspend fun medicationPrnDetails(
         @Query("hash_token") hashToken: String,
-        @Field("client_id") clientId: Int,
-        @Field("medication_id") medicationId: Int,
-        @Field("prn_id") prnId: Int,
+        @Field("client_id") clientId: String,
+        @Field("medication_id") medicationId: String,
+        @Field("prn_id") prnId: String,
         @Field("dose_per") doesPer: Int,
         @Field("doses") doses: Int,
         @Field("time_frame") timeFrame: String,
         @Field("prn_offered") prnOffered: String,
         @Field("prn_be_given") prnBeGiven: String,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("user_id") userId: Int,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("user_id") userId: String,
         @Field("medication_time") medicationTime: String,
         @Field("created_at") createdAt: String,
         @Field("carer_notes") carerNotes: String,
@@ -320,7 +328,7 @@ interface ApiService {
 
     @GET("get-all-users/{userId}")
     suspend fun getUserDetailsById(
-        @Path("userId") userId: Int,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String,
     ): Response<UserDetailsResponse>
 
@@ -328,9 +336,9 @@ interface ApiService {
     @POST("add-Visit-Checkin")
     suspend fun addVisitCheckIn(
         @Query("hash_token") hashToken: String,
-        @Field("client_id") clientId: Int,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("user_id") userId: Int,
+        @Field("client_id") clientId: String,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("user_id") userId: String,
         @Field("status") status: String,
         @Field("actual_start_time") actualStartTime: String,
         @Field("created_at") createdAt: String,
@@ -338,15 +346,15 @@ interface ApiService {
 
     @GET("get-todo-essential-details/{visitDetailsId}/")
     suspend fun checkOutEligible(
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String
     ): Response<JsonObject>
 
     @FormUrlEncoded
     @PUT("update-visit-checkout/{userId}/{visitDetailsId}/")
     suspend fun updateVisitCheckout(
-        @Path("userId") userId: Int,
-        @Path("visitDetailsId") visitDetailsId: Int,
+        @Path("userId") userId: String,
+        @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String,
         @Field("actual_end_time") actualEndTime: String,
         @Field("status") status: String,
@@ -357,10 +365,10 @@ interface ApiService {
     @POST("add-Alert-Check-In-Out")
     suspend fun automaticAlerts(
         @Query("hash_token") hashToken: String,
-        @Field("uat_id") uatId: Int,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("client_id") clientId: Int,
-        @Field("user_id") userId: Int,
+        @Field("uat_id") uatId: String,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("client_id") clientId: String,
+        @Field("user_id") userId: String,
         @Field("alert_type") alertType: String,
         @Field("alert_status") alertStatus: String,
         @Field("created_at") createdAt: String,
@@ -370,9 +378,9 @@ interface ApiService {
     @POST("add-Todo-Alert-Details")
     suspend fun automaticTodoAlerts(
         @Query("hash_token") hashToken: String,
-        @Field("todo_details_id") todoDetailsId: Int,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("client_id") clientId: Int,
+        @Field("todo_details_id") todoDetailsId: String,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("client_id") clientId: String,
         @Field("alert_type") alertType: String,
         @Field("alert_status") alertStatus: String,
         @Field("created_at") createdAt: String,
@@ -384,8 +392,8 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("scheduled_id") scheduledId: Any,
         @Field("blister_pack_id") blisterPackId: Any,
-        @Field("visit_details_id") visitDetailsId: Int,
-        @Field("client_id") clientId: Int,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("client_id") clientId: String,
         @Field("alert_type") alertType: String,
         @Field("alert_status") alertStatus: String,
         @Field("created_at") createdAt: String,
@@ -394,14 +402,14 @@ interface ApiService {
     @FormUrlEncoded
     @POST("verify-qrcode/{clientId}")
     suspend fun verifyQrCode(
-        @Path("clientId") clientId: Int,
+        @Path("clientId") clientId: String,
         @Query("hash_token") hashToken: String,
         @Field("qrcode_token") qrcodeToken: String
     ): Response<JsonObject>
 
     @GET("getClientNameList/{userId}")
     suspend fun getClientsList(
-        @Path("userId") userId: Int,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String,
         @Query("visit_date") visitDate: String
     ): Response<ClientNameListResponse>
@@ -425,14 +433,14 @@ interface ApiService {
 
     @GET("alert-get-list/{userId}")
     suspend fun getAlertsList(
-        @Path("userId") userId: Int,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String,
     ): Response<AlertListResponse>
 
 
     @GET("get-all-notifications/{userId}")
     suspend fun getNotificationList(
-        @Path("userId") userId: Int,
+        @Path("userId") userId: String,
         @Query("hash_token") hashToken: String,
     ): Response<NotificationListResponse>
 

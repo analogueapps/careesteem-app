@@ -12,6 +12,7 @@ import android.content.SharedPreferences
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.view.AuthActivity
 import org.json.JSONException
 import org.json.JSONObject
@@ -35,7 +36,7 @@ class ErrorHandler @Inject constructor(
         val jsonObject = JSONObject(errorBody!!)
         val displayMessage = jsonObject.optString("message").takeIf { it.isNotEmpty() }
             ?: jsonObject.optString("error")
-        AlertUtils.showToast(activity, displayMessage)
+        AlertUtils.showToast(activity, displayMessage, ToastyType.ERROR)
         val fcmToken = sharedPreferences.getString(SharedPrefConstant.FCM_TOKEN, null)
         editor.clear()
         fcmToken?.let {
@@ -56,7 +57,7 @@ class ErrorHandler @Inject constructor(
                 val jsonObject = JSONObject(errorBody)
                 val displayMessage = jsonObject.optString("message").takeIf { it.isNotEmpty() }
                     ?: jsonObject.optString("error")
-                AlertUtils.showToast(activity, displayMessage)
+                AlertUtils.showToast(activity, displayMessage, ToastyType.ERROR)
             } catch (e: JSONException) {
                 // If parsing fails, assume it's an HTML error or unknown format
                 AlertUtils.responseToast(activity, response.code())

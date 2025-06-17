@@ -14,12 +14,12 @@ data class AddUvVisitResponse(
     data class UserActualTimeData(
         val actual_end_time: Any,
         val actual_start_time: String,
-        val client_id: Int,
+        val client_id: String,
         val created_at: String,
-        val id: Int,
+        val id: String,
         val status: Any,
         val updated_at: Any,
-        val user_id: Int,
-        val visit_details_id: Int
+        val user_id: String,
+        val visit_details_id: String
     )
 }

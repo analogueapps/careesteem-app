@@ -19,6 +19,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvMedicationListAdapter
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvVisitNotesListAdapter
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
@@ -26,6 +27,7 @@ import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListRespons
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvMedicationViewModel
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvVisitNotesViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -172,16 +174,15 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     @SuppressLint("SetTextI18n")
     override fun onItemItemClicked(data: UvVisitNotesListResponse.Data) {
         if(!isChanges) {
-            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
 
-        val dialog = Dialog(requireContext())
-        val binding: DialogVisitNotesBinding =
-            DialogVisitNotesBinding.inflate(layoutInflater)
-
+        val dialog = BottomSheetDialog(requireContext())
+        val binding = DialogVisitNotesBinding.inflate(layoutInflater)
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
-        dialog.setCancelable(AppConstant.FALSE)
+        dialog.setCancelable(AppConstant.TRUE)
 
         // add data
         binding.tvTopHeading.text = "Visit Notes"
@@ -195,7 +196,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
         }
         binding.btnUpdate.setOnClickListener {
             if(binding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter Visit notes")
+                AlertUtils.showToast(requireActivity(), "Please enter Visit notes", ToastyType.WARNING)
                 return@setOnClickListener
             }
             dialog.dismiss()
@@ -220,16 +221,15 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     @SuppressLint("SetTextI18n")
     private fun addNotes() {
         if(!isChanges) {
-            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
 
-        val dialog = Dialog(requireContext())
-        val binding: DialogVisitNotesBinding =
-            DialogVisitNotesBinding.inflate(layoutInflater)
-
+        val dialog = BottomSheetDialog(requireContext())
+        val binding = DialogVisitNotesBinding.inflate(layoutInflater)
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
-        dialog.setCancelable(AppConstant.FALSE)
+        dialog.setCancelable(AppConstant.TRUE)
 
         // add data
         binding.tvTopHeading.text = "Visit Notes"
@@ -242,7 +242,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
         }
         binding.btnUpdate.setOnClickListener {
             if(binding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter Visit notes")
+                AlertUtils.showToast(requireActivity(), "Please enter Visit notes", ToastyType.WARNING)
                 return@setOnClickListener
             }
             dialog.dismiss()

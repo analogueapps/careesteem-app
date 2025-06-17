@@ -33,21 +33,23 @@
                 android:id="@+id/tvClientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="500"
-                android:textSize="@dimen/_13ssp"
-                tools:targetApi="p" />
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/_10ssp"
+                 />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvClientAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="500"
-                android:textSize="@dimen/_9ssp"
-                tools:targetApi="p" />
+                android:singleLine="true"
+                android:textStyle="normal"
+                android:textSize="@dimen/_8ssp"
+                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -75,12 +77,12 @@
             android:backgroundTint="@color/ongoingCardInsideCount"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_30sdp"
-            android:fontFamily="@font/lora_bold"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="@string/app_name"
-            android:textFontWeight="500"
-            android:textSize="@dimen/_11ssp"
+            android:textStyle="normal"
+            android:textSize="@dimen/_8ssp"
             android:singleLine="true"
-            tools:targetApi="p" />
+             />
 
         <Space
             android:layout_width="@dimen/_10sdp"
@@ -94,12 +96,12 @@
             android:backgroundTint="@color/ongoingCardCorner"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="@string/check_out"
             android:textAllCaps="false"
-            android:textFontWeight="400"
-            android:textSize="@dimen/_10ssp"
-            tools:targetApi="p" />
+            android:textStyle="normal"
+            android:textSize="@dimen/_8ssp"
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

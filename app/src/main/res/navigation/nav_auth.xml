@@ -25,15 +25,18 @@
         android:name="com.aits.careesteem.view.auth.view.VerifyOtpFragment"
         android:label="fragment_verify_otp"
         tools:layout="@layout/fragment_verify_otp" >
-        <argument
-            android:name="response"
-            app:argType="string" />
         <action
             android:id="@+id/action_verifyOtpFragment_to_selectAgencyFragment"
             app:destination="@id/selectAgencyFragment" />
         <action
             android:id="@+id/action_verifyOtpFragment_to_setupPasscodeFragment"
             app:destination="@id/setupPasscodeFragment" />
+        <argument
+            android:name="mobileNo"
+            app:argType="string" />
+        <argument
+            android:name="countryId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/preloaderFragment"

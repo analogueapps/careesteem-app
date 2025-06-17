@@ -26,8 +26,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/clientImage"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_53sdp"
+            android:layout_height="@dimen/_53sdp"
             android:src="@mipmap/ic_launcher_round"
             android:layout_gravity="center"
             app:shapeAppearanceOverlay="@style/Circular" />
@@ -44,11 +44,11 @@
                 android:id="@+id/clientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_12ssp"
-                tools:targetApi="p" />
+                android:textStyle="normal"
+                android:textSize="@dimen/_11ssp"
+                android:letterSpacing="0" />
 
             <!-- Client Phone -->
             <androidx.appcompat.widget.AppCompatTextView
@@ -56,11 +56,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_12ssp"
-                tools:targetApi="p" />
+                android:textStyle="normal"
+                android:textSize="@dimen/_11ssp"
+                android:letterSpacing="0" />
 
             <!-- Client Address -->
             <androidx.appcompat.widget.AppCompatTextView
@@ -68,11 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_12ssp"
-                tools:targetApi="p" />
+                android:textStyle="normal"
+                android:textSize="@dimen/_11ssp"
+                android:letterSpacing="0" />
 
             <!-- Divider -->
             <View
@@ -93,13 +93,14 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Risk Level"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:letterSpacing="0"
                     android:lines="1"
                     tools:ignore="HardcodedText"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.cardview.widget.CardView
                     android:layout_marginStart="@dimen/_5sdp"
@@ -149,12 +150,13 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:gravity="end"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:letterSpacing="0"
                     android:lines="1"
-                    tools:targetApi="p" />
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

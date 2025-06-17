@@ -32,6 +32,7 @@
     <color name="notCompleteCardInsideButton">#D84141</color>
 
     <color name="dialogTextColor">#979797</color>
+    <color name="gray_button">#BDBDBD</color>
 
     <color name="red">#F44336</color>
     <color name="black">#FF000000</color>

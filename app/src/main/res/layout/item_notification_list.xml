@@ -43,22 +43,22 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
-                        android:textFontWeight="600"
+                        android:textStyle="bold"
                         android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                         />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/notificationDate"
                         android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
-                        android:textFontWeight="600"
+                        android:textStyle="bold"
                         android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -73,11 +73,11 @@
                         android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
-                        android:textFontWeight="400"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_11ssp"
-                        tools:targetApi="p" />
+                         />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:background="@android:color/transparent"

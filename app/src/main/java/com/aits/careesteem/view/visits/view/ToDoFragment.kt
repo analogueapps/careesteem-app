@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +16,12 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.visits.adapter.TodoListAdapter
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.ToDoViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -138,6 +141,18 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
                 showToDoList(list)
             }
         }
+
+        binding.searchView.queryHint = "Search"
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                todoAdapter.filter(newText ?: "")
+                return true
+            }
+        })
     }
 
     private fun showEmptyState() = with(binding) {
@@ -163,34 +178,32 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
 
     override fun onItemItemClicked(data: TodoListResponse.Data) {
         if (!allowChanges) {
-            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
         showEditTodoDialog(data)
     }
 
     private fun showEditTodoDialog(data: TodoListResponse.Data) {
-        val dialog = Dialog(requireContext())
+        val dialog = BottomSheetDialog(requireContext())
         val binding: DialogTodoEditBinding =
             DialogTodoEditBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
-        dialog.setCancelable(AppConstant.FALSE)
+        dialog.setCancelable(true) // Same as AppConstant.FALSE
 
-        // Set max height
-        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
-        binding.root.layoutParams = binding.root.layoutParams?.apply {
-            height = maxHeight
-        }
-
-
+//        // Set max height for the bottom sheet
+//        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
+//        binding.root.layoutParams = binding.root.layoutParams?.apply {
+//            height = maxHeight
+//        }
+        binding.closeButton.setOnClickListener { dialog.dismiss() }
+        // Setup views
         binding.apply {
-            headTodoName.text = data.todoName
             todoName.text = data.todoName
             additionalNotes.text = data.additionalNotes
             carerNotes.text = Editable.Factory.getInstance().newEditable(data.carerNotes)
 
-            closeButton.setOnClickListener { dialog.dismiss() }
             btnCompleted.setOnClickListener {
                 dialog.dismiss()
                 updateTodoStatus(data, 1, carerNotes.text.toString().trim())
@@ -201,14 +214,12 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
             }
         }
 
+        // Optional: make the background transparent
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        val window = dialog.window
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
+        // Show the dialog
         dialog.show()
+
     }
 
     private fun updateTodoStatus(data: TodoListResponse.Data, outcome: Int, notes: String) {

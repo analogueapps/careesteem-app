@@ -4,335 +4,443 @@
   ~ found in the LICENSE file.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/_25sdp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:ignore="UselessParent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/ic_dialog_bg"
-        android:backgroundTint="@color/colorPrimary"
-        android:orientation="vertical"
-        tools:ignore="UselessParent">
+        android:paddingBottom="@dimen/_10sdp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:padding="@dimen/_10sdp"
+            android:layout_margin="1dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/nhsMedicineName"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
-                android:textColor="@color/white"
-                android:text="@string/app_name"
-                android:textFontWeight="400"
-                android:textSize="@dimen/_12ssp"
-                tools:targetApi="p" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/closeButton"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:background="@drawable/ic_dialog_bottom_bg"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/_10sdp">
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:padding="@dimen/_10sdp"
-                android:layout_margin="1dp"
-                android:orientation="vertical"
-                android:background="@drawable/ic_dialog_bottom_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Medication Type"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Medication Details"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_12ssp"
+                    android:letterSpacing="0"
+                    android:gravity="center"
                     tools:ignore="HardcodedText" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/medicationType"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/closeButton"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                    android:tint="@color/colorPrimary"
+                    android:src="@drawable/ic_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Medication Support"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/medicationSupport"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC"
+                android:layout_marginVertical="8dp"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Quantity For Each Dose"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorPrimary">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/doseQty"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Medication Route"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/medicationRoute"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Frequency Of Medication"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/frequencyMedication"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/app_name"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:visibility="gone"
-                    android:id="@+id/tvBodyMap"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Body Maps"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="gone"
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Medication Status"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/medicationStatus"
-                    android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-                    android:drawableTint="@color/black"
-                    android:background="@drawable/ic_edittext_light_bg"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                <LinearLayout
                     android:padding="@dimen/_5sdp"
-                    android:hint="Select"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@null"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:text="Medication Notes"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/medicationNotes"
-                    android:background="@drawable/ic_todo_dialog_edittext_bg"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:hint="Enter medication notes"
-                    android:textFontWeight="400"
-                    android:gravity="left|top"
-                    android:lines="3"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
-                    tools:ignore="HardcodedText,RtlHardcoded" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_cancel"
-                        android:layout_weight="1"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/nhsMedicineName"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:background="@drawable/ic_btn_red_bg"
-                        android:gravity="center"
-                        android:textAllCaps="false"
-                        android:text="Cancel"
-                        android:textColor="@color/red"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
-                        tools:ignore="HardcodedText" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_13ssp"
+                         />
 
-                    <Space
-                        android:layout_width="@dimen/_20sdp"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Quantity For Each Dose :"
+                            android:textColor="@color/white"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
+                            tools:ignore="HardcodedText" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/doseQty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textColor="@color/white"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:src="@drawable/med_type"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_save"
-                        android:layout_weight="1"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:background="@drawable/ic_btn_green_bg"
-                        android:gravity="center"
-                        android:textAllCaps="false"
-                        android:text="Save"
-                        android:textColor="#279989"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
-                        tools:ignore="HardcodedText" />
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:text="Type"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="HardcodedText,UnusedAttribute" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/medicationType"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/app_name"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textColor="@color/dialogTextColor"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:src="@drawable/med_support"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:text="Support"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="HardcodedText,UnusedAttribute" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/medicationSupport"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/app_name"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textColor="@color/dialogTextColor"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.core.widget.NestedScrollView>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-</RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:src="@drawable/med_freq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:text="Frequency"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="HardcodedText,UnusedAttribute" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/frequencyMedication"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/app_name"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textColor="@color/dialogTextColor"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:src="@drawable/med_route"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:text="Route"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_12ssp"
+                            tools:ignore="HardcodedText,UnusedAttribute" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/medicationRoute"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/app_name"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textColor="@color/dialogTextColor"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/tvBodyMap"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Body Maps"
+                android:textStyle="normal"
+                android:textSize="@dimen/_10ssp"
+
+                tools:ignore="HardcodedText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Status"
+                android:textStyle="bold"
+                android:textSize="@dimen/_10ssp"
+
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/medicationStatus"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+                android:drawableTint="@color/black"
+                android:background="@drawable/ic_edittext_light_bg"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp"
+                android:hint="Select"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textStyle="normal"
+                android:textSize="@dimen/_10ssp"
+
+                tools:ignore="HardcodedText" />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@null"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Notes"
+                android:textStyle="bold"
+                android:textSize="@dimen/_10ssp"
+
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/medicationNotes"
+                android:background="@drawable/ic_todo_dialog_edittext_bg"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:hint="Enter medication notes"
+                android:textStyle="normal"
+                android:gravity="left|top"
+                android:lines="5"
+                android:textSize="@dimen/_10ssp"
+
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/ic_btn_red_bg"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:text="Cancel"
+                    android:textColor="@color/red"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_10ssp"
+
+                    tools:ignore="HardcodedText" />
+
+                <Space
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/ic_btn_green_bg"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:text="Save"
+                    android:textColor="#279989"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_10ssp"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

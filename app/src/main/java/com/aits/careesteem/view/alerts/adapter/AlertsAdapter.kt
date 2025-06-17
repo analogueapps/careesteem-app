@@ -11,6 +11,7 @@ import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemAlertListBinding
 import com.aits.careesteem.databinding.ItemBodyMapAddedBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.bumptech.glide.Glide
@@ -44,8 +45,9 @@ class AlertsAdapter(
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(data: AlertListResponse.Data) = with(binding) {
-            val formattedDate = AppConstant.alertsListTimer(data.created_at)
-            alertName.text = "${data.client_name}\t\t$formattedDate"
+            try {
+                val formattedDate = AppConstant.alertsListTimer(data.created_at)
+                alertName.text = "${AppConstant.checkNull(data.client_name)}\t\t$formattedDate"
 
 //            // Toggle expand/collapse on click
 //            alertLayout.setOnClickListener {
@@ -56,41 +58,45 @@ class AlertsAdapter(
 //                detailLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
 //            }
 
-            val isExpanded = position == expandedPosition
-            detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            alertName.tag = if (isExpanded) "Visible" else "Invisible"
-            val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
-            alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+                val isExpanded = position == expandedPosition
+                detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+                alertName.tag = if (isExpanded) "Visible" else "Invisible"
+                val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
 
-            // Toggle expand/collapse on click
-            alertLayout.setOnClickListener {
-                val previousExpandedPosition = expandedPosition
-                expandedPosition = if (isExpanded) {
-                    RecyclerView.NO_POSITION // collapse
-                } else {
-                    position // expand this one
+                // Toggle expand/collapse on click
+                alertLayout.setOnClickListener {
+                    val previousExpandedPosition = expandedPosition
+                    expandedPosition = if (isExpanded) {
+                        RecyclerView.NO_POSITION // collapse
+                    } else {
+                        position // expand this one
+                    }
+                    notifyItemChanged(previousExpandedPosition)
+                    notifyItemChanged(position)
                 }
-                notifyItemChanged(previousExpandedPosition)
-                notifyItemChanged(position)
+
+                // Populate alert details
+                clientName.text = AppConstant.checkNull(data.client_name)
+                visitTime.text = AppConstant.checkNull(data.session_time)
+                severityOfConcern.text = AppConstant.checkNull(data.severity_of_concern)
+                visitNotes.text = AppConstant.checkNull(data.concern_details)
+
+                // Map body parts with corresponding images
+                val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
+                    BodyMapItem(
+                        partName = name,
+                        imageUrl = data.body_map_image_url.getOrNull(index).orEmpty()
+                    )
+                }
+
+                // Setup nested image recycler
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.adapter = ServerImageAdapter(context, bodyMapItems)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
             }
-
-            // Populate alert details
-            clientName.text = data.client_name
-            visitTime.text = data.session_time
-            severityOfConcern.text = data.severity_of_concern
-            visitNotes.text = data.concern_details
-
-            // Map body parts with corresponding images
-            val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
-                BodyMapItem(
-                    partName = name,
-                    imageUrl = data.body_image.getOrNull(index).orEmpty()
-                )
-            }
-
-            // Setup nested image recycler
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = ServerImageAdapter(context, bodyMapItems)
         }
     }
 }
@@ -115,14 +121,20 @@ class ServerImageAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: BodyMapItem) = with(binding) {
-            tvBodyPartNames.text = data.partName
+            try {
+                tvBodyPartNames.text = AppConstant.checkNull(data.partName)
 
-            Glide.with(context)
-                .load("${BuildConfig.API_BASE_URL}${data.imageUrl.replace("\\", "/")}")
-                .placeholder(R.drawable.logo_preview)
-                .into(fileImageView)
+                Glide.with(context)
+                    .load("${data.imageUrl.replace("\\", "/")}")
+                    .override(400, 300)
+                    .placeholder(R.drawable.logo_preview)
+                    .into(fileImageView)
 
-            btnDelete.visibility = View.GONE
+                btnDelete.visibility = View.GONE
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
+            }
         }
     }
 }
@@ -147,22 +159,27 @@ class BodyMapImageAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: BodyMapItem) = with(binding) {
-            tvBodyPartNames.text = data.partName
+            try {
+                tvBodyPartNames.text = AppConstant.checkNull(data.partName)
 
 //            Glide.with(context)
 //                .load("${BuildConfig.API_BASE_URL}${data.imageUrl.replace("\\", "/")}")
 //                .placeholder(R.drawable.logo_preview)
 //                .into(fileImageView)
 
-            // Convert the Base64 string to a Bitmap
-            val bitmap = AppConstant.base64ToBitmap(data.imageUrl)
+                // Convert the Base64 string to a Bitmap
+                val bitmap = AppConstant.base64ToBitmap(data.imageUrl)
 
-            // Set the Bitmap to the ImageView (if conversion was successful)
-            bitmap?.let {
-                fileImageView.setImageBitmap(it)
+                // Set the Bitmap to the ImageView (if conversion was successful)
+                bitmap?.let {
+                    fileImageView.setImageBitmap(it)
+                }
+
+                btnDelete.visibility = View.GONE
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
             }
-
-            btnDelete.visibility = View.GONE
         }
     }
 }

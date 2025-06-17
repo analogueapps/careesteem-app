@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentEnterPasscodeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -17,6 +19,7 @@ import com.aits.careesteem.utils.BiometricAuthListener
 import com.aits.careesteem.utils.BiometricUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.viewmodel.PasscodeViewModel
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -99,14 +102,15 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
 
         viewModel.isPasscodeVerified.observe(viewLifecycleOwner) { isPasscodeVerified ->
             if (isPasscodeVerified) {
-                AlertUtils.showToast(requireActivity(),"Passcode verified successfully.")
+                AlertUtils.showToast(requireActivity(),"Passcode verified successfully.", ToastyType.SUCCESS)
                 editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
                 editor.apply()
-                val intent = Intent(requireActivity(), HomeActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
+//                val intent = Intent(requireActivity(), HomeActivity::class.java)
+//                startActivity(intent)
+//                activity?.finish()
+                findNavController().navigate(R.id.preloaderFragment)
             } else {
-                AlertUtils.showToast(requireActivity(),"Passcode does not match.")
+                AlertUtils.showToast(requireActivity(),"Passcode does not match.", ToastyType.WARNING)
             }
         }
     }
@@ -123,9 +127,10 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     override fun onBiometricAuthenticateSuccess(result: BiometricPrompt.AuthenticationResult) {
         editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
         editor.apply()
-        val intent = Intent(requireActivity(), HomeActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+//        val intent = Intent(requireActivity(), HomeActivity::class.java)
+//        startActivity(intent)
+//        activity?.finish()
+        findNavController().navigate(R.id.preloaderFragment)
     }
 
 }

@@ -34,12 +34,12 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/white"
                     android:text="@string/app_name"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/closeButton"
@@ -65,11 +65,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Medication Type"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -80,11 +80,11 @@
                     android:hint="@string/app_name"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
@@ -92,11 +92,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Medication Support"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -107,11 +107,11 @@
                     android:hint="@string/app_name"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
@@ -119,11 +119,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Quantity For Each Dose"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -134,11 +134,11 @@
                     android:hint="@string/app_name"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
@@ -146,11 +146,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Medication Route"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -161,11 +161,11 @@
                     android:hint="@string/app_name"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
@@ -173,11 +173,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Frequency Of Medication"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -188,11 +188,11 @@
                     android:hint="@string/app_name"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/dialogTextColor"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="@dimen/_5sdp"
@@ -200,11 +200,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Medication Status"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -220,10 +220,10 @@
                     android:hint="Select"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
-                    android:textFontWeight="400"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinner"
@@ -237,11 +237,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Medication Notes"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -253,13 +253,13 @@
                     android:padding="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:hint="Enter medication notes"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:gravity="left|top"
                     android:lines="3"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText,RtlHardcoded" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -277,10 +277,10 @@
                         android:textAllCaps="false"
                         android:text="Cancel"
                         android:textColor="@color/red"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textFontWeight="400"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
+
                         tools:ignore="HardcodedText" />
 
                     <Space
@@ -297,10 +297,10 @@
                         android:textAllCaps="false"
                         android:text="Save"
                         android:textColor="#279989"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textFontWeight="400"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
+
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

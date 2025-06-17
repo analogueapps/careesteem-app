@@ -11,24 +11,15 @@ import android.content.SharedPreferences.Editor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
-import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
-import com.google.gson.Gson
-import com.google.i18n.phonenumbers.NumberParseException
-import com.google.i18n.phonenumbers.PhoneNumberUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -44,7 +35,7 @@ class WelcomeViewModel @Inject constructor(
 
     val phoneNumber = MutableLiveData<String>()
     val phoneNumberError = MutableLiveData<String?>()
-    private val countryCode = MutableLiveData<Int>(219)
+    val countryCode = MutableLiveData<String>("ff84412b2bed11f091d77e1e")
 
     private val _isPhoneNumberValid = MutableLiveData<Boolean>(false)
     val isPhoneNumberValid: LiveData<Boolean> get() = _isPhoneNumberValid
@@ -55,7 +46,7 @@ class WelcomeViewModel @Inject constructor(
     private val _sendOtpUserLoginResponse = MutableLiveData<SendOtpUserLoginResponse?>()
     val sendOtpUserLoginResponse: LiveData<SendOtpUserLoginResponse?> get() = _sendOtpUserLoginResponse
 
-    fun setCountryCode(newCode: Int) {
+    fun setCountryCode(newCode: String) {
         countryCode.value = newCode
         //validatePhoneNumber(phoneNumber.value ?: "", "")
     }
@@ -64,10 +55,10 @@ class WelcomeViewModel @Inject constructor(
     fun setPhoneNumber(newPhone: CharSequence, start: Int, before: Int, count: Int) {
         phoneNumber.value = newPhone.toString()
         //phoneNumberError.value = validatePhoneNumber(newPhone.toString())
-        validatePhoneNumber(newPhone.toString(), "")
+        validatePhoneNumber(newPhone.toString())
     }
 
-    private fun validatePhoneNumber(number: String, country: String) {
+    private fun validatePhoneNumber(number: String) {
         when {
             number.isBlank() -> {
                 phoneNumberError.value = "Mobile number is required"
@@ -117,29 +108,30 @@ class WelcomeViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
                 val response = repository.sendOtpUserLogin(
                     contactNumber = phoneNumber.value!!,
                     telephoneCodes = countryCode.value!!
+                    //telephoneCodes = "a13f4f5c2bed11f091d77e1e"
                 )
 
                 if (response.isSuccessful) {
                     response.body()?.let { apiResponse ->
                         _sendOtpUserLoginResponse.value = apiResponse
-                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully")
+                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully", ToastyType.SUCCESS)
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false

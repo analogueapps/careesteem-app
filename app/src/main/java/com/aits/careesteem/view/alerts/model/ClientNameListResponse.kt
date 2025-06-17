@@ -6,9 +6,9 @@ data class ClientNameListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val clientId: Int,
+        val clientId: String,
         val clientName: String,
         val visitDate: String,
-        val visitDetailsId: Int
+        val visitDetailsId: String
     )
 }

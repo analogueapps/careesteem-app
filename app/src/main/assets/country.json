@@ -1,232 +1,1382 @@
 [
-  {"id": 1, "country": "Afghanistan", "country_code": 93},
-  {"id": 2, "country": "Albania", "country_code": 355},
-  {"id": 3, "country": "Algeria", "country_code": 213},
-  {"id": 4, "country": "American Samoa", "country_code": -683},
-  {"id": 5, "country": "Andorra, Principality of", "country_code": 376},
-  {"id": 6, "country": "Angola", "country_code": 244},
-  {"id": 7, "country": "Anguilla", "country_code": -263},
-  {"id": 8, "country": "Antarctica", "country_code": 672},
-  {"id": 9, "country": "Antigua and Barbuda", "country_code": -267},
-  {"id": 10, "country": "Argentina", "country_code": 54},
-  {"id": 11, "country": "Armenia", "country_code": 374},
-  {"id": 12, "country": "Aruba", "country_code": 297},
-  {"id": 13, "country": "Australia", "country_code": 61},
-  {"id": 14, "country": "Austria", "country_code": 43},
-  {"id": 15, "country": "Azerbaijan", "country_code": 994},
-  {"id": 16, "country": "Bahamas", "country_code": -241},
-  {"id": 17, "country": "Bahrain", "country_code": 973},
-  {"id": 18, "country": "Bangladesh", "country_code": 880},
-  {"id": 19, "country": "Barbados", "country_code": -245},
-  {"id": 20, "country": "Belarus", "country_code": 375},
-  {"id": 21, "country": "Belgium", "country_code": 32},
-  {"id": 22, "country": "Belize", "country_code": 501},
-  {"id": 23, "country": "Benin", "country_code": 229},
-  {"id": 24, "country": "Bermuda", "country_code": -440},
-  {"id": 25, "country": "Bhutan", "country_code": 975},
-  {"id": 26, "country": "Bolivia", "country_code": 591},
-  {"id": 27, "country": "Bosnia and Herzegovina", "country_code": 387},
-  {"id": 28, "country": "Botswana", "country_code": 267},
-  {"id": 29, "country": "Brazil", "country_code": 55},
-  {"id": 30, "country": "Brunei", "country_code": 673},
-  {"id": 31, "country": "Bulgaria", "country_code": 359},
-  {"id": 32, "country": "Burkina Faso", "country_code": 226},
-  {"id": 33, "country": "Burundi", "country_code": 257},
-  {"id": 34, "country": "Cambodia", "country_code": 855},
-  {"id": 35, "country": "Cameroon", "country_code": 237},
-  {"id": 36, "country": "Canada", "country_code": 1},
-  {"id": 37, "country": "Cape Verde", "country_code": 238},
-  {"id": 38, "country": "Cayman Islands", "country_code": -344},
-  {"id": 39, "country": "Central African Republic", "country_code": 236},
-  {"id": 40, "country": "Chad", "country_code": 235},
-  {"id": 41, "country": "Chile", "country_code": 56},
-  {"id": 42, "country": "China", "country_code": 86},
-  {"id": 43, "country": "Christmas Island", "country_code": 53},
-  {"id": 44, "country": "Cocos Islands", "country_code": 61},
-  {"id": 45, "country": "Colombia", "country_code": 57},
-  {"id": 46, "country": "Comoros", "country_code": 269},
-  {"id": 47, "country": "Congo", "country_code": 243},
-  {"id": 48, "country": "Congo", "country_code": 242},
-  {"id": 49, "country": "Cook Islands", "country_code": 682},
-  {"id": 50, "country": "Costa Rica", "country_code": 506},
-  {"id": 51, "country": "Cote D'Ivoire", "country_code": 225},
-  {"id": 52, "country": "Croatia", "country_code": 385},
-  {"id": 53, "country": "Cuba", "country_code": 53},
-  {"id": 54, "country": "Cyprus", "country_code": 357},
-  {"id": 55, "country": "Czech Republic", "country_code": 420},
-  {"id": 56, "country": "Denmark", "country_code": 45},
-  {"id": 57, "country": "Djibouti", "country_code": 253},
-  {"id": 58, "country": "Dominica", "country_code": -766},
-  {"id": 59, "country": "Dominican Republic", "country_code": -808},
-  {"id": 60, "country": "Dominican Republic", "country_code": -828},
-  {"id": 61, "country": "East Timor", "country_code": 670},
-  {"id": 62, "country": "Ecuador", "country_code": 593},
-  {"id": 63, "country": "Egypt", "country_code": 20},
-  {"id": 64, "country": "El Salvador", "country_code": 503},
-  {"id": 65, "country": "Equatorial Guinea", "country_code": 240},
-  {"id": 66, "country": "Eritrea", "country_code": 291},
-  {"id": 67, "country": "Estonia", "country_code": 372},
-  {"id": 68, "country": "Ethiopia", "country_code": 251},
-  {"id": 69, "country": "Falkland Islands", "country_code": 500},
-  {"id": 70, "country": "Faroe Islands", "country_code": 298},
-  {"id": 71, "country": "Fiji", "country_code": 679},
-  {"id": 72, "country": "Finland", "country_code": 358},
-  {"id": 73, "country": "France", "country_code": 33},
-  {"id": 74, "country": "French Guiana", "country_code": 594},
-  {"id": 75, "country": "French Polynesia", "country_code": 689},
-  {"id": 76, "country": "Gabon", "country_code": 241},
-  {"id": 77, "country": "Gambia", "country_code": 220},
-  {"id": 78, "country": "Georgia", "country_code": 995},
-  {"id": 79, "country": "Germany", "country_code": 49},
-  {"id": 80, "country": "Ghana", "country_code": 233},
-  {"id": 81, "country": "Gibraltar", "country_code": 350},
-  {"id": 82, "country": "Greece", "country_code": 30},
-  {"id": 83, "country": "Greenland", "country_code": 299},
-  {"id": 84, "country": "Grenada", "country_code": -472},
-  {"id": 85, "country": "Guadeloupe", "country_code": 590},
-  {"id": 86, "country": "Guam", "country_code": -670},
-  {"id": 87, "country": "Guatemala", "country_code": 502},
-  {"id": 88, "country": "Guinea", "country_code": 224},
-  {"id": 89, "country": "Guinea-Bissau", "country_code": 245},
-  {"id": 90, "country": "Guyana", "country_code": 592},
-  {"id": 91, "country": "Haiti", "country_code": 509},
-  {"id": 92, "country": "Honduras", "country_code": 504},
-  {"id": 93, "country": "Hong Kong", "country_code": 852},
-  {"id": 94, "country": "Hungary", "country_code": 36},
-  {"id": 95, "country": "Iceland", "country_code": 354},
-  {"id": 96, "country": "India", "country_code": 91},
-  {"id": 97, "country": "Indonesia", "country_code": 62},
-  {"id": 98, "country": "Iran", "country_code": 98},
-  {"id": 99, "country": "Iraq", "country_code": 964},
-  {"id": 100, "country": "Ireland", "country_code": 353},
-  {"id": 101, "country": "Israel", "country_code": 972},
-  {"id": 102, "country": "Italy", "country_code": 39},
-  {"id": 103, "country": "Jamaica", "country_code": -875},
-  {"id": 104, "country": "Japan", "country_code": 81},
-  {"id": 105, "country": "Jordan", "country_code": 962},
-  {"id": 106, "country": "Kazakhstan", "country_code": 7},
-  {"id": 107, "country": "Kenya", "country_code": 254},
-  {"id": 108, "country": "Kiribati", "country_code": 686},
-  {"id": 109, "country": "North Korea", "country_code": 850},
-  {"id": 110, "country": "South Korea", "country_code": 82},
-  {"id": 111, "country": "Kuwait", "country_code": 965},
-  {"id": 112, "country": "Kyrgyzstan", "country_code": 996},
-  {"id": 113, "country": "Laos", "country_code": 856},
-  {"id": 114, "country": "Latvia", "country_code": 371},
-  {"id": 115, "country": "Lebanon", "country_code": 961},
-  {"id": 116, "country": "Lesotho", "country_code": 266},
-  {"id": 117, "country": "Liberia", "country_code": 231},
-  {"id": 118, "country": "Libya", "country_code": 218},
-  {"id": 119, "country": "Liechtenstein", "country_code": 423},
-  {"id": 120, "country": "Lithuania", "country_code": 370},
-  {"id": 121, "country": "Luxembourg", "country_code": 352},
-  {"id": 122, "country": "Macau", "country_code": 853},
-  {"id": 123, "country": "Macedonia", "country_code": 389},
-  {"id": 124, "country": "Madagascar", "country_code": 261},
-  {"id": 125, "country": "Malawi", "country_code": 265},
-  {"id": 126, "country": "Malaysia", "country_code": 60},
-  {"id": 127, "country": "Maldives", "country_code": 960},
-  {"id": 128, "country": "Mali", "country_code": 223},
-  {"id": 129, "country": "Malta", "country_code": 356},
-  {"id": 130, "country": "Marshall Islands", "country_code": 692},
-  {"id": 131, "country": "Martinique", "country_code": 596},
-  {"id": 132, "country": "Mauritania", "country_code": 222},
-  {"id": 133, "country": "Mauritius", "country_code": 230},
-  {"id": 134, "country": "Mayotte", "country_code": 269},
-  {"id": 135, "country": "Mexico", "country_code": 52},
-  {"id": 136, "country": "Micronesia", "country_code": 691},
-  {"id": 137, "country": "Moldova", "country_code": 373},
-  {"id": 138, "country": "Monaco", "country_code": 377},
-  {"id": 139, "country": "Mongolia", "country_code": 976},
-  {"id": 140, "country": "Montserrat", "country_code": -663},
-  {"id": 141, "country": "Morocco", "country_code": 212},
-  {"id": 142, "country": "Mozambique", "country_code": 258},
-  {"id": 143, "country": "Myanmar", "country_code": 95},
-  {"id": 144, "country": "Namibia", "country_code": 264},
-  {"id": 145, "country": "Nauru", "country_code": 674},
-  {"id": 146, "country": "Nepal", "country_code": 977},
-  {"id": 147, "country": "Netherlands", "country_code": 31},
-  {"id": 148, "country": "Netherlands Antilles", "country_code": 599},
-  {"id": 149, "country": "New Caledonia", "country_code": 687},
-  {"id": 150, "country": "New Zealand", "country_code": 64},
-  {"id": 151, "country": "Nicaragua", "country_code": 505},
-  {"id": 152, "country": "Niger", "country_code": 227},
-  {"id": 153, "country": "Nigeria", "country_code": 234},
-  {"id": 154, "country": "Niue", "country_code": 683},
-  {"id": 155, "country": "Norfolk Island", "country_code": 672},
-  {"id": 156, "country": "Northern Mariana Islands", "country_code": -669},
-  {"id": 157, "country": "Norway", "country_code": 47},
-  {"id": 158, "country": "Oman", "country_code": 968},
-  {"id": 159, "country": "Pakistan", "country_code": 92},
-  {"id": 160, "country": "Palau", "country_code": 680},
-  {"id": 161, "country": "Palestinian State", "country_code": 970},
-  {"id": 162, "country": "Panama", "country_code": 507},
-  {"id": 163, "country": "Papua New Guinea", "country_code": 675},
-  {"id": 164, "country": "Paraguay", "country_code": 595},
-  {"id": 165, "country": "Peru", "country_code": 51},
-  {"id": 166, "country": "Philippines", "country_code": 63},
-  {"id": 167, "country": "Poland", "country_code": 48},
-  {"id": 168, "country": "Portugal", "country_code": 351},
-  {"id": 169, "country": "Puerto Rico", "country_code": -786},
-  {"id": 170, "country": "Puerto Rico", "country_code": -938},
-  {"id": 171, "country": "Qatar", "country_code": 974},
-  {"id": 172, "country": "Bourbon Island", "country_code": 262},
-  {"id": 173, "country": "Romania", "country_code": 40},
-  {"id": 174, "country": "Russia", "country_code": 7},
-  {"id": 175, "country": "Rwanda", "country_code": 250},
-  {"id": 176, "country": "Saint Helena", "country_code": 290},
-  {"id": 177, "country": "Saint Kitts and Nevis", "country_code": -868},
-  {"id": 178, "country": "Saint Lucia", "country_code": -757},
-  {"id": 179, "country": "Saint Pierre and Miquelon", "country_code": 508},
-  {"id": 180, "country": "Saint Vincent and the Grenadines", "country_code": -783},
-  {"id": 181, "country": "Samoa", "country_code": 685},
-  {"id": 182, "country": "San Marino", "country_code": 378},
-  {"id": 183, "country": "Sao Tome and Principe", "country_code": 239},
-  {"id": 184, "country": "Saudi Arabia", "country_code": 966},
-  {"id": 185, "country": "Senegal", "country_code": 221},
-  {"id": 186, "country": "Seychelles", "country_code": 248},
-  {"id": 187, "country": "Sierra Leone", "country_code": 232},
-  {"id": 188, "country": "Singapore", "country_code": 65},
-  {"id": 189, "country": "Slovakia", "country_code": 421},
-  {"id": 190, "country": "Slovenia", "country_code": 386},
-  {"id": 191, "country": "Solomon Islands", "country_code": 677},
-  {"id": 192, "country": "Somalia", "country_code": 252},
-  {"id": 193, "country": "South Africa", "country_code": 27},
-  {"id": 194, "country": "Spain", "country_code": 34},
-  {"id": 195, "country": "Sri Lanka", "country_code": 94},
-  {"id": 196, "country": "Sudan", "country_code": 249},
-  {"id": 197, "country": "Suriname", "country_code": 597},
-  {"id": 198, "country": "Swaziland", "country_code": 268},
-  {"id": 199, "country": "Sweden", "country_code": 46},
-  {"id": 200, "country": "Switzerland", "country_code": 41},
-  {"id": 201, "country": "Syria", "country_code": 963},
-  {"id": 202, "country": "Taiwan", "country_code": 886},
-  {"id": 203, "country": "Tajikistan", "country_code": 992},
-  {"id": 204, "country": "Tanzania", "country_code": 255},
-  {"id": 205, "country": "Thailand", "country_code": 66},
-  {"id": 206, "country": "Tokelau", "country_code": 690},
-  {"id": 207, "country": "Tonga", "country_code": 676},
-  {"id": 208, "country": "Trinidad and Tobago", "country_code": -867},
-  {"id": 209, "country": "Tunisia", "country_code": 216},
-  {"id": 210, "country": "Turkey", "country_code": 90},
-  {"id": 211, "country": "Turkmenistan", "country_code": 993},
-  {"id": 212, "country": "Turks and Caicos Islands", "country_code": -648},
-  {"id": 213, "country": "Tuvalu", "country_code": 688},
-  {"id": 214, "country": "Uganda", "country_code": 256},
-  {"id": 215, "country": "Ukraine", "country_code": 380},
-  {"id": 216, "country": "United Arab Emirates", "country_code": 971},
-  {"id": 217, "country": "United Kingdom", "country_code": 44},
-  {"id": 218, "country": "United States of America", "country_code": 1},
-  {"id": 219, "country": "Uruguay", "country_code": 598},
-  {"id": 220, "country": "Uzbekistan", "country_code": 998},
-  {"id": 221, "country": "Vanuatu", "country_code": 678},
-  {"id": 222, "country": "Vatican City State", "country_code": 418},
-  {"id": 223, "country": "Venezuela", "country_code": 58},
-  {"id": 224, "country": "Vietnam", "country_code": 84},
-  {"id": 225, "country": "Virgin Islands, British", "country_code": -283},
-  {"id": 226, "country": "Virgin Islands, United States", "country_code": -339},
-  {"id": 227, "country": "Wallis and Futuna Islands", "country_code": 681},
-  {"id": 228, "country": "Yemen", "country_code": 967},
-  {"id": 229, "country": "Zambia", "country_code": 260},
-  {"id": 230, "country": "Zimbabwe", "country_code": 263}
+  {
+    "id": "a13f24a62bed11f091d77e1e",
+    "country": "Afghanistan",
+    "country_code": "93",
+    "emoji": "🇦🇫"
+  },
+  {
+    "id": "a13f2a022bed11f091d77e1e",
+    "country": "Albania",
+    "country_code": "355",
+    "emoji": "🇦🇱"
+  },
+  {
+    "id": "a13f2b7c2bed11f091d77e1e",
+    "country": "Algeria",
+    "country_code": "213",
+    "emoji": "🇩🇿"
+  },
+  {
+    "id": "a13f2bee2bed11f091d77e1e",
+    "country": "American Samoa",
+    "country_code": "1-684",
+    "emoji": "🇦🇸"
+  },
+  {
+    "id": "a13f2c5f2bed11f091d77e1e",
+    "country": "Andorra, Principality of",
+    "country_code": "376",
+    "emoji": "🇦🇩"
+  },
+  {
+    "id": "a13f2ccd2bed11f091d77e1e",
+    "country": "Angola",
+    "country_code": "244",
+    "emoji": "🇦🇴"
+  },
+  {
+    "id": "a13f2d362bed11f091d77e1e",
+    "country": "Anguilla",
+    "country_code": "1-264",
+    "emoji": "🇦🇮"
+  },
+  {
+    "id": "a13f2da52bed11f091d77e1e",
+    "country": "Antarctica",
+    "country_code": "672",
+    "emoji": "🇦🇶"
+  },
+  {
+    "id": "a13f2e122bed11f091d77e1e",
+    "country": "Antigua and Barbuda",
+    "country_code": "1-268",
+    "emoji": "🇦🇬"
+  },
+  {
+    "id": "a13f2e732bed11f091d77e1e",
+    "country": "Argentina",
+    "country_code": "54",
+    "emoji": "🇦🇷"
+  },
+  {
+    "id": "a13f2ede2bed11f091d77e1e",
+    "country": "Armenia",
+    "country_code": "374",
+    "emoji": "🇦🇲"
+  },
+  {
+    "id": "a13f2f3e2bed11f091d77e1e",
+    "country": "Aruba",
+    "country_code": "297",
+    "emoji": "🇦🇼"
+  },
+  {
+    "id": "a13f2fa42bed11f091d77e1e",
+    "country": "Australia",
+    "country_code": "61",
+    "emoji": "🇦🇺"
+  },
+  {
+    "id": "a13f30052bed11f091d77e1e",
+    "country": "Austria",
+    "country_code": "43",
+    "emoji": "🇦🇹"
+  },
+  {
+    "id": "a13f30682bed11f091d77e1e",
+    "country": "Azerbaijan",
+    "country_code": "994",
+    "emoji": "🇦🇿"
+  },
+  {
+    "id": "a13f30c72bed11f091d77e1e",
+    "country": "Bahamas",
+    "country_code": "1-242",
+    "emoji": "🇧🇸"
+  },
+  {
+    "id": "a13f31272bed11f091d77e1e",
+    "country": "Bahrain",
+    "country_code": "973",
+    "emoji": "🇧🇭"
+  },
+  {
+    "id": "a13f318d2bed11f091d77e1e",
+    "country": "Bangladesh",
+    "country_code": "880",
+    "emoji": "🇧🇩"
+  },
+  {
+    "id": "a13f31f02bed11f091d77e1e",
+    "country": "Barbados",
+    "country_code": "1-246",
+    "emoji": "🇧🇧"
+  },
+  {
+    "id": "a13f32532bed11f091d77e1e",
+    "country": "Belarus",
+    "country_code": "375",
+    "emoji": "🇧🇾"
+  },
+  {
+    "id": "a13f32b62bed11f091d77e1e",
+    "country": "Belgium",
+    "country_code": "32",
+    "emoji": "🇧🇪"
+  },
+  {
+    "id": "a13f33102bed11f091d77e1e",
+    "country": "Belize",
+    "country_code": "501",
+    "emoji": "🇧🇿"
+  },
+  {
+    "id": "a13f33722bed11f091d77e1e",
+    "country": "Benin",
+    "country_code": "229",
+    "emoji": "🇧🇯"
+  },
+  {
+    "id": "a13f33d42bed11f091d77e1e",
+    "country": "Bermuda",
+    "country_code": "1-441",
+    "emoji": "🇧🇲"
+  },
+  {
+    "id": "a13f34362bed11f091d77e1e",
+    "country": "Bhutan",
+    "country_code": "975",
+    "emoji": "🇧🇹"
+  },
+  {
+    "id": "a13f34a12bed11f091d77e1e",
+    "country": "Bolivia",
+    "country_code": "591",
+    "emoji": "🇧🇴"
+  },
+  {
+    "id": "a13f350a2bed11f091d77e1e",
+    "country": "Bosnia and Herzegovina",
+    "country_code": "387",
+    "emoji": "🇧🇦"
+  },
+  {
+    "id": "a13f356b2bed11f091d77e1e",
+    "country": "Botswana",
+    "country_code": "267",
+    "emoji": "🇧🇼"
+  },
+  {
+    "id": "a13f35d52bed11f091d77e1e",
+    "country": "Brazil",
+    "country_code": "55",
+    "emoji": "🇧🇷"
+  },
+  {
+    "id": "a13f36362bed11f091d77e1e",
+    "country": "Brunei",
+    "country_code": "673",
+    "emoji": "🇧🇳"
+  },
+  {
+    "id": "a13f36902bed11f091d77e1e",
+    "country": "Bulgaria",
+    "country_code": "359",
+    "emoji": "🇧🇬"
+  },
+  {
+    "id": "a13f36f22bed11f091d77e1e",
+    "country": "Burkina Faso",
+    "country_code": "226",
+    "emoji": "🇧🇫"
+  },
+  {
+    "id": "a13f37552bed11f091d77e1e",
+    "country": "Burundi",
+    "country_code": "257",
+    "emoji": "🇧🇮"
+  },
+  {
+    "id": "a13f37b42bed11f091d77e1e",
+    "country": "Cambodia",
+    "country_code": "855",
+    "emoji": "🇰🇭"
+  },
+  {
+    "id": "a13f38152bed11f091d77e1e",
+    "country": "Cameroon",
+    "country_code": "237",
+    "emoji": "🇨🇲"
+  },
+  {
+    "id": "a13f38772bed11f091d77e1e",
+    "country": "Canada",
+    "country_code": "1",
+    "emoji": "🇨🇦"
+  },
+  {
+    "id": "a13f38d92bed11f091d77e1e",
+    "country": "Cape Verde",
+    "country_code": "238",
+    "emoji": "🇨🇻"
+  },
+  {
+    "id": "a13f393c2bed11f091d77e1e",
+    "country": "Cayman Islands",
+    "country_code": "1-345",
+    "emoji": "🇰🇾"
+  },
+  {
+    "id": "a13f399b2bed11f091d77e1e",
+    "country": "Central African Republic",
+    "country_code": "236",
+    "emoji": "🇨🇫"
+  },
+  {
+    "id": "a13f39fb2bed11f091d77e1e",
+    "country": "Chad",
+    "country_code": "235",
+    "emoji": "🇹🇩"
+  },
+  {
+    "id": "a13f3a5a2bed11f091d77e1e",
+    "country": "Chile",
+    "country_code": "56",
+    "emoji": "🇨🇱"
+  },
+  {
+    "id": "a13f3ab72bed11f091d77e1e",
+    "country": "China",
+    "country_code": "86",
+    "emoji": "🇨🇳"
+  },
+  {
+    "id": "a13f3b1b2bed11f091d77e1e",
+    "country": "Christmas Island",
+    "country_code": "53",
+    "emoji": "🇨🇽"
+  },
+  {
+    "id": "a13f3b7d2bed11f091d77e1e",
+    "country": "Cocos Islands",
+    "country_code": "61",
+    "emoji": "🇨🇨"
+  },
+  {
+    "id": "a13f3bdc2bed11f091d77e1e",
+    "country": "Colombia",
+    "country_code": "57",
+    "emoji": "🇨🇴"
+  },
+  {
+    "id": "a13f3c3b2bed11f091d77e1e",
+    "country": "Comoros",
+    "country_code": "269",
+    "emoji": "🇰🇲"
+  },
+  {
+    "id": "a13f3c932bed11f091d77e1e",
+    "country": "Congo",
+    "country_code": "243",
+    "emoji": "🇨🇩"
+  },
+  {
+    "id": "a13f3cf32bed11f091d77e1e",
+    "country": "Congo",
+    "country_code": "242",
+    "emoji": "🇨🇬"
+  },
+  {
+    "id": "a13f3d522bed11f091d77e1e",
+    "country": "Cook Islands",
+    "country_code": "682",
+    "emoji": "🇨🇰"
+  },
+  {
+    "id": "a13f3dbb2bed11f091d77e1e",
+    "country": "Costa Rica",
+    "country_code": "506",
+    "emoji": "🇨🇷"
+  },
+  {
+    "id": "a13f3e1b2bed11f091d77e1e",
+    "country": "Cote D'Ivoire",
+    "country_code": "225",
+    "emoji": "🇨🇮"
+  },
+  {
+    "id": "a13f3e792bed11f091d77e1e",
+    "country": "Croatia",
+    "country_code": "385",
+    "emoji": "🇭🇷"
+  },
+  {
+    "id": "a13f3ed92bed11f091d77e1e",
+    "country": "Cuba",
+    "country_code": "53",
+    "emoji": "🇨🇺"
+  },
+  {
+    "id": "a13f3f3a2bed11f091d77e1e",
+    "country": "Cyprus",
+    "country_code": "357",
+    "emoji": "🇨🇾"
+  },
+  {
+    "id": "a13f3f9e2bed11f091d77e1e",
+    "country": "Czech Republic",
+    "country_code": "420",
+    "emoji": "🇨🇿"
+  },
+  {
+    "id": "a13f3fff2bed11f091d77e1e",
+    "country": "Denmark",
+    "country_code": "45",
+    "emoji": "🇩🇰"
+  },
+  {
+    "id": "a13f40632bed11f091d77e1e",
+    "country": "Djibouti",
+    "country_code": "253",
+    "emoji": "🇩🇯"
+  },
+  {
+    "id": "a13f40c52bed11f091d77e1e",
+    "country": "Dominica",
+    "country_code": "1-767",
+    "emoji": "🇩🇲"
+  },
+  {
+    "id": "a13f41292bed11f091d77e1e",
+    "country": "Dominican Republic",
+    "country_code": "1-809",
+    "emoji": "🇩🇴"
+  },
+  {
+    "id": "a13f418b2bed11f091d77e1e",
+    "country": "Dominican Republic",
+    "country_code": "1-829",
+    "emoji": "🇩🇴"
+  },
+  {
+    "id": "a13f41eb2bed11f091d77e1e",
+    "country": "East Timor",
+    "country_code": "670",
+    "emoji": "🇹🇱"
+  },
+  {
+    "id": "a13f424a2bed11f091d77e1e",
+    "country": "Ecuador",
+    "country_code": "593",
+    "emoji": "🇪🇨"
+  },
+  {
+    "id": "a13f42ab2bed11f091d77e1e",
+    "country": "Egypt",
+    "country_code": "20",
+    "emoji": "🇪🇬"
+  },
+  {
+    "id": "a13f430a2bed11f091d77e1e",
+    "country": "El Salvador",
+    "country_code": "503",
+    "emoji": "🇸🇻"
+  },
+  {
+    "id": "a13f43ff2bed11f091d77e1e",
+    "country": "Equatorial Guinea",
+    "country_code": "240",
+    "emoji": "🇬🇶"
+  },
+  {
+    "id": "a13f445f2bed11f091d77e1e",
+    "country": "Eritrea",
+    "country_code": "291",
+    "emoji": "🇪🇷"
+  },
+  {
+    "id": "a13f44b62bed11f091d77e1e",
+    "country": "Estonia",
+    "country_code": "372",
+    "emoji": "🇪🇪"
+  },
+  {
+    "id": "a13f45112bed11f091d77e1e",
+    "country": "Ethiopia",
+    "country_code": "251",
+    "emoji": "🇪🇹"
+  },
+  {
+    "id": "a13f45692bed11f091d77e1e",
+    "country": "Falkland Islands",
+    "country_code": "500",
+    "emoji": "🇫🇰"
+  },
+  {
+    "id": "a13f45c42bed11f091d77e1e",
+    "country": "Faroe Islands",
+    "country_code": "298",
+    "emoji": "🇫🇴"
+  },
+  {
+    "id": "a13f46192bed11f091d77e1e",
+    "country": "Fiji",
+    "country_code": "679",
+    "emoji": "🇫🇯"
+  },
+  {
+    "id": "a13f46702bed11f091d77e1e",
+    "country": "Finland",
+    "country_code": "358",
+    "emoji": "🇫🇮"
+  },
+  {
+    "id": "a13f46c72bed11f091d77e1e",
+    "country": "France",
+    "country_code": "33",
+    "emoji": "🇫🇷"
+  },
+  {
+    "id": "a13f47212bed11f091d77e1e",
+    "country": "French Guiana",
+    "country_code": "594",
+    "emoji": "🇬🇫"
+  },
+  {
+    "id": "a13f47792bed11f091d77e1e",
+    "country": "French Polynesia",
+    "country_code": "689",
+    "emoji": "🇵🇫"
+  },
+  {
+    "id": "a13f47d82bed11f091d77e1e",
+    "country": "Gabon",
+    "country_code": "241",
+    "emoji": "🇬🇦"
+  },
+  {
+    "id": "a13f483b2bed11f091d77e1e",
+    "country": "Gambia",
+    "country_code": "220",
+    "emoji": "🇬🇲"
+  },
+  {
+    "id": "a13f48832bed11f091d77e1e",
+    "country": "Georgia",
+    "country_code": "995",
+    "emoji": "🇬🇪"
+  },
+  {
+    "id": "a13f48ca2bed11f091d77e1e",
+    "country": "Germany",
+    "country_code": "49",
+    "emoji": "🇩🇪"
+  },
+  {
+    "id": "a13f49522bed11f091d77e1e",
+    "country": "Ghana",
+    "country_code": "233",
+    "emoji": "🇬🇭"
+  },
+  {
+    "id": "a13f49ee2bed11f091d77e1e",
+    "country": "Gibraltar",
+    "country_code": "350",
+    "emoji": "🇬🇮"
+  },
+  {
+    "id": "a13f4a422bed11f091d77e1e",
+    "country": "Greece",
+    "country_code": "30",
+    "emoji": "🇬🇷"
+  },
+  {
+    "id": "a13f4a962bed11f091d77e1e",
+    "country": "Greenland",
+    "country_code": "299",
+    "emoji": "🇬🇱"
+  },
+  {
+    "id": "a13f4aee2bed11f091d77e1e",
+    "country": "Grenada",
+    "country_code": "1-473",
+    "emoji": "🇬🇩"
+  },
+  {
+    "id": "a13f4b482bed11f091d77e1e",
+    "country": "Guadeloupe",
+    "country_code": "590",
+    "emoji": "🇬🇵"
+  },
+  {
+    "id": "a13f4b9c2bed11f091d77e1e",
+    "country": "Guam",
+    "country_code": "1-671",
+    "emoji": "🇬🇺"
+  },
+  {
+    "id": "a13f4bef2bed11f091d77e1e",
+    "country": "Guatemala",
+    "country_code": "502",
+    "emoji": "🇬🇹"
+  },
+  {
+    "id": "a13f4c432bed11f091d77e1e",
+    "country": "Guinea",
+    "country_code": "224",
+    "emoji": "🇬🇳"
+  },
+  {
+    "id": "a13f4c962bed11f091d77e1e",
+    "country": "Guinea-Bissau",
+    "country_code": "245",
+    "emoji": "🇬🇼"
+  },
+  {
+    "id": "a13f4ce72bed11f091d77e1e",
+    "country": "Guyana",
+    "country_code": "592",
+    "emoji": "🇬🇾"
+  },
+  {
+    "id": "a13f4d3d2bed11f091d77e1e",
+    "country": "Haiti",
+    "country_code": "509",
+    "emoji": "🇭🇹"
+  },
+  {
+    "id": "a13f4d9d2bed11f091d77e1e",
+    "country": "Honduras",
+    "country_code": "504",
+    "emoji": "🇭🇳"
+  },
+  {
+    "id": "a13f4df92bed11f091d77e1e",
+    "country": "Hong Kong",
+    "country_code": "852",
+    "emoji": "🇭🇰"
+  },
+  {
+    "id": "a13f4e572bed11f091d77e1e",
+    "country": "Hungary",
+    "country_code": "36",
+    "emoji": "🇭🇺"
+  },
+  {
+    "id": "a13f4ec02bed11f091d77e1e",
+    "country": "Iceland",
+    "country_code": "354",
+    "emoji": "🇮🇸"
+  },
+  {
+    "id": "a13f4f5c2bed11f091d77e1e",
+    "country": "India",
+    "country_code": "91",
+    "emoji": "🇮🇳"
+  },
+  {
+    "id": "a13f4fc62bed11f091d77e1e",
+    "country": "Indonesia",
+    "country_code": "62",
+    "emoji": "🇮🇩"
+  },
+  {
+    "id": "a13f50312bed11f091d77e1e",
+    "country": "Iran",
+    "country_code": "98",
+    "emoji": "🇮🇷"
+  },
+  {
+    "id": "a13f50b02bed11f091d77e1e",
+    "country": "Iraq",
+    "country_code": "964",
+    "emoji": "🇮🇶"
+  },
+  {
+    "id": "a13f51162bed11f091d77e1e",
+    "country": "Ireland",
+    "country_code": "353",
+    "emoji": "🇮🇪"
+  },
+  {
+    "id": "a13f51772bed11f091d77e1e",
+    "country": "Israel",
+    "country_code": "972",
+    "emoji": "🇮🇱"
+  },
+  {
+    "id": "a13f51cc2bed11f091d77e1e",
+    "country": "Italy",
+    "country_code": "39",
+    "emoji": "🇮🇹"
+  },
+  {
+    "id": "a13f52242bed11f091d77e1e",
+    "country": "Jamaica",
+    "country_code": "1-876",
+    "emoji": "🇯🇲"
+  },
+  {
+    "id": "a13f527e2bed11f091d77e1e",
+    "country": "Japan",
+    "country_code": "81",
+    "emoji": "🇯🇵"
+  },
+  {
+    "id": "a13f52dd2bed11f091d77e1e",
+    "country": "Jordan",
+    "country_code": "962",
+    "emoji": "🇯🇴"
+  },
+  {
+    "id": "a13f53372bed11f091d77e1e",
+    "country": "Kazakhstan",
+    "country_code": "7",
+    "emoji": "🇰🇿"
+  },
+  {
+    "id": "a13f53932bed11f091d77e1e",
+    "country": "Kenya",
+    "country_code": "254",
+    "emoji": "🇰🇪"
+  },
+  {
+    "id": "a13f53f42bed11f091d77e1e",
+    "country": "Kiribati",
+    "country_code": "686",
+    "emoji": "🇰🇮"
+  },
+  {
+    "id": "a13f54532bed11f091d77e1e",
+    "country": "North Korea",
+    "country_code": "850",
+    "emoji": "🇰🇵"
+  },
+  {
+    "id": "a13f54af2bed11f091d77e1e",
+    "country": "South Korea",
+    "country_code": "82",
+    "emoji": "🇰🇷"
+  },
+  {
+    "id": "a13f550c2bed11f091d77e1e",
+    "country": "Kuwait",
+    "country_code": "965",
+    "emoji": "🇰🇼"
+  },
+  {
+    "id": "a13f55652bed11f091d77e1e",
+    "country": "Kyrgyzstan",
+    "country_code": "996",
+    "emoji": "🇰🇬"
+  },
+  {
+    "id": "a13f55c52bed11f091d77e1e",
+    "country": "Laos",
+    "country_code": "856",
+    "emoji": "🇱🇦"
+  },
+  {
+    "id": "a13f56222bed11f091d77e1e",
+    "country": "Latvia",
+    "country_code": "371",
+    "emoji": "🇱🇻"
+  },
+  {
+    "id": "a13f56812bed11f091d77e1e",
+    "country": "Lebanon",
+    "country_code": "961",
+    "emoji": "🇱🇧"
+  },
+  {
+    "id": "a13f56dd2bed11f091d77e1e",
+    "country": "Lesotho",
+    "country_code": "266",
+    "emoji": "🇱🇸"
+  },
+  {
+    "id": "a13f573e2bed11f091d77e1e",
+    "country": "Liberia",
+    "country_code": "231",
+    "emoji": "🇱🇷"
+  },
+  {
+    "id": "a13f57942bed11f091d77e1e",
+    "country": "Libya",
+    "country_code": "218",
+    "emoji": "🇱🇾"
+  },
+  {
+    "id": "a13f57f72bed11f091d77e1e",
+    "country": "Liechtenstein",
+    "country_code": "423",
+    "emoji": "🇱🇮"
+  },
+  {
+    "id": "a13f58552bed11f091d77e1e",
+    "country": "Lithuania",
+    "country_code": "370",
+    "emoji": "🇱🇹"
+  },
+  {
+    "id": "a13f58be2bed11f091d77e1e",
+    "country": "Luxembourg",
+    "country_code": "352",
+    "emoji": "🇱🇺"
+  },
+  {
+    "id": "a13f59512bed11f091d77e1e",
+    "country": "Macau",
+    "country_code": "853",
+    "emoji": "🇲🇴"
+  },
+  {
+    "id": "a13f59ba2bed11f091d77e1e",
+    "country": "Macedonia",
+    "country_code": "389",
+    "emoji": "🇲🇰"
+  },
+  {
+    "id": "a13f5a1d2bed11f091d77e1e",
+    "country": "Madagascar",
+    "country_code": "261",
+    "emoji": "🇲🇬"
+  },
+  {
+    "id": "a13f5a602bed11f091d77e1e",
+    "country": "Malawi",
+    "country_code": "265",
+    "emoji": "🇲🇼"
+  },
+  {
+    "id": "a13f5ab72bed11f091d77e1e",
+    "country": "Malaysia",
+    "country_code": "60",
+    "emoji": "🇲🇾"
+  },
+  {
+    "id": "a13f5b172bed11f091d77e1e",
+    "country": "Maldives",
+    "country_code": "960",
+    "emoji": "🇲🇻"
+  },
+  {
+    "id": "a13f5b622bed11f091d77e1e",
+    "country": "Mali",
+    "country_code": "223",
+    "emoji": "🇲🇱"
+  },
+  {
+    "id": "a13f5bc22bed11f091d77e1e",
+    "country": "Malta",
+    "country_code": "356",
+    "emoji": "🇲🇹"
+  },
+  {
+    "id": "a13f5c1b2bed11f091d77e1e",
+    "country": "Marshall Islands",
+    "country_code": "692",
+    "emoji": "🇲🇭"
+  },
+  {
+    "id": "a13f5c7a2bed11f091d77e1e",
+    "country": "Martinique",
+    "country_code": "596",
+    "emoji": "🇲🇶"
+  },
+  {
+    "id": "a13f5cda2bed11f091d77e1e",
+    "country": "Mauritania",
+    "country_code": "222",
+    "emoji": "🇲🇷"
+  },
+  {
+    "id": "a13fc89a2bed11f091d77e1e",
+    "country": "Mauritius",
+    "country_code": "230",
+    "emoji": "🇲🇺"
+  },
+  {
+    "id": "a13fcbab2bed11f091d77e1e",
+    "country": "Mayotte",
+    "country_code": "269",
+    "emoji": "🇾🇹"
+  },
+  {
+    "id": "a13fcc172bed11f091d77e1e",
+    "country": "Mexico",
+    "country_code": "52",
+    "emoji": "🇲🇽"
+  },
+  {
+    "id": "a13fcc772bed11f091d77e1e",
+    "country": "Micronesia",
+    "country_code": "691",
+    "emoji": "🇫🇲"
+  },
+  {
+    "id": "a13fcce42bed11f091d77e1e",
+    "country": "Moldova",
+    "country_code": "373",
+    "emoji": "🇲🇩"
+  },
+  {
+    "id": "a13fcd462bed11f091d77e1e",
+    "country": "Monaco",
+    "country_code": "377",
+    "emoji": "🇲🇨"
+  },
+  {
+    "id": "a13fcda42bed11f091d77e1e",
+    "country": "Mongolia",
+    "country_code": "976",
+    "emoji": "🇲🇳"
+  },
+  {
+    "id": "a13fcdfd2bed11f091d77e1e",
+    "country": "Montserrat",
+    "country_code": "1-664",
+    "emoji": "🇲🇸"
+  },
+  {
+    "id": "a13fce562bed11f091d77e1e",
+    "country": "Morocco",
+    "country_code": "212",
+    "emoji": "🇲🇦"
+  },
+  {
+    "id": "a13fceae2bed11f091d77e1e",
+    "country": "Mozambique",
+    "country_code": "258",
+    "emoji": "🇲🇿"
+  },
+  {
+    "id": "a13fcf0b2bed11f091d77e1e",
+    "country": "Myanmar",
+    "country_code": "95",
+    "emoji": "🇲🇲"
+  },
+  {
+    "id": "a13fcf632bed11f091d77e1e",
+    "country": "Namibia",
+    "country_code": "264",
+    "emoji": "🇳🇦"
+  },
+  {
+    "id": "a13fcfb72bed11f091d77e1e",
+    "country": "Nauru",
+    "country_code": "674",
+    "emoji": "🇳🇷"
+  },
+  {
+    "id": "a13fd0112bed11f091d77e1e",
+    "country": "Nepal",
+    "country_code": "977",
+    "emoji": "🇳🇵"
+  },
+  {
+    "id": "a13fd0742bed11f091d77e1e",
+    "country": "Netherlands",
+    "country_code": "31",
+    "emoji": "🇳🇱"
+  },
+  {
+    "id": "a13fd0db2bed11f091d77e1e",
+    "country": "Netherlands Antilles",
+    "country_code": "599",
+    "emoji": "🇧🇶"
+  },
+  {
+    "id": "a13fd1442bed11f091d77e1e",
+    "country": "New Caledonia",
+    "country_code": "687",
+    "emoji": "🇳🇨"
+  },
+  {
+    "id": "a13fd19b2bed11f091d77e1e",
+    "country": "New Zealand",
+    "country_code": "64",
+    "emoji": "🇳🇿"
+  },
+  {
+    "id": "a13fd1f02bed11f091d77e1e",
+    "country": "Nicaragua",
+    "country_code": "505",
+    "emoji": "🇳🇮"
+  },
+  {
+    "id": "a13fd2472bed11f091d77e1e",
+    "country": "Niger",
+    "country_code": "227",
+    "emoji": "🇳🇪"
+  },
+  {
+    "id": "a13fd2a42bed11f091d77e1e",
+    "country": "Nigeria",
+    "country_code": "234",
+    "emoji": "🇳🇬"
+  },
+  {
+    "id": "a13fd2fa2bed11f091d77e1e",
+    "country": "Niue",
+    "country_code": "683",
+    "emoji": "🇳🇺"
+  },
+  {
+    "id": "a13fd3522bed11f091d77e1e",
+    "country": "Norfolk Island",
+    "country_code": "672",
+    "emoji": "🇳🇫"
+  },
+  {
+    "id": "a13fd3ac2bed11f091d77e1e",
+    "country": "Northern Mariana Islands",
+    "country_code": "1-670",
+    "emoji": "🇲🇵"
+  },
+  {
+    "id": "a13fd4042bed11f091d77e1e",
+    "country": "Norway",
+    "country_code": "47",
+    "emoji": "🇳🇴"
+  },
+  {
+    "id": "a13fd4622bed11f091d77e1e",
+    "country": "Oman",
+    "country_code": "968",
+    "emoji": "🇴🇲"
+  },
+  {
+    "id": "a13fd4b62bed11f091d77e1e",
+    "country": "Pakistan",
+    "country_code": "92",
+    "emoji": "🇵🇰"
+  },
+  {
+    "id": "a13fd50a2bed11f091d77e1e",
+    "country": "Palau",
+    "country_code": "680",
+    "emoji": "🇵🇼"
+  },
+  {
+    "id": "ff84244a2bed11f091d77e1e",
+    "country": "Palestinian State",
+    "country_code": "970",
+    "emoji": "🇵🇸"
+  },
+  {
+    "id": "ff8429172bed11f091d77e1e",
+    "country": "Panama",
+    "country_code": "507",
+    "emoji": "🇵🇦"
+  },
+  {
+    "id": "ff8429c92bed11f091d77e1e",
+    "country": "Papua New Guinea",
+    "country_code": "675",
+    "emoji": "🇵🇬"
+  },
+  {
+    "id": "ff842a392bed11f091d77e1e",
+    "country": "Paraguay",
+    "country_code": "595",
+    "emoji": "🇵🇾"
+  },
+  {
+    "id": "ff842ab12bed11f091d77e1e",
+    "country": "Peru",
+    "country_code": "51",
+    "emoji": "🇵🇪"
+  },
+  {
+    "id": "ff842b1a2bed11f091d77e1e",
+    "country": "Philippines",
+    "country_code": "63",
+    "emoji": "🇵🇭"
+  },
+  {
+    "id": "ff842b7c2bed11f091d77e1e",
+    "country": "Poland",
+    "country_code": "48",
+    "emoji": "🇵🇱"
+  },
+  {
+    "id": "ff842be52bed11f091d77e1e",
+    "country": "Portugal",
+    "country_code": "351",
+    "emoji": "🇵🇹"
+  },
+  {
+    "id": "ff842c512bed11f091d77e1e",
+    "country": "Puerto Rico",
+    "country_code": "1-787",
+    "emoji": "🇵🇷"
+  },
+  {
+    "id": "ff842cb72bed11f091d77e1e",
+    "country": "Puerto Rico",
+    "country_code": "1-939",
+    "emoji": "🇵🇷"
+  },
+  {
+    "id": "ff842d222bed11f091d77e1e",
+    "country": "Qatar",
+    "country_code": "974",
+    "emoji": "🇶🇦"
+  },
+  {
+    "id": "ff842d822bed11f091d77e1e",
+    "country": "Bourbon Island",
+    "country_code": "262",
+    "emoji": "🇷🇪"
+  },
+  {
+    "id": "ff842deb2bed11f091d77e1e",
+    "country": "Romania",
+    "country_code": "40",
+    "emoji": "🇷🇴"
+  },
+  {
+    "id": "ff842e512bed11f091d77e1e",
+    "country": "Russia",
+    "country_code": "7",
+    "emoji": "🇷🇺"
+  },
+  {
+    "id": "ff842ec12bed11f091d77e1e",
+    "country": "Rwanda",
+    "country_code": "250",
+    "emoji": "🇷🇼"
+  },
+  {
+    "id": "ff842f212bed11f091d77e1e",
+    "country": "Saint Helena",
+    "country_code": "290",
+    "emoji": "🇸🇭"
+  },
+  {
+    "id": "ff842f832bed11f091d77e1e",
+    "country": "Saint Kitts and Nevis",
+    "country_code": "1-869",
+    "emoji": "🇰🇳"
+  },
+  {
+    "id": "ff842ff02bed11f091d77e1e",
+    "country": "Saint Lucia",
+    "country_code": "1-758",
+    "emoji": "🇱🇨"
+  },
+  {
+    "id": "ff8430582bed11f091d77e1e",
+    "country": "Saint Pierre and Miquelon",
+    "country_code": "508",
+    "emoji": "🇵🇲"
+  },
+  {
+    "id": "ff8431ab2bed11f091d77e1e",
+    "country": "Saint Vincent and the Grenadines",
+    "country_code": "1-784",
+    "emoji": "🇻🇨"
+  },
+  {
+    "id": "ff8432102bed11f091d77e1e",
+    "country": "Samoa",
+    "country_code": "685",
+    "emoji": "🇼🇸"
+  },
+  {
+    "id": "ff84326a2bed11f091d77e1e",
+    "country": "San Marino",
+    "country_code": "378",
+    "emoji": "🇸🇲"
+  },
+  {
+    "id": "ff8432cb2bed11f091d77e1e",
+    "country": "Sao Tome and Principe",
+    "country_code": "239",
+    "emoji": "🇸🇹"
+  },
+  {
+    "id": "ff8433372bed11f091d77e1e",
+    "country": "Saudi Arabia",
+    "country_code": "966",
+    "emoji": "🇸🇦"
+  },
+  {
+    "id": "ff8433962bed11f091d77e1e",
+    "country": "Senegal",
+    "country_code": "221",
+    "emoji": "🇸🇳"
+  },
+  {
+    "id": "ff8433f32bed11f091d77e1e",
+    "country": "Seychelles",
+    "country_code": "248",
+    "emoji": "🇸🇨"
+  },
+  {
+    "id": "ff8434612bed11f091d77e1e",
+    "country": "Sierra Leone",
+    "country_code": "232",
+    "emoji": "🇸🇱"
+  },
+  {
+    "id": "ff8434c62bed11f091d77e1e",
+    "country": "Singapore",
+    "country_code": "65",
+    "emoji": "🇸🇬"
+  },
+  {
+    "id": "ff8435232bed11f091d77e1e",
+    "country": "Slovakia",
+    "country_code": "421",
+    "emoji": "🇸🇰"
+  },
+  {
+    "id": "ff8435e22bed11f091d77e1e",
+    "country": "Slovenia",
+    "country_code": "386",
+    "emoji": "🇸🇮"
+  },
+  {
+    "id": "ff8438a92bed11f091d77e1e",
+    "country": "Solomon Islands",
+    "country_code": "677",
+    "emoji": "🇸🇧"
+  },
+  {
+    "id": "ff8438ec2bed11f091d77e1e",
+    "country": "Somalia",
+    "country_code": "252",
+    "emoji": "🇸🇴"
+  },
+  {
+    "id": "ff8439292bed11f091d77e1e",
+    "country": "South Africa",
+    "country_code": "27",
+    "emoji": "🇿🇦"
+  },
+  {
+    "id": "ff8439672bed11f091d77e1e",
+    "country": "Spain",
+    "country_code": "34",
+    "emoji": "🇪🇸"
+  },
+  {
+    "id": "ff8439a52bed11f091d77e1e",
+    "country": "Sri Lanka",
+    "country_code": "94",
+    "emoji": "🇱🇰"
+  },
+  {
+    "id": "ff8439e12bed11f091d77e1e",
+    "country": "Sudan",
+    "country_code": "249",
+    "emoji": "🇸🇩"
+  },
+  {
+    "id": "ff843a1e2bed11f091d77e1e",
+    "country": "Suriname",
+    "country_code": "597",
+    "emoji": "🇸🇷"
+  },
+  {
+    "id": "ff843a5d2bed11f091d77e1e",
+    "country": "Swaziland",
+    "country_code": "268",
+    "emoji": "🇸🇿"
+  },
+  {
+    "id": "ff843a9a2bed11f091d77e1e",
+    "country": "Sweden",
+    "country_code": "46",
+    "emoji": "🇸🇪"
+  },
+  {
+    "id": "ff843ad72bed11f091d77e1e",
+    "country": "Switzerland",
+    "country_code": "41",
+    "emoji": "🇨🇭"
+  },
+  {
+    "id": "ff843b152bed11f091d77e1e",
+    "country": "Syria",
+    "country_code": "963",
+    "emoji": "🇸🇾"
+  },
+  {
+    "id": "ff843b572bed11f091d77e1e",
+    "country": "Taiwan",
+    "country_code": "886",
+    "emoji": "🇹🇼"
+  },
+  {
+    "id": "ff843b992bed11f091d77e1e",
+    "country": "Tajikistan",
+    "country_code": "992",
+    "emoji": "🇹🇯"
+  },
+  {
+    "id": "ff843c122bed11f091d77e1e",
+    "country": "Tanzania",
+    "country_code": "255",
+    "emoji": "🇹🇿"
+  },
+  {
+    "id": "ff843cae2bed11f091d77e1e",
+    "country": "Thailand",
+    "country_code": "66",
+    "emoji": "🇹🇭"
+  },
+  {
+    "id": "ff843d112bed11f091d77e1e",
+    "country": "Tokelau",
+    "country_code": "690",
+    "emoji": "🇹🇰"
+  },
+  {
+    "id": "ff843d632bed11f091d77e1e",
+    "country": "Tonga",
+    "country_code": "676",
+    "emoji": "🇹🇴"
+  },
+  {
+    "id": "ff843dbb2bed11f091d77e1e",
+    "country": "Trinidad and Tobago",
+    "country_code": "-867",
+    "emoji": "🇹🇹"
+  },
+  {
+    "id": "ff843e262bed11f091d77e1e",
+    "country": "Tunisia",
+    "country_code": "216",
+    "emoji": "🇹🇳"
+  },
+  {
+    "id": "ff843e8d2bed11f091d77e1e",
+    "country": "Turkey",
+    "country_code": "90",
+    "emoji": "🇹🇷"
+  },
+  {
+    "id": "ff843eee2bed11f091d77e1e",
+    "country": "Turkmenistan",
+    "country_code": "993",
+    "emoji": "🇹🇲"
+  },
+  {
+    "id": "ff843f512bed11f091d77e1e",
+    "country": "Turks and Caicos Islands",
+    "country_code": "1-649",
+    "emoji": "🇹🇨"
+  },
+  {
+    "id": "ff843f972bed11f091d77e1e",
+    "country": "Tuvalu",
+    "country_code": "688",
+    "emoji": "🇹🇻"
+  },
+  {
+    "id": "ff843fd52bed11f091d77e1e",
+    "country": "Uganda",
+    "country_code": "256",
+    "emoji": "🇺🇬"
+  },
+  {
+    "id": "ff8440112bed11f091d77e1e",
+    "country": "Ukraine",
+    "country_code": "380",
+    "emoji": "🇺🇦"
+  },
+  {
+    "id": "ff84404f2bed11f091d77e1e",
+    "country": "United Arab Emirates",
+    "country_code": "971",
+    "emoji": "🇦🇪"
+  },
+  {
+    "id": "ff84412b2bed11f091d77e1e",
+    "country": "United Kingdom",
+    "country_code": "44",
+    "emoji": "🇬🇧"
+  },
+  {
+    "id": "ff8441702bed11f091d77e1e",
+    "country": "United States of America",
+    "country_code": "1",
+    "emoji": "🇺🇸"
+  },
+  {
+    "id": "ff8441af2bed11f091d77e1e",
+    "country": "Uruguay",
+    "country_code": "598",
+    "emoji": "🇺🇾"
+  },
+  {
+    "id": "ff8441ed2bed11f091d77e1e",
+    "country": "Uzbekistan",
+    "country_code": "998",
+    "emoji": "🇺🇿"
+  },
+  {
+    "id": "ff8442292bed11f091d77e1e",
+    "country": "Vanuatu",
+    "country_code": "678",
+    "emoji": "🇻🇺"
+  },
+  {
+    "id": "ff84426a2bed11f091d77e1e",
+    "country": "Vatican City State",
+    "country_code": "418",
+    "emoji": "🇻🇦"
+  },
+  {
+    "id": "ff8442aa2bed11f091d77e1e",
+    "country": "Venezuela",
+    "country_code": "58",
+    "emoji": "🇻🇪"
+  },
+  {
+    "id": "ff8442e62bed11f091d77e1e",
+    "country": "Vietnam",
+    "country_code": "84",
+    "emoji": "🇻🇳"
+  },
+  {
+    "id": "ff8443282bed11f091d77e1e",
+    "country": "Virgin Islands, British",
+    "country_code": "1-284",
+    "emoji": "🇻🇬"
+  },
+  {
+    "id": "ff8443692bed11f091d77e1e",
+    "country": "Virgin Islands, United States",
+    "country_code": "1-340",
+    "emoji": "🇻🇮"
+  },
+  {
+    "id": "ff8443ac2bed11f091d77e1e",
+    "country": "Wallis and Futuna Islands",
+    "country_code": "681",
+    "emoji": "🇼🇫"
+  },
+  {
+    "id": "ff8443eb2bed11f091d77e1e",
+    "country": "Yemen",
+    "country_code": "967",
+    "emoji": "🇾🇪"
+  },
+  {
+    "id": "ff8444272bed11f091d77e1e",
+    "country": "Zambia",
+    "country_code": "260",
+    "emoji": "🇿🇲"
+  },
+  {
+    "id": "ff8444662bed11f091d77e1e",
+    "country": "Zimbabwe",
+    "country_code": "263",
+    "emoji": "🇿🇼"
+  }
 ]

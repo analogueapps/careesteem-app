@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemBodyMapAddedBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.bumptech.glide.Glide
 import java.io.File
@@ -36,19 +37,25 @@ class FileAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: FileModel) {
-            binding.apply {
-                tvBodyPartNames.text = data.bodyPartNames
+            try {
+                binding.apply {
+                    tvBodyPartNames.text = data.bodyPartNames
 
-                // Load local image using Glide
-                Glide.with(context)
-                    .load(File(data.filePath))
-                    .placeholder(R.drawable.logo_preview)
-                    .into(fileImageView)
+                    // Load local image using Glide
+                    Glide.with(context)
+                        .load(File(data.filePath))
+                        .override(400, 300)
+                        .placeholder(R.drawable.logo_preview)
+                        .into(fileImageView)
 
-                // Handle delete button click
-                btnDelete.setOnClickListener {
-                    onDelete(adapterPosition)
+                    // Handle delete button click
+                    btnDelete.setOnClickListener {
+                        onDelete(adapterPosition)
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("FileAdapter",""+e.printStackTrace())
             }
         }
     }

@@ -12,15 +12,15 @@ data class VisitListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        var clientId: Int,
-        var visitDetailsId: Int,
+        var clientId: String,
+        var visitDetailsId: String,
         var uatId: Int = 0,
         var clientAddress: String,
         var clientName: String,
         var plannedEndTime: String,
         var plannedStartTime: String,
         var totalPlannedTime: String,
-        var userId: String,
+        var userId: List<String> = emptyList(),
         var usersRequired: Int,
         var latitude: Any,
         var longitude: Any,
@@ -33,7 +33,7 @@ data class VisitListResponse(
         var actualEndTime: List<String> = emptyList(),
         var TotalActualTimeDiff: List<String> = emptyList(),
         var userName: List<String> = emptyList(),
-        var profile_photo: List<String> = emptyList()
+        var profile_photo_name: List<String> = emptyList()
     )
 }
 

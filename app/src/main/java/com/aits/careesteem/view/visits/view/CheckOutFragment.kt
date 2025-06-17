@@ -39,7 +39,9 @@ import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
@@ -232,6 +234,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateUIForVisitDetails(data: VisitDetailsResponse.Data) {
 //        binding.btnCheckIn.visibility = if (args.action == 0 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
 //        binding.btnCheckOut.visibility = if (args.action == 1 && data.placeId.isEmpty()) View.GONE else View.VISIBLE
@@ -249,9 +252,20 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 //            }
 //        }
 
+        if (args.action == 0) {
+            binding.textStatus.text = "Check in"
+        } else if (args.action == 1) {
+            binding.textStatus.text = "Check out"
+        }
+        binding.textName.text = data.clientName
+
+        val initials = GooglePlaceHolder().getInitialsSingle(data.clientName)
+        val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+        binding.imageProfile.setImageBitmap(initialsBitmap)
+
         binding.btnCheckIn.setOnClickListener {
             if(viewModel.markerPosition.value == null) {
-                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.", ToastyType.WARNING)
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
@@ -265,7 +279,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
         binding.btnCheckOut.setOnClickListener {
             if(viewModel.markerPosition.value == null) {
-                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.")
+                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.", ToastyType.WARNING)
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
@@ -1030,7 +1044,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun showToast(message: String) {
-        AlertUtils.showToast(requireActivity(), message)
+        AlertUtils.showToast(requireActivity(), message, ToastyType.WARNING)
     }
 
     override fun onDestroyView() {

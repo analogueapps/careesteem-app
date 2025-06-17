@@ -9,11 +9,13 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemTodoListBinding
+import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.TodoListResponse
 
 class TodoListAdapter(
@@ -25,10 +27,30 @@ class TodoListAdapter(
         fun onItemItemClicked(data: TodoListResponse.Data)
     }
 
+//    private var todoList = listOf<TodoListResponse.Data>()
+//
+//    fun updateList(list: List<TodoListResponse.Data>) {
+//        todoList = list
+//        notifyDataSetChanged()
+//    }
+
+    private var fullAdapterList = listOf<TodoListResponse.Data>()
     private var todoList = listOf<TodoListResponse.Data>()
 
     fun updateList(list: List<TodoListResponse.Data>) {
+        fullAdapterList = list
         todoList = list
+        notifyDataSetChanged()
+    }
+
+    fun filter(query: String) {
+        todoList = if (query.isEmpty()) {
+            fullAdapterList
+        } else {
+            fullAdapterList.filter {
+                it.todoName.contains(query, ignoreCase = true)
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -60,16 +82,23 @@ class TodoListAdapter(
         fun bind(data: TodoListResponse.Data) {
             binding.apply {
                 todoName.text = data.todoName
-                todoStatus.text = data.todoOutcome
+                //todoStatus.text = data.todoOutcome
+
+                when (data.todoEssential) {
+                    true -> todoOutcome.visibility = View.VISIBLE
+                    false -> todoOutcome.visibility = View.GONE
+                }
 
                 when (data.todoOutcome) {
                     "Not Completed" -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_red_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.red)
+//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_red_bg)
+//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.red)
+                        setImageResource(R.drawable.cross)
                     }
                     "Completed" -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+                        setImageResource(R.drawable.tick)
                     }
 //                    else -> todoStatus.apply {
 //                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)

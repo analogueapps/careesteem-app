@@ -38,21 +38,23 @@
                     android:id="@+id/tvClientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_13ssp"
-                    tools:targetApi="p" />
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10ssp"
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvClientAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_9ssp"
-                    tools:targetApi="p" />
+                    android:singleLine="true"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_8ssp"
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -74,13 +76,12 @@
                     android:id="@+id/tvUserRequired"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:layout_centerInParent="true"
                     android:textColor="@color/white"
                     android:text="1"
-                    android:textFontWeight="600"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_8ssp"
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
@@ -118,22 +119,22 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Total Time"
-                    android:textFontWeight="500"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_8ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPlanTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_8ssp"
-                    tools:targetApi="p" />
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -160,11 +161,11 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="500"
+                android:textStyle="normal"
                 android:textSize="@dimen/_10ssp"
-                tools:targetApi="p" />
+                 />
 
             <Space
                 android:visibility="gone"
@@ -198,11 +199,11 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="500"
+                android:textStyle="normal"
                 android:textSize="@dimen/_10ssp"
-                tools:targetApi="p" />
+                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -229,12 +230,12 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/check_in_time"
                     android:textAllCaps="false"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_8ssp"
+                     />
 
                 <Space
                     android:layout_width="@dimen/_10sdp"
@@ -246,12 +247,12 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/check_out_time"
                     android:textAllCaps="false"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_8ssp"
+                     />
 
                 <Space
                     android:layout_width="@dimen/_5sdp"
@@ -262,18 +263,19 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
+            android:visibility="gone"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/tvViewVisit"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="@string/view"
             android:textAllCaps="false"
-            android:textFontWeight="500"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

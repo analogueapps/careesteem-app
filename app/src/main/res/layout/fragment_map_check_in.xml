@@ -40,14 +40,14 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply"
             android:text="@string/check_in"
             android:textAllCaps="false"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p" />
+             />
 
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"
@@ -60,14 +60,14 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply"
             android:text="@string/check_out"
             android:textAllCaps="false"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

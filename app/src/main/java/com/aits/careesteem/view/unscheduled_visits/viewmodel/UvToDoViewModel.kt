@@ -18,6 +18,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
@@ -55,7 +56,7 @@ class UvToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -75,11 +76,11 @@ class UvToDoViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
@@ -93,7 +94,7 @@ class UvToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -108,7 +109,7 @@ class UvToDoViewModel @Inject constructor(
 
                 val response = repository.addUnscheduledTodoDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    visitDetailsId = visitDetailsId.toInt(),
+                    visitDetailsId = visitDetailsId,
                     todoUserId = userData.id,
                     todoCreatedAt = createdAt,
                     todoNotes = todoNotes
@@ -118,16 +119,16 @@ class UvToDoViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"))
+                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
@@ -139,13 +140,13 @@ class UvToDoViewModel @Inject constructor(
         }
     }
 
-    fun updateNotes(activity: Activity, visitDetailsId: String, todoDetailsId: Int, todoNotes: String) {
+    fun updateNotes(activity: Activity, visitDetailsId: String, todoDetailsId: String, todoNotes: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -165,16 +166,16 @@ class UvToDoViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"))
+                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false

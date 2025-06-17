@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -40,10 +41,24 @@ class ClientAdapter(
         fun onItemClicked(data: ClientsList.Data)
     }
 
+    private var fullClientList = listOf<ClientsList.Data>()
     private var clientList = listOf<ClientsList.Data>()
 
     fun updateList(list: List<ClientsList.Data>) {
+        fullClientList = list
         clientList = list
+        notifyDataSetChanged()
+    }
+
+    fun filter(query: String) {
+        clientList = if (query.isEmpty()) {
+            fullClientList
+        } else {
+            fullClientList.filter {
+                it.full_name.contains(query, ignoreCase = true) ||
+                        it.contact_number.contains(query, ignoreCase = true)
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -101,7 +116,7 @@ class ClientAdapter(
                     }
                 }
 
-                if (data.profile_photo.isNotEmpty()) {
+                if (data.profile_photo != null && data.profile_photo.isNotEmpty()) {
                     // Convert the Base64 string to a Bitmap
                     val bitmap = AppConstant.base64ToBitmap(data.profile_photo)
 
@@ -109,6 +124,13 @@ class ClientAdapter(
                     bitmap?.let {
                         clientImage.setImageBitmap(it)
                     }
+                } else if (data.profile_image_url != null && data.profile_image_url.isNotEmpty()) {
+                    Glide.with(context)
+                        .load(data.profile_image_url)
+                        .override(400, 300)
+                        .placeholder(R.drawable.logo_preview)
+                        .error(R.drawable.logo_preview)
+                        .into(clientImage)
                 } else {
                     val initials = GooglePlaceHolder().getInitialsSingle(data.full_name)
                     val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)

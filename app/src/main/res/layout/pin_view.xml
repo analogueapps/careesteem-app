@@ -52,21 +52,21 @@
             android:background="@drawable/oval"
             tools:backgroundTint="#f6e7f4" />
 
-        <View
-            android:id="@+id/pinFiveProgress"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="19dp"
-            android:background="@drawable/oval"
-            tools:backgroundTint="#f6e7f4" />
+<!--        <View-->
+<!--            android:id="@+id/pinFiveProgress"-->
+<!--            android:layout_width="15dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_marginStart="19dp"-->
+<!--            android:background="@drawable/oval"-->
+<!--            tools:backgroundTint="#f6e7f4" />-->
 
-        <View
-            android:id="@+id/pinSixProgress"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="19dp"
-            android:background="@drawable/oval"
-            tools:backgroundTint="#f6e7f4" />
+<!--        <View-->
+<!--            android:id="@+id/pinSixProgress"-->
+<!--            android:layout_width="15dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_marginStart="19dp"-->
+<!--            android:background="@drawable/oval"-->
+<!--            tools:backgroundTint="#f6e7f4" />-->
     </LinearLayout>
 
     <TextView

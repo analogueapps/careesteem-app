@@ -1,24 +1,20 @@
 package com.aits.careesteem.view.alerts.view
 
+import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import android.view.*
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.DialogFragment
-import com.aits.careesteem.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.aits.careesteem.databinding.DialogBodyMappingBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ToastyType
 import java.io.File
 
-
-class BodyMapMarksDialog : DialogFragment() {
-    private lateinit var toolbar: Toolbar
+class BodyMapMarksDialog : BottomSheetDialogFragment() {
 
     private var _binding: DialogBodyMappingBinding? = null
     private val binding get() = _binding!!
@@ -42,14 +38,37 @@ class BodyMapMarksDialog : DialogFragment() {
         arguments?.let {
             bodyPartType = it.getString("bodyPartType")
             bodyPartName = it.getString("bodyPartName")
-            bitmap = it.getParcelable("bitmap") // Retrieve bitmap
+            bitmap = it.getParcelable("bitmap")
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = object : BottomSheetDialog(requireContext(), theme) {
+            override fun onBackPressed() {
+                // Prevent dismissing on back press
+            }
+        }
+
+        dialog.setOnShowListener { dlg ->
+            val d = dlg as BottomSheetDialog
+            val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let {
+                val behavior = BottomSheetBehavior.from(it)
+                behavior.isDraggable = false
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+            }
+
+            // ✅ Set dim amount to 0.8
+            d.window?.apply {
+                addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                setDimAmount(0.8f)
+            }
+        }
+
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        return dialog
     }
 
     override fun onCreateView(
@@ -62,17 +81,19 @@ class BodyMapMarksDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set image in ImageView
         bitmap?.let {
             binding.bodyMapView.setImageBitmap(it)
         }
 
-        // Setup toolbar with navigation and menu items
-        toolbar = view.findViewById(R.id.toolbar) // Assuming you have a toolbar in your dialog layout
-        toolbar.apply {
-            setNavigationOnClickListener { dismiss() } // Dismiss the dialog when the navigation button is clicked
-            setTitle(arguments?.getString("bodyPartName") ?: "")
-            setTitleTextColor(resources.getColor(R.color.black))
+        binding.toolbar.apply {
+            title = bodyPartName ?: ""
+            setNavigationOnClickListener { dismiss() }
+        }
+
+        binding.bodyPartName.text = bodyPartName ?: ""
+
+        binding.closeButton.setOnClickListener {
+            dismiss()
         }
 
         binding.btnUndo.setOnClickListener {
@@ -84,44 +105,14 @@ class BodyMapMarksDialog : DialogFragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            //dialog.dismiss() - Dialog will be dismissed by toolbar or menu item clicks
-//            if (binding.bodyMapView.hasMarkers()) {
-//                dismiss()
-//                val bitmap = binding.bodyMapView.getBitmap()
-//                val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
-//                AlertUtils.showLog("FilePath", "File saved at: ${file?.path}")
-//
-//                file?.let {
-//                    listener?.onBodyMapSaved(
-//                        arguments?.getString("bodyPartType") ?: "",
-//                        arguments?.getString("bodyPartName") ?: "",
-//                        it
-//                    )
-//                } ?: run {
-//                    AlertUtils.showToast(requireActivity(), "Something went wrong")
-//                }
-//            } else {
-//                //AlertUtils.showToast(requireActivity(), "Please add at least one marker before saving.")
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle("Alert")
-//                    .setMessage("Please add at least one marker before saving.")
-//                    .setPositiveButton("Okay", null)
-//                    .show()
-//            }
-            dismiss()
             val bitmap = binding.bodyMapView.getBitmap()
             val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
-            AlertUtils.showLog("FilePath", "File saved at: ${file?.path}")
-
             file?.let {
-                listener?.onBodyMapSaved(
-                    arguments?.getString("bodyPartType") ?: "",
-                    arguments?.getString("bodyPartName") ?: "",
-                    it
-                )
+                listener?.onBodyMapSaved(bodyPartType ?: "", bodyPartName ?: "", it)
             } ?: run {
-                AlertUtils.showToast(requireActivity(), "Something went wrong")
+                AlertUtils.showToast(requireActivity(), "Something went wrong", ToastyType.ERROR)
             }
+            dismiss()
         }
     }
 

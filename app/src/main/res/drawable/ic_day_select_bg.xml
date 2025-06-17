@@ -9,7 +9,7 @@
 
     <solid android:color="@color/colorPrimary" />
 
-    <corners android:radius="10dp" />
+    <corners android:radius="@dimen/_41sdp" />
 
     <stroke
         android:width="@dimen/_2sdp"

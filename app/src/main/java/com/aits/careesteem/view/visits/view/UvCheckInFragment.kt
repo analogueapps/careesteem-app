@@ -42,7 +42,9 @@ import com.aits.careesteem.databinding.FragmentUvCheckInBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.DirectionsResponse
@@ -136,10 +138,18 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         setupMap()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupUI() {
         binding.qrView.statusView.visibility = View.GONE
         setupTabLayout()
         setupCheckInButton()
+
+        binding.textStatus.text = "Check in"
+        binding.textName.text = clientData.full_name
+
+        val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)
+        val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+        binding.imageProfile.setImageBitmap(initialsBitmap)
     }
 
     private fun setupTabLayout() {
@@ -269,7 +279,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     private fun navigateToVisitDetails(visitDetailsId: String) {
         val direction = UvCheckInFragmentDirections
             .actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                visitDetailsId.toInt()
+                visitDetailsId
             )
 
         val navOptions = NavOptions.Builder()
@@ -640,7 +650,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun showToast(message: String) {
-        AlertUtils.showToast(requireActivity(), message)
+        AlertUtils.showToast(requireActivity(), message, ToastyType.WARNING)
     }
 
     override fun onResume() {

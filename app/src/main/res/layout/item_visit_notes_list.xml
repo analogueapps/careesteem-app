@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/cardBackground"
+    app:cardBackgroundColor="@color/white"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/colorPrimary"
     app:cardCornerRadius="@dimen/_8sdp"
@@ -40,13 +40,13 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:drawableStart="@drawable/ic_calender_small"
                     android:drawablePadding="2dip"
                     android:text="@string/app_name"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <View
                     android:id="@+id/view"
@@ -60,13 +60,14 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatImageButton
+                    android:visibility="gone"
                     android:id="@+id/editButton"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:backgroundTint="@android:color/transparent"
@@ -81,11 +82,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textFontWeight="400"
+                android:textStyle="normal"
                 android:textSize="@dimen/_10ssp"
-                tools:targetApi="p" />
+                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

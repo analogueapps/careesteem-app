@@ -31,13 +31,13 @@
                 android:tag="Invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lora_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 android:drawableEnd="@drawable/ic_keyboard_arrow_down"
                 app:drawableTint="@color/black"
                 android:text="@string/care_plan"
-                android:textFontWeight="600"
+                android:textStyle="bold"
                 android:textSize="@dimen/_11ssp"
-                tools:targetApi="p" />
+                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -56,11 +56,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Client name"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -73,10 +73,10 @@
             android:padding="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/lora_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_11ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -84,11 +84,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Visit time"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -101,10 +101,10 @@
             android:padding="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/lora_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_11ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -113,11 +113,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Severity of Concern"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -130,10 +130,10 @@
             android:padding="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/lora_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_11ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -142,11 +142,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Concern Details"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -158,12 +158,12 @@
             android:padding="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/lora_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:gravity="left|top"
             android:lines="5"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText,RtlHardcoded" />
 
         <androidx.recyclerview.widget.RecyclerView

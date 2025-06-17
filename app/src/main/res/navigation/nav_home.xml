@@ -71,7 +71,7 @@
         tools:layout="@layout/fragment_ongoing_visits_details" >
         <argument
             android:name="visitDetailsId"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_ongoingVisitsDetailsFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -88,7 +88,7 @@
         tools:layout="@layout/fragment_unscheduled_visits_details_fragment" >
         <argument
             android:name="visitDetailsId"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_unscheduledVisitsDetailsFragmentFragment_to_checkOutFragment"
             app:destination="@id/checkOutFragment" />
@@ -100,7 +100,7 @@
         tools:layout="@layout/fragment_check_out" >
         <argument
             android:name="visitDetailsId"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_checkOutFragment_to_ongoingVisitsDetailsFragment"
             app:destination="@id/ongoingVisitsDetailsFragment" />

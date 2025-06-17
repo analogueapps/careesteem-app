@@ -10,8 +10,8 @@
     android:clickable="false"
     android:focusable="true"
     android:adjustViewBounds="true"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="@dimen/_70sdp"
+    android:layout_height="@dimen/_70sdp"
     android:gravity="center">
 
     <TextView
@@ -21,22 +21,23 @@
         tools:text="0"
         android:gravity="center"
         android:background="@drawable/ic_number_oval_bg"
-        android:fontFamily="@font/arvo_regular"
+        android:fontFamily="@font/robotoslab_regular"
         tools:textSize="@dimen/_15ssp" />
 
     <ImageView
         android:id="@+id/deleteImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_backspace"
-        android:visibility="gone"
-        app:tint="@color/colorPrimary" />
+        android:layout_width="@dimen/_44sdp"
+        android:layout_height="@dimen/_44sdp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/iconamoon_backspace"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/fingerImageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/_44sdp"
+        android:layout_height="@dimen/_44sdp"
         android:background="@drawable/ic_number_oval_bg"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/ic_biometric_indicator"
         android:visibility="gone" />
 </LinearLayout>

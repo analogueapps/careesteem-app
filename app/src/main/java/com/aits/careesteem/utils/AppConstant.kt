@@ -316,9 +316,9 @@ object AppConstant {
     @SuppressLint("NewApi")
     fun isMoreThanTwoMinutesPassed(visitDate: String, visitTime: String): Boolean {
         return try {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
 
-            val dateTimeString = "${visitDate}T${visitTime.padEnd(8, '0')}" // Ensure format has seconds
+            val dateTimeString = "${visitDate}T${visitTime}" // Ensure format has seconds
 
             val plannedDateTime = LocalDateTime.parse(dateTimeString, formatter)
             val ukZone = ZoneId.of("Europe/London")

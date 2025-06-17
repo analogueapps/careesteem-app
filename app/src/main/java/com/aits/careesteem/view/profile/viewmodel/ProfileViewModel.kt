@@ -17,6 +17,7 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
@@ -50,7 +51,7 @@ class ProfileViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -71,11 +72,11 @@ class ProfileViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false

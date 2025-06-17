@@ -12,7 +12,7 @@ data class UvMedicationListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val id: Int,
+        val id: String,
         val medication_created_at: String,
         val medication_notes: String,
         val medication_updated_at: String,

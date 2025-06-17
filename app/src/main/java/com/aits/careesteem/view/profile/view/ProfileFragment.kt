@@ -40,6 +40,7 @@ import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -100,7 +101,7 @@ class ProfileFragment : Fragment() {
         val dialog = Dialog(requireContext())
         val binding: DialogForceCheckBinding =
             DialogForceCheckBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
@@ -137,7 +138,7 @@ class ProfileFragment : Fragment() {
         val dialog = Dialog(requireContext())
         val binding: DialogLogoutBinding =
             DialogLogoutBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
@@ -209,8 +210,8 @@ class ProfileFragment : Fragment() {
         binding.profileCity.text = data.city
         binding.profilePostCode.text = data.postcode
 
-        if(data.profile_photo.isNotEmpty()) {
-            editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_photo)
+        if(data.profile_image_url.isNotEmpty()) {
+            editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_image_url)
             editor.apply()
         }
         requireActivity().invalidateOptionsMenu()
@@ -225,12 +226,18 @@ class ProfileFragment : Fragment() {
 
         val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
         if (!savedPhoto.isNullOrEmpty()) {
-            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
-                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
-                    isCircular = true
-                }
-                binding.profileImage.setImageDrawable(roundedDrawable)
-            }
+//            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
+//                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
+//                    isCircular = true
+//                }
+//                binding.profileImage.setImageDrawable(roundedDrawable)
+//            }
+            Glide.with(requireContext())
+                .load(savedPhoto)
+                .override(400, 300)
+                .placeholder(R.drawable.logo_preview)
+                .error(R.drawable.logo_preview)
+                .into(binding.profileImage)
         } else {
             val initials = GooglePlaceHolder().getInitialsSingle(data.name)
             val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)

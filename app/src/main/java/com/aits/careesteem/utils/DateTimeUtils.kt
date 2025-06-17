@@ -110,7 +110,7 @@ object DateTimeUtils {
         // Convert provided date and time into a ZonedDateTime in UTC.
         val plannedDateTime = ZonedDateTime.of(
             LocalDate.parse(plannedDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-            LocalTime.parse(plannedTimeStr, DateTimeFormatter.ofPattern("HH:mm:ss")),
+            LocalTime.parse(plannedTimeStr, DateTimeFormatter.ofPattern("HH:mm")),
             ZoneId.of("Europe/London") // Ensure it's UTC
         )
 

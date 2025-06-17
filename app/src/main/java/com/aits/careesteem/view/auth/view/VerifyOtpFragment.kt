@@ -35,6 +35,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.SmsBroadcastReceiver
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
 import com.google.android.gms.auth.api.phone.SmsRetriever
@@ -54,15 +55,15 @@ class VerifyOtpFragment : Fragment() {
     @Inject
     lateinit var editor: SharedPreferences.Editor
 
-    private var userData: SendOtpUserLoginResponse.Data? = null
+    //private var userData: SendOtpUserLoginResponse.Data? = null
 
     private var smsBroadcastReceiver: SmsBroadcastReceiver? = null
     private val REQ_USER_CONSENT = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val gson = Gson()
-        userData = gson.fromJson(args.response, SendOtpUserLoginResponse.Data::class.java)
+//        val gson = Gson()
+//        userData = gson.fromJson(args.response, SendOtpUserLoginResponse.Data::class.java)
     }
 
     override fun onCreateView(
@@ -70,7 +71,7 @@ class VerifyOtpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentVerifyOtpBinding.inflate(inflater, container, false)
-        binding.tvMaskedNumber.text = AppConstant.maskPhoneNumber(userData?.contact_number ?: "1234567890")
+        binding.tvMaskedNumber.text = AppConstant.maskPhoneNumber(args.mobileNo ?: "1234567890")
         setupViewmodel()
         setupWidgets()
         startSmsUserConsent()
@@ -225,7 +226,8 @@ class VerifyOtpFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.userData = userData
+        viewModel.userMobile = args.mobileNo
+        viewModel.userCountryId = args.countryId
 
 //        viewModel.isVerifyButtonEnabled.observe(viewLifecycleOwner) { enabled ->
 //            binding.btnVerifyOtp.isEnabled = enabled
@@ -250,12 +252,12 @@ class VerifyOtpFragment : Fragment() {
                 if(viewModel.onTermsCheck.value == true) {
                     viewModel.callVerifyOtpApi(requireActivity())
                 } else {
-                    AlertUtils.showToast(requireActivity(), "Please accept the terms and conditions")
+                    AlertUtils.showToast(requireActivity(), "Please accept the terms and conditions", ToastyType.INFO)
                 }
             } else {
                 val errorMessage = viewModel.otpError.value
                 errorMessage?.let {
-                    AlertUtils.showToast(requireActivity(), it)
+                    AlertUtils.showToast(requireActivity(), it, ToastyType.ERROR)
                 }
             }
         })
@@ -263,7 +265,7 @@ class VerifyOtpFragment : Fragment() {
         viewModel.otpVerifyResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response != null) {
                 val gson = Gson()
-                val dataString = gson.toJson(response.data[0])
+//                val dataString = gson.toJson(response.data[0])
                 if (response.dbList.size == 1) {
                     viewModel.onAgencySelected(requireActivity(), response.dbList[0])
                 } else if(response.dbList.size > 1) {
@@ -305,7 +307,7 @@ class VerifyOtpFragment : Fragment() {
         val dialog = Dialog(requireContext())
         val binding: DialogForceCheckBinding =
             DialogForceCheckBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 

@@ -38,21 +38,23 @@
                     android:id="@+id/tvClientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_13ssp"
-                    tools:targetApi="p" />
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10ssp"
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvClientAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
-                    android:textSize="@dimen/_9ssp"
-                    tools:targetApi="p" />
+                    android:singleLine="true"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_8ssp"
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -74,14 +76,14 @@
                     android:id="@+id/tvUserRequired"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:layout_centerInParent="true"
                     android:maxLength="2"
                     android:textColor="@color/white"
                     android:text="1"
-                    android:textFontWeight="600"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_8ssp"
+
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
@@ -103,16 +105,16 @@
                 android:background="@drawable/ic_direction_background"
                 android:layout_width="@dimen/_110sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:fontFamily="@font/arvo_regular"
+                android:fontFamily="@font/robotoslab_regular"
                 app:icon="@drawable/ic_directions"
                 app:iconTintMode="multiply"
                 app:iconSize="24dp"
                 app:iconPadding="1dip"
                 android:text="@string/get_directions"
                 android:textAllCaps="false"
-                android:textFontWeight="400"
+                android:textStyle="normal"
                 android:textSize="@dimen/_8ssp"
-                tools:targetApi="p" />
+                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -146,22 +148,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/planned_start_time"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_9ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_8ssp"
+                             />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPlannedStartTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/app_name"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_10ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_8ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </TableRow>
@@ -181,22 +183,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/planned_end_time"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_9ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_8ssp"
+                             />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPlannedEndTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/app_name"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_10ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_8ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </TableRow>
@@ -230,22 +232,22 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Total Time"
-                    android:textFontWeight="500"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_8ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPlanTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textFontWeight="500"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_8ssp"
-                    tools:targetApi="p" />
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -260,12 +262,12 @@
             android:background="@drawable/ic_checkin_background"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="@string/check_in"
             android:textAllCaps="false"
-            android:textFontWeight="400"
-            android:textSize="@dimen/_12ssp"
-            tools:targetApi="p" />
+            android:textStyle="normal"
+            android:textSize="@dimen/_8ssp"
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

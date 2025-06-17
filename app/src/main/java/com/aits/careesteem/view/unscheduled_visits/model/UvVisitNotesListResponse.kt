@@ -12,7 +12,7 @@ data class UvVisitNotesListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val id: Int,
+        val id: String,
         val visit_created_at: String,
         val visit_details_id: Int,
         val visit_notes: String,

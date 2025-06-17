@@ -8,12 +8,12 @@ data class UpdateVisitCheckoutResponse(
     data class Data(
         val actual_end_time: String,
         val actual_start_time: String,
-        val client_id: Int,
+        val client_id: String,
         val created_at: String,
-        val id: Int,
+        val id: String,
         val status: String,
         val updated_at: String,
-        val user_id: Int,
-        val visit_details_id: Int
+        val user_id: String,
+        val visit_details_id: String
     )
 }

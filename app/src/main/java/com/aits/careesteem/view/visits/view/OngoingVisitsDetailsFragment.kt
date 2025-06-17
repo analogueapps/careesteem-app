@@ -1,24 +1,31 @@
 package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentOngoingVisitsDetailsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.visits.adapter.ViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +92,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
                     )
                     findNavController().navigate(direction)
                 } else {
-                    AlertUtils.showToast(requireActivity(), "Checkout is only allowed after 2 minutes from check-in.")
+                    AlertUtils.showToast(requireActivity(), "Checkout is only allowed after 2 minutes from check-in.", ToastyType.WARNING)
                 }
             }
         }
@@ -102,6 +109,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = data?.totalPlannedTime
+            plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
 
             btnCheckout.setOnClickListener {
                 viewModel.checkOutEligible(
@@ -113,11 +121,16 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // Cancel any previous timer if this view is recycled
             timerJob?.cancel()
 
-            if(data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
+            if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
                 btnCheckout.text = "Completed"
                 btnCheckout.isEnabled = false
+                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
-            } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isEmpty()) {
+
+                topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner))
+                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground)
+            } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isEmpty()) {
                 btnCheckout.text = "Check out"
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     //println("Remaining Time: $remainingTime")
@@ -128,21 +141,29 @@ class OngoingVisitsDetailsFragment : Fragment() {
                     if (hasPassed) {
                         btnCheckout.text = "Check out"
                         btnCheckout.isEnabled = true
+                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ongoingCardCorner)
                     }
                 }
             } else {
                 btnCheckout.text = "Check in"
                 tvPlanTime.text = "00:00"
+                btnCheckout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.upcomingCardCorner))
             }
 
             var changes = true
-            changes = !(data.actualStartTime[0].isNotEmpty() && data.actualEndTime[0].isNotEmpty())
+            changes = !(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty())
 
             if(isNotCompleted(data)) {
                 btnCheckout.text = "Not Completed"
                 btnCheckout.isEnabled = false
+                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
                 tvPlanTime.text = "00:00"
                 changes = false
+
+                // change all the things
+                topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner))
+                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardBackground)
             }
 
             val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString(), changes)
@@ -157,11 +178,64 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 }
             }.attach()
 
+            val titles = listOf("To-Do's", "Medication", "Visit Notes")
+
+            for (i in 0 until binding.tabLayout.tabCount) {
+                val tab = binding.tabLayout.getTabAt(i)
+                val isSelected = (i == binding.viewPager.currentItem)
+                tab?.customView = createCustomTab(titles[i], isSelected)
+            }
+
+            binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    val view = tab.customView
+                    val text = view?.findViewById<TextView>(R.id.tabText)
+                    val arrow = view?.findViewById<ImageView>(R.id.tabArrow)
+
+                    text?.setBackgroundResource(R.drawable.bg_tab_selected)
+                    text?.setTextColor(Color.WHITE)
+                    arrow?.visibility = View.VISIBLE
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    val view = tab.customView
+                    val text = view?.findViewById<TextView>(R.id.tabText)
+                    val arrow = view?.findViewById<ImageView>(R.id.tabArrow)
+
+                    text?.setBackgroundResource(R.drawable.bg_tab_unselected)
+                    text?.setTextColor(Color.parseColor("#607D8B"))
+                    arrow?.visibility = View.GONE
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab) {}
+            })
+
             // Disable swiping by intercepting touch events
             binding.viewPager.isUserInputEnabled = AppConstant.TRUE
         }
     }
 
+    private fun createCustomTab(title: String, isSelected: Boolean): View {
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.tab_custom, null)
+        val text = view.findViewById<TextView>(R.id.tabText)
+        val arrow = view.findViewById<ImageView>(R.id.tabArrow)
+
+        text.text = title
+
+        if (isSelected) {
+            text.setBackgroundResource(R.drawable.bg_tab_selected)
+            text.setTextColor(Color.WHITE)
+            arrow.visibility = View.VISIBLE
+        } else {
+            text.setBackgroundResource(R.drawable.bg_tab_unselected)
+            text.setTextColor(Color.parseColor("#607D8B"))
+            arrow.visibility = View.GONE
+        }
+
+        return view
+    }
+
+    @SuppressLint("NewApi")
     private fun isNotCompleted(data: VisitDetailsResponse.Data): Boolean {
         val startEmpty = data.actualStartTime.getOrNull(0).isNullOrEmpty()
         val endEmpty = data.actualEndTime.getOrNull(0).isNullOrEmpty()

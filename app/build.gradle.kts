@@ -25,13 +25,22 @@ android {
     }
 
     buildTypes {
-        defaultConfig {
-            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("BASE_URL", project)}\"")
+//        defaultConfig {
+//            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("BASE_URL", project)}\"")
+//            buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
+//            buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
+//        }
+
+        debug {
+            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("DEBUG_BASE_URL", project)}\"")
             buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
             buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
         }
 
         release {
+            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("RELEASE_BASE_URL", project)}\"")
+            buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
+            buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -135,6 +144,9 @@ dependencies {
     // BCrypt
     implementation(libs.spring.security.crypto)
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    // Toasty
+    implementation(libs.toasty)
 }
 
 // Required for Hilt

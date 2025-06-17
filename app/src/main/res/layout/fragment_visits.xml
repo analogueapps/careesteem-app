@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:padding="@dimen/_5sdp"
@@ -35,14 +36,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:text="@string/app_name"
-                        android:fontFamily="@font/arvo_bold"
-                        android:textFontWeight="400"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_12ssp"
-                        tools:targetApi="p" />
+                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/dateLayout"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
                     android:layout_width="match_parent"
@@ -60,19 +62,18 @@
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center"
                         android:background="@drawable/ic_edittext_bg"
-                        android:layout_width="@dimen/_200sdp"
-                        android:layout_height="@dimen/_40sdp">
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_35sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/dateRangeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_5sdp"
                             android:text="@string/app_name"
-                            android:fontFamily="@font/arvo_bold"
-                            android:textFontWeight="400"
-                            android:textSize="@dimen/_12ssp"
-                            tools:targetApi="p" />
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                            android:letterSpacing="0" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -86,6 +87,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <HorizontalScrollView
+                    android:id="@+id/calenderView"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -119,14 +121,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                        android:fontFamily="@font/arvo_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/not_completed_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_11ssp"
                         android:singleLine="true"
-                        tools:targetApi="p" />
+                         />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvNotCompletedVisits"
                         android:visibility="gone"
@@ -147,14 +149,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                        android:fontFamily="@font/arvo_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/completed_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_11ssp"
                         android:singleLine="true"
-                        tools:targetApi="p" />
+                         />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCompletedVisits"
                         android:visibility="gone"
@@ -175,14 +177,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                        android:fontFamily="@font/arvo_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/ongoing_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_11ssp"
                         android:singleLine="true"
-                        tools:targetApi="p" />
+                         />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvOngoingVisits"
                         android:visibility="gone"
@@ -203,14 +205,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                        android:fontFamily="@font/arvo_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/upcoming_visits"
                         android:gravity="center_vertical"
                         android:textColor="@color/white"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_11ssp"
                         android:singleLine="true"
-                        tools:targetApi="p" />
+                         />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvUpcomingVisits"
                         android:visibility="gone"
@@ -233,8 +235,10 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_150sdp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/emptyLayout"
-        android:layout_centerInParent="true"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -243,19 +247,19 @@
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:src="@drawable/frame_no_planned_visits"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_100sdp"/>
+            android:layout_width="@dimen/_168sdp"
+            android:layout_height="@dimen/_86sdp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
-            android:text="There are no Planned Visits for this Day....."
-            android:fontFamily="@font/lora_regular"
-            android:textFontWeight="400"
+            android:text="There are no visits scheduled."
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

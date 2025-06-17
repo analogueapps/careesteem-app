@@ -17,6 +17,7 @@ import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
 import com.aits.careesteem.view.notification.model.ClearNotificationRequest
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
@@ -46,7 +47,7 @@ import javax.inject.Inject
 class Repository @Inject constructor(private val apiService: ApiService) {
     suspend fun sendOtpUserLogin(
         contactNumber: String,
-        telephoneCodes: Int,
+        telephoneCodes: String,
     ): Response<SendOtpUserLoginResponse> {
         return apiService.sendOtpUserLogin(
             contactNumber = contactNumber,
@@ -56,12 +57,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun verifyOtp(
         contactNumber: String,
+        countryCode: String,
         otp: Int,
         hashToken: String,
         fcmToken: String
     ): Response<OtpVerifyResponse> {
         return apiService.verifyOtp(
             contactNumber = contactNumber,
+            countryCode = countryCode,
             otp = otp,
             hashToken = hashToken,
             fcmToken = fcmToken
@@ -81,14 +84,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     }
 
     suspend fun selectDbName(
-        dbName: String,
+        agencyId: String,
         contactNumber: String,
-        id: Int,
+        userId: String,
     ): Response<CreateHashToken> {
         return apiService.selectDbName(
             contactNumber = contactNumber,
-            dbName = dbName,
-            id = id,
+            agencyId = agencyId,
+            userId = userId,
         )
     }
 
@@ -96,7 +99,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         hashToken: String,
         contactNumber: String,
         passcode: Int,
-    ): Response<OtpVerifyResponse> {
+    ): Response<JsonObject> {
         return apiService.createPasscode(
             contactNumber = contactNumber,
             passcode = passcode,
@@ -132,20 +135,20 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getVisitList(
         hashToken: String,
-        id: Int,
+        userId: String,
         visitDate: String,
     ): Response<VisitListResponse> {
         return apiService.getVisitList(
             hashToken = hashToken,
-            id = id,
+            userId = userId,
             visitDate = visitDate,
         )
     }
 
     suspend fun getVisitDetails(
         hashToken: String,
-        visitDetailsId: Int,
-        userId: Int,
+        visitDetailsId: String,
+        userId: String,
     ): Response<VisitDetailsResponse> {
         return apiService.getVisitDetails(
             hashToken = hashToken,
@@ -160,7 +163,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getClientDetails(
         hashToken: String,
-        clientId: Int
+        clientId: String
     ): Response<ClientDetailsResponse> {
         return apiService.getClientDetails(
             hashToken = hashToken,
@@ -170,7 +173,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getClientCarePlanAss(
         hashToken: String,
-        clientId: Int
+        clientId: String
     ): Response<ClientCarePlanAssessment> {
         return apiService.getClientCarePlanAss(
             hashToken = hashToken,
@@ -180,9 +183,19 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getClientCarePlanRiskAss(
         hashToken: String,
-        clientId: Int
+        clientId: String
     ): Response<CarePlanRiskAssList> {
         return apiService.getClientCarePlanRiskAss(
+            hashToken = hashToken,
+            clientId = clientId
+        )
+    }
+
+    suspend fun getUploadedDocuments(
+        hashToken: String,
+        clientId: String
+    ): Response<UploadedDocumentsResponse> {
+        return apiService.getUploadedDocuments(
             hashToken = hashToken,
             clientId = clientId
         )
@@ -191,7 +204,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     suspend fun addUnscheduledVisits(
         hashToken: String,
         userId: String,
-        clientId: Int,
+        clientId: String,
         visitDate: String,
         actualStartTime: String,
         createdAt: String,
@@ -212,13 +225,13 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<TodoListResponse> {
         return apiService.getToDoList(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
     suspend fun updateTodoDetails(
         hashToken: String,
-        todoId: Int,
+        todoId: String,
         carerNotes: String,
         todoOutcome: Int
     ): Response<JsonObject> {
@@ -236,14 +249,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<UvTodoListResponse> {
         return apiService.getUnscheduledTodoDetails(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
     suspend fun addUnscheduledTodoDetails(
         hashToken: String,
-        visitDetailsId: Int,
-        todoUserId: Int,
+        visitDetailsId: String,
+        todoUserId: String,
         todoCreatedAt: String,
         todoNotes: String
     ): Response<JsonObject> {
@@ -258,8 +271,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateUnscheduledTodoDetails(
         hashToken: String,
-        todoId: Int,
-        todoUserId: Int,
+        todoId: String,
+        todoUserId: String,
         todoNotes: String,
         todoUpdatedAt: String
     ): Response<JsonObject> {
@@ -278,14 +291,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<UvMedicationListResponse> {
         return apiService.getUnscheduledMedicationDetails(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
     suspend fun addUnscheduledMedicationDetails(
         hashToken: String,
-        visitDetailsId: Int,
-        medicationUserId: Int,
+        visitDetailsId: String,
+        medicationUserId: String,
         medicationCreatedAt: String,
         medicationNotes: String
     ): Response<JsonObject> {
@@ -300,8 +313,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateUnscheduledMedicationDetails(
         hashToken: String,
-        medicationId: Int,
-        medicationUserId: Int,
+        medicationId: String,
+        medicationUserId: String,
         medicationNotes: String,
         medicationUpdatedAt: String
     ): Response<JsonObject> {
@@ -320,14 +333,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<UvVisitNotesListResponse> {
         return apiService.getUnscheduledVisitNotesDetails(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
     suspend fun addUnscheduledVisitNotesDetails(
         hashToken: String,
-        visitDetailsId: Int,
-        visitUserId: Int,
+        visitDetailsId: String,
+        visitUserId: String,
         visitCreatedAt: String,
         visitNotes: String
     ): Response<JsonObject> {
@@ -342,8 +355,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateUnscheduledVisitNotesDetails(
         hashToken: String,
-        visitNotesId: Int,
-        visitUserId: Int,
+        visitNotesId: String,
+        visitUserId: String,
         visitNotes: String,
         visitUpdatedAt: String
     ): Response<JsonObject> {
@@ -362,7 +375,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<ClientVisitNotesDetails> {
         return apiService.getClientVisitNotesDetails(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
@@ -370,8 +383,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         hashToken: String,
         visitDetailsId: String,
         visitNotes: String,
-        createdByUserid: Int,
-        updatedByUserid: Int,
+        createdByUserid: String,
+        updatedByUserid: String,
         createdAt: String,
     ): Response<JsonObject> {
         return apiService.addClientVisitNotesDetails(
@@ -386,11 +399,11 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateVisitNotesDetail(
         hashToken: String,
-        visitNotesId: Int,
+        visitNotesId: String,
         visitDetailsId: String,
         visitNotes: String,
-        createdByUserid: Int,
-        updatedByUserid: Int,
+        createdByUserid: String,
+        updatedByUserid: String,
         updatedAt: String
     ): Response<JsonObject> {
         return apiService.updateVisitNotesDetail(
@@ -410,13 +423,13 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     ): Response<MedicationDetailsListResponse> {
         return apiService.getMedicationDetails(
             hashToken = hashToken,
-            visitDetailsId = visitDetailsId.toInt()
+            visitDetailsId = visitDetailsId
         )
     }
 
     suspend fun medicationScheduledDetails(
         hashToken: String,
-        scheduledDetailsId: Int,
+        scheduledDetailsId: String,
         status: String,
         carerNotes: String
     ): Response<JsonObject> {
@@ -431,7 +444,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun medicationBpDetails(
         hashToken: String,
-        blisterPackDetailsId: Int,
+        blisterPackDetailsId: String,
         status: String,
         carerNotes: String
     ): Response<JsonObject> {
@@ -446,16 +459,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun medicationPrnDetails(
         hashToken: String,
-        clientId: Int,
-        medicationId: Int,
-        prnId: Int,
+        clientId: String,
+        medicationId: String,
+        prnId: String,
         doesPer: Int,
         doses: Int,
         timeFrame: String,
         prnOffered: String,
         prnBeGiven: String,
-        visitDetailsId: Int,
-        userId: Int,
+        visitDetailsId: String,
+        userId: String,
         medicationTime: String,
         createdAt: String,
         carerNotes: String,
@@ -482,7 +495,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getUserDetailsById(
         hashToken: String,
-        userId: Int
+        userId: String
     ): Response<UserDetailsResponse> {
         return apiService.getUserDetailsById(
             hashToken = hashToken,
@@ -492,9 +505,9 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun addVisitCheckIn(
         hashToken: String,
-        clientId: Int,
-        visitDetailsId: Int,
-        userId: Int,
+        clientId: String,
+        visitDetailsId: String,
+        userId: String,
         status: String,
         actualStartTime: String,
         createdAt: String
@@ -512,7 +525,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun checkOutEligible(
         hashToken: String,
-        visitDetailsId: Int
+        visitDetailsId: String
     ): Response<JsonObject> {
         return apiService.checkOutEligible(
             hashToken = hashToken,
@@ -522,8 +535,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun updateVisitCheckout(
         hashToken: String,
-        userId: Int,
-        visitDetailsId: Int,
+        userId: String,
+        visitDetailsId: String,
         actualEndTime: String,
         status: String,
         updatedAt: String
@@ -540,13 +553,13 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun automaticAlerts(
         hashToken: String,
-        uatId: Int,
-        visitDetailsId: Int,
-        clientId: Int,
+        uatId: String,
+        visitDetailsId: String,
+        clientId: String,
         alertType: String,
         alertStatus: String,
         createdAt: String,
-        userId: Int,
+        userId: String,
     ): Response<JsonObject> {
         return apiService.automaticAlerts(
             hashToken = hashToken,
@@ -562,9 +575,9 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun automaticTodoAlerts(
         hashToken: String,
-        todoDetailsId: Int,
-        visitDetailsId: Int,
-        clientId: Int,
+        todoDetailsId: String,
+        visitDetailsId: String,
+        clientId: String,
         alertType: String,
         alertStatus: String,
         createdAt: String
@@ -584,8 +597,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         hashToken: String,
         scheduledId: Any,
         blisterPackId: Any,
-        visitDetailsId: Int,
-        clientId: Int,
+        visitDetailsId: String,
+        clientId: String,
         alertType: String,
         alertStatus: String,
         createdAt: String
@@ -604,7 +617,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun verifyQrCode(
         hashToken: String,
-        clientId: Int,
+        clientId: String,
         qrcodeToken: String
     ): Response<JsonObject> {
         return apiService.verifyQrCode(
@@ -614,14 +627,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
-    suspend fun getClientsList(
+    suspend fun getClientsListAlerts(
         hashToken: String,
-        id: Int,
+        userId: String,
         visitDate: String,
     ): Response<ClientNameListResponse> {
         return apiService.getClientsList(
             hashToken = hashToken,
-            userId = id,
+            userId = userId,
             visitDate = visitDate,
         )
     }
@@ -668,7 +681,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     }
 
     suspend fun getAlertsList(
-        userId: Int,
+        userId: String,
         hashToken: String
     ): Response<AlertListResponse> {
         return apiService.getAlertsList(
@@ -678,7 +691,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
     }
 
     suspend fun getNotificationList(
-        userId: Int,
+        userId: String,
         hashToken: String
     ): Response<NotificationListResponse> {
         return apiService.getNotificationList(

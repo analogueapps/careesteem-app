@@ -18,32 +18,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Requires Assistance"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvRequiresAssistance"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -56,32 +56,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Responsible Party"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvResponsibleParty"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -94,32 +94,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Family Member Name"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvFamilyMemberName"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -132,32 +132,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Agency Name"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvAgencyName"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -170,32 +170,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Local Authority Name"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvLocalAuthorityName"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -208,32 +208,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Spending Limit"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSpendingLimit"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -251,32 +251,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Spending Details"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSpendingDetails"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -294,32 +294,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Money Spend By"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvMoneySpentBy"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -337,32 +337,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Activities Finances"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvActivitiesFinances"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -380,32 +380,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Safe Location"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvSafeLocation"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -423,32 +423,32 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Provide Details"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text=":"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:id="@+id/tvProvideDetails"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -462,11 +462,11 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/lora_regular"
+        android:fontFamily="@font/robotoslab_regular"
         android:text="Signatures of All Involved Admins in the Assessment"
-        android:textFontWeight="400"
+        android:textStyle="normal"
         android:textSize="@dimen/_10ssp"
-        tools:targetApi="p"
+
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -478,21 +478,21 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Name"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Date"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -506,24 +506,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Name"
             android:id="@+id/tvName1"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Date"
             android:id="@+id/tvDate1"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -537,24 +537,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Name"
             android:id="@+id/tvName2"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/lora_regular"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Date"
             android:id="@+id/tvDate2"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

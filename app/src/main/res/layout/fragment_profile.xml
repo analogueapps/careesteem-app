@@ -30,8 +30,8 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileImage"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_width="@dimen/_74sdp"
+                    android:layout_height="@dimen/_74sdp"
                     android:src="@drawable/app_logo"
                     android:layout_gravity="center"
                     app:shapeAppearanceOverlay="@style/Circular" />
@@ -41,21 +41,22 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/arvo_regular"
+                    android:layout_height="@dimen/_35sdp"
+                    android:fontFamily="@font/robotoslab_regular"
                     app:icon="@drawable/ic_swap"
+                    app:iconSize="@dimen/_14sdp"
                     app:iconTintMode="multiply"
                     android:text="@string/switch_account"
                     android:textAllCaps="false"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_12ssp"
-                    tools:targetApi="p" />
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_8ssp"
+                     />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:padding="@dimen/_5sdp"
                     android:background="@drawable/ic_upcoming_inside"
                     android:backgroundTint="@color/completeCardBackground"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_13sdp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -74,11 +75,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/name"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -87,11 +88,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -103,11 +104,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -128,11 +129,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/agency"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -141,11 +142,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -157,11 +158,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -182,11 +183,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/age"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -195,11 +196,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -211,11 +212,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -236,11 +237,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/contact_number"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -249,11 +250,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -265,11 +266,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -290,11 +291,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/email"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -303,11 +304,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -319,11 +320,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -344,11 +345,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/address"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -357,11 +358,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -373,11 +374,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -398,11 +399,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/city"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -411,11 +412,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -427,11 +428,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -452,11 +453,11 @@
                             android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/post_code"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
@@ -465,11 +466,11 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+
                             tools:ignore="HardcodedText" />
 
                         <Space
@@ -481,11 +482,11 @@
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/lora_regular"
+                            android:fontFamily="@font/robotoslab_regular"
                             
-                            android:textFontWeight="500"
-                            android:textSize="@dimen/_11ssp"
-                            tools:targetApi="p" />
+                            android:textStyle="normal"
+                            android:textSize="@dimen/_10ssp"
+                             />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -504,23 +505,23 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/arvo_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/developed_by"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p" />
+                         />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtCopyrights"
                         android:layout_marginStart="@dimen/_2sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/arvo_bold"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:textColor="@color/colorPrimary"
                         android:text="@string/care_esteem_ltd"
-                        android:textFontWeight="500"
+                        android:textStyle="normal"
                         android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p" />
+                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -530,11 +531,11 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/arvo_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="Version"
-                    android:textFontWeight="500"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p"
+
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.button.MaterialButton
@@ -543,14 +544,14 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/arvo_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     app:icon="@drawable/ic_logout"
                     app:iconTintMode="multiply"
                     android:text="@string/logout"
                     android:textAllCaps="false"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                    tools:targetApi="p" />
+                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

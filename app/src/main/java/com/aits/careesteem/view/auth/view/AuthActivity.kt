@@ -60,7 +60,7 @@ class AuthActivity : AppCompatActivity() {
             val dialog = Dialog(this)
             val binding: DialogExitBinding =
                 DialogExitBinding.inflate(layoutInflater)
-
+            dialog.window?.setDimAmount(0.8f)
             dialog.setContentView(binding.root)
             dialog.setCancelable(AppConstant.FALSE)
 

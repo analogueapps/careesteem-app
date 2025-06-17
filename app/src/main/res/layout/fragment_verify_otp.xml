@@ -16,8 +16,8 @@
             type="com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:background="@color/screenBackground"
+    <RelativeLayout
+        android:background="@drawable/login_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,126 +29,131 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgTopLogo"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
+                android:layout_width="@dimen/_66sdp"
+                android:layout_height="@dimen/_66sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:src="@drawable/app_logo" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoslab_regular"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_gravity="center"
+                android:text="@string/verify_otp"
+                android:textStyle="normal"
+                android:textSize="@dimen/_20ssp"
+                android:letterSpacing="0" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/_20sdp"
-                android:paddingBottom="@dimen/_20sdp"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/arvo_regular"
-                    android:lineHeight="@dimen/_36sdp"
-                    android:text="@string/verify_otp"
-                    android:textFontWeight="400"
-                    android:textSize="@dimen/_20ssp"
-                    tools:targetApi="p" />
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/otp_has_sent_to"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_10ssp"
+                     />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMaskedNumber"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_10ssp"
+                     />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/successfully"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_10ssp"
+                     />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_regular"
-                        android:text="@string/otp_has_sent_to"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp"
-                        tools:targetApi="p" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvMaskedNumber"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_regular"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp"
-                        tools:targetApi="p" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/open_sans_regular"
-                        android:text="@string/successfully"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp"
-                        tools:targetApi="p" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_26sdp"
+                    android:layout_marginRight="@dimen/_26sdp"
                     android:gravity="center_vertical">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:src="@drawable/group_otp_prefix" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/enter_otp"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_12ssp"
-                        tools:targetApi="p" />
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_10ssp"
+                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.chaos.view.PinView
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_26sdp"
+                    android:layout_marginRight="@dimen/_26sdp"
                     android:id="@+id/et_otp"
                     style="@style/PinWidget.PinView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:focusable="true"
-                    android:fontFamily="@font/lora_regular"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:inputType="number"
-                    android:padding="@dimen/_10sdp"
+                    android:padding="@dimen/_6sdp"
                     android:text="@={viewModel.otp}"
                     android:onTextChanged="@{(s, start, before, count) -> viewModel.setOtp(s, start, before, count)}"
                     android:textSize="@dimen/_14ssp"
                     app:hideLineWhenFilled="false"
                     app:itemCount="6"
-                    app:itemRadius="@dimen/_10sdp"
+                    app:itemRadius="@dimen/_6sdp"
                     app:lineColor="@color/colorPrimary"
+                    app:itemHeight="@dimen/_33sdp"
+                    app:itemWidth="@dimen/_33sdp"
+                    app:itemSpacing="@dimen/_6sdp"
                     app:viewType="rectangle" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/open_sans_regular"
+                    android:layout_marginLeft="@dimen/_26sdp"
+                    android:layout_marginRight="@dimen/_26sdp"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@{viewModel.otpError}"
-                    android:textFontWeight="400"
+                    android:gravity="center"
+                    android:textStyle="normal"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/_10ssp"
-                    tools:targetApi="p" />
+                    android:textSize="@dimen/_9ssp" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_37sdp"
+                    android:layout_marginRight="@dimen/_37sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -172,31 +177,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="By entering OTP you agree to accept our Terms &amp; Condition and Privacy Policy"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:fontFamily="@font/lora_regular"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_8ssp"
+                        android:letterSpacing="0"
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <com.google.android.material.button.MaterialButton
                     android:enabled="@{viewModel.isVerifyButtonEnabled()}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_133sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/arvo_regular"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/verify_otp"
                     android:textAllCaps="false"
                     android:onClick="@{() -> viewModel.onVerifyOtp()}"
-                    android:textFontWeight="400"
+                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                    tools:targetApi="p" />
+                     />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -204,11 +208,11 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/didn_t_received_the_otp"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p" />
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_9ssp"
+                         />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTimer"
@@ -216,12 +220,12 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:visibility="@{viewModel.timerVisible}"
                         android:text="@{viewModel.timerText}"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p"
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_9ssp"
+
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -230,25 +234,25 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lora_regular"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/resend_otp"
-                        android:textFontWeight="400"
+                        android:textStyle="normal"
                         android:visibility="@{viewModel.resendVisible}"
-                        android:textSize="@dimen/_10ssp"
-                        tools:targetApi="p" />
+                        android:textSize="@dimen/_9ssp"
+                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_margin="@dimen/_22sdp"
+                android:layout_width="@dimen/_178sdp"
+                android:layout_height="@dimen/_178sdp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/_20sdp"
                 android:src="@drawable/layer_otp_bottom" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </layout>

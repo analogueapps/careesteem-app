@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tabText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:gravity="center"
+        android:text="Tab"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="normal"
+        android:textColor="#607D8B"
+        android:fontFamily="@font/robotoslab_regular"
+        android:background="@drawable/bg_tab_unselected"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+    <ImageView
+        android:id="@+id/tabArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_triangle"
+        android:visibility="gone"
+        android:layout_marginTop="1dp" />
+</LinearLayout>

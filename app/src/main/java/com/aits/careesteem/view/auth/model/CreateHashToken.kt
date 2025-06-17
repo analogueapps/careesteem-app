@@ -12,12 +12,12 @@ data class CreateHashToken(
         val email: String,
         val first_name: String,
         val hash_token: String,
-        val id: Int,
+        val id: String,
         val last_name: String,
         val middle_name: String,
         val prefix: String,
         val role: String,
         val status: Int,
-        val telephone_codes: Int
+        val telephone_codes: String
     )
 }

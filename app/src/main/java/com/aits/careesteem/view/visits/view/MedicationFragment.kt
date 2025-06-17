@@ -22,6 +22,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.adapter.BodyMapImageAdapter
 import com.aits.careesteem.view.alerts.adapter.BodyMapItem
 import com.aits.careesteem.view.alerts.adapter.ServerImageAdapter
@@ -31,6 +32,7 @@ import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.MedicationViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -204,23 +206,23 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
     @SuppressLint("SetTextI18n")
     override fun onItemItemClicked(data: MedicationDetailsListResponse.Data) {
         if(!isChanges) {
-            AlertUtils.showToast(requireActivity(), "Changes not allowed")
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
 
-        val dialog = Dialog(requireContext())
+        val dialog = BottomSheetDialog(requireContext())
         val binding: DialogMedicationUpdateBinding =
             DialogMedicationUpdateBinding.inflate(layoutInflater)
-
+        dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
-        dialog.setCancelable(AppConstant.FALSE)
+        dialog.setCancelable(AppConstant.TRUE)
 
-        // Set max height
-        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
-        binding.root.layoutParams = binding.root.layoutParams?.apply {
-            height = maxHeight
-        }
-
+//        // Set max height
+//        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
+//        binding.root.layoutParams = binding.root.layoutParams?.apply {
+//            height = maxHeight
+//        }
+        binding.closeButton.setOnClickListener { dialog.dismiss() }
         // Add data
         binding.nhsMedicineName.text = data.nhs_medicine_name
         binding.medicationType.text = data.medication_type
@@ -242,7 +244,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
             }
         }
 
-        if(data.body_image.isNotEmpty() && data.body_part_names.isNotEmpty()) {
+        if(data.body_image != null && data.body_image.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
             binding.tvBodyMap.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.VISIBLE
 
@@ -307,7 +309,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
         }
         binding.btnSave.setOnClickListener {
             if(binding.medicationStatus.text == "Select") {
-                AlertUtils.showToast(requireActivity(), "Please select status")
+                AlertUtils.showToast(requireActivity(), "Please select status", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
@@ -343,7 +345,7 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                     )
                 }
                 else -> {
-                    AlertUtils.showToast(requireActivity(), "Something went wrong")
+                    AlertUtils.showToast(requireActivity(), "Something went wrong", ToastyType.ERROR)
                 }
             }
         }

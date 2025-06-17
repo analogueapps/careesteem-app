@@ -19,7 +19,7 @@ data class OtpVerifyResponse(
         val created_at: String,
         val email: String,
         val first_name: String,
-        val id: Int,
+        val id: String,
         val last_name: String,
         val middle_name: String,
         val otp: Int,
@@ -29,7 +29,7 @@ data class OtpVerifyResponse(
         val prefix: String,
         val role: String,
         val status: Int,
-        val telephone_codes: Int,
+        val telephone_codes: String,
         val token: Any,
         val hash_token: Any,
         val token_status: Any,
@@ -37,9 +37,10 @@ data class OtpVerifyResponse(
     )
 
     data class DbList(
-        val id: Int,
+        val id: String,
         val contact_number: String,
         val user_db_name: String,
+        val agency_id: String,
         val agency_name: String
     )
 }

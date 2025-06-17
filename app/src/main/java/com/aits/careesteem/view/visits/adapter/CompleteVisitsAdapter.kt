@@ -19,11 +19,13 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemTravelTimeBinding
 import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.model.User
 import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.bumptech.glide.Glide
 
 class CompleteVisitsAdapter(
     private val context: Context,
@@ -89,27 +91,31 @@ class CompleteVisitsAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(data: VisitListResponse.Data) {
-            binding.apply {
-                tvClientName.text = data.clientName
-                tvClientAddress.text = data.clientAddress
-                tvPlanTime.text = data.TotalActualTimeDiff[0]
-                tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"
+            try {
+                binding.apply {
+                    tvClientName.text = AppConstant.checkNull(data.clientName)
+                    tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                    tvPlanTime.text = AppConstant.checkNull(data.TotalActualTimeDiff[0])
+                    tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
-                tvPlannedStartTime.text = "Check in time\n${data.actualStartTime[0]}"
-                tvPlannedEndTime.text = "Check out time\n${data.actualEndTime[0]}"
+                    tvPlannedStartTime.text = "Check in time\n${AppConstant.checkNull(data.actualStartTime[0])}"
+                    tvPlannedEndTime.text = "Check out time\n${AppConstant.checkNull(data.actualEndTime[0])}"
 
-                val userList = data.userName.mapIndexed { index, name ->
-                    User(name, data.profile_photo.getOrElse(index) { "" })
+                    val userList = data.userName.mapIndexed { index, name ->
+                        User(name, data.profile_photo_name.getOrElse(index) { "" })
+                    }
+                    val customAdapter = UserAdapter(context, userList)
+                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                    recyclerView.adapter = customAdapter
+
+                    layout.setOnClickListener {
+                        onViewItemItemClick.onViewItemItemClicked(data)
+                    }
                 }
-                val customAdapter = UserAdapter(context, userList)
-                recyclerView.layoutManager = GridLayoutManager(context, 2)
-                recyclerView.adapter = customAdapter
-
-
-                tvViewVisit.setOnClickListener {
-                    onViewItemItemClick.onViewItemItemClicked(data)
-                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
             }
         }
     }
@@ -149,35 +155,57 @@ class UserAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = itemList[position]
         if (holder is EvenViewHolder) {
-            holder.tvTitleEven.text = item.name
-            if (item.photoUrl.isNotEmpty()) {
-                // Convert the Base64 string to a Bitmap
-                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
-
-                // Set the Bitmap to the ImageView (if conversion was successful)
-                bitmap?.let {
-                    holder.imgEven.setImageBitmap(it)
+            try {
+                holder.tvTitleEven.text = AppConstant.checkNull(item.name)
+                if (item.photoUrl.isNotEmpty()) {
+//                // Convert the Base64 string to a Bitmap
+//                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
+//
+//                // Set the Bitmap to the ImageView (if conversion was successful)
+//                bitmap?.let {
+//                    holder.imgEven.setImageBitmap(it)
+//                }
+                    Glide.with(context)
+                        .load(item.photoUrl)
+                        .override(400, 300)
+                        .placeholder(R.drawable.logo_preview)
+                        .error(R.drawable.logo_preview)
+                        .into(holder.imgEven)
+                } else {
+                    val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
+                    holder.imgEven.setImageBitmap(initialsBitmap)
                 }
-            } else {
-                val initials = GooglePlaceHolder().getInitialsSingle(item.name)
-                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
-                holder.imgEven.setImageBitmap(initialsBitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
             }
 
         } else if (holder is OddViewHolder) {
-            holder.tvTitleOdd.text = item.name
-            if (item.photoUrl.isNotEmpty()) {
-                // Convert the Base64 string to a Bitmap
-                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
-
-                // Set the Bitmap to the ImageView (if conversion was successful)
-                bitmap?.let {
-                    holder.imgOdd.setImageBitmap(it)
+            try {
+                holder.tvTitleOdd.text = AppConstant.checkNull(item.name)
+                if (item.photoUrl.isNotEmpty()) {
+//                // Convert the Base64 string to a Bitmap
+//                val bitmap = AppConstant.base64ToBitmap(item.photoUrl)
+//
+//                // Set the Bitmap to the ImageView (if conversion was successful)
+//                bitmap?.let {
+//                    holder.imgOdd.setImageBitmap(it)
+//                }
+                    Glide.with(context)
+                        .load(item.photoUrl)
+                        .override(400, 300)
+                        .placeholder(R.drawable.logo_preview)
+                        .error(R.drawable.logo_preview)
+                        .into(holder.imgOdd)
+                } else {
+                    val initials = GooglePlaceHolder().getInitialsSingle(item.name)
+                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
+                    holder.imgOdd.setImageBitmap(initialsBitmap)
                 }
-            } else {
-                val initials = GooglePlaceHolder().getInitialsSingle(item.name)
-                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
-                holder.imgOdd.setImageBitmap(initialsBitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
             }
         }
     }

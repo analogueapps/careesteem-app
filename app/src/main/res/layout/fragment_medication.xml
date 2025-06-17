@@ -33,56 +33,56 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
+                        android:textStyle="normal"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:textSize="@dimen/_12ssp"
                         android:text="@string/scheduled_medication"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="p" />
+                         />
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
+                        android:textStyle="normal"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:textSize="@dimen/_12ssp"
                         android:text="@string/submitted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:targetApi="p" />
+                         />
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/submitCount"
                             android:layout_marginStart="@dimen/_2sdp"
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
+                            android:textStyle="normal"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:textSize="@dimen/_12ssp"
                             android:text="0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:targetApi="p"
+
                             tools:ignore="HardcodedText" />
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
+                            android:textStyle="normal"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:textSize="@dimen/_12ssp"
                             android:layout_marginStart="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/_2sdp"
                             android:text="/"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:targetApi="p"
+
                             tools:ignore="HardcodedText" />
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/totalCount"
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
+                            android:textStyle="normal"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:textSize="@dimen/_12ssp"
                             android:text="0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:targetApi="p"
+
                             tools:ignore="HardcodedText" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -91,7 +91,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/recyclerView"
-                    tools:listitem="@layout/item_todo_list"
+                    tools:listitem="@layout/item_medication_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -104,14 +104,14 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
+                        android:textStyle="normal"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:textSize="@dimen/_12ssp"
                         android:text="@string/list_of_prn_medication"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="p" />
+                         />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_marginTop="@dimen/_10sdp"
@@ -129,6 +129,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:id="@+id/emptyLayout"
         android:gravity="center"
         android:layout_centerInParent="true"
@@ -152,10 +153,10 @@
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:text="@string/no_medications"
-            android:fontFamily="@font/arvo_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

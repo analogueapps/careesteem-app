@@ -13,13 +13,13 @@ data class ClientVisitNotesDetails(
 ) {
     data class Data(
         val createdAt: String,
-        val createdByUserId: Int,
+        val createdByUserId: String,
         val createdByUserName: String,
-        val id: Int,
+        val id: String,
         val updatedAt: String,
-        val updatedByUserId: Int,
+        val updatedByUserId: String,
         val updatedByUserName: String,
-        val visitDetaiId: Int,
+        val visitDetaiId: String,
         val visitNotes: String
     )
 }

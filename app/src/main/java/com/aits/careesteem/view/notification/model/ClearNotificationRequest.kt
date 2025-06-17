@@ -1,7 +1,7 @@
 package com.aits.careesteem.view.notification.model
 
 data class NotificationId(
-    val id: Int
+    val id: String
 )
 
 data class ClearNotificationRequest(

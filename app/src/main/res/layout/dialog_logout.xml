@@ -21,12 +21,12 @@
         tools:ignore="UselessParent">
 
         <ImageView
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_5sdp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/app_logo" />
+            android:src="@drawable/logout_gif" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,12 +34,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
-            android:fontFamily="@font/arvo_bold"
+            android:fontFamily="@font/robotoslab_regular"
             android:text="Logout"
-            android:textFontWeight="400"
-            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14ssp"
             tools:ignore="HardcodedText"
-            tools:targetApi="p" />
+             />
 
         <TextView
             android:layout_width="match_parent"
@@ -48,11 +48,11 @@
             android:layout_margin="@dimen/_5sdp"
             android:gravity="center"
             android:text="Are you sure you want to logout?"
-            android:fontFamily="@font/arvo_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_11ssp"
             tools:ignore="HardcodedText"
-            tools:targetApi="p" />
+             />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_margin="@dimen/_10sdp"
@@ -67,12 +67,11 @@
                 android:background="@drawable/ic_btn_red_bg"
                 android:gravity="center"
                 android:textAllCaps="false"
-                android:text="Cancel"
+                android:text="No"
                 android:textColor="@color/red"
-                android:fontFamily="@font/lora_bold"
-                android:textFontWeight="700"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textStyle="bold"
                 android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
                 tools:ignore="HardcodedText" />
 
             <Space
@@ -87,12 +86,11 @@
                 android:background="@drawable/ic_btn_green_bg"
                 android:gravity="center"
                 android:textAllCaps="false"
-                android:text="Logout"
+                android:text="Yes"
                 android:textColor="#279989"
-                android:fontFamily="@font/lora_bold"
-                android:textFontWeight="700"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textStyle="bold"
                 android:textSize="@dimen/_10ssp"
-                tools:targetApi="p"
                 tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

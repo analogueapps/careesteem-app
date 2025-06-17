@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
+import com.aits.careesteem.databinding.ItemMedicationListBinding
 import com.aits.careesteem.databinding.ItemTodoListBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
@@ -38,7 +39,7 @@ class MedicationListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemTodoListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMedicationListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -57,38 +58,47 @@ class MedicationListAdapter(
         return position
     }
 
-    inner class ViewHolder(private val binding: ItemTodoListBinding) :
+    inner class ViewHolder(private val binding: ItemMedicationListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(data: MedicationDetailsListResponse.Data) {
-            binding.apply {
-                todoName.text = data.nhs_medicine_name
+            try {
+                binding.apply {
+                    medicationName.text = data.nhs_medicine_name
+                    medicationSupport.text = data.medication_support
+                    medicationType.text = data.medication_type
 
-                if(data.status == "Scheduled" || data.status == "Not Scheduled") {
-                    todoStatus.visibility = View.GONE
-                } else {
-                    todoStatus.visibility = View.VISIBLE
-                }
+                    if(data.status == "Scheduled" || data.status == "Not Scheduled") {
+                        todoStatus.visibility = View.GONE
+                        expendIcon.visibility = View.VISIBLE
+                    } else {
+                        todoStatus.visibility = View.VISIBLE
+                        expendIcon.visibility = View.GONE
+                    }
 
-                todoStatus.text = data.status
-                when (data.status) {
-                    "Fully Taken" -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
-                        //setTextColor(ContextCompat.getColor(context, R.color.white))
+                    todoStatus.text = data.status
+                    when (data.status) {
+                        "Fully Taken" -> todoStatus.apply {
+                            background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+                            backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
+                            //setTextColor(ContextCompat.getColor(context, R.color.white))
+                        }
+                        else -> todoStatus.apply {
+                            background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
+                            backgroundTintList = ContextCompat.getColorStateList(context, R.color.notCompleteCardCorner)
+                            //setTextColor(ContextCompat.getColor(context, R.color.black))
+                        }
                     }
-                    else -> todoStatus.apply {
-                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.notCompleteCardCorner)
-                        //setTextColor(ContextCompat.getColor(context, R.color.black))
+                    layout.setOnClickListener {
+                        if(data.medication_type != "PRN") {
+                            onItemItemClick.onItemItemClicked(data)
+                        }
                     }
                 }
-                layout.setOnClickListener {
-                    if(data.medication_type != "PRN") {
-                        onItemItemClick.onItemItemClicked(data)
-                    }
-                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+
             }
         }
     }

@@ -143,7 +143,7 @@ class VisitsFragment : Fragment(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupUI() {
-        observeClock()
+        //observeClock()
         handleWeekNavigation()
         toggleVisitSections()
         addCheckedDate(currentWeekStart)
@@ -169,7 +169,7 @@ class VisitsFragment : Fragment(),
         binding.arrowLeft.setOnClickListener {
             val previousWeek = currentWeekStart.minusWeeks(1)
             if (previousWeek.isBefore(initialWeekStart.minusWeeks(maxWeeksBehind.toLong()))) {
-                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the previous 3 weeks")
+                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the previous 3 weeks", ToastyType.WARNING)
             } else {
                 currentWeekStart = previousWeek
                 addCheckedDate(currentWeekStart)
@@ -180,7 +180,7 @@ class VisitsFragment : Fragment(),
         binding.arrowRight.setOnClickListener {
             val nextWeek = currentWeekStart.plusWeeks(1)
             if (nextWeek.isAfter(initialWeekStart.plusWeeks(maxWeeksAhead.toLong()))) {
-                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the next 3 weeks")
+                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the next 3 weeks", ToastyType.WARNING)
             } else {
                 currentWeekStart = nextWeek
                 addCheckedDate(currentWeekStart)
@@ -238,14 +238,20 @@ class VisitsFragment : Fragment(),
             val dayName = view.findViewById<TextView>(R.id.dayName)
             val dayNumber = view.findViewById<TextView>(R.id.dayNumber)
 
-            dayName.text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+            //dayName.text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+            dayName.text = date.dayOfWeek
+                .getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+                .take(2)
+                .uppercase()
             dayNumber.text = date.dayOfMonth.toString()
 
             if (date == selectedDate) {
                 view.setBackgroundResource(R.drawable.ic_day_select_bg)
+                dayName.setTextColor(requireContext().getColor(R.color.white))
                 dayNumber.setTextColor(requireContext().getColor(R.color.white))
             } else {
                 view.setBackgroundResource(R.drawable.ic_day_unselect_bg)
+                dayName.setTextColor(requireContext().getColor(R.color.black))
                 dayNumber.setTextColor(requireContext().getColor(R.color.black))
             }
 
@@ -373,7 +379,7 @@ class VisitsFragment : Fragment(),
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
     private fun observeViewModels() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             ProgressLoader.toggle(requireActivity(), it)
@@ -388,6 +394,14 @@ class VisitsFragment : Fragment(),
                 // Update count after full list is built (including travel time items)
                 binding.tvUpcomingVisits.text =
                     getString(R.string.upcoming_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+                // set auto open
+                binding.tvUpcomingVisits.tag = "Visible"
+                binding.rvUpcomingVisits.visibility = View.VISIBLE
+                binding.tvUpcomingVisits.setCompoundDrawablesWithIntrinsicBounds(
+                    null, null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                    null
+                )
             }
         }
 
@@ -437,8 +451,9 @@ class VisitsFragment : Fragment(),
     }
 
     private fun updateProfileDetails(data: UserDetailsResponse.Data) {
-        if (data.profile_photo.isNotEmpty()) {
-            editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_photo).apply()
+        if(data.profile_image_url == null) return
+        if (data.profile_image_url.isNotEmpty()) {
+            editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_image_url).apply()
         }
         requireActivity().invalidateOptionsMenu()
     }
@@ -464,7 +479,7 @@ class VisitsFragment : Fragment(),
     override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {
         val uri = data.placeId.let {
             "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$it".toUri()
-        } ?: return AlertUtils.showToast(requireActivity(), "Client location not found")
+        } ?: return AlertUtils.showToast(requireActivity(), "Client location not found", ToastyType.ERROR)
 
         val mapIntent = Intent(Intent.ACTION_VIEW, uri).apply {
             setPackage("com.google.android.apps.maps")
@@ -473,7 +488,7 @@ class VisitsFragment : Fragment(),
         if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(mapIntent)
         } else {
-            AlertUtils.showToast(requireActivity(), "Google Maps is not installed")
+            AlertUtils.showToast(requireActivity(), "Google Maps is not installed", ToastyType.ERROR)
         }
     }
 

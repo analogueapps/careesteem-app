@@ -26,63 +26,88 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/headerView"
                     android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
+                        android:visibility="gone"
+                        android:textStyle="normal"
+                        android:fontFamily="@font/robotoslab_regular"
                         android:textSize="@dimen/_12ssp"
                         android:text="@string/list_of_todo_s"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:targetApi="p" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/arvo_regular"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/essentials"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:targetApi="p" />
+                         />
+
+                    <SearchView
+                        android:theme="@style/AppSearchView"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/ic_search_bg"
+                        android:id="@+id/searchView"
+                        android:layout_weight="1"
+                        android:queryHint="Search"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:iconifiedByDefault="false"
+                        android:queryBackground="@android:color/transparent"
+                        tools:ignore="HardcodedText" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/submitCount"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
+                            android:textStyle="normal"
+                            android:fontFamily="@font/robotoslab_regular"
                             android:textSize="@dimen/_12ssp"
-                            android:text="0"
+                            android:text="@string/essentials"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:targetApi="p"
-                            tools:ignore="HardcodedText" />
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
-                            android:textSize="@dimen/_12ssp"
-                            android:layout_marginStart="@dimen/_2sdp"
-                            android:layout_marginEnd="@dimen/_2sdp"
-                            android:text="/"
+                             />
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:targetApi="p"
-                            tools:ignore="HardcodedText" />
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/totalCount"
-                            android:textFontWeight="400"
-                            android:fontFamily="@font/arvo_regular"
-                            android:textSize="@dimen/_12ssp"
-                            android:text="0"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:targetApi="p"
-                            tools:ignore="HardcodedText" />
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/submitCount"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:textStyle="normal"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:textSize="@dimen/_12ssp"
+                                android:text="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                tools:ignore="HardcodedText" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:textStyle="normal"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:textSize="@dimen/_12ssp"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:text="/"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                tools:ignore="HardcodedText" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/totalCount"
+                                android:textStyle="normal"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:textSize="@dimen/_12ssp"
+                                android:text="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                tools:ignore="HardcodedText" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -101,6 +126,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:visibility="gone"
         android:id="@+id/emptyLayout"
         android:gravity="center"
         android:layout_centerInParent="true"
@@ -124,10 +150,10 @@
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:text="@string/no_todos"
-            android:fontFamily="@font/arvo_regular"
-            android:textFontWeight="400"
+            android:fontFamily="@font/robotoslab_regular"
+            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-            tools:targetApi="p" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

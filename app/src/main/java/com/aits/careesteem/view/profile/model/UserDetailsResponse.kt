@@ -14,14 +14,15 @@ data class UserDetailsResponse(
     data class Data(
         val Agency: String,
         val address: String,
-        val age: Int,
+        val age: Any,
         val city: String,
         val contact_number: String,
         val email: String,
         val name: String,
         val postcode: String,
-        val profile_photo: String,
+        //val profile_photo: String,
+        val profile_image_url: String,
         val profile_photo_name: String,
-        val user_id: Int
+        val user_id: String
     )
 }

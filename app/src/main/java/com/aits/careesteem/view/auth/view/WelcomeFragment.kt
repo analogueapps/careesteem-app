@@ -25,6 +25,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -137,7 +138,7 @@ class WelcomeFragment : Fragment() {
         val statuses = AppConstant.getCountryList(requireContext())
         val spinnerList = ArrayList<String>()
         for (data in statuses) {
-            spinnerList.add(data.country +" +"+ data.country_code)
+            spinnerList.add("${data.emoji} ${data.country}  +${data.country_code}")
         }
         // Create ArrayAdapter
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerList)
@@ -146,7 +147,7 @@ class WelcomeFragment : Fragment() {
         binding.spinner.adapter = adapter
 
         // Find the country with ID 219 (for example)
-        val countryId = 217
+        val countryId = "ff84412b2bed11f091d77e1e"
 
         // Find the index of the item corresponding to country ID 219
         val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }
@@ -165,7 +166,7 @@ class WelcomeFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    binding.tvCountryCode.text = "+"+statuses[position].country_code
+                    binding.tvCountryCode.text = "${statuses[position].emoji} +${statuses[position].country_code}"
                     viewModel.setCountryCode(statuses[position].id)
                 }
 
@@ -203,18 +204,18 @@ class WelcomeFragment : Fragment() {
             } else {
                 val errorMessage = viewModel.phoneNumberError.value
                 errorMessage?.let {
-                    AlertUtils.showToast(requireActivity(), it)
+                    AlertUtils.showToast(requireActivity(), it, ToastyType.ERROR)
                 }
             }
         })
 
         viewModel.sendOtpUserLoginResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response != null) {
-                val gson = Gson()
-                val dataString = gson.toJson(response.data)
                 viewLifecycleOwner.lifecycleScope.launch {
                     val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
-                        response = dataString
+                        //response = dataString
+                        mobileNo = viewModel.phoneNumber.value!!,
+                        countryId = viewModel.countryCode.value!!
                     )
                     findNavController().navigate(direction)
                 }

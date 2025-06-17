@@ -12,7 +12,7 @@ data class UvTodoListResponse(
     val statusCode: Int
 ) {
     data class Data(
-        val id: Int,
+        val id: String,
         val todo_created_at: String,
         val todo_notes: String,
         val todo_updated_at: String,

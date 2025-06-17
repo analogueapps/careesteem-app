@@ -17,8 +17,8 @@ data class ClientDetailsResponse(
     ) {
         data class AboutData(
             val age: String,
-            val client_id: Int,
-            val client_personal_id: Int,
+            val client_id: String,
+            val client_personal_id: String,
             val date_of_birth: String,
             val ethnicity: String,
             val gender: String,
@@ -33,7 +33,7 @@ data class ClientDetailsResponse(
             val city: String,
             val contact_number: String,
             val email: String,
-            val mycare_network_id: Int,
+            val mycare_network_id: String,
             val name: String,
             val occupation_type: String,
             val post_code: String

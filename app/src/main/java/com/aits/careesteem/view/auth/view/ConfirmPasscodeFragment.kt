@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentConfirmPasscodeBinding
@@ -16,6 +17,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.viewmodel.PasscodeViewModel
@@ -57,7 +59,7 @@ class ConfirmPasscodeFragment : Fragment() {
             if (args.passcode == passcode) {
                 addPinToServer(passcode)
             } else {
-                AlertUtils.showToast(requireActivity(), "Passcode does not match.")
+                AlertUtils.showToast(requireActivity(), "Passcode does not match.", ToastyType.WARNING)
             }
         }
     }
@@ -80,12 +82,13 @@ class ConfirmPasscodeFragment : Fragment() {
         }
 
         viewModel.createPasscodeResponse.observe(viewLifecycleOwner) { response ->
-            if (response != null) {
+            if (response == true) {
                 editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
                 editor.apply()
-                val intent = Intent(requireActivity(), HomeActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
+                findNavController().navigate(R.id.preloaderFragment)
+//                val intent = Intent(requireActivity(), HomeActivity::class.java)
+//                startActivity(intent)
+//                activity?.finish()
             }
         }
     }

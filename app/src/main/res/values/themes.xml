@@ -38,13 +38,13 @@
     </style>
 
     <style name="BottomNavStyle" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:fontFamily">@font/arvo_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="BottomNavigationStyle" parent="Widget.Design.BottomNavigationView">
-        <item name="android:fontFamily">@font/arvo_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
         <item name="itemTextAppearanceActive">@style/BottomNavigationTextAppearance</item>
@@ -52,7 +52,7 @@
     </style>
 
     <style name="BottomNavigationTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:fontFamily">@font/arvo_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
     </style>
@@ -68,7 +68,7 @@
         <item name="android:textColor">@color/black</item> <!-- Default text color -->
         <item name="android:textAllCaps">false</item> <!-- Disable ALL CAPS -->
         <item name="textAllCaps">false</item>
-        <item name="android:fontFamily">@font/arvo_regular</item> <!-- Add custom font -->
+        <item name="android:fontFamily">@font/robotoslab_regular</item> <!-- Add custom font -->
     </style>
 
     <!-- Style for Spinner Item -->
@@ -76,8 +76,8 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">10dp</item>
-        <item name="android:fontFamily">@font/lora_regular</item>
-        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
+        <item name="fontFamily">@font/robotoslab_regular</item>
     </style>
 
     <!-- Style for Spinner Dropdown -->
@@ -85,14 +85,14 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">10dp</item>
-        <item name="android:fontFamily">@font/lora_regular</item>
-        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
+        <item name="fontFamily">@font/robotoslab_regular</item>
     </style>
 
     <style name="CustomSnackbar" parent="Base.Widget.MaterialComponents.Snackbar">
         <item name="android:textSize">16sp</item> <!-- Change Text Size -->
-        <item name="android:fontFamily">@font/lora_regular</item> <!-- Change Font -->
-        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item> <!-- Change Font -->
+        <item name="fontFamily">@font/robotoslab_regular</item>
         <item name="android:maxLines">5</item> <!-- Allow Full Text Visibility -->
     </style>
 
@@ -100,16 +100,16 @@
         <!-- Title Text Color -->
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <!-- Font for Title -->
-        <item name="android:fontFamily">@font/lora_regular</item>
-        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
+        <item name="fontFamily">@font/robotoslab_regular</item>
         <!-- Item Text Appearance -->
         <item name="android:itemTextAppearance">@style/CustomDialogItemText</item>
     </style>
 
     <!-- Define custom item text appearance -->
     <style name="CustomDialogItemText" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:fontFamily">@font/lora_regular</item>
-        <item name="fontFamily">@font/lora_regular</item>
+        <item name="android:fontFamily">@font/robotoslab_regular</item>
+        <item name="fontFamily">@font/robotoslab_regular</item>
         <item name="android:textSize">16sp</item>
     </style>
 

@@ -101,7 +101,7 @@ class NotCompleteVisitsAdapter(
                     onDirectionItemItemClick.onDirectionItemItemClicked(data)
                 }
 
-                tvViewVisit.setOnClickListener {
+                layout.setOnClickListener {
                     onViewItemItemClick.onViewItemItemClicked(data)
                 }
             }

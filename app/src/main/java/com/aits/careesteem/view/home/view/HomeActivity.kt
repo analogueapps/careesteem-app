@@ -54,7 +54,9 @@ import javax.inject.Inject
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.toColorInt
 import com.aits.careesteem.utils.GooglePlaceHolder
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 
 
@@ -164,12 +166,19 @@ class HomeActivity : AppCompatActivity() {
         println(savedPhoto)
 
         if (!savedPhoto.isNullOrEmpty()) {
-            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
-                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
-                    isCircular = true
-                }
-                profileImageView.setImageDrawable(roundedDrawable)
-            }
+//            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
+//                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
+//                    isCircular = true
+//                }
+//                profileImageView.setImageDrawable(roundedDrawable)
+//            }
+            Glide.with(this)
+                .load(savedPhoto)
+                .override(400, 300)
+                .placeholder(R.drawable.logo_preview)
+                .error(R.drawable.logo_preview)
+                .circleCrop() // Makes the image circular
+                .into(profileImageView)
         } else {
             val initials = GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
             val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(this, initials)
@@ -217,7 +226,7 @@ class HomeActivity : AppCompatActivity() {
 
                 // Show a toast message
                 this.doubleBackToExitPressedOnce = true
-                AlertUtils.showToast(this, "Press back again to exit")
+                AlertUtils.showToast(this, "Press back again to exit", ToastyType.INFO)
 
                 // Reset the flag after 2 seconds
                 Handler(Looper.getMainLooper()).postDelayed({

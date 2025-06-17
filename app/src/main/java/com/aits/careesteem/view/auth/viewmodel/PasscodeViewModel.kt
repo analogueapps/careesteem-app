@@ -18,6 +18,7 @@ import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
@@ -46,8 +47,8 @@ class PasscodeViewModel @Inject constructor(
     val isPasscodeVerified = MutableLiveData<Boolean>()
 
     // CreatePasscodeResponse
-    private val _createPasscodeResponse = MutableLiveData<OtpVerifyResponse?>()
-    val createPasscodeResponse: LiveData<OtpVerifyResponse?> get() = _createPasscodeResponse
+    private val _createPasscodeResponse = MutableLiveData<Boolean?>()
+    val createPasscodeResponse: LiveData<Boolean?> get() = _createPasscodeResponse
 
     fun createPasscode(activity: Activity, passcode: String) {
         _isLoading.value = true
@@ -55,7 +56,7 @@ class PasscodeViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -65,21 +66,31 @@ class PasscodeViewModel @Inject constructor(
                     passcode = passcode.toInt()
                 )
 
+//                if (response.isSuccessful) {
+//                    response.body()?.let { apiResponse ->
+//                        _createPasscodeResponse.value = true
+//                        AlertUtils.showToast(activity, apiResponse.message ?: "Created passcode successfully")
+//                        editor.apply()
+//                    }
+//                } else {
+//                    errorHandler.handleErrorResponse(response, activity)
+//                }
                 if (response.isSuccessful) {
-                    response.body()?.let { apiResponse ->
-                        _createPasscodeResponse.value = response.body()
-                        AlertUtils.showToast(activity, apiResponse.message ?: "Created passcode successfully")
-                        editor.apply()
-                    }
+                    val responseBody = response.body()
+                    val jsonElement: JsonElement? = responseBody
+                    val jsonObject = JSONObject(jsonElement.toString())
+                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    _createPasscodeResponse.value = true
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
+                    _createPasscodeResponse.value = false
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
@@ -93,7 +104,7 @@ class PasscodeViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.")
+                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
                     return@launch
                 }
 
@@ -122,18 +133,18 @@ class PasscodeViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"))
+                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
                     isPasscodeVerified.value = true
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                     isPasscodeVerified.value = false
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity,"Request Timeout. Please try again.")
+                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
             } catch (e: HttpException) {
-                AlertUtils.showToast(activity, "Server error: ${e.message}")
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
-                AlertUtils.showToast(activity,"An error occurred: ${e.message}")
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false

@@ -7,11 +7,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.visits.view.UvCheckInFragment">
 
-    <com.google.android.material.tabs.TabLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_alignParentTop="true"
-        android:id="@+id/tabLayout"
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:layout_width="@dimen/_33sdp"
+            android:layout_height="@dimen/_33sdp">
+
+            <ImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo_preview"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle_border"
+                android:padding="2dp"
+                android:layout_gravity="center" />
+
+            <View
+                android:layout_width="@dimen/_8sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/_2sdp"
+                android:background="@drawable/circle_dot_green" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textStyle="bold"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textSize="@dimen/_10ssp"
+                android:letterSpacing="0"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textColor="#555555" />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_below="@+id/topLayout"
+        android:layout_centerInParent="true"
+        android:id="@+id/tabLayout"
+        android:layout_width="@dimen/_153sdp"
+        android:layout_height="@dimen/_33sdp"
         android:layout_margin="@dimen/_15sdp"
         android:background="@drawable/ic_tab_background"
         android:minHeight="48dp"
@@ -32,14 +94,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:layout_margin="@dimen/_10sdp"
             android:layout_below="@+id/tabLayout"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardElevation="@dimen/_5sdp"
-            app:cardUseCompatPadding="true">
+            android:layout_height="@dimen/_266sdp">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/map"
@@ -47,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"
@@ -60,14 +119,14 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply"
             android:text="@string/check_in"
             android:textAllCaps="false"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p" />
+             />
 
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"
@@ -80,14 +139,14 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/arvo_regular"
+            android:fontFamily="@font/robotoslab_regular"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply"
             android:text="@string/check_out"
             android:textAllCaps="false"
-            android:textFontWeight="400"
+            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-            tools:targetApi="p" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -99,20 +158,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_centerInParent="true"
+        <androidx.cardview.widget.CardView
             android:layout_margin="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            app:cardElevation="@dimen/_5sdp"
-            app:cardUseCompatPadding="true">
+            android:layout_height="@dimen/_266sdp">
 
             <com.journeyapps.barcodescanner.DecoratedBarcodeView
                 android:id="@+id/qrView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
