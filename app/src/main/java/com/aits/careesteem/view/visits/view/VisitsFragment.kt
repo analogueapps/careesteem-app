@@ -27,6 +27,8 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentVisitsBinding
 import com.aits.careesteem.network.GoogleApiService
 import com.aits.careesteem.utils.*
+import com.aits.careesteem.view.notification.model.NotificationListResponse
+import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
@@ -73,7 +75,8 @@ class VisitsFragment : Fragment(),
     @Inject lateinit var editor: SharedPreferences.Editor
 
     private val viewModel: VisitsViewModel by activityViewModels()
-    private val profileViewModel: ProfileViewModel by viewModels()
+    private val profileViewModel: ProfileViewModel by activityViewModels()
+    private val notificationViewModel: NotificationViewModel by activityViewModels()
 
     private lateinit var ongoingAdapter: OngoingVisitsAdapter
     private lateinit var upcomingAdapter: UpcomingVisitsAdapter
@@ -93,6 +96,7 @@ class VisitsFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         profileViewModel.getUserDetailsById(requireActivity())
+        notificationViewModel.getNotificationList(requireActivity())
     }
 
     override fun onDestroyView() {
@@ -449,6 +453,13 @@ class VisitsFragment : Fragment(),
         }
 
         profileViewModel.userDetails.observe(viewLifecycleOwner) { it?.let(::updateProfileDetails) }
+        notificationViewModel.notificationList.observe(viewLifecycleOwner) { it?.let(::updateNotificationCount) }
+    }
+
+    private fun updateNotificationCount(list: List<NotificationListResponse.Data>) {
+        editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, list.size.toString()).apply()
+        //editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, "10").apply()
+        requireActivity().invalidateOptionsMenu()
     }
 
     private fun updateProfileDetails(data: UserDetailsResponse.Data) {

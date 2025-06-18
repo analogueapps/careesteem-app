@@ -65,6 +65,7 @@
                             />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:id="@+id/tvClientAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

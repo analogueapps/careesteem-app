@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/menu_notification"
-        android:icon="@drawable/ic_notification_dot"
+        android:icon="@drawable/ic_notifications"
         android:iconTint="@color/colorPrimary"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction,MenuTitle,UnusedAttribute" />

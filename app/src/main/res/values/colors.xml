@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#279989</color>
     <color name="colorAccent">#80279989</color>
 
+    <color name="colorDropDownShadow">#27998980</color>
+
     <color name="colorSecondary">#992737</color>
     <color name="colorSecondaryDark">#992737</color>
     <color name="colorSecondaryAccent">#80992737</color>

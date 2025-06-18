@@ -1350,15 +1350,25 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:layout_marginTop="@dimen/_10sdp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/topLayout"-->
+<!--            android:id="@+id/tabLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:tabGravity="center"-->
+<!--            app:tabIndicatorHeight="0dp"-->
+<!--            app:tabMode="fixed"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            app:tabRippleColor="@android:color/transparent"/>-->
+
         <com.google.android.material.tabs.TabLayout
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toBottomOf="@+id/topLayout"
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="fixed"
             android:background="@android:color/transparent"
             app:tabRippleColor="@android:color/transparent"/>
 
@@ -1381,15 +1391,14 @@
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_height="@dimen/_33sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:fontFamily="@font/robotoslab_regular"
         android:text="@string/create_an_unscheduled_visit"
         app:icon="@drawable/flat_color_icons_plus"
         app:iconTintMode="multiply"
-        app:iconSize="24dp"
-        app:iconPadding="1dip"
+        app:iconSize="16dp"
+        app:iconPadding="3dip"
         android:backgroundTint="#FFCB7B"
         android:textColor="#503101"
         android:textAllCaps="false"

@@ -16,7 +16,7 @@ data class UvMedicationListResponse(
         val medication_created_at: String,
         val medication_notes: String,
         val medication_updated_at: String,
-        val medication_user_id: Int,
-        val visit_details_id: Int
+        val medication_user_id: String,
+        val visit_details_id: String
     )
 }

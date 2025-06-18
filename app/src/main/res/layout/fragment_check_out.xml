@@ -100,7 +100,7 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_14sdp"
             android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_266sdp">
@@ -120,8 +120,8 @@
             android:id="@+id/btnCheckIn"
             android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_108sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
@@ -130,7 +130,7 @@
             android:text="@string/check_in"
             android:textAllCaps="false"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
              />
 
         <com.google.android.material.button.MaterialButton
@@ -140,8 +140,8 @@
             android:id="@+id/btnCheckOut"
             android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_108sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
@@ -150,7 +150,7 @@
             android:text="@string/check_out"
             android:textAllCaps="false"
             android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
              />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -164,7 +164,7 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_14sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_266sdp">
 

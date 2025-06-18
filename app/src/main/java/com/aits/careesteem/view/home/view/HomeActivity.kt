@@ -19,12 +19,15 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBar
@@ -93,8 +96,34 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_HOME or
                 ActionBar.DISPLAY_SHOW_TITLE or ActionBar.DISPLAY_HOME_AS_UP or ActionBar.DISPLAY_USE_LOGO
-        supportActionBar!!.setIcon(R.drawable.toolbar_logo)
+        //supportActionBar!!.setIcon(R.drawable.toolbar_logo)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        // Remove default logo if set
+        supportActionBar?.setLogo(null)
+
+        // Create ImageView for custom logo
+        val logoImageView = ImageView(this).apply {
+            setImageResource(R.drawable.toolbar_logo)
+
+            // Set custom width and height in pixels
+            val widthInDp = 100
+            val heightInDp = 40
+            val scale = resources.displayMetrics.density
+            layoutParams = Toolbar.LayoutParams(
+                (widthInDp * scale).toInt(),
+                (heightInDp * scale).toInt()
+            ).apply {
+                gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                marginStart = (16 * scale).toInt() // optional
+            }
+
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+
+        // Add the custom logo to the toolbar
+        toolbar.addView(logoImageView)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -190,6 +219,28 @@ class HomeActivity : AppCompatActivity() {
         profileImageView.setOnClickListener {
             onOptionsItemSelected(menuItem)
         }
+
+        val notificationMenuItem = menu.findItem(R.id.menu_notification)
+        val actionView = layoutInflater.inflate(R.layout.menu_notification_badge, null)
+
+        val badgeTextView = actionView.findViewById<TextView>(R.id.badge)
+        val notificationCount =
+            sharedPreferences.getString(SharedPrefConstant.NOTIFICATION_COUNT, null)?.toInt()
+
+        if (notificationCount!! > 0) {
+            badgeTextView.visibility = View.VISIBLE
+            badgeTextView.text = notificationCount.toString()
+        } else {
+            badgeTextView.visibility = View.GONE
+        }
+
+        // Set click listener to propagate click to menu item
+        actionView.setOnClickListener {
+            onOptionsItemSelected(notificationMenuItem)
+        }
+
+        // Set custom view
+        notificationMenuItem.actionView = actionView
 
         return true
     }

@@ -20,4 +20,5 @@ object SharedPrefConstant {
     const val TELEPHONE_CODE = "telephone_code"
     const val USER_DATA = "user_data"
     const val PROFILE_IMAGE = "profile_image"
+    const val NOTIFICATION_COUNT = "NOTIFICATION_COUNT"
 }

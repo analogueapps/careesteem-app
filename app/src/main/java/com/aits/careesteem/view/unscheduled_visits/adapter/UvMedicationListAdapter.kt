@@ -69,6 +69,7 @@ class UvMedicationListAdapter(
                 updatedAt.text = AppConstant.visitUvNotesListTimer(date)
                 view.visibility = View.GONE
                 updatedByUserName.visibility = View.GONE
+                editButton.visibility = View.VISIBLE
                 visitNotes.text = data.medication_notes
 
                 editButton.setOnClickListener {

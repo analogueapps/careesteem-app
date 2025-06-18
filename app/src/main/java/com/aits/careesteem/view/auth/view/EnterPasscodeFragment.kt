@@ -110,14 +110,16 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
 //                activity?.finish()
                 findNavController().navigate(R.id.preloaderFragment)
             } else {
-                AlertUtils.showToast(requireActivity(),"Passcode does not match.", ToastyType.WARNING)
+                //AlertUtils.showToast(requireActivity(),"Passcode does not match.", ToastyType.WARNING)
             }
         }
     }
 
     override fun onBiometricAuthenticateError(error: Int, errMsg: String) {
         when (error) {
-            BiometricPrompt.ERROR_USER_CANCELED -> activity?.finish()
+            BiometricPrompt.ERROR_USER_CANCELED -> {
+
+            }
             BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
 
             }

@@ -16,7 +16,7 @@ data class UvTodoListResponse(
         val todo_created_at: String,
         val todo_notes: String,
         val todo_updated_at: String,
-        val todo_user_id: Int,
-        val visit_details_id: Int
+        val todo_user_id: String,
+        val visit_details_id: String
     )
 }

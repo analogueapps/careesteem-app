@@ -2,12 +2,14 @@ package com.aits.careesteem.view.alerts.view
 
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +19,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
+import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
@@ -43,7 +47,7 @@ class AddAlertsFragment : Fragment() {
 
     private lateinit var fileAdapter: FileAdapter
 
-    private val severityList = listOf("Low", "Medium", "High")
+    private val severityList = listOf("Select", "Low", "Medium", "High")
 
     private var clientId: String = "-1"
     private var visitDetailsId: String = "-1"
@@ -101,17 +105,20 @@ class AddAlertsFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            if (clientId == "-1") {
+            if (clientId == "-1" || binding.clientName.text == "Select") {
                 AlertUtils.showToast(requireActivity(), "Please select client", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
-            if (visitDetailsId == "-1") {
+            println(visitDetailsId)
+            println(binding.visitName.text)
+
+            if (visitDetailsId == "-1" || binding.visitName.text == "Select") {
                 AlertUtils.showToast(requireActivity(), "Please select visits", ToastyType.WARNING)
                 return@setOnClickListener
             }
 
-            if (binding.severityOfConcern.text.isNullOrEmpty()) {
+            if (binding.severityOfConcern.text.isNullOrEmpty() || binding.severityOfConcern.text == "Select") {
                 AlertUtils.showToast(requireActivity(), "Please select severity of concerns", ToastyType.WARNING)
                 return@setOnClickListener
             }
@@ -126,14 +133,20 @@ class AddAlertsFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            viewModel.addAlerts(
-                requireActivity(),
-                clientId,
-                visitDetailsId,
-                binding.severityOfConcern.text.toString(),
-                binding.visitNotes.text.toString(),
-                fileList
-            )
+            confirmAlerts { isConfirmed ->
+                if (isConfirmed) {
+                    viewModel.addAlerts(
+                        requireActivity(),
+                        clientId,
+                        visitDetailsId,
+                        binding.severityOfConcern.text.toString(),
+                        binding.visitNotes.text.toString(),
+                        fileList
+                    )
+                } else {
+                    // Do something on negative
+                }
+            }
         }
 
         binding.bmDisable.isChecked = true
@@ -538,7 +551,12 @@ class AddAlertsFragment : Fragment() {
         viewModel.clientsList.observe(viewLifecycleOwner) { clients ->
             if (!clients.isNullOrEmpty()) {
                 // Get distinct client names
-                val uniqueClientNames = clients.map { it.clientName }.distinct()
+                val uniqueClientNames = clients.map { it.clientName }
+                    .distinct()
+                    .toMutableList() // Convert to mutable list
+
+                uniqueClientNames.add(0, "Select")
+
 
                 // Setup adapter for client name spinner
                 val clientNameAdapter = ArrayAdapter(
@@ -580,7 +598,9 @@ class AddAlertsFragment : Fragment() {
                             } else {
                                 "N/A"
                             }
-                        }
+                        }.distinct().toMutableList() // Convert to mutable list
+
+                        visitTimeOptions.add(0, "Select")
 
                         val visitTimeAdapter = ArrayAdapter(
                             requireContext(),
@@ -596,7 +616,13 @@ class AddAlertsFragment : Fragment() {
                             @SuppressLint("SetTextI18n")
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                                 binding.visitName.text = visitTimeOptions[position]
-                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
+                                //visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
+                                // Skip setting ID for "Select"
+                                visitDetailsId = if (position > 0) {
+                                    filteredVisits.getOrNull(position - 1)?.visitDetailsId ?: "-1"
+                                } else {
+                                    "-1"
+                                }
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -648,5 +674,32 @@ class AddAlertsFragment : Fragment() {
                 binding.visitName.text = ""
             }
         }
+    }
+
+    private fun confirmAlerts(onConfirm: (Boolean) -> Unit) {
+        val dialog = Dialog(requireContext()).apply {
+            val binding = DialogAddAlertConfirmBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setCancelable(false)
+
+            binding.btnPositive.setOnClickListener {
+                dismiss()
+                onConfirm(true)
+            }
+
+            binding.btnNegative.setOnClickListener {
+                dismiss()
+                onConfirm(false)
+            }
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window?.setDimAmount(0.8f)
+        }
+        dialog.show()
     }
 }

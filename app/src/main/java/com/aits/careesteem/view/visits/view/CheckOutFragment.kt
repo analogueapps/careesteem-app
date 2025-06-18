@@ -24,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -106,6 +107,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             Places.initialize(requireContext(), getString(R.string.google_api_key))
         }
         ongoingVisitsDetailsViewModel.getVisitDetails(requireActivity(), args.visitDetailsId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun onCreateView(
@@ -348,8 +354,10 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 window?.setBackgroundDrawableResource(android.R.color.transparent)
                 window?.setLayout(
                     WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT
+                    WindowManager.LayoutParams.WRAP_CONTENT,
                 )
+                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window?.setDimAmount(0.8f)
             }
             dialog.show()
         } else {
@@ -421,6 +429,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT
                 )
+                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window?.setDimAmount(0.8f)
             }
             dialog.show()
         } else {
@@ -708,6 +718,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window?.setDimAmount(0.8f)
         }
         dialog.show()
     }
@@ -778,6 +790,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT
                 )
+                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window?.setDimAmount(0.8f)
             }
             dialog.show()
         } else {

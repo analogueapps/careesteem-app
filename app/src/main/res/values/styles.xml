@@ -44,6 +44,7 @@
         <item name="android:textColorHint">@color/quantum_grey</item>
         <item name="android:textSize">@dimen/_8ssp</item>
         <item name="android:fontFamily">@font/robotoslab_regular</item>
+        <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
     <style name="TopCornerShape" parent="">

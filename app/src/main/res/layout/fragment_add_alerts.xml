@@ -85,9 +85,7 @@
             android:id="@+id/visitName"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-
             android:layout_marginTop="@dimen/_5sdp"
-
             android:background="@drawable/ic_edittext_light_bg"
             android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
             android:drawableTint="@color/black"
@@ -97,7 +95,6 @@
             android:padding="@dimen/_5sdp"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
-
             tools:ignore="HardcodedText" />
 
         <com.chivorn.smartmaterialspinner.SmartMaterialSpinner

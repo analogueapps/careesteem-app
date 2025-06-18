@@ -23,11 +23,9 @@
         tools:ignore="RtlSymmetry">
         <androidx.appcompat.widget.AppCompatImageView
             android:visibility="gone"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:src="@drawable/toolbar_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="@dimen/_88sdp"
+            android:layout_height="@dimen/_33sdp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <View

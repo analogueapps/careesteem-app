@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.databinding.DialogForceCheckBinding
@@ -31,7 +32,7 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
     private val binding get() = _binding!!
 
     // Viewmodel
-    private val viewModel: NotificationViewModel by viewModels()
+    private val viewModel: NotificationViewModel by activityViewModels()
 
     // Adapter
     private lateinit var notificationAdapter: NotificationAdapter

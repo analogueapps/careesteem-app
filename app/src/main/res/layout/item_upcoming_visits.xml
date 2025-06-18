@@ -109,8 +109,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:src="@drawable/ic_directions"
-                    android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"/>
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_gravity="center"
@@ -275,11 +275,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="@string/check_in"
+            android:text="Check In"
             android:textAllCaps="false"
             android:textStyle="normal"
             android:textSize="@dimen/_8ssp"
-             />
+            tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -14,9 +14,9 @@ data class UvVisitNotesListResponse(
     data class Data(
         val id: String,
         val visit_created_at: String,
-        val visit_details_id: Int,
+        val visit_details_id: String,
         val visit_notes: String,
         val visit_updated_at: String,
-        val visit_user_id: Int
+        val visit_user_id: String
     )
 }

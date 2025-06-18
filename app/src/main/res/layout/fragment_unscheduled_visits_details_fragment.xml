@@ -65,6 +65,7 @@
                             />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:id="@+id/tvClientAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -175,8 +176,10 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorHeight="0dp"
             android:background="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
             app:tabRippleColor="@android:color/transparent"/>
 
         <androidx.viewpager2.widget.ViewPager2

@@ -11,6 +11,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <!-- This removes the default back/up icon -->
+        <item name="windowActionBar">true</item>
+        <item name="displayOptions">showTitle|useLogo</item>
+        <item name="homeAsUpIndicator">@null</item> <!-- Removes back icon -->
         <!-- Customize your theme here. -->
         <item name="android:textSize">@dimen/_16ssp</item>
         <item name="android:textColor">@color/black</item>

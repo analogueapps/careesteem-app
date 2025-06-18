@@ -2,6 +2,7 @@ package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -109,7 +111,12 @@ class OngoingVisitsDetailsFragment : Fragment() {
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = data?.totalPlannedTime
-            plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
+
+            if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                plannedTime.text = "Unscheduled Visit"
+            } else {
+                plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
+            }
 
             btnCheckout.setOnClickListener {
                 viewModel.checkOutEligible(
@@ -136,12 +143,15 @@ class OngoingVisitsDetailsFragment : Fragment() {
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
                     btnCheckout.isEnabled = false
+                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
+                    btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.black))
                     val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
                     //println("Has more than 2 minutes passed? $hasPassed")
                     if (hasPassed) {
                         btnCheckout.text = "Check out"
                         btnCheckout.isEnabled = true
                         btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ongoingCardCorner)
+                        btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
                     }
                 }
             } else {
@@ -194,6 +204,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
                     text?.setBackgroundResource(R.drawable.bg_tab_selected)
                     text?.setTextColor(Color.WHITE)
+                    text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
                     arrow?.visibility = View.VISIBLE
                 }
 
@@ -203,7 +214,8 @@ class OngoingVisitsDetailsFragment : Fragment() {
                     val arrow = view?.findViewById<ImageView>(R.id.tabArrow)
 
                     text?.setBackgroundResource(R.drawable.bg_tab_unselected)
-                    text?.setTextColor(Color.parseColor("#607D8B"))
+                    text?.setTextColor(Color.parseColor("#1E3037"))
+                    text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
                     arrow?.visibility = View.INVISIBLE
                 }
 
@@ -225,10 +237,12 @@ class OngoingVisitsDetailsFragment : Fragment() {
         if (isSelected) {
             text.setBackgroundResource(R.drawable.bg_tab_selected)
             text.setTextColor(Color.WHITE)
+            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
             arrow.visibility = View.VISIBLE
         } else {
             text.setBackgroundResource(R.drawable.bg_tab_unselected)
-            text.setTextColor(Color.parseColor("#607D8B"))
+            text.setTextColor(Color.parseColor("#1E3037"))
+            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
             arrow.visibility = View.INVISIBLE
         }
 

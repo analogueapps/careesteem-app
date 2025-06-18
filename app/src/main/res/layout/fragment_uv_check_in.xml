@@ -94,7 +94,7 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_14sdp"
             android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_266sdp">
@@ -158,7 +158,7 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_14sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_266sdp">
 

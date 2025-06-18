@@ -71,6 +71,7 @@ class UvTodoListAdapter(
                 updatedAt.text = AppConstant.visitUvNotesListTimer(date)
                 view.visibility = View.GONE
                 updatedByUserName.visibility = View.GONE
+                editButton.visibility = View.VISIBLE
                 visitNotes.text = data.todo_notes
 
                 editButton.setOnClickListener {

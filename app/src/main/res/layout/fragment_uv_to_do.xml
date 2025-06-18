@@ -36,28 +36,40 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:textStyle="normal"
                         android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_11ssp"
                         android:text="@string/list_of_todo_s"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                          />
 
-                    <com.google.android.material.button.MaterialButton
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/btnTopAddVisitNotes"
+                        android:layout_width="@dimen/_83sdp"
+                        android:layout_height="@dimen/_23sdp"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoslab_regular"
-                        app:icon="@drawable/ic_add_notes"
-                        app:iconTintMode="multiply"
-                        app:iconSize="24dp"
-                        app:iconPadding="1dip"
-                        android:text="@string/add_note"
-                        android:textAllCaps="false"
-                        android:textStyle="normal"
-                        android:textSize="@dimen/_12ssp"
-                         />
+                        android:background="@drawable/ic_save_btn_bg"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_16sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:layout_marginEnd="@dimen/_2sdp"
+                            android:src="@drawable/ic_add_notes" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:gravity="center"
+                            android:text="@string/add_note"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -104,22 +116,34 @@
             android:textSize="@dimen/_10ssp"
              />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddVisitNotes"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/btnAddVisitNotes"
+            android:layout_width="@dimen/_83sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/robotoslab_regular"
-            app:icon="@drawable/ic_add_notes"
-            app:iconTintMode="multiply"
-            app:iconSize="24dp"
-            app:iconPadding="1dip"
-            android:text="@string/add_note"
-            android:textAllCaps="false"
-            android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
-             />
+            android:background="@drawable/ic_save_btn_bg"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:src="@drawable/ic_add_notes" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:text="@string/add_note"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
