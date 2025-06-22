@@ -45,7 +45,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/dateLayout"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -120,7 +120,7 @@
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/notCompleteCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
@@ -134,8 +134,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvNotCompletedVisits"
                         android:visibility="gone"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -150,7 +150,7 @@
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/completeCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
@@ -164,8 +164,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCompletedVisits"
                         android:visibility="gone"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -180,7 +180,7 @@
                         android:background="@drawable/ic_risk_level_bg"
                         android:backgroundTint="@color/ongoingCardCorner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/robotoslab_regular"
@@ -194,8 +194,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvOngoingVisits"
                         android:visibility="gone"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -224,8 +224,8 @@
                         android:id="@+id/rvUpcomingVisits"
                         android:visibility="gone"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>

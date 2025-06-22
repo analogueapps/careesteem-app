@@ -176,7 +176,7 @@
             android:background="@drawable/ic_edittext_light_bg"
             android:fontFamily="@font/robotoslab_regular"
             android:gravity="left|top"
-            android:hint="Enter your Concern Note"
+            android:hint="Enter Notes"
             android:lines="5"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_10ssp"

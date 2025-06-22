@@ -9,7 +9,7 @@
 
     <!--<solid android:color="@color/white" />-->
 
-    <corners android:radius="@dimen/_2sdp" />
+    <corners android:radius="4dp" />
 
     <stroke
         android:width="@dimen/_1sdp"

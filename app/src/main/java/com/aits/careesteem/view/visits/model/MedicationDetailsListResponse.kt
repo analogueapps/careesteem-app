@@ -33,6 +33,7 @@ data class MedicationDetailsListResponse(
         val scheduled_created_by: String,
         val scheduled_date: String,
         val scheduled_details_id: String,
+        val prn_details_id: String,
         val scheduled_end_date: String,
         val scheduled_id: String,
         val scheduled_start_date: String,
@@ -54,6 +55,8 @@ data class MedicationDetailsListResponse(
         val prn_created_by: String,
         // Body map
         val body_image: List<String>,
-        val body_part_names: List<String>
+        val body_part_names: List<String>,
+
+        // want to change body_map_image_url instead of body_image
     )
 }

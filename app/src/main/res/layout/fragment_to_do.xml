@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/headerView"
                     android:visibility="gone"
                     android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                         android:id="@+id/searchView"
                         android:queryHint="Search"
                         android:layout_width="@dimen/_140sdp"
-                        android:layout_height="@dimen/_25sdp"
+                        android:layout_height="@dimen/_28sdp"
                         android:iconifiedByDefault="false"
                         android:searchIcon="@drawable/ic_search"
                         android:queryBackground="@android:color/transparent"

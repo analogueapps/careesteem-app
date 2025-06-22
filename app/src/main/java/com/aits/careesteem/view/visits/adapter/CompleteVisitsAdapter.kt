@@ -93,7 +93,7 @@ class CompleteVisitsAdapter(
         fun bind(data: VisitListResponse.Data) {
             try {
                 binding.apply {
-                    tvClientName.text = AppConstant.checkNull(data.clientName)
+                    tvClientName.text = AppConstant.checkClientName(data.clientName)
                     tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
                     tvPlanTime.text = AppConstant.checkNull(data.TotalActualTimeDiff[0])
                     tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"

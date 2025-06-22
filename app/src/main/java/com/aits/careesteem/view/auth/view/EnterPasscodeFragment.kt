@@ -34,6 +34,9 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     private var userData: OtpVerifyResponse.Data? = null
 
     @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
     lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,12 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     }
 
     private fun setupWidgets() {
+        if(sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)) {
+            binding.pinView.fingerVisible = true
+        } else {
+            binding.pinView.fingerVisible = false
+        }
+
         binding.pinView.setOnCompletedListener = { passcode ->
             addPinToServer(passcode)
         }

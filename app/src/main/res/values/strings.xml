@@ -35,6 +35,7 @@
     <string name="essentials">Essentials :</string>
     <string name="list_of_todo_s">List of To-Do Notes</string>
     <string name="list_of_medications">List of Medication Notes</string>
+    <string name="list_of_submitted_medications">List of Submitted Medications</string>
     <string name="scheduled_medication">Scheduled Medication</string>
     <string name="list_of_visit_notes">List of Visit Notes</string>
     <string name="no_todos">There are currently no To-do\'s assigned for this visit.</string>
@@ -80,7 +81,7 @@
     <string name="equipment_register">Equipment Register</string>
     <string name="financial_risk_assessment">Financial Risk Assessment</string>
     <string name="coshh_risk_assessment">COSHH Risk Assessment</string>
-    <string name="list_of_prn_medication">List of PRN Medication</string>
+    <string name="list_of_prn_medication">PRN Medication</string>
     <string name="breathing_assessment">Breathing Assessment</string>
     <string name="clinical_assessment">Clinical Assessment</string>
     <string name="communication_assessment">Communication Assessment</string>
@@ -107,5 +108,5 @@
     <string name="clients_ran">Clients <font color="#279989">*</font></string>
     <string name="visits_ran">Visits <font color="#279989">*</font></string>
     <string name="severity_of_concern_ran">Severity of Concern <font color="#279989">*</font></string>
-    <string name="concern_details_ran">Concern Details <font color="#279989">*</font></string>
+    <string name="concern_details_ran">Notes <font color="#279989">*</font></string>
 </resources>

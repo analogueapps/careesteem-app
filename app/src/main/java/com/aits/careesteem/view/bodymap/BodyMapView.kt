@@ -22,13 +22,16 @@ import java.util.Stack
 class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
 
     private val pathPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.GREEN
+        //color = Color.GREEN
+        color = Color.parseColor("#B7EAE3")
         style = Paint.Style.STROKE
         strokeWidth = 8f
     }
 
     private var markerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.GREEN // Default Marker Color
+        //color = Color.GREEN // Default Marker Color
+        // color is #B7EAE3
+        color = Color.parseColor("#B7EAE3")
         style = Paint.Style.FILL
     }
 

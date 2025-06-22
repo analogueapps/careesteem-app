@@ -427,6 +427,18 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun getUnscheduledMedicationPrn(
+        hashToken: String,
+        clientId: String,
+        date: String
+    ): Response<MedicationDetailsListResponse> {
+        return apiService.getUnscheduledMedicationPrn(
+            hashToken = hashToken,
+            clientId = clientId,
+            date = date
+        )
+    }
+
     suspend fun medicationScheduledDetails(
         hashToken: String,
         scheduledDetailsId: String,
@@ -454,6 +466,20 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             status = status,
             carerNotes = carerNotes,
             blisterPackOutcome = 1
+        )
+    }
+
+    suspend fun updateMedicationPrn(
+        hashToken: String,
+        prnDetailsId: String,
+        status: String,
+        carerNotes: String
+    ): Response<JsonObject> {
+        return apiService.updateMedicationPrn(
+            hashToken = hashToken,
+            prnDetailsId = prnDetailsId,
+            status = status,
+            carerNotes = carerNotes
         )
     }
 

@@ -91,9 +91,7 @@ class MedicationListAdapter(
                         }
                     }
                     layout.setOnClickListener {
-                        if(data.medication_type != "PRN") {
-                            onItemItemClick.onItemItemClicked(data)
-                        }
+                        onItemItemClick.onItemItemClicked(data)
                     }
                 }
             } catch (e: Exception) {

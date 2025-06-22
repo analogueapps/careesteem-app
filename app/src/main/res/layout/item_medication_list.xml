@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
     app:cardBackgroundColor="@android:color/white"
     tools:ignore="UnusedAttribute">
 
@@ -26,7 +27,6 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -47,6 +47,7 @@
                  />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginTop="@dimen/_2sdp"
                 android:id="@+id/medicationSupport"
                 android:singleLine="true"
                 android:layout_width="wrap_content"
@@ -61,26 +62,24 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
-            android:visibility="gone"
-            android:background="@color/quantum_grey"
+            android:layout_margin="@dimen/_5sdp"
+            android:background="@color/colorPrimary"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="end"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:visibility="gone"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:id="@+id/medicationType"
                     android:layout_weight="1"
@@ -96,11 +95,12 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:visibility="gone"
                     android:id="@+id/todoStatus"
-                    android:layout_gravity="end"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:padding="@dimen/_5sdp"
+                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
                     android:textStyle="bold"

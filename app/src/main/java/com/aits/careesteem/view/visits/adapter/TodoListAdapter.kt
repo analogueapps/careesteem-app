@@ -8,13 +8,20 @@ package com.aits.careesteem.view.visits.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemTodoListBinding
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.AppConstant.setTextWithColoredStar
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.TodoListResponse
 
@@ -81,30 +88,35 @@ class TodoListAdapter(
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
         fun bind(data: TodoListResponse.Data) {
             binding.apply {
-                todoName.text = data.todoName
-                //todoStatus.text = data.todoOutcome
-
-                when (data.todoEssential) {
-                    true -> todoOutcome.visibility = View.VISIBLE
-                    false -> todoOutcome.visibility = View.GONE
-                }
-
+                // Set todoStatus icon
                 when (data.todoOutcome) {
-                    "Not Completed" -> todoStatus.apply {
-//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_red_bg)
-//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.red)
-                        setImageResource(R.drawable.cross)
-                    }
-                    "Completed" -> todoStatus.apply {
-//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
-                        setImageResource(R.drawable.tick)
-                    }
-//                    else -> todoStatus.apply {
-//                        background = ContextCompat.getDrawable(context, R.drawable.ic_btn_green_bg)
-//                        backgroundTintList = ContextCompat.getColorStateList(context, R.color.colorPrimary)
-//                    }
+                    "Not Completed" -> todoStatus.setImageResource(R.drawable.cross)
+                    "Completed" -> todoStatus.setImageResource(R.drawable.tick)
                 }
+
+//                // Append * with color, always
+//                val originalText = data.todoName.trimEnd()
+//                val finalText = "$originalText sdfjsdgfhjdsgfjhdsjfgsdhgfsdgfgdshjfghsd *"
+//                val spannable = SpannableString(finalText)
+//
+//                spannable.setSpan(
+//                    ForegroundColorSpan(ContextCompat.getColor(root.context, R.color.colorPrimary)),
+//                    finalText.length - 1,
+//                    finalText.length,
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                )
+//
+//                todoName.text = spannable
+
+//                todoName.post {
+//                    val maxWidth = todoName.width
+//                    AppConstant.applyTextWithColoredAsterisk(todoName, data.todoName+"jdjshfhgjdsjfhgdsjhfgdsjhfgdsjhgfjhdsgf", maxWidth, binding.root.context)
+//                }
+
+                todoName.setTextWithColoredStar(
+                    text = data.todoName,
+                    starColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                )
 
                 layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

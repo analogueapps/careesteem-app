@@ -52,7 +52,7 @@ object ProgressLoader {
         val gifView = dialog?.findViewById<ImageView>(R.id.loaderImage)
         Glide.with(activity)
             .asGif()
-            .load(R.drawable.logo_animation) // Replace with your actual GIF resource
+            .load(R.drawable.logo_animation_primary) // Replace with your actual GIF resource
             .into(gifView!!)
 
         dialog?.show()

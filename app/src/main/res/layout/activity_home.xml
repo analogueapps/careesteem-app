@@ -10,22 +10,20 @@
     tools:context=".view.home.view.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:paddingEnd="@dimen/_7sdp"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/toolbar_background"
+        android:paddingEnd="@dimen/_15sdp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStartWithNavigation="0dp"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:navigationIconTint="@android:color/black"
         tools:ignore="RtlSymmetry">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:visibility="gone"
-            android:src="@drawable/toolbar_logo"
-            android:layout_width="@dimen/_88sdp"
-            android:layout_height="@dimen/_33sdp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <View

@@ -30,11 +30,13 @@ import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.utils.getAppVersion
 import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
@@ -85,6 +87,36 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setupWidgets() {
+        binding.switchNotification.isChecked =
+            sharedPreferences.getBoolean(SharedPrefConstant.NOTIFICATION_ENABLE, false)
+
+        binding.switchNotification.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editor.putBoolean(SharedPrefConstant.NOTIFICATION_ENABLE, true)
+                editor.apply()
+                AlertUtils.showToast(activity, "Notifications are enabled", ToastyType.SUCCESS)
+            } else {
+                editor.putBoolean(SharedPrefConstant.NOTIFICATION_ENABLE, false)
+                editor.apply()
+                AlertUtils.showToast(activity, "Notifications are disabled", ToastyType.SUCCESS)
+            }
+        }
+
+        binding.switchFaceId.isChecked =
+            sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)
+
+        binding.switchFaceId.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editor.putBoolean(SharedPrefConstant.LOCK_ENABLE, true)
+                editor.apply()
+                AlertUtils.showToast(activity, "Face ID are enabled", ToastyType.SUCCESS)
+            } else {
+                editor.putBoolean(SharedPrefConstant.LOCK_ENABLE, false)
+                editor.apply()
+                AlertUtils.showToast(activity, "Face ID are disabled", ToastyType.SUCCESS)
+            }
+        }
+
         binding.appVersion.text = "Version " + getAppVersion(requireContext())
 
         binding.btnLogout.setOnClickListener {
@@ -224,25 +256,25 @@ class ProfileFragment : Fragment() {
 //            binding.profileImage.setImageBitmap(it)
 //        }
 
-        val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
-        if (!savedPhoto.isNullOrEmpty()) {
-//            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
-//                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
-//                    isCircular = true
-//                }
-//                binding.profileImage.setImageDrawable(roundedDrawable)
-//            }
-            Glide.with(requireContext())
-                .load(savedPhoto)
-                .override(400, 300)
-                .placeholder(R.drawable.logo_preview)
-                .error(R.drawable.logo_preview)
-                .into(binding.profileImage)
-        } else {
-            val initials = GooglePlaceHolder().getInitialsSingle(data.name)
-            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
-            binding.profileImage.setImageBitmap(initialsBitmap)
-        }
+//        val savedPhoto = sharedPreferences.getString(SharedPrefConstant.PROFILE_IMAGE, null)
+//        if (!savedPhoto.isNullOrEmpty()) {
+////            AppConstant.base64ToBitmap(savedPhoto)?.let { bitmap ->
+////                val roundedDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap).apply {
+////                    isCircular = true
+////                }
+////                binding.profileImage.setImageDrawable(roundedDrawable)
+////            }
+//            Glide.with(requireContext())
+//                .load(savedPhoto)
+//                .override(400, 300)
+//                .placeholder(R.drawable.logo_preview)
+//                .error(R.drawable.logo_preview)
+//                .into(binding.profileImage)
+//        } else {
+//            val initials = GooglePlaceHolder().getInitialsSingle(data.name)
+//            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+//            binding.profileImage.setImageBitmap(initialsBitmap)
+//        }
     }
 
 }

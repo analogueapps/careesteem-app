@@ -106,7 +106,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
         var timerJob: Job? = null
 
         binding.apply {
-            tvClientName.text = data?.clientName
+            tvClientName.text = AppConstant.checkClientName(data?.clientName)
             tvClientAddress.text = data?.clientAddress
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
@@ -143,14 +143,14 @@ class OngoingVisitsDetailsFragment : Fragment() {
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
                     btnCheckout.isEnabled = false
-                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
+                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.dialogTextColor)
                     btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.black))
                     val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
                     //println("Has more than 2 minutes passed? $hasPassed")
                     if (hasPassed) {
                         btnCheckout.text = "Check out"
                         btnCheckout.isEnabled = true
-                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ongoingCardCorner)
+                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner)
                         btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
                     }
                 }

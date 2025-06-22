@@ -95,11 +95,11 @@ class OngoingVisitsAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(data: VisitListResponse.Data) {
             binding.apply {
-                tvClientName.text = data.clientName
-                tvClientAddress.text = data.clientAddress
+                tvClientName.text = AppConstant.checkClientName(data.clientName)
+                tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
                 // You may have another field in your data representing the total planned time.
                 // Here, we start a countdown using the planned end time.
-                tvPlanTime.text = data.totalPlannedTime
+                tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
 
                 // Cancel any previous timer if this view is recycled
                 timerJob?.cancel()

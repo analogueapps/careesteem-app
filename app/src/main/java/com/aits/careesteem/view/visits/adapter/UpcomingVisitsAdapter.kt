@@ -89,12 +89,12 @@ class UpcomingVisitsAdapter(
 
         @SuppressLint("NewApi")
         fun bind(data: VisitListResponse.Data) {
-            binding.tvClientName.text = data.clientName
-            binding.tvClientAddress.text = data.clientAddress
-            binding.tvPlannedStartTime.text = data.plannedStartTime
-            binding.tvPlannedEndTime.text = data.plannedEndTime
-            binding.tvPlanTime.text = data.totalPlannedTime
-            binding.tvUserRequired.text = "${data.usersRequired}"
+            binding.tvClientName.text = AppConstant.checkClientName(data.clientName)
+            binding.tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+            binding.tvPlannedStartTime.text = AppConstant.checkNull(data.plannedStartTime)
+            binding.tvPlannedEndTime.text = AppConstant.checkNull(data.plannedEndTime)
+            binding.tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
+            binding.tvUserRequired.text = AppConstant.checkNull(data.usersRequired.toString())
 
             val today = java.time.LocalDate.now().toString()
             val isToday = data.visitDate == today

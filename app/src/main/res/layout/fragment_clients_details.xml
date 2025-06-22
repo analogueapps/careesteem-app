@@ -1311,13 +1311,14 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/topLayout"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:layout_marginStart="@dimen/_10sdp"
                 android:id="@+id/clientName"
                 android:layout_weight="1"
                 android:singleLine="true"
@@ -1339,7 +1340,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/ic_edittext_bg"
+                android:background="@drawable/ic_uploaded_doc_bg"
                 android:text="Uploaded Documents"
                 android:gravity="center"
                 android:fontFamily="@font/robotoslab_regular"
@@ -1390,8 +1391,10 @@
         android:id="@+id/btnCreateUnscheduledVisit"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_33sdp"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:fontFamily="@font/robotoslab_regular"
         android:text="@string/create_an_unscheduled_visit"

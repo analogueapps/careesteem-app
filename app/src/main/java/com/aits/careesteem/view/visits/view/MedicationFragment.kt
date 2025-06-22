@@ -40,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, MedicationPrnListAdapter.OnItemItemClick {
+class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, MedicationPrnListAdapter.OnPnrItemItemClick {
     private var _binding: FragmentMedicationBinding? = null
     private val binding get() = _binding!!
 
@@ -336,10 +336,10 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                     )
                 }
                 "PRN" -> {
-                    viewModel.medicationPrn(
+                    viewModel.medicationPrnUpdate(
                         activity = requireActivity(),
                         visitDetailsId = id.toString(),
-                        medicationDetails = data,
+                        prnDetailsId = data.prn_details_id,
                         status = binding.medicationStatus.text.toString(),
                         carerNotes = binding.medicationNotes.text.toString()
                     )
@@ -348,6 +348,138 @@ class MedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, Me
                     AlertUtils.showToast(requireActivity(), "Something went wrong", ToastyType.ERROR)
                 }
             }
+        }
+        binding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    override fun onPnrItemItemClicked(data: MedicationDetailsListResponse.Data) {
+        if(!isChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
+            return
+        }
+
+        val dialog = BottomSheetDialog(requireContext())
+        val binding: DialogMedicationUpdateBinding =
+            DialogMedicationUpdateBinding.inflate(layoutInflater)
+        dialog.window?.setDimAmount(0.8f)
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.TRUE)
+
+//        // Set max height
+//        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
+//        binding.root.layoutParams = binding.root.layoutParams?.apply {
+//            height = maxHeight
+//        }
+        binding.closeButton.setOnClickListener { dialog.dismiss() }
+        // Add data
+        binding.nhsMedicineName.text = data.nhs_medicine_name
+        binding.medicationType.text = data.medication_type
+        binding.medicationSupport.text = data.medication_support
+        binding.doseQty.text = data.quantity_each_dose.toString()
+        binding.medicationRoute.text = data.medication_route_name
+        when (data.medication_type) {
+            "Blister Pack" -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+            "Scheduled" -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+            "PRN" -> {
+                binding.frequencyMedication.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+            }
+            else -> {
+                binding.frequencyMedication.text = data.day_name
+            }
+        }
+
+        if(data.body_image != null && data.body_image.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
+            binding.tvBodyMap.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.VISIBLE
+
+            // Map body parts with corresponding images
+            val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
+                BodyMapItem(
+                    partName = name,
+                    imageUrl = data.body_image.getOrNull(index).orEmpty()
+                )
+            }
+
+            // Setup nested image recycler
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerView.adapter = BodyMapImageAdapter(requireContext(), bodyMapItems)
+        } else {
+            binding.tvBodyMap.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
+        }
+
+
+
+        binding.medicationStatus.text = ""
+        binding.medicationType.text = data.medication_type
+
+        // Retrieve the list of statuses
+        val statuses = AppConstant.getStatusesFromJson(requireContext())
+        // Create ArrayAdapter
+        val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, statuses)
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        // Set adapter to Spinner
+        binding.spinner.adapter = adapter
+
+        // Retrieve previously selected status from SharedPreferences (or ViewModel)
+        val selectedStatus = data.status
+
+        // Find index of previously selected status
+        val selectedIndex = statuses.indexOf(selectedStatus)
+
+        // Set selected item in Spinner
+        if (selectedIndex != -1) {
+            binding.spinner.setSelection(selectedIndex)
+        }
+
+        binding.medicationStatus.setOnClickListener {
+            binding.spinner.performClick()
+        }
+
+        // Handle selection
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                binding.medicationStatus.text = adapter.getItem(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+
+        // Handle button clicks
+        binding.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnSave.setOnClickListener {
+            if(binding.medicationStatus.text == "Select") {
+                AlertUtils.showToast(requireActivity(), "Please select status", ToastyType.WARNING)
+                return@setOnClickListener
+            }
+
+            dialog.dismiss()
+            viewModel.medicationPrn(
+                activity = requireActivity(),
+                visitDetailsId = id.toString(),
+                medicationDetails = data,
+                status = binding.medicationStatus.text.toString(),
+                carerNotes = binding.medicationNotes.text.toString()
+            )
         }
         binding.btnCancel.setOnClickListener {
             dialog.dismiss()

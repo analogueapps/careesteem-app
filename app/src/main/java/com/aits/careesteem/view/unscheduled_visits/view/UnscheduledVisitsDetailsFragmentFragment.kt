@@ -30,6 +30,7 @@ import com.aits.careesteem.view.visits.view.OngoingVisitsDetailsFragmentDirectio
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -91,7 +92,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         var timerJob: Job? = null
 
         binding.apply {
-            tvClientName.text = data?.clientName
+            tvClientName.text = AppConstant.checkClientName(data?.clientName)
             tvClientAddress.text = data?.clientAddress
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
@@ -147,14 +148,14 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
                     btnCheckout.isEnabled = false
-                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gray_button)
+                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.dialogTextColor)
                     btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.black))
                     val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
                     //println("Has more than 2 minutes passed? $hasPassed")
                     if (hasPassed) {
                         btnCheckout.text = "Check out"
                         btnCheckout.isEnabled = true
-                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.ongoingCardCorner)
+                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner)
                         btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
                     }
                 }
@@ -167,19 +168,22 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
             var changes = true
             changes = !(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty())
 
-            val adapter = UvViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), changes)
+            val gson = Gson()
+            val dataString = gson.toJson(data)
+
+            val adapter = UvViewPagerAdapter(requireActivity(), dataString, changes)
             binding.viewPager.adapter = adapter
 
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
                 tab.text = when (position) {
-                    0 -> "To-Do's"
-                    1 -> "Medication"
-                    2 -> "Visit Notes"
+                    //0 -> "To-Do's"
+                    0 -> "Medication"
+                    1 -> "Visit Notes"
                     else -> throw IllegalArgumentException("Invalid position")
                 }
             }.attach()
 
-            val titles = listOf("To-Do's", "Medication", "Visit Notes")
+            val titles = listOf("Medication", "Visit Notes")
 
             for (i in 0 until binding.tabLayout.tabCount) {
                 val tab = binding.tabLayout.getTabAt(i)

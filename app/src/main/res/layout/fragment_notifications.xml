@@ -27,15 +27,16 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:drawablePadding="8dip"
                         android:layout_weight="1"
+                        android:gravity="center|left"
                         android:drawableStart="@drawable/ic_notifications"
                         android:drawableTint="@color/colorPrimary"
                         android:textColor="@color/colorPrimary"

@@ -28,29 +28,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="@dimen/_74sdp"
-                    android:layout_height="@dimen/_74sdp"
-                    android:src="@drawable/app_logo"
-                    android:layout_gravity="center"
-                    app:shapeAppearanceOverlay="@style/Circular" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSwitch"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_13sdp"
+                    android:layout_marginEnd="@dimen/_13sdp"
                     android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_35sdp"
-                    android:fontFamily="@font/robotoslab_regular"
-                    app:icon="@drawable/ic_swap"
-                    app:iconSize="@dimen/_14sdp"
-                    app:iconTintMode="multiply"
-                    android:text="@string/switch_account"
-                    android:textAllCaps="false"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/_8ssp"
-                     />
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:drawablePadding="8dip"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:drawableStart="@drawable/iconamoon_profile_fill"
+                        android:drawableTint="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_12ssp"
+                        android:text="Profile Settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSwitch"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_35sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        app:icon="@drawable/ic_swap"
+                        app:iconSize="@dimen/_14sdp"
+                        app:iconTintMode="multiply"
+                        android:text="@string/switch_account"
+                        android:textAllCaps="false"
+                        android:textStyle="normal"
+                        android:textSize="@dimen/_8ssp"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                    android:id="@+id/profileImage"-->
+<!--                    android:layout_width="@dimen/_74sdp"-->
+<!--                    android:layout_height="@dimen/_74sdp"-->
+<!--                    android:src="@drawable/app_logo"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    app:shapeAppearanceOverlay="@style/Circular" />-->
+
+
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:padding="@dimen/_5sdp"
@@ -487,6 +515,86 @@
                             android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
                              />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_5sdp"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:padding="@dimen/_5sdp"
+                    android:background="@drawable/ic_upcoming_inside"
+                    android:backgroundTint="@color/completeCardBackground"
+                    android:layout_margin="@dimen/_13sdp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_5sdp"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:text="Push Notifications"
+                            android:textSize="@dimen/_10ssp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:ignore="HardcodedText" />
+
+                        <Switch
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_notification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <View
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:background="#33279989"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:text="Enable Face ID"
+                            android:textSize="@dimen/_10ssp"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textStyle="normal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:ignore="HardcodedText" />
+
+                        <Switch
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_face_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 

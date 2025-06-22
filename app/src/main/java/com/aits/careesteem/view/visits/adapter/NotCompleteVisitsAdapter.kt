@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemNotCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemTravelTimeBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter.OnViewItemItemClick
 import com.aits.careesteem.view.visits.model.VisitListResponse
@@ -88,14 +89,14 @@ class NotCompleteVisitsAdapter(
 
         fun bind(data: VisitListResponse.Data) {
             binding.apply {
-                tvClientName.text = data.clientName
-                tvClientAddress.text = data.clientAddress
-                tvPlanTime.text = data.totalPlannedTime
+                tvClientName.text = AppConstant.checkClientName(data.clientName)
+                tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
                 tvUserRequired.text = "${data.usersRequired}"
 //                tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)
 //                tvPlannedEndTime.text = AppConstant.visitListTimer(data.plannedEndTime)
-                tvPlannedStartTime.text = data.plannedStartTime
-                tvPlannedEndTime.text = data.plannedEndTime
+                tvPlannedStartTime.text = AppConstant.checkNull(data.plannedStartTime)
+                tvPlannedEndTime.text = AppConstant.checkNull(data.plannedEndTime)
 
                 btnGetDirection.setOnClickListener {
                     onDirectionItemItemClick.onDirectionItemItemClicked(data)

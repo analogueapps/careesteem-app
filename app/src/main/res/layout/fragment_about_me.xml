@@ -7,7 +7,10 @@
     tools:context=".view.clients.view.AboutMeFragment">
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:id="@+id/mainCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -328,7 +331,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoslab_regular"
                     android:textColor="@color/colorPrimary"
-                    android:text="NHs No."
+                    android:text="NHS No."
                     android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
                     tools:ignore="HardcodedText" />

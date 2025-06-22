@@ -15,8 +15,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.OpenableColumns
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Base64
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
+import com.aits.careesteem.R
 import com.aits.careesteem.view.auth.model.CountryList
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -63,6 +69,14 @@ object AppConstant {
             "N/A"
         } else {
             value
+        }
+    }
+
+    fun checkClientName(value: String?): String {
+        return if (value.isNullOrEmpty()) {
+            "N/A"
+        } else {
+            value.split(" ").last()
         }
     }
 
@@ -333,4 +347,68 @@ object AppConstant {
             false
         }
     }
+
+    fun applyTextWithColoredAsterisk(textView: AppCompatTextView, fullText: String, maxWidth: Int, context: Context) {
+        val paint = textView.paint
+        val asterisk = " *"
+        val ellipsis = "…"
+
+        val availableWidth = maxWidth - paint.measureText(asterisk)
+
+        var cutIndex = fullText.length
+        while (cutIndex > 0 && paint.measureText(fullText.substring(0, cutIndex)) > availableWidth) {
+            cutIndex--
+        }
+
+        val trimmedText = if (cutIndex < fullText.length) {
+            fullText.substring(0, cutIndex).trimEnd() + ellipsis
+        } else {
+            fullText
+        }
+
+        val finalText = trimmedText + asterisk
+        val spannable = SpannableString(finalText)
+        spannable.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimary)),
+            finalText.length - 1,
+            finalText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        textView.text = spannable
+    }
+
+    fun AppCompatTextView.setTextWithColoredStar(text: String, starColor: Int) {
+        post {
+            val availableWidth = width.toFloat()
+            val paint = paint
+            val asterisk = " *"
+            val ellipsis = "…"
+
+            // Reserve width for ellipsis and *
+            val reservedWidth = paint.measureText("$ellipsis$asterisk")
+
+            var cutIndex = text.length
+            while (cutIndex > 0 && paint.measureText(text.substring(0, cutIndex)) > availableWidth - reservedWidth) {
+                cutIndex--
+            }
+
+            val finalText = if (cutIndex < text.length) {
+                text.substring(0, cutIndex).trimEnd() + ellipsis + asterisk
+            } else {
+                text + asterisk
+            }
+
+            val spannable = SpannableString(finalText)
+            spannable.setSpan(
+                ForegroundColorSpan(starColor),
+                finalText.length - 1,
+                finalText.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            this.text = spannable
+        }
+    }
+
 }

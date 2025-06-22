@@ -49,7 +49,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
                         android:textStyle="bold"
-                        android:textSize="@dimen/_8ssp"
+                        android:textSize="@dimen/_9ssp"
                          />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -60,7 +60,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
                         android:textStyle="bold"
-                        android:textSize="@dimen/_8ssp"
+                        android:textSize="@dimen/_9ssp"
                          />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -79,7 +79,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/care_plan"
                         android:textStyle="normal"
-                        android:textSize="@dimen/_8ssp"
+                        android:textSize="@dimen/_9ssp"
                          />
 
                     <androidx.appcompat.widget.AppCompatImageButton
@@ -89,7 +89,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_margin="@dimen/_7ssp"
-                        android:src="@drawable/ic_delete" />
+                        android:src="@drawable/fluent_delete" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

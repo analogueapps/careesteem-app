@@ -21,4 +21,6 @@ object SharedPrefConstant {
     const val USER_DATA = "user_data"
     const val PROFILE_IMAGE = "profile_image"
     const val NOTIFICATION_COUNT = "NOTIFICATION_COUNT"
+    const val NOTIFICATION_ENABLE = "NOTIFICATION_ENABLE"
+    const val LOCK_ENABLE = "LOCK_ENABLE"
 }

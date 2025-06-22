@@ -78,6 +78,15 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
     }
 
+    // create method for setting fingerVisible
+    var fingerVisible: Boolean
+        get() = isFingerVisible
+        set(value) {
+            isFingerVisible = value
+            numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
+        }
+
+
     private fun initializeViews() {
         pinOneProgress = findViewById<View>(R.id.pinOneProgress)
         pinTwoProgress = findViewById<View>(R.id.pinTwoProgress)

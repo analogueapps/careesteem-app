@@ -25,6 +25,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropdownTextAppearance</item>
         <!-- Default AlertDialog Text Appearance -->
         <item name="android:alertDialogTheme">@style/CustomAlertDialogTheme</item>
+        <item name="dialogTheme">@style/CustomDialogTheme</item>
     </style>
 
     <style name="Theme.CareEsteem" parent="Base.Theme.CareEsteem" />
@@ -117,6 +118,10 @@
         <item name="android:fontFamily">@font/robotoslab_regular</item>
         <item name="fontFamily">@font/robotoslab_regular</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:backgroundDimAmount">0.8</item> <!-- This sets the dim to 0.8f -->
     </style>
 
 </resources>

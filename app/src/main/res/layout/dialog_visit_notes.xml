@@ -85,7 +85,7 @@
                 android:hint="Enter visit notes"
                 android:textStyle="normal"
                 android:gravity="left|top"
-                android:lines="15"
+                android:lines="30"
                 android:textColor="#6D6D6D"
                 android:textSize="@dimen/_10ssp"
                 tools:ignore="HardcodedText,RtlHardcoded" />

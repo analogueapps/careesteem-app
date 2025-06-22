@@ -11,31 +11,35 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.aits.careesteem.R
+import com.aits.careesteem.databinding.ItemMedicationListBinding
 import com.aits.careesteem.databinding.ItemVisitNotesListBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
+import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 
 class UvMedicationListAdapter(
     private val context: Context,
-    private val onItemItemClick: OnItemItemClick
+    private val onPnrItemItemClick: OnPnrItemItemClick
 ) : RecyclerView.Adapter<UvMedicationListAdapter.ViewHolder>() {
 
-    interface OnItemItemClick {
-        fun onItemItemClicked(data: UvMedicationListResponse.Data)
+    interface OnPnrItemItemClick {
+        fun onPnrItemItemClicked(data: MedicationDetailsListResponse.Data)
     }
 
-    private var adapterList = listOf<UvMedicationListResponse.Data>()
+    private var adapterList = listOf<MedicationDetailsListResponse.Data>()
 
-    fun updateList(list: List<UvMedicationListResponse.Data>) {
+    fun updateList(list: List<MedicationDetailsListResponse.Data>) {
         adapterList = list
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemVisitNotesListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMedicationListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -54,27 +58,25 @@ class UvMedicationListAdapter(
         return position
     }
 
-    inner class ViewHolder(private val binding: ItemVisitNotesListBinding) :
+    inner class ViewHolder(private val binding: ItemMedicationListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(data: UvMedicationListResponse.Data) {
-            binding.apply {
-                val date: String = when {
-                    data.medication_created_at.isNullOrEmpty() && !data.medication_updated_at.isNullOrEmpty() -> data.medication_updated_at
-                    !data.medication_created_at.isNullOrEmpty() && data.medication_updated_at.isNullOrEmpty() -> data.medication_created_at
-                    !data.medication_created_at.isNullOrEmpty() && !data.medication_updated_at.isNullOrEmpty() -> data.medication_updated_at
-                    else -> ""
-                }
-                updatedAt.text = AppConstant.visitUvNotesListTimer(date)
-                view.visibility = View.GONE
-                updatedByUserName.visibility = View.GONE
-                editButton.visibility = View.VISIBLE
-                visitNotes.text = data.medication_notes
+        fun bind(data: MedicationDetailsListResponse.Data) {
+            try {
+                binding.apply {
+                    medicationName.text = data.nhs_medicine_name
+                    medicationSupport.text = data.medication_support
+                    medicationType.text = data.medication_type
+                    todoStatus.visibility = View.GONE
 
-                editButton.setOnClickListener {
-                    onItemItemClick.onItemItemClicked(data)
+                    layout.setOnClickListener {
+                        onPnrItemItemClick.onPnrItemItemClicked(data)
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+
             }
         }
     }

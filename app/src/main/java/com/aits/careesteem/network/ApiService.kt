@@ -286,6 +286,13 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
     ): Response<MedicationDetailsListResponse>
 
+    @GET("get-unscheduled-medication-prn")
+    suspend fun getUnscheduledMedicationPrn(
+        @Query("hash_token") hashToken: String,
+        @Query("client_id") clientId: String,
+        @Query("date") date: String
+    ): Response<MedicationDetailsListResponse>
+
     @FormUrlEncoded
     @PUT("medication-scheduled/{scheduledDetailsId}")
     suspend fun medicationScheduledDetails(
@@ -304,6 +311,15 @@ interface ApiService {
         @Field("carer_notes") carerNotes: String,
         @Field("status") status: String,
         @Field("blister_pack_outcome") blisterPackOutcome: Int,
+    ): Response<JsonObject>
+
+
+    @PUT("medication-prn-details/{prnDetailsId}")
+    suspend fun updateMedicationPrn(
+        @Path("prnDetailsId") prnDetailsId: String,
+        @Query("hash_token") hashToken: String,
+        @Field("carer_notes") carerNotes: String,
+        @Field("status") status: String
     ): Response<JsonObject>
 
     @FormUrlEncoded

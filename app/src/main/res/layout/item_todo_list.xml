@@ -43,6 +43,8 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:id="@+id/todoName"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

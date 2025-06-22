@@ -263,7 +263,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         } else if (args.action == 1) {
             binding.textStatus.text = "Check out"
         }
-        binding.textName.text = data.clientName
+        binding.textName.text = AppConstant.checkClientName(data.clientName)
 
         val initials = GooglePlaceHolder().getInitialsSingle(data.clientName)
         val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.utils.AppConstant
@@ -123,6 +124,7 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
             setContentView(binding.root)
             setCancelable(false)
 
+            binding.imgPopup.setImageResource(R.drawable.sending_alerts)
             binding.dialogTitle.text = "Clear Notifications"
             binding.dialogBody.text = "Are you sure you want to clear all notifications?"
 
@@ -138,6 +140,8 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window?.setDimAmount(0.8f)
         }
         dialog.show()
     }
@@ -155,8 +159,10 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
         val dialog = Dialog(requireContext()).apply {
             val binding = DialogForceCheckBinding.inflate(layoutInflater)
             setContentView(binding.root)
+
             setCancelable(false)
 
+            binding.imgPopup.setImageResource(R.drawable.sending_alerts)
             binding.dialogTitle.text = "Clear Notification"
             binding.dialogBody.text = "Are you sure you want to clear this notification?"
 
@@ -172,6 +178,8 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window?.setDimAmount(0.8f)
         }
         dialog.show()
     }

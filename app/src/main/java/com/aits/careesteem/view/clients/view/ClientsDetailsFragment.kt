@@ -144,7 +144,7 @@ class ClientsDetailsFragment : Fragment(),
 
     private fun setupNewUi() {
         binding.apply {
-            clientName.text = clientData.full_name
+            clientName.text = AppConstant.checkClientName(clientData.full_name)
             uploadedDocuments.setOnClickListener {
                 viewModel.getClientDocuments(requireActivity(), clientData.id)
             }

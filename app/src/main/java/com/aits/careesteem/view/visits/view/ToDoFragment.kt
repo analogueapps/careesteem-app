@@ -200,8 +200,13 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         binding.closeButton.setOnClickListener { dialog.dismiss() }
         // Setup views
         binding.apply {
-            todoName.text = data.todoName
-            additionalNotes.text = data.additionalNotes
+            todoName.text = AppConstant.checkNull(data.todoName)
+            val addNote = AppConstant.checkNull(data.additionalNotes)
+            additionalNotes.text = addNote
+            if(addNote != "N/A") {
+                addNoteMain.visibility = View.VISIBLE
+            }
+
             carerNotes.text = Editable.Factory.getInstance().newEditable(data.carerNotes)
 
             btnCompleted.setOnClickListener {

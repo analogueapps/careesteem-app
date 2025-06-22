@@ -107,7 +107,6 @@ object AlertUtils {
     fun showToast(activity: Activity?, message: String?, type: ToastyType) {
 //        //Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 //        activity?.findViewById<View>(android.R.id.content)?.let { rootView ->
-//            val snackbar = Snackbar.make(rootView, message!!, Snackbar.LENGTH_LONG)
 //            val snackbarView = snackbar.view
 //            val textView = snackbarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
 //

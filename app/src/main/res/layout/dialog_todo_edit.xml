@@ -81,25 +81,34 @@
                 android:textSize="@dimen/_9ssp"
                  />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_10sdp"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/addNoteMain"
+                android:visibility="gone"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/robotoslab_regular"
-                android:text="Additional Notes"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
-                tools:ignore="HardcodedText" />
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/additionalNotes"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textStyle="normal"
-                android:textSize="@dimen/_9ssp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Additional Notes"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_10ssp"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/additionalNotes"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/_9ssp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:gravity="center_vertical"

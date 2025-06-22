@@ -230,7 +230,7 @@ class VisitsFragment : Fragment(),
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateCalendar(weekStart: LocalDate) {
         val weekEnd = weekStart.plusDays(6)
-        val formatter = DateTimeFormatter.ofPattern("MMM d", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern("MMMM d", Locale.ENGLISH)
         val yearFormat = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH)
 
         binding.dateRangeText.text = "${weekStart.format(formatter)} to ${weekEnd.format(formatter)} ${weekEnd.format(yearFormat)}"
@@ -421,6 +421,13 @@ class VisitsFragment : Fragment(),
                 binding.tvOngoingVisits.text =
                     getString(R.string.ongoing_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
             }
+            if(visits.isEmpty()) {
+                binding.tvOngoingVisits.visibility = View.GONE
+                //binding.rvOngoingVisits.visibility = View.GONE
+            } else {
+                binding.tvOngoingVisits.visibility = View.VISIBLE
+                //binding.rvOngoingVisits.visibility = View.VISIBLE
+            }
         }
 
         viewModel.completedVisits.observe(viewLifecycleOwner) {
@@ -433,6 +440,13 @@ class VisitsFragment : Fragment(),
                 binding.tvCompletedVisits.text =
                     getString(R.string.completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
             }
+            if(visits.isEmpty()) {
+                binding.tvCompletedVisits.visibility = View.GONE
+                //binding.rvCompletedVisits.visibility = View.GONE
+            } else {
+                binding.tvCompletedVisits.visibility = View.VISIBLE
+                //binding.rvCompletedVisits.visibility = View.VISIBLE
+            }
         }
 
         viewModel.notCompletedVisits.observe(viewLifecycleOwner) {
@@ -444,6 +458,13 @@ class VisitsFragment : Fragment(),
                 // Update count after full list is built (including travel time items)
                 binding.tvNotCompletedVisits.text =
                     getString(R.string.not_completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+            }
+            if(visits.isEmpty()) {
+                binding.tvNotCompletedVisits.visibility = View.GONE
+                //binding.rvNotCompletedVisits.visibility = View.GONE
+            } else {
+                binding.tvNotCompletedVisits.visibility = View.VISIBLE
+                //binding.rvNotCompletedVisits.visibility = View.VISIBLE
             }
         }
 

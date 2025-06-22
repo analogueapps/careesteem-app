@@ -47,7 +47,7 @@ class AddAlertsFragment : Fragment() {
 
     private lateinit var fileAdapter: FileAdapter
 
-    private val severityList = listOf("Select", "Low", "Medium", "High")
+    private val severityList = listOf("Low", "Medium", "High")
 
     private var clientId: String = "-1"
     private var visitDetailsId: String = "-1"
@@ -555,7 +555,7 @@ class AddAlertsFragment : Fragment() {
                     .distinct()
                     .toMutableList() // Convert to mutable list
 
-                uniqueClientNames.add(0, "Select")
+                //uniqueClientNames.add(0, "Select")
 
 
                 // Setup adapter for client name spinner
@@ -600,7 +600,7 @@ class AddAlertsFragment : Fragment() {
                             }
                         }.distinct().toMutableList() // Convert to mutable list
 
-                        visitTimeOptions.add(0, "Select")
+                        //visitTimeOptions.add(0, "Select")
 
                         val visitTimeAdapter = ArrayAdapter(
                             requireContext(),
@@ -616,13 +616,13 @@ class AddAlertsFragment : Fragment() {
                             @SuppressLint("SetTextI18n")
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                                 binding.visitName.text = visitTimeOptions[position]
-                                //visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
+                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
                                 // Skip setting ID for "Select"
-                                visitDetailsId = if (position > 0) {
-                                    filteredVisits.getOrNull(position - 1)?.visitDetailsId ?: "-1"
-                                } else {
-                                    "-1"
-                                }
+//                                visitDetailsId = if (position > 0) {
+//                                    filteredVisits.getOrNull(position - 1)?.visitDetailsId ?: "-1"
+//                                } else {
+//                                    "-1"
+//                                }
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {

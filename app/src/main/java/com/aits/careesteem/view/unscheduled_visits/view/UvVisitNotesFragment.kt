@@ -26,8 +26,10 @@ import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListRespons
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvMedicationViewModel
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvVisitNotesViewModel
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -45,24 +47,29 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     // Adapter
     private lateinit var uvVisitNotesListAdapter: UvVisitNotesListAdapter
 
-    private var id: String? = null
+    private var visitDataString: String? = null
     private var isChanges = true
+
+    private var visitData: VisitDetailsResponse.Data? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
-        id = arguments?.getString(ARG_ID)
+        visitDataString = arguments?.getString(ARG_DATA)
         isChanges = arguments?.getBoolean(ARG_CHANGES)!!
+
+        val gson = Gson()
+        visitData = gson.fromJson(visitDataString, VisitDetailsResponse.Data::class.java)
     }
 
     companion object {
-        private const val ARG_ID = "ARG_ID"
+        private const val ARG_DATA = "ARG_DATA"
         private const val ARG_CHANGES = "ARG_CHANGES"
         @JvmStatic
         fun newInstance(param1: String, param2: Boolean) =
             UvVisitNotesFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_ID, param1)
+                    putString(ARG_DATA, param1)
                     putBoolean(ARG_CHANGES, param2)
                 }
             }
@@ -76,7 +83,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     override fun onResume() {
         super.onResume()
         if(isVisible) {
-            viewModel.getUvVisitNotesList(requireActivity(), id.toString())
+            viewModel.getUvVisitNotesList(requireActivity(), visitData?.visitDetailsId.toString())
         }
     }
 
@@ -129,7 +136,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
                 try {
                     delay(2000)
                     binding.swipeRefresh.isRefreshing = AppConstant.FALSE
-                    viewModel.getUvVisitNotesList(requireActivity(), id.toString())
+                    viewModel.getUvVisitNotesList(requireActivity(), visitData?.visitDetailsId.toString())
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -205,7 +212,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
             dialog.dismiss()
             viewModel.updateNotes(
                 activity = requireActivity(),
-                visitDetailsId = id.toString(),
+                visitDetailsId = visitData?.visitDetailsId.toString(),
                 visitNotesId = data.id,
                 visitNotes = binding.visitNotes.text.toString().trim()
             )
@@ -254,7 +261,7 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
             dialog.dismiss()
             viewModel.addNotes(
                 activity = requireActivity(),
-                visitDetailsId = id.toString(),
+                visitDetailsId = visitData?.visitDetailsId.toString(),
                 visitNotes = binding.visitNotes.text.toString().trim()
             )
         }
