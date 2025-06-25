@@ -31,43 +31,52 @@
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <LinearLayout
+            android:id="@+id/llClientDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
 
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="@string/clients_ran"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/clientName"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="@string/clients_ran"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
-            android:layout_marginTop="@dimen/_5sdp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/clientName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/ic_edittext_light_bg"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
+                android:drawableTint="@color/black"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center_vertical"
+                android:hint="Select"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText" />
 
-            android:background="@drawable/ic_edittext_light_bg"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-            android:drawableTint="@color/black"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center_vertical"
-            android:hint="Select"
-            android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/allClientNameSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@null" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvClientName"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="2dp"
+                android:maxHeight="250dp"
+                android:visibility="gone"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                android:background="@drawable/bg_spinner_dropdown_light"
+                android:nestedScrollingEnabled="true"/>
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -97,23 +106,14 @@
             android:textStyle="normal"
             tools:ignore="HardcodedText" />
 
-        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvVisitName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
             android:visibility="gone"
-            app:smsp_baseColor="@color/colorPrimary"
-            app:smsp_enableSearchHeader="false"
-            app:smsp_isSearchable="true"
-            app:smsp_multilineError="false"
-            app:smsp_selectedItemListColor="@color/colorPrimary" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/allVisitTimeSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@null" />
+            android:background="@drawable/bg_spinner_dropdown_light"
+            android:layout_marginTop="2dp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -146,13 +146,14 @@
 
             tools:ignore="HardcodedText" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/severityOfConcernSpinner"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvConcern"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@null" />
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_spinner_dropdown_light"
+            android:layout_marginTop="2dp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"

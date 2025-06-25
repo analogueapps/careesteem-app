@@ -3,7 +3,6 @@ package com.aits.careesteem.view.visits.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import android.os.Build
@@ -16,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -33,21 +31,14 @@ import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.adapter.*
-import com.aits.careesteem.view.visits.model.DirectionsResponse
-import com.aits.careesteem.view.visits.model.DistanceMatrixResponse
-import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
-import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.DayOfWeek
@@ -414,12 +405,16 @@ class VisitsFragment : Fragment(),
             val visits = it ?: emptyList()
             upcomingAdapter.updatedUpcomingList(it ?: emptyList())
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                val visitItems = buildVisitItemListSuspend(visits)
-                ongoingAdapter.updateList(visitItems)
+                //val visitItems = buildVisitItemListSuspend(visits)
+                val itemList = mutableListOf<VisitItem>()
+                for (i in visits.indices) {
+                    itemList.add(VisitItem.VisitCard(visits[i]))
+                }
+                ongoingAdapter.updateList(itemList)
                 if (!isAdded || view == null) return@launchWhenStarted
                 // Update count after full list is built (including travel time items)
                 binding.tvOngoingVisits.text =
-                    getString(R.string.ongoing_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+                    getString(R.string.ongoing_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
             if(visits.isEmpty()) {
                 binding.tvOngoingVisits.visibility = View.GONE
@@ -433,12 +428,16 @@ class VisitsFragment : Fragment(),
         viewModel.completedVisits.observe(viewLifecycleOwner) {
             val visits = it ?: emptyList()
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                val visitItems = buildVisitItemListSuspend(visits)
-                completeAdapter.updateList(visitItems)
+                //val visitItems = buildVisitItemListSuspend(visits)
+                val itemList = mutableListOf<VisitItem>()
+                for (i in visits.indices) {
+                    itemList.add(VisitItem.VisitCard(visits[i]))
+                }
+                completeAdapter.updateList(itemList)
                 if (!isAdded || view == null) return@launchWhenStarted
                 // Update count after full list is built (including travel time items)
                 binding.tvCompletedVisits.text =
-                    getString(R.string.completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+                    getString(R.string.completed_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
             if(visits.isEmpty()) {
                 binding.tvCompletedVisits.visibility = View.GONE
@@ -452,12 +451,16 @@ class VisitsFragment : Fragment(),
         viewModel.notCompletedVisits.observe(viewLifecycleOwner) {
             val visits = it ?: emptyList()
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                val visitItems = buildVisitItemListSuspend(visits)
-                notCompleteAdapter.updateList(visitItems)
+                //val visitItems = buildVisitItemListSuspend(visits)
+                val itemList = mutableListOf<VisitItem>()
+                for (i in visits.indices) {
+                    itemList.add(VisitItem.VisitCard(visits[i]))
+                }
+                notCompleteAdapter.updateList(itemList)
                 if (!isAdded || view == null) return@launchWhenStarted
                 // Update count after full list is built (including travel time items)
                 binding.tvNotCompletedVisits.text =
-                    getString(R.string.not_completed_visits) + " (${visitItems.count { item -> item is VisitItem.VisitCard }})"
+                    getString(R.string.not_completed_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
             if(visits.isEmpty()) {
                 binding.tvNotCompletedVisits.visibility = View.GONE

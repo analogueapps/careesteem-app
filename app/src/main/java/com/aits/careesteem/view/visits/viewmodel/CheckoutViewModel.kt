@@ -92,7 +92,7 @@ class CheckoutViewModel @Inject constructor(
         alertType: String,
     ) {
         _isLoading.value = true
-        val actualStartTime = DateTimeUtils.getCurrentTimeGMT()
+        val actualStartTime = DateTimeUtils.getCurrentTimeInSecGMT()
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
@@ -111,7 +111,7 @@ class CheckoutViewModel @Inject constructor(
                     userId = userData.id,
                     status = "checkin",
                     actualStartTime = actualStartTime,
-                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                    createdAt = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
                 )
 
                 if (response.isSuccessful) {

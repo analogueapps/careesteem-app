@@ -30,9 +30,19 @@ object DateTimeUtils {
     }
 
     /**
-     * Get current time in GMT with format "HH:mm:ss"
+     * Get current time in GMT with format "HH:mm"
      */
     fun getCurrentTimeGMT(): String {
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()).apply {
+            timeZone = gmtTimeZone
+        }
+        return timeFormat.format(Date())
+    }
+
+    /**
+     * Get current time in GMT with format "HH:mm:ss"
+     */
+    fun getCurrentTimeInSecGMT(): String {
         val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
@@ -50,10 +60,10 @@ object DateTimeUtils {
     }
 
     /**
-     * Get current timestamp in GMT with format "yyyy-MM-dd'T'HH:mm:ss"
+     * Get current timestamp in GMT with format "yyyy-MM-dd HH:mm:ss"
      */
     fun getCurrentTimestampGMT(): String {
-        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).apply {
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
         return timestampFormat.format(Date())
@@ -63,14 +73,14 @@ object DateTimeUtils {
      * Get current timestamp in GMT with format "yyyy-MM-dd HH:mm:ss"
      */
     fun getCurrentTimestampForCheckOutGMT(): String {
-        val timestampFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault()).apply {
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
         return timestampFormat.format(Date())
     }
 
     fun getCurrentTimestampAddVisitNotesGMT(): String {
-        val timestampFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+        val timestampFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
         return timestampFormat.format(Date())
@@ -79,13 +89,21 @@ object DateTimeUtils {
     /**
      * Convert a given date to GMT format
      * @param date - Date to be converted
-     * @param format - Desired format (default: "yyyy-MM-dd'T'HH:mm:ss")
+     * @param format - Desired format (default: "yyyy-MM-dd HH:mm:ss")
      */
-    fun convertToGMT(date: Date, format: String = "yyyy-MM-dd'T'HH:mm:ss"): String {
+    fun convertToGMT(date: Date, format: String = "yyyy-MM-dd HH:mm:ss"): String {
         val dateFormat = SimpleDateFormat(format, Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
         return dateFormat.format(date)
+    }
+
+    // convert HH:mm:ss to HH:ss
+    fun convertTime(time: String): String {
+        val inputFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = inputFormat.parse(time)
+        return outputFormat.format(date)
     }
 
     /**
@@ -110,7 +128,7 @@ object DateTimeUtils {
         // Convert provided date and time into a ZonedDateTime in UTC.
         val plannedDateTime = ZonedDateTime.of(
             LocalDate.parse(plannedDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-            LocalTime.parse(plannedTimeStr, DateTimeFormatter.ofPattern("HH:mm")),
+            LocalTime.parse(plannedTimeStr, DateTimeFormatter.ofPattern("HH:mm:ss")),
             ZoneId.of("Europe/London") // Ensure it's UTC
         )
 

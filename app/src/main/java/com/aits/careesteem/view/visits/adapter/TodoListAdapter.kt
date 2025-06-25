@@ -113,10 +113,14 @@ class TodoListAdapter(
 //                    AppConstant.applyTextWithColoredAsterisk(todoName, data.todoName+"jdjshfhgjdsjfhgdsjhfgdsjhfgdsjhgfjhdsgf", maxWidth, binding.root.context)
 //                }
 
-                todoName.setTextWithColoredStar(
-                    text = data.todoName,
-                    starColor = ContextCompat.getColor(context, R.color.colorPrimary)
-                )
+                if(data.todoEssential) {
+                    todoName.setTextWithColoredStar(
+                        text = data.todoName,
+                        starColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                    )
+                } else {
+                    todoName.text = data.todoName
+                }
 
                 layout.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

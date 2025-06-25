@@ -135,10 +135,12 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
 
                 topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner))
-                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
-                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground)
+                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground))
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardInsideCount)
+                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.completeCardCorner))
             } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isEmpty()) {
                 btnCheckout.text = "Check out"
+                dividerView.setBackgroundColor((ContextCompat.getColor(requireContext(), R.color.ongoingCardCorner)))
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
@@ -158,6 +160,7 @@ class OngoingVisitsDetailsFragment : Fragment() {
                 btnCheckout.text = "Check in"
                 tvPlanTime.text = "00:00"
                 btnCheckout.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.upcomingCardCorner))
+                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.upcomingCardCorner))
             }
 
             var changes = true
@@ -172,8 +175,9 @@ class OngoingVisitsDetailsFragment : Fragment() {
 
                 // change all the things
                 topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner))
-                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
-                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardBackground)
+                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardBackground))
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardInsideCount)
+                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.notCompleteCardCorner))
             }
 
             val adapter = ViewPagerAdapter(requireActivity(), data?.visitDetailsId.toString(), data?.clientId.toString(), changes)

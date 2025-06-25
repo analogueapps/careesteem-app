@@ -210,10 +210,20 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
             carerNotes.text = Editable.Factory.getInstance().newEditable(data.carerNotes)
 
             btnCompleted.setOnClickListener {
+                // check carerNotes empty or not
+                if (carerNotes.text.toString().trim().isEmpty()) {
+                    AlertUtils.showToast(requireActivity(), "Please enter carer notes", ToastyType.WARNING)
+                    return@setOnClickListener
+                }
                 dialog.dismiss()
                 updateTodoStatus(data, 1, carerNotes.text.toString().trim())
             }
             btnNotCompleted.setOnClickListener {
+                // check carerNotes empty or not
+                if (carerNotes.text.toString().trim().isEmpty()) {
+                    AlertUtils.showToast(requireActivity(), "Please enter carer notes", ToastyType.WARNING)
+                    return@setOnClickListener
+                }
                 dialog.dismiss()
                 updateTodoStatus(data, 0, carerNotes.text.toString().trim())
             }

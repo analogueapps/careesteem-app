@@ -21,6 +21,7 @@ import com.aits.careesteem.databinding.ItemTravelTimeBinding
 import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
 import com.aits.careesteem.view.visits.model.User
@@ -99,8 +100,14 @@ class CompleteVisitsAdapter(
                     tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
-                    tvPlannedStartTime.text = "Check in time\n${AppConstant.checkNull(data.actualStartTime[0])}"
-                    tvPlannedEndTime.text = "Check out time\n${AppConstant.checkNull(data.actualEndTime[0])}"
+                    tvPlannedStartTime.text = "Check in time\n${DateTimeUtils.convertTime(data.actualStartTime[0])}"
+                    tvPlannedEndTime.text = "Check out time\n${DateTimeUtils.convertTime(data.actualEndTime[0])}"
+
+                    if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                        tvUnscheduledIndicator.visibility = View.VISIBLE
+                    } else {
+                        tvUnscheduledIndicator.visibility = View.GONE
+                    }
 
                     val userList = data.userName.mapIndexed { index, name ->
                         val photoUrl = data.profile_photo_name.getOrNull(index).orEmpty()

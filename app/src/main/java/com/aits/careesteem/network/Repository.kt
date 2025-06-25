@@ -348,6 +348,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             visitDetailsId = visitDetailsId,
             visitUserId = visitUserId,
+            createdByUserId = visitUserId,
             visitCreatedAt = visitCreatedAt,
             visitNotes = visitNotes
         )
@@ -364,6 +365,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             visitNotesId = visitNotesId,
             visitUserId = visitUserId,
+            updatedAt = visitUserId,
             visitNotes = visitNotes,
             visitUpdatedAt = visitUpdatedAt
         )

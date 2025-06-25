@@ -23,7 +23,7 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
 
     private val pathPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         //color = Color.GREEN
-        color = Color.parseColor("#B7EAE3")
+        color = Color.parseColor("#279989")
         style = Paint.Style.STROKE
         strokeWidth = 8f
     }
@@ -31,7 +31,7 @@ class BodyMapView(context: Context, attrs: AttributeSet?) : AppCompatImageView(c
     private var markerPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         //color = Color.GREEN // Default Marker Color
         // color is #B7EAE3
-        color = Color.parseColor("#B7EAE3")
+        color = Color.parseColor("#279989")
         style = Paint.Style.FILL
     }
 

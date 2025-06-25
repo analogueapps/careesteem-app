@@ -135,8 +135,9 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
                 btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner)
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
                 topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner))
-                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
-                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground)
+                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground))
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardInsideCount)
+                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.completeCardCorner))
             } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isEmpty()) {
 //                btnCheckout.text = "Check out"
 //                timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
@@ -144,6 +145,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 //                    tvPlanTime.text = remainingTime
 //                }
                 btnCheckout.text = "Check out"
+                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.ongoingCardCorner))
                 timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
@@ -163,6 +165,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
                 btnCheckout.text = "Check in"
                 tvPlanTime.text = "00:00"
                 btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.upcomingCardCorner)
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.upcomingCardInsideCount)
             }
 
             var changes = true

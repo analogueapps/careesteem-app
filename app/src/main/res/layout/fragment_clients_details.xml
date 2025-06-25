@@ -1394,7 +1394,7 @@
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginEnd="@dimen/_25sdp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_35sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:fontFamily="@font/robotoslab_regular"
         android:text="@string/create_an_unscheduled_visit"

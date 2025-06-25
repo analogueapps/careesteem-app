@@ -3,22 +3,20 @@ package com.aits.careesteem.view.auth.view
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
@@ -26,10 +24,10 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.auth.adapter.CountryListAdapter
 import com.aits.careesteem.view.auth.viewmodel.WelcomeViewModel
 import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.gson.Gson
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,6 +113,7 @@ class WelcomeFragment : Fragment() {
         return localNumber
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setupWidget() {
 //        // Add a TextWatcher to the EditText
 //        binding.etMobile.addTextChangedListener(object : TextWatcher {
@@ -140,54 +139,70 @@ class WelcomeFragment : Fragment() {
         for (data in statuses) {
             spinnerList.add("${data.emoji} ${data.country}  +${data.country_code}")
         }
-        // Create ArrayAdapter
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Set adapter to Spinner
-        binding.spinner.adapter = adapter
+//        // Create ArrayAdapter
+//        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerList)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        // Set adapter to Spinner
+//        binding.spinner.adapter = adapter
+//
+//        // Find the country with ID 219 (for example)
+//        val countryId = "ff84412b2bed11f091d77e1e"
+//
+//        // Find the index of the item corresponding to country ID 219
+//        val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }
+//
+//        // Check if the country was found and set it as the selected item in the Spinner
+//        if (selectedItemPosition != -1) {
+//            binding.spinner.setSelection(selectedItemPosition)
+//        }
+//
+//        binding.spinner.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                @SuppressLint("SetTextI18n")
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    binding.tvCountryCode.text = "${statuses[position].emoji} +${statuses[position].country_code}"
+//                    viewModel.setCountryCode(statuses[position].id)
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                }
+//            }
+//
 
-        // Find the country with ID 219 (for example)
         val countryId = "ff84412b2bed11f091d77e1e"
-
-        // Find the index of the item corresponding to country ID 219
         val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }
-
-        // Check if the country was found and set it as the selected item in the Spinner
         if (selectedItemPosition != -1) {
-            binding.spinner.setSelection(selectedItemPosition)
+            binding.tvCountryCode.text = "${statuses[selectedItemPosition].emoji} +${statuses[selectedItemPosition].country_code}"
+            viewModel.setCountryCode(statuses[selectedItemPosition].id)
         }
 
-        binding.spinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                @SuppressLint("SetTextI18n")
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    binding.tvCountryCode.text = "${statuses[position].emoji} +${statuses[position].country_code}"
-                    viewModel.setCountryCode(statuses[position].id)
-                }
+        val adapter = CountryListAdapter(statuses) { selected ->
+            binding.tvCountryCode.text = "${selected.emoji} +${selected.country_code}"
+            viewModel.setCountryCode(selected.id)
+            binding.rvCountryList.visibility = View.GONE
+        }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
+        binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCountryList.adapter = adapter
 
         binding.tvCountryCode.setOnClickListener {
-            binding.spinner.performClick()
+            if (binding.rvCountryList.isVisible) {
+                binding.rvCountryList.visibility = View.GONE
+            } else {
+                binding.rvCountryList.visibility = View.VISIBLE
+            }
         }
+
     }
 
     private fun setupViewmodel() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-        binding.ccp.setTypeFace(ResourcesCompat.getFont(requireContext(), R.font.lora_regular))
-        binding.ccp.setOnCountryChangeListener {
-            val countryCode = binding.ccp.selectedCountryNameCode // Example: "IN"
-            //viewModel.setCountryCode(countryCode)
-        }
 
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

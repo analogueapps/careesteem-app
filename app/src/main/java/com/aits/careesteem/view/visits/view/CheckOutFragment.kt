@@ -75,6 +75,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 @AndroidEntryPoint
@@ -380,16 +381,18 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             val plannedDateTimeStr = "$plannedDate ${data.plannedStartTime}"
 
             // Define formatter
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
             // Parse both date-times
             val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
             val currentDateTime = LocalDateTime.parse(startTime, formatter)
 
+            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+
             // Check the comparison between the current time and planned end time
             when {
-                currentDateTime.isBefore(plannedDateTime) -> "Early Check-In"
-                currentDateTime.isAfter(plannedDateTime) -> "Late Check-In"
+                diff >= 20 -> "Early Check-In"
+                diff <= -20 -> "Late Check-In"
                 else -> ""
             }
         } catch (e: Exception) {
@@ -663,7 +666,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 //                }
 
                 val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-                println("startTime >>>> "+startTime)
+
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
                 val alertType = try {
                     val planTime = when (args.action) {
@@ -674,25 +677,27 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                     // Combine planned date + planned time
                     val plannedDateTimeStr = "$plannedDate $planTime"
-                    println("plannedDateTimeStr >>>> "+plannedDateTimeStr)
+
                     // Define formatter
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
                     // Parse both date-times
                     val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
                     val currentDateTime = LocalDateTime.parse(startTime, formatter)
 
+                    val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+
                     if (currentDateTime != null) {
                         when (args.action) {
                             0 -> when {
-                                currentDateTime.isBefore(plannedDateTime) -> "Early Check-In"
-                                currentDateTime.isAfter(plannedDateTime)  -> "Late Check-In"
-                                else                              -> ""
+                                diff >= 20 -> "Early Check-In"
+                                diff <= -20  -> "Late Check-In"
+                                else -> ""
                             }
                             1 -> when {
-                                currentDateTime.isBefore(plannedDateTime) -> "Early Check-Out"
-                                currentDateTime.isAfter(plannedDateTime)  -> "Late Check-Out"
-                                else                              -> ""
+                                diff >= 20 -> "Early Check-Out"
+                                diff <= -20  -> "Late Check-Out"
+                                else -> ""
                             }
                             else -> ""
                         }
@@ -704,7 +709,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     e.printStackTrace()
                     ""
                 }
-                println("alertType >>>> "+alertType)
                 showAnotherDialog(alertType)
             }
 

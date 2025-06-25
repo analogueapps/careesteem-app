@@ -96,7 +96,7 @@ class AboutMeFragment : Fragment() {
                 tvGender.text = AppConstant.checkNull(data.gender)
                 tvReligion.text = AppConstant.checkNull(data.religion)
                 tvEthnicity.text = AppConstant.checkNull(data.ethnicity)
-                profileName.text = AppConstant.checkNull(clientData.full_name)
+                profileName.text = AppConstant.checkClientName(clientData.full_name)
                 dateOfBirth.text = AppConstant.checkNull(data.date_of_birth)
                 profileAge.text = AppConstant.checkNull(data.age)
                 nhsNumber.text = AppConstant.checkNull(data.nhs_number)
@@ -108,6 +108,7 @@ class AboutMeFragment : Fragment() {
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
+                        .circleCrop() // Makes the image circular
                         .into(profileImage)
                 } else {
                     val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)

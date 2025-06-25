@@ -52,9 +52,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:singleLine="true"
                     android:textStyle="normal"
                     android:textSize="@dimen/_9ssp"
+                    android:maxLines="2"
                      />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -272,6 +272,20 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:id="@+id/tvUnscheduledIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoslab_regular"
+            android:text="Unscheduled"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/_9ssp"
+            tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
             android:visibility="gone"

@@ -102,9 +102,9 @@ class NotCompleteVisitsAdapter(
                     onDirectionItemItemClick.onDirectionItemItemClicked(data)
                 }
 
-                layout.setOnClickListener {
-                    onViewItemItemClick.onViewItemItemClicked(data)
-                }
+//                layout.setOnClickListener {
+//                    onViewItemItemClick.onViewItemItemClicked(data)
+//                }
             }
         }
     }

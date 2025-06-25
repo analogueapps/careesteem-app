@@ -238,6 +238,7 @@ interface ApiService {
         @Field("visit_details_id") visitDetailsId: String,
         @Field("visit_user_id") visitUserId: String,
         @Field("visit_created_at") visitCreatedAt: String,
+        @Field("createdby_userid") createdByUserId: String,
         @Field("visit_notes") visitNotes: String,
     ): Response<JsonObject>
 
@@ -248,6 +249,7 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("visit_notes") visitNotes: String,
         @Field("visit_user_id") visitUserId: String,
+        @Field("updated_at") updatedAt: String,
         @Field("visit_updated_at") visitUpdatedAt: String,
     ): Response<JsonObject>
 

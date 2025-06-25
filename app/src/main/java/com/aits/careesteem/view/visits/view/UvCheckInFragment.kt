@@ -52,6 +52,7 @@ import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.view.CheckOutFragment.Companion
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -145,11 +146,22 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         setupCheckInButton()
 
         binding.textStatus.text = "Check in"
-        binding.textName.text = clientData.full_name
+        binding.textName.text = AppConstant.checkClientName(clientData.full_name)
 
-        val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)
-        val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
-        binding.imageProfile.setImageBitmap(initialsBitmap)
+        if (clientData.profile_image_url != null && clientData.profile_image_url.isNotEmpty()) {
+            Glide.with(requireContext())
+                .load(clientData.profile_image_url)
+                .override(400, 300)
+                .placeholder(R.drawable.logo_preview)
+                .error(R.drawable.logo_preview)
+                .circleCrop() // Makes the image circular
+                .into(binding.imageProfile)
+        } else {
+            val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)
+            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+            binding.imageProfile.setImageBitmap(initialsBitmap)
+        }
+
     }
 
     private fun setupTabLayout() {

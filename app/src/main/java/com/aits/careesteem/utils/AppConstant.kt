@@ -24,6 +24,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.aits.careesteem.R
 import com.aits.careesteem.view.auth.model.CountryList
+import com.aits.careesteem.view.visits.model.MedicationStatus
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
@@ -127,12 +128,12 @@ object AppConstant {
     @SuppressLint("NewApi")
     fun visitNotesListTimer(input: String): String {
         return try {
-            val instant = Instant.parse(input)
-
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
-                .withZone(ZoneId.of("UTC"))  // Use UTC to match the Z in the input
 
-            outputFormatter.format(instant)
+            val localDateTime = LocalDateTime.parse(input, inputFormatter)
+
+            outputFormatter.format(localDateTime)
         } catch (e: Exception) {
             e.printStackTrace()
             "00/00/0000 at 00:00"
@@ -142,17 +143,12 @@ object AppConstant {
     @SuppressLint("NewApi")
     fun visitUvNotesListTimer(input: String): String {
         return try {
-            // Parse the string with time zone (Z = UTC)
-            val offsetDateTime = OffsetDateTime.parse(input)
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
 
-            // Convert to system default time zone, if needed
-            val zonedDateTime = offsetDateTime.atZoneSameInstant(ZoneId.systemDefault())
+            val localDateTime = LocalDateTime.parse(input, inputFormatter)
 
-            // Define desired output format
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm")
-
-            // Format and return
-            zonedDateTime.format(formatter)
+            outputFormatter.format(localDateTime)
         } catch (e: Exception) {
             e.printStackTrace()
             "00/00/0000 at 00:00"
@@ -161,22 +157,19 @@ object AppConstant {
 
     @SuppressLint("NewApi")
     fun alertsListTimer(input: String): String {
-        try {
-            // Parse the string as an OffsetDateTime (since it has 'Z' timezone)
-            val offsetDateTime = OffsetDateTime.parse(input)
+        return try {
+            // Define input and output formatters
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' hh:mm a")
 
-            // Convert to LocalDateTime (ignoring UTC offset)
-            val localDateTime = offsetDateTime.toLocalDateTime()
+            // Parse the input string
+            val localDateTime = LocalDateTime.parse(input, inputFormatter)
 
-            // Define the output format
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' hh:mm a")
-
-            // Format the date-time
-            val formattedDate = localDateTime.format(formatter)
-            return formattedDate
+            // Format and return
+            localDateTime.format(outputFormatter)
         } catch (e: Exception) {
-            println(e)
-            return "00/00/0000 at 00:00"
+            e.printStackTrace()
+            "00/00/0000 at 00:00"
         }
     }
 
@@ -199,6 +192,23 @@ object AppConstant {
         return jsonObject.getJSONArray("statuses").let { jsonArray ->
             List(jsonArray.length()) { jsonArray.getString(it) }
         }
+    }
+
+    fun getNewStatuses(context: Context): List<MedicationStatus> {
+        return listOf(
+            MedicationStatus("med_fully_taken", "Fully Taken"),
+            MedicationStatus("med_pref_left", "Prepared & Left Out"),
+            MedicationStatus("med_not_taken", "Not Taken"),
+            MedicationStatus("med_missing", "Missing Medication"),
+            MedicationStatus("med_destroyed", "Destroyed"),
+            MedicationStatus("med_self_admin", "Self Administered"),
+            MedicationStatus("med_not_observed", "Not Observed"),
+            MedicationStatus("med_refused", "Refused"),
+            MedicationStatus("med_not_given", "Not Given"),
+            MedicationStatus("med_no_visit", "No Visit"),
+            MedicationStatus("med_others", "Other"),
+            MedicationStatus("med_part_taken", "Partially Taken")
+        )
     }
 
     fun getCountryList(context: Context): List<CountryList> {
@@ -330,9 +340,9 @@ object AppConstant {
     @SuppressLint("NewApi")
     fun isMoreThanTwoMinutesPassed(visitDate: String, visitTime: String): Boolean {
         return try {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-            val dateTimeString = "${visitDate}T${visitTime}" // Ensure format has seconds
+            val dateTimeString = "${visitDate} ${visitTime}" // Ensure format has seconds
 
             val plannedDateTime = LocalDateTime.parse(dateTimeString, formatter)
             val ukZone = ZoneId.of("Europe/London")

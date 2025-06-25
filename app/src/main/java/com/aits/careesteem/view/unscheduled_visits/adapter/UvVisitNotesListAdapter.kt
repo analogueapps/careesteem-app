@@ -60,9 +60,9 @@ class UvVisitNotesListAdapter(
         fun bind(data: UvVisitNotesListResponse.Data) {
             binding.apply {
                 val date: String = when {
-                    data.visit_created_at.isNullOrEmpty() && !data.visit_updated_at.isNullOrEmpty() -> data.visit_updated_at
-                    !data.visit_created_at.isNullOrEmpty() && data.visit_updated_at.isNullOrEmpty() -> data.visit_created_at
-                    !data.visit_created_at.isNullOrEmpty() && !data.visit_updated_at.isNullOrEmpty() -> data.visit_updated_at
+                    data.created_at.isNullOrEmpty() && !data.updated_at.isNullOrEmpty() -> data.updated_at
+                    !data.created_at.isNullOrEmpty() && data.updated_at.isNullOrEmpty() -> data.created_at
+                    !data.created_at.isNullOrEmpty() && !data.updated_at.isNullOrEmpty() -> data.updated_at
                     else -> ""
                 }
                 updatedAt.text = AppConstant.visitUvNotesListTimer(date)

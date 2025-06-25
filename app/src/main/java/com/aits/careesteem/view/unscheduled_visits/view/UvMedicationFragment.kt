@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
@@ -27,6 +29,7 @@ import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.adapter.BodyMapImageAdapter
 import com.aits.careesteem.view.alerts.adapter.BodyMapItem
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.recyclerview.adapter.MedicationStatusAdapter
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvMedicationListAdapter
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvTodoListAdapter
 import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
@@ -286,7 +289,7 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             }
         }
 
-        if(data.body_image != null && data.body_image.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
+        if(data.body_map_image_url != null && data.body_map_image_url.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
             binding.tvBodyMap.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.VISIBLE
 
@@ -294,7 +297,7 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
                 BodyMapItem(
                     partName = name,
-                    imageUrl = data.body_image.getOrNull(index).orEmpty()
+                    imageUrl = data.body_map_image_url.getOrNull(index).orEmpty()
                 )
             }
 
@@ -306,40 +309,58 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             binding.recyclerView.visibility = View.GONE
         }
 
-        binding.medicationStatus.text = ""
+        binding.medicationStatus.text = if(data.status == "Scheduled") "Select" else data.status
         binding.medicationType.text = data.medication_type
 
-        // Retrieve the list of statuses
-        val statuses = AppConstant.getStatusesFromJson(requireContext())
-        // Create ArrayAdapter
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Set adapter to Spinner
-        binding.spinner.adapter = adapter
+//        // Retrieve the list of statuses
+//        val statuses = AppConstant.getStatusesFromJson(requireContext())
+//        // Create ArrayAdapter
+//        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        // Set adapter to Spinner
+//        binding.spinner.adapter = adapter
+//
+//        // Retrieve previously selected status from SharedPreferences (or ViewModel)
+//        val selectedStatus = data.status
+//
+//        // Find index of previously selected status
+//        val selectedIndex = statuses.indexOf(selectedStatus)
+//
+//        // Set selected item in Spinner
+//        if (selectedIndex != -1) {
+//            binding.spinner.setSelection(selectedIndex)
+//        }
+//
+//        binding.medicationStatus.setOnClickListener {
+//            binding.spinner.performClick()
+//        }
+//
+//        // Handle selection
+//        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//                binding.medicationStatus.text = adapter.getItem(position)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//                // Do nothing
+//            }
+//        }
 
-        // Retrieve previously selected status from SharedPreferences (or ViewModel)
-        val selectedStatus = data.status
+        val statuses = AppConstant.getNewStatuses(requireContext())
 
-        // Find index of previously selected status
-        val selectedIndex = statuses.indexOf(selectedStatus)
-
-        // Set selected item in Spinner
-        if (selectedIndex != -1) {
-            binding.spinner.setSelection(selectedIndex)
+        val adapter = MedicationStatusAdapter(statuses) { selected ->
+            binding.medicationStatus.text = selected
+            binding.rvStatus.visibility = View.GONE
         }
+
+        binding.rvStatus.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvStatus.adapter = adapter
 
         binding.medicationStatus.setOnClickListener {
-            binding.spinner.performClick()
-        }
-
-        // Handle selection
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                binding.medicationStatus.text = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
+            if (binding.rvStatus.isVisible) {
+                binding.rvStatus.visibility = View.GONE
+            } else {
+                binding.rvStatus.visibility = View.VISIBLE
             }
         }
 
@@ -352,7 +373,10 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
                 AlertUtils.showToast(requireActivity(), "Please select status", ToastyType.WARNING)
                 return@setOnClickListener
             }
-
+            if (binding.medicationNotes.text.toString().trim().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter notes", ToastyType.WARNING)
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.medicationPrn(
                 activity = requireActivity(),
@@ -373,6 +397,12 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+
+        // ✅ Set Bottom Sheet max height to 75% of screen
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
+        bottomSheet?.requestLayout()
+
         dialog.show()
     }
 
@@ -417,7 +447,7 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             }
         }
 
-        if(data.body_image != null && data.body_image.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
+        if(data.body_map_image_url != null && data.body_map_image_url.isNotEmpty() && data.body_part_names != null && data.body_part_names.isNotEmpty()) {
             binding.tvBodyMap.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.VISIBLE
 
@@ -425,7 +455,7 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             val bodyMapItems = data.body_part_names.mapIndexed { index, name ->
                 BodyMapItem(
                     partName = name,
-                    imageUrl = data.body_image.getOrNull(index).orEmpty()
+                    imageUrl = data.body_map_image_url.getOrNull(index).orEmpty()
                 )
             }
 
@@ -437,40 +467,58 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             binding.recyclerView.visibility = View.GONE
         }
 
-        binding.medicationStatus.text = ""
+        binding.medicationStatus.text = if(data.status == "Scheduled") "Select" else data.status
         binding.medicationType.text = data.medication_type
 
-        // Retrieve the list of statuses
-        val statuses = AppConstant.getStatusesFromJson(requireContext())
-        // Create ArrayAdapter
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Set adapter to Spinner
-        binding.spinner.adapter = adapter
+//        // Retrieve the list of statuses
+//        val statuses = AppConstant.getStatusesFromJson(requireContext())
+//        // Create ArrayAdapter
+//        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        // Set adapter to Spinner
+//        binding.spinner.adapter = adapter
+//
+//        // Retrieve previously selected status from SharedPreferences (or ViewModel)
+//        val selectedStatus = data.status
+//
+//        // Find index of previously selected status
+//        val selectedIndex = statuses.indexOf(selectedStatus)
+//
+//        // Set selected item in Spinner
+//        if (selectedIndex != -1) {
+//            binding.spinner.setSelection(selectedIndex)
+//        }
+//
+//        binding.medicationStatus.setOnClickListener {
+//            binding.spinner.performClick()
+//        }
+//
+//        // Handle selection
+//        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+//                binding.medicationStatus.text = adapter.getItem(position)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>) {
+//                // Do nothing
+//            }
+//        }
 
-        // Retrieve previously selected status from SharedPreferences (or ViewModel)
-        val selectedStatus = data.status
+        val statuses = AppConstant.getNewStatuses(requireContext())
 
-        // Find index of previously selected status
-        val selectedIndex = statuses.indexOf(selectedStatus)
-
-        // Set selected item in Spinner
-        if (selectedIndex != -1) {
-            binding.spinner.setSelection(selectedIndex)
+        val adapter = MedicationStatusAdapter(statuses) { selected ->
+            binding.medicationStatus.text = selected
+            binding.rvStatus.visibility = View.GONE
         }
+
+        binding.rvStatus.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvStatus.adapter = adapter
 
         binding.medicationStatus.setOnClickListener {
-            binding.spinner.performClick()
-        }
-
-        // Handle selection
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                binding.medicationStatus.text = adapter.getItem(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Do nothing
+            if (binding.rvStatus.isVisible) {
+                binding.rvStatus.visibility = View.GONE
+            } else {
+                binding.rvStatus.visibility = View.VISIBLE
             }
         }
 
@@ -483,7 +531,10 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
                 AlertUtils.showToast(requireActivity(), "Please select status", ToastyType.WARNING)
                 return@setOnClickListener
             }
-
+            if (binding.medicationNotes.text.toString().trim().isEmpty()) {
+                AlertUtils.showToast(requireActivity(), "Please enter notes", ToastyType.WARNING)
+                return@setOnClickListener
+            }
             dialog.dismiss()
             viewModel.medicationPrnUpdate(
                 activity = requireActivity(),
@@ -504,6 +555,12 @@ class UvMedicationFragment : Fragment(), MedicationListAdapter.OnItemItemClick, 
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+
+        // ✅ Set Bottom Sheet max height to 75% of screen
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
+        bottomSheet?.requestLayout()
+
         dialog.show()
     }
 

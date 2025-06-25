@@ -54,7 +54,7 @@ data class MedicationDetailsListResponse(
         val prn_details_status: String,
         val prn_created_by: String,
         // Body map
-        val body_image: List<String>,
+        val body_map_image_url: List<String>,
         val body_part_names: List<String>,
 
         // want to change body_map_image_url instead of body_image

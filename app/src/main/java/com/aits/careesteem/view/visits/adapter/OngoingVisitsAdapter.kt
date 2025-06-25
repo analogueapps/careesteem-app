@@ -10,7 +10,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.databinding.ItemTravelTimeBinding
 import com.aits.careesteem.utils.AppConstant
@@ -101,11 +103,19 @@ class OngoingVisitsAdapter(
                 // Here, we start a countdown using the planned end time.
                 tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
 
+                if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                    plannedTime.text = "Unscheduled Visit"
+                } else {
+                    plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
+                }
+
                 // Cancel any previous timer if this view is recycled
                 timerJob?.cancel()
 
                 if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
                     btnCheckout.text = "Check out"
+                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
+                    btnCheckout.setTextColor(ContextCompat.getColorStateList(context, R.color.black))
                     timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
                         //println("Remaining Time: $remainingTime")
                         tvPlanTime.text = remainingTime
@@ -115,6 +125,8 @@ class OngoingVisitsAdapter(
                         if (hasPassed) {
                             btnCheckout.text = "Check out"
                             btnCheckout.isEnabled = true
+                            btnCheckout.backgroundTintList = ContextCompat.getColorStateList(context, R.color.notCompleteCardCorner)
+                            btnCheckout.setTextColor(ContextCompat.getColorStateList(context, R.color.white))
                         }
                     }
                 } else {

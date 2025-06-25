@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.view.*
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -201,6 +202,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+
+        // ✅ Set Bottom Sheet max height to 75% of screen
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
+        bottomSheet?.requestLayout()
+
         dialog.show()
     }
 
@@ -246,6 +253,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+
+        // ✅ Set Bottom Sheet max height to 75% of screen
+        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
+        bottomSheet?.requestLayout()
+
         dialog.show()
     }
 }

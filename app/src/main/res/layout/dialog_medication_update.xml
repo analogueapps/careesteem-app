@@ -326,11 +326,9 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="Body Maps"
-                android:textStyle="normal"
+                android:textStyle="bold"
                 android:textSize="@dimen/_10ssp"
 
                 tools:ignore="HardcodedText" />
@@ -367,10 +365,22 @@
                 android:textSize="@dimen/_10ssp"
                 tools:ignore="HardcodedText" />
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@null"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:maxHeight="250dp"
+                android:visibility="gone"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                android:background="@drawable/bg_spinner_dropdown_light"
+                android:nestedScrollingEnabled="true"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/_5sdp"

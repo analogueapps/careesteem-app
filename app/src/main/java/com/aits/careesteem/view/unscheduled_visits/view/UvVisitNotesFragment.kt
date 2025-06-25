@@ -52,6 +52,8 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
 
     private var visitData: VisitDetailsResponse.Data? = null
 
+    private var isLoadingNotes = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Retrieve the ID from the arguments
@@ -147,32 +149,38 @@ class UvVisitNotesFragment : Fragment(), UvVisitNotesListAdapter.OnItemItemClick
     @SuppressLint("SetTextI18n")
     private fun setupViewModel() {
         // Observe loading state
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                ProgressLoader.showProgress(requireActivity())
-            } else {
-                ProgressLoader.dismissProgress()
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            isLoadingNotes = loading
+            ProgressLoader.toggle(requireActivity(), loading)
+
+            // Hide empty layout during loading
+            if (loading) {
+                binding.emptyLayout.visibility = View.GONE
+                binding.recyclerView.visibility = View.GONE
+                binding.headerView.visibility = View.GONE
             }
         }
 
         // Data visibility
         viewModel.visitNotesList.observe(viewLifecycleOwner) { data ->
-            if (data.isNotEmpty()) {
-                binding.apply {
-                    headerView.visibility = View.VISIBLE
-                    emptyLayout.visibility = View.GONE
-                    recyclerView.visibility = View.VISIBLE
-                }
-                uvVisitNotesListAdapter.updateList(data)
-            } else {
-                binding.apply {
-                    headerView.visibility = View.GONE
-                    emptyLayout.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
-                    Glide.with(this@UvVisitNotesFragment)
-                        .asGif()
-                        .load(R.drawable.no_notes) // Replace with your GIF resource
-                        .into(gifImageView)
+            if (!isLoadingNotes) {
+                if (data.isNullOrEmpty()) {
+                    binding.apply {
+                        headerView.visibility = View.GONE
+                        emptyLayout.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                        Glide.with(this@UvVisitNotesFragment)
+                            .asGif()
+                            .load(R.drawable.no_notes) // Replace with your GIF resource
+                            .into(gifImageView)
+                    }
+                } else {
+                    binding.apply {
+                        headerView.visibility = View.VISIBLE
+                        emptyLayout.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                    }
+                    uvVisitNotesListAdapter.updateList(data)
                 }
             }
         }

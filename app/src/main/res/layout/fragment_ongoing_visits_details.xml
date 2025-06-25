@@ -71,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/app_name"
-                            android:singleLine="true"
+                            android:maxLines="2"
                             android:textStyle="normal"
                             android:textSize="@dimen/_8ssp"
                             />
@@ -79,8 +79,8 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:id="@+id/dividerView"
                         android:layout_margin="@dimen/_5sdp"
-                        android:background="@color/ongoingCardCorner"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"/>
 

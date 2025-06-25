@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,7 +21,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
-import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.ProgressLoader
@@ -28,6 +28,7 @@ import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
+import com.aits.careesteem.view.recyclerview.adapter.RecyclerArrayAdapter
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -176,7 +177,14 @@ class AddAlertsFragment : Fragment() {
         }
 
         binding.clientName.setOnClickListener {
-            binding.allClientNameSpinner.performClick()
+            //binding.allClientNameSpinner.performClick()
+            if (binding.rvClientName.isVisible) {
+                binding.rvClientName.visibility = View.GONE
+                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+            } else {
+                binding.rvClientName.visibility = View.VISIBLE
+                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+            }
         }
 
         binding.visitName.setOnClickListener {
@@ -185,32 +193,57 @@ class AddAlertsFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            binding.allVisitTimeSpinner.performClick()
+            //binding.allVisitTimeSpinner.performClick()
+            if (binding.rvVisitName.isVisible) {
+                binding.rvVisitName.visibility = View.GONE
+                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+            } else {
+                binding.rvVisitName.visibility = View.VISIBLE
+                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+            }
         }
 
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, severityList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.severityOfConcernSpinner.adapter = adapter
+//        val adapter =
+//            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, severityList)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        binding.severityOfConcernSpinner.adapter = adapter
+//
+//        binding.severityOfConcernSpinner.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//                @SuppressLint("SetTextI18n")
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    binding.severityOfConcern.text = adapter.getItem(position).toString()
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                }
+//            }
+//
+//        binding.severityOfConcern.setOnClickListener {
+//            binding.severityOfConcernSpinner.performClick()
+//        }
 
-        binding.severityOfConcernSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                @SuppressLint("SetTextI18n")
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View,
-                    position: Int,
-                    id: Long
-                ) {
-                    binding.severityOfConcern.text = adapter.getItem(position).toString()
-                }
+        val adapter = RecyclerArrayAdapter(severityList) { selected ->
+            binding.severityOfConcern.text = selected
+            binding.rvConcern.visibility = View.GONE
+        }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
+        binding.rvConcern.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvConcern.adapter = adapter
 
         binding.severityOfConcern.setOnClickListener {
-            binding.severityOfConcernSpinner.performClick()
+            if (binding.rvConcern.isVisible) {
+                binding.rvConcern.visibility = View.GONE
+                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+            } else {
+                binding.rvConcern.visibility = View.VISIBLE
+                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+            }
         }
 
         binding.apply {
@@ -567,74 +600,118 @@ class AddAlertsFragment : Fragment() {
                     setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
 
-                binding.allClientNameSpinner.adapter = clientNameAdapter
+                val adapter = RecyclerArrayAdapter(uniqueClientNames) { selected ->
+                    binding.clientName.text = selected
 
-                binding.allClientNameSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    @SuppressLint("SetTextI18n")
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val selectedClientName = clientNameAdapter.getItem(position) ?: return
-                        binding.clientName.text = selectedClientName
+                    // Match selected name to client object
+                    val selectedClient = clients.find { it.clientName == selected }
+                    clientId = selectedClient?.clientId ?: "-1"
 
-                        // Match selected name to client object
-                        val selectedClient = clients.find { it.clientName == selectedClientName }
-                        clientId = selectedClient?.clientId ?: "-1"
+                    // Reset previous selection
+                    visitDetailsId = "-1"
+                    binding.visitName.text = ""
 
-                        // Reset previous selection
-                        visitDetailsId = "-1"
-                        binding.visitName.text = ""
+                    // Filter and display visits for the selected client
+                    val filteredVisits = visitViewModel.visitsList.value
+                        ?.filter { it.clientId == clientId }
+                        .orEmpty()
 
-                        // Filter and display visits for the selected client
-                        val filteredVisits = visitViewModel.visitsList.value
-                            ?.filter { it.clientId == clientId }
-                            .orEmpty()
-
-                        val visitTimeOptions = filteredVisits.map { visit ->
-                            if(visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
-                                "${visit.plannedStartTime} - ${visit.plannedEndTime}"
-                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
-                                "${visit.actualStartTime[0]} (Unscheduled)"
-                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
-                                "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
-                            } else {
-                                "N/A"
-                            }
-                        }.distinct().toMutableList() // Convert to mutable list
-
-                        //visitTimeOptions.add(0, "Select")
-
-                        val visitTimeAdapter = ArrayAdapter(
-                            requireContext(),
-                            android.R.layout.simple_spinner_item,
-                            visitTimeOptions
-                        ).apply {
-                            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    val visitTimeOptions = filteredVisits.map { visit ->
+                        if(visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
+                            "${visit.plannedStartTime} - ${visit.plannedEndTime}"
+                        } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
+                            "${visit.actualStartTime[0]} (Unscheduled)"
+                        } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+                            "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
+                        } else {
+                            "N/A"
                         }
+                    }.distinct().toMutableList() // Convert to mutable list
 
-                        binding.allVisitTimeSpinner.adapter = visitTimeAdapter
-
-                        binding.allVisitTimeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            @SuppressLint("SetTextI18n")
-                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                                binding.visitName.text = visitTimeOptions[position]
-                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
-                                // Skip setting ID for "Select"
-//                                visitDetailsId = if (position > 0) {
-//                                    filteredVisits.getOrNull(position - 1)?.visitDetailsId ?: "-1"
-//                                } else {
-//                                    "-1"
-//                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                                // No action required
-                            }
-                        }
+                    val adapter = RecyclerArrayAdapter(visitTimeOptions) { selected ->
+                        binding.visitName.text = selected
+                        val position = visitTimeOptions.indexOf(selected)
+                        visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
+                        binding.rvVisitName.visibility = View.GONE
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // No action required
-                    }
+                    binding.rvVisitName.layoutManager = LinearLayoutManager(requireContext())
+                    binding.rvVisitName.adapter = adapter
+
+                    binding.rvClientName.visibility = View.GONE
                 }
+
+                binding.rvClientName.layoutManager = LinearLayoutManager(requireContext())
+                binding.rvClientName.adapter = adapter
+
+//                binding.allClientNameSpinner.adapter = clientNameAdapter
+//
+//                binding.allClientNameSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                    @SuppressLint("SetTextI18n")
+//                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                        val selectedClientName = clientNameAdapter.getItem(position) ?: return
+//                        binding.clientName.text = selectedClientName
+//
+//                        // Match selected name to client object
+//                        val selectedClient = clients.find { it.clientName == selectedClientName }
+//                        clientId = selectedClient?.clientId ?: "-1"
+//
+//                        // Reset previous selection
+//                        visitDetailsId = "-1"
+//                        binding.visitName.text = ""
+//
+//                        // Filter and display visits for the selected client
+//                        val filteredVisits = visitViewModel.visitsList.value
+//                            ?.filter { it.clientId == clientId }
+//                            .orEmpty()
+//
+//                        val visitTimeOptions = filteredVisits.map { visit ->
+//                            if(visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
+//                                "${visit.plannedStartTime} - ${visit.plannedEndTime}"
+//                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
+//                                "${visit.actualStartTime[0]} (Unscheduled)"
+//                            } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+//                                "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
+//                            } else {
+//                                "N/A"
+//                            }
+//                        }.distinct().toMutableList() // Convert to mutable list
+//
+//                        //visitTimeOptions.add(0, "Select")
+//
+//                        val visitTimeAdapter = ArrayAdapter(
+//                            requireContext(),
+//                            android.R.layout.simple_spinner_item,
+//                            visitTimeOptions
+//                        ).apply {
+//                            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                        }
+//
+//                        binding.allVisitTimeSpinner.adapter = visitTimeAdapter
+//
+//                        binding.allVisitTimeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                            @SuppressLint("SetTextI18n")
+//                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                                binding.visitName.text = visitTimeOptions[position]
+//                                visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
+//                                // Skip setting ID for "Select"
+////                                visitDetailsId = if (position > 0) {
+////                                    filteredVisits.getOrNull(position - 1)?.visitDetailsId ?: "-1"
+////                                } else {
+////                                    "-1"
+////                                }
+//                            }
+//
+//                            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                                // No action required
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {
+//                        // No action required
+//                    }
+//                }
             }
         }
 
@@ -651,24 +728,24 @@ class AddAlertsFragment : Fragment() {
                     spinnerList
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.allVisitTimeSpinner.adapter = adapter
-
-                binding.allVisitTimeSpinner.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        @SuppressLint("SetTextI18n")
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View,
-                            position: Int,
-                            id: Long
-                        ) {
-                            binding.visitName.text = adapter.getItem(position).toString()
-                            visitDetailsId = data[position].visitDetailsId
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                        }
-                    }
+//                binding.allVisitTimeSpinner.adapter = adapter
+//
+//                binding.allVisitTimeSpinner.onItemSelectedListener =
+//                    object : AdapterView.OnItemSelectedListener {
+//                        @SuppressLint("SetTextI18n")
+//                        override fun onItemSelected(
+//                            parent: AdapterView<*>?,
+//                            view: View,
+//                            position: Int,
+//                            id: Long
+//                        ) {
+//                            binding.visitName.text = adapter.getItem(position).toString()
+//                            visitDetailsId = data[position].visitDetailsId
+//                        }
+//
+//                        override fun onNothingSelected(parent: AdapterView<*>?) {
+//                        }
+//                    }
             } else {
                 visitDetailsId = "-1"
                 binding.visitName.text = ""

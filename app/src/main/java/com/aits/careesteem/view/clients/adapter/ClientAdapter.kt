@@ -130,6 +130,7 @@ class ClientAdapter(
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
+                        .circleCrop() // Makes the image circular
                         .into(clientImage)
                 } else {
                     val initials = GooglePlaceHolder().getInitialsSingle(data.full_name)

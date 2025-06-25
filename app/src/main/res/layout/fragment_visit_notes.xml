@@ -32,6 +32,8 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:id="@+id/headerView"
                         android:visibility="gone"
                         android:gravity="center"

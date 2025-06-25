@@ -61,9 +61,9 @@ class AlertsAdapter(
 
                 val isExpanded = position == expandedPosition
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
-                alertName.tag = if (isExpanded) "Visible" else "Invisible"
+                alertTime.tag = if (isExpanded) "Visible" else "Invisible"
                 val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
-                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+                alertTime.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
 
                 // Toggle expand/collapse on click
                 alertLayout.setOnClickListener {
@@ -163,18 +163,19 @@ class BodyMapImageAdapter(
             try {
                 tvBodyPartNames.text = AppConstant.checkNull(data.partName)
 
-//            Glide.with(context)
-//                .load("${BuildConfig.API_BASE_URL}${data.imageUrl.replace("\\", "/")}")
-//                .placeholder(R.drawable.logo_preview)
-//                .into(fileImageView)
+                Glide.with(context)
+                    .load("${data.imageUrl.replace("\\", "/")}")
+                    .override(400, 300)
+                    .placeholder(R.drawable.logo_preview)
+                    .into(fileImageView)
 
-                // Convert the Base64 string to a Bitmap
-                val bitmap = AppConstant.base64ToBitmap(data.imageUrl)
-
-                // Set the Bitmap to the ImageView (if conversion was successful)
-                bitmap?.let {
-                    fileImageView.setImageBitmap(it)
-                }
+//                // Convert the Base64 string to a Bitmap
+//                val bitmap = AppConstant.base64ToBitmap(data.imageUrl)
+//
+//                // Set the Bitmap to the ImageView (if conversion was successful)
+//                bitmap?.let {
+//                    fileImageView.setImageBitmap(it)
+//                }
 
                 btnDelete.visibility = View.GONE
             } catch (e: Exception) {
