@@ -58,13 +58,13 @@ class VisitNotesAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(data: ClientVisitNotesDetails.Data) {
             binding.apply {
-                val date: String = if(data.createdAt.isEmpty()) data.updatedAt
-                else if(data.createdAt.isEmpty() && data.updatedAt.isNotEmpty()) data.updatedAt
-                else if(data.createdAt.isNotEmpty() && data.updatedAt.isEmpty()) data.createdAt
-                else if(data.createdAt.isNotEmpty() && data.updatedAt.isNotEmpty()) data.updatedAt
+                val date: String = if (data.createdAt.isEmpty()) data.updatedAt
+                else if (data.createdAt.isEmpty() && data.updatedAt.isNotEmpty()) data.updatedAt
+                else if (data.createdAt.isNotEmpty() && data.updatedAt.isEmpty()) data.createdAt
+                else if (data.createdAt.isNotEmpty() && data.updatedAt.isNotEmpty()) data.updatedAt
                 else data.createdAt
                 updatedAt.text = AppConstant.visitNotesListTimer(date)
-                updatedByUserName.text = "Updated by: "+data.updatedByUserName
+                updatedByUserName.text = "Updated by: " + data.updatedByUserName
                 visitNotes.text = data.visitNotes
 
                 editButton.setOnClickListener {

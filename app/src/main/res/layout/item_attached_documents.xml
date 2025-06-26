@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/alertCard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/white"
-        app:strokeColor="#33279989"
         app:cardCornerRadius="@dimen/_5sdp"
+        app:cardUseCompatPadding="true"
+        app:strokeColor="#33279989"
         app:strokeWidth="2dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,33 +24,32 @@
             android:padding="@dimen/_8sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:src="@drawable/ic_file"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:src="@drawable/ic_file" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/alertName"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:tag="Invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@font/robotoslab_regular"
-                android:text="@string/care_plan"
-                android:textStyle="bold"
                 android:gravity="center_vertical"
+                android:singleLine="true"
+                android:tag="Invisible"
+                android:text="@string/care_plan"
                 android:textSize="@dimen/_10ssp"
-                />
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/viewFile"
-                android:src="@drawable/ic_eye"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:src="@drawable/ic_eye" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

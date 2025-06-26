@@ -13,7 +13,12 @@ import com.aits.careesteem.view.visits.view.MedicationFragment
 import com.aits.careesteem.view.visits.view.ToDoFragment
 import com.aits.careesteem.view.visits.view.VisitNotesFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitData: String, private val clientId: String, private val changes: Boolean) : FragmentStateAdapter(fragmentActivity) {
+class ViewPagerAdapter(
+    fragmentActivity: FragmentActivity,
+    private val visitData: String,
+    private val clientId: String,
+    private val changes: Boolean
+) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 3
 
     // Return a unique ID for each fragment position.

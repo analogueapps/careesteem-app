@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.auth.view.SelectAgencyFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_bg"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgTopLogo"
-            android:layout_width="@dimen/_66sdp"
-            android:layout_height="@dimen/_66sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:src="@drawable/app_logo" />
+        tools:context=".view.auth.view.SelectAgencyFragment">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/_20sdp">
+            android:background="@drawable/login_bg"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgTopLogo"
+                android:layout_width="@dimen/_66sdp"
+                android:layout_height="@dimen/_66sdp"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/robotoslab_regular"
-                android:text="@string/select_your_agency"
-                android:textStyle="normal"
-                android:textSize="@dimen/_20ssp" />
+                android:layout_marginTop="?attr/actionBarSize"
+                android:src="@drawable/app_logo" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
-                android:text="@string/list_of_agencies"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/_20sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/_10sdp"
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/select_your_agency"
+                    android:textSize="@dimen/_20ssp"
+                    android:textStyle="normal" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/list_of_agencies"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_248sdp"
+                android:layout_height="@dimen/_246sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_18sdp"
+                android:src="@drawable/layer_agency_bottom" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_248sdp"
-            android:layout_height="@dimen/_246sdp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_18sdp"
-            android:src="@drawable/layer_agency_bottom" />
-
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-</FrameLayout>
+    </FrameLayout>
 </layout>

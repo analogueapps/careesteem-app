@@ -21,7 +21,6 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
-import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,10 +28,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,7 +36,7 @@ class MedicationViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -65,12 +60,17 @@ class MedicationViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.getMedicationDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -80,10 +80,16 @@ class MedicationViewModel @Inject constructor(
                         val normalList = list.data.filter {
                             it.medication_type.equals("Blister Pack", ignoreCase = true) ||
                                     it.medication_type.equals("Scheduled", ignoreCase = true) ||
-                                    ( it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id == visitDetailsId)
+                                    (it.medication_type.equals(
+                                        "PRN",
+                                        ignoreCase = true
+                                    ) && it.visit_details_id == visitDetailsId)
                         }
                         val prnList = list.data.filter {
-                            it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id != visitDetailsId
+                            it.medication_type.equals(
+                                "PRN",
+                                ignoreCase = true
+                            ) && it.visit_details_id != visitDetailsId
                         }
                         _completeCount.value = list.data.count {
                             (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
@@ -94,13 +100,17 @@ class MedicationViewModel @Inject constructor(
                         _prnMedicationList.value = prnList
                     }
                 } else {
-                    if(response.code() == 404) {
+                    if (response.code() == 404) {
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -112,18 +122,30 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationBlisterPack(activity: Activity, clientId: String, visitDetailsId: String, blisterPackDetailsId: String, status: String, carerNotes: String) {
+    fun medicationBlisterPack(
+        activity: Activity,
+        clientId: String,
+        visitDetailsId: String,
+        blisterPackDetailsId: String,
+        status: String,
+        carerNotes: String
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.medicationBpDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     blisterPackDetailsId = blisterPackDetailsId,
                     status = status,
                     carerNotes = carerNotes
@@ -133,12 +155,20 @@ class MedicationViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -150,7 +180,7 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
-                if(status != "Fully Taken") {
+                if (status != "Fully Taken") {
                     automaticAlerts(
                         activity = activity,
                         status = status,
@@ -176,12 +206,17 @@ class MedicationViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.automaticMedicationAlerts(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     scheduledId = scheduledId,
                     blisterPackId = blisterPackId,
                     visitDetailsId = visitDetailsId,
@@ -197,28 +232,40 @@ class MedicationViewModel @Inject constructor(
                     //errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showLog("activity","Request Timeout. Please try again.")
+                AlertUtils.showLog("activity", "Request Timeout. Please try again.")
             } catch (e: HttpException) {
                 AlertUtils.showLog("activity", "Server error: ${e.message}")
             } catch (e: Exception) {
-                AlertUtils.showLog("activity","An error occurred: ${e.message}")
+                AlertUtils.showLog("activity", "An error occurred: ${e.message}")
                 e.printStackTrace()
             }
         }
     }
 
-    fun medicationScheduled(activity: Activity, clientId: String, visitDetailsId: String, scheduledDetailsId: String, status: String, carerNotes: String) {
+    fun medicationScheduled(
+        activity: Activity,
+        clientId: String,
+        visitDetailsId: String,
+        scheduledDetailsId: String,
+        status: String,
+        carerNotes: String
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.medicationScheduledDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     scheduledDetailsId = scheduledDetailsId,
                     status = status,
                     carerNotes = carerNotes
@@ -228,12 +275,20 @@ class MedicationViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -245,7 +300,7 @@ class MedicationViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
-                if(status != "Fully Taken") {
+                if (status != "Fully Taken") {
                     automaticAlerts(
                         activity = activity,
                         status = status,
@@ -259,13 +314,23 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationPrn(activity: Activity, visitDetailsId: String, medicationDetails: MedicationDetailsListResponse.Data, status: String, carerNotes: String) {
+    fun medicationPrn(
+        activity: Activity,
+        visitDetailsId: String,
+        medicationDetails: MedicationDetailsListResponse.Data,
+        status: String,
+        carerNotes: String
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -274,7 +339,8 @@ class MedicationViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.medicationPrnDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     clientId = medicationDetails.client_id,
                     medicationId = medicationDetails.medication_id,
                     prnId = medicationDetails.prn_id,
@@ -295,12 +361,20 @@ class MedicationViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -316,13 +390,23 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
-    fun medicationPrnUpdate(activity: Activity, visitDetailsId: String, prnDetailsId: String, status: String, carerNotes: String) {
+    fun medicationPrnUpdate(
+        activity: Activity,
+        visitDetailsId: String,
+        prnDetailsId: String,
+        status: String,
+        carerNotes: String
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -331,7 +415,8 @@ class MedicationViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateMedicationPrn(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     prnDetailsId = prnDetailsId,
                     status = status,
                     carerNotes = carerNotes
@@ -341,12 +426,20 @@ class MedicationViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

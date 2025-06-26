@@ -10,9 +10,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/upcomingCardBackground"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/upcomingCardCorner"
-    app:cardCornerRadius="@dimen/_8sdp"
     app:strokeWidth="2.5dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -29,120 +29,118 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_weight="1"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvClientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:text="@string/app_name"
                     android:singleLine="true"
-                    android:textStyle="bold"
+                    android:text="@string/app_name"
                     android:textSize="@dimen/_12ssp"
-                     />
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_3sdp"
                     android:id="@+id/tvClientAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:text="@string/app_name"
                     android:maxLines="2"
-                    android:textStyle="normal"
+                    android:text="@string/app_name"
                     android:textSize="@dimen/_9ssp"
-                     />
+                    android:textStyle="normal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
-                android:layout_margin="@dimen/_5sdp"
-                android:background="@color/upcomingCardInsideButton"
                 android:layout_width="1dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@color/upcomingCardInsideButton" />
 
             <RelativeLayout
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/_3sdp"
                 android:background="@drawable/ic_circle"
-                android:backgroundTint="@color/upcomingCardInsideCount"
-                android:layout_gravity="center"
-                android:layout_width="@dimen/_16sdp"
-                android:layout_height="@dimen/_16sdp">
+                android:backgroundTint="@color/upcomingCardInsideCount">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvUserRequired"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
                     android:layout_centerInParent="true"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:maxLength="2"
-                    android:textColor="@color/white"
                     android:text="1"
-                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
 
                     tools:ignore="HardcodedText" />
 
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_gravity="center"
-                android:src="@drawable/ic_caretaker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_caretaker" />
 
             <Space
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:gravity="center"
-                android:layout_gravity="center"
                 android:id="@+id/btnGetDirection"
-                android:background="@drawable/ic_direction_background"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
                 android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_25sdp">
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_direction_background"
+                android:gravity="center"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:src="@drawable/ic_directions"
                     android:layout_width="@dimen/_16sdp"
-                    android:layout_height="@dimen/_16sdp"/>
+                    android:layout_height="@dimen/_16sdp"
+                    android:src="@drawable/ic_directions" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textColor="@color/white"
+                    android:gravity="center"
                     android:text="@string/get_directions"
                     android:textAllCaps="false"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/_9ssp" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="normal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:padding="@dimen/_5sdp"
             android:background="@drawable/ic_upcoming_inside"
             android:backgroundTint="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:padding="@dimen/_5sdp">
 
             <TableLayout
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 tools:ignore="MissingClass">
 
                 <TableRow
@@ -162,28 +160,26 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/planned_start_time"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_9ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPlannedStartTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/app_name"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_9ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </TableRow>
 
                 <TableRow
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_weight="1"
                     tools:ignore="UselessParent">
 
@@ -198,20 +194,18 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/planned_end_time"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_9ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvPlannedEndTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/app_name"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_9ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </TableRow>
@@ -220,69 +214,68 @@
 
             <Space
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_gravity="center"
-                android:src="@drawable/ic_timer"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_timer" />
 
             <Space
                 android:layout_width="@dimen/_10sdp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:orientation="vertical"
                 android:background="@drawable/ic_upcoming_inside"
                 android:backgroundTint="@color/upcomingCardBackground"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Total Time"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_9ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_2sdp"
                     android:id="@+id/tvPlanTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_9ssp"
-                     />
+                    android:textStyle="normal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:gravity="center"
-            android:enabled="false"
             android:id="@+id/btnCheckIn"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_gravity="center"
-            app:backgroundTint="@null"
-            android:background="@drawable/ic_checkin_background"
-            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_25sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/ic_checkin_background"
+            android:enabled="false"
             android:fontFamily="@font/robotoslab_regular"
+            android:gravity="center"
             android:text="Check In"
             android:textAllCaps="false"
-            android:textStyle="normal"
+            android:textColor="@color/white"
             android:textSize="@dimen/_9ssp"
+            android:textStyle="normal"
+            app:backgroundTint="@null"
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

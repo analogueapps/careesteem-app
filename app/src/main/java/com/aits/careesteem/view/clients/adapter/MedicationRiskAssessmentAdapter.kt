@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemMedicationRiskAssessmentBinding
-import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
@@ -20,7 +19,11 @@ class MedicationRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemMedicationRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMedicationRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 
@@ -55,13 +58,15 @@ class MedicationRiskAssessmentAdapter(
                 tvAdministering.text = AppConstant.checkNull(data.administering)
                 tvAdministeringComments.text = AppConstant.checkNull(data.administering_comments)
                 tvSpecializedSupport.text = AppConstant.checkNull(data.specialized_support)
-                tvSpecializedSupportComments.text = AppConstant.checkNull(data.specialized_support_comments)
+                tvSpecializedSupportComments.text =
+                    AppConstant.checkNull(data.specialized_support_comments)
                 tvTimeSpecific.text = AppConstant.checkNull(data.time_specific)
                 tvTimeSpecificComments.text = AppConstant.checkNull(data.time_specific_comments)
                 tvControlledDrugs.text = AppConstant.checkNull(data.controlled_drugs)
                 tvControlledDrugsDetails.text = AppConstant.checkNull(data.controlled_drugs_details)
                 tvAgencyNotification.text = AppConstant.checkNull(data.agency_notification)
-                tvMedicationCollectionDetails.text = AppConstant.checkNull(data.medication_collection_details)
+                tvMedicationCollectionDetails.text =
+                    AppConstant.checkNull(data.medication_collection_details)
                 tvPrnMedication.text = AppConstant.checkNull(data.prn_medication)
                 tvSafeStorage.text = AppConstant.checkNull(data.safe_storage)
                 tvStorageLocation.text = AppConstant.checkNull(data.storage_location)

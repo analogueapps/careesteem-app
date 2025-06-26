@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
@@ -7,60 +6,59 @@
 
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/swipe_refresh"
     tools:context=".view.clients.view.ClientsFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_weight="1"
-                android:drawablePadding="8dip"
-                android:drawableStart="@drawable/ic_list_clients"
-                android:textColor="@color/colorPrimary"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
-                android:text="@string/list_of_clients"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_list_clients"
+                android:drawablePadding="8dip"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="@string/list_of_clients"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
             <SearchView
-                android:theme="@style/AppSearchView"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="@drawable/ic_search_bg"
                 android:id="@+id/searchView"
-                android:queryHint="Search"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/ic_search_bg"
                 android:iconifiedByDefault="true"
-                android:searchIcon="@drawable/ic_search"
                 android:queryBackground="@android:color/transparent"
+                android:queryHint="Search"
+                android:searchIcon="@drawable/ic_search"
+                android:theme="@style/AppSearchView"
                 tools:ignore="HardcodedText" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            tools:listitem="@layout/item_client"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            tools:listitem="@layout/item_client" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

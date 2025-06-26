@@ -8,9 +8,9 @@
     <item android:top="4dp">
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="@color/colorAccent"
+                android:angle="270"
                 android:endColor="@android:color/transparent"
-                android:angle="270"/>
+                android:startColor="@color/colorAccent" />
         </shape>
     </item>
 </layer-list>

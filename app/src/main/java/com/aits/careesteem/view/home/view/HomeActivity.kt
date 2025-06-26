@@ -7,35 +7,22 @@
 package com.aits.careesteem.view.home.view
 
 import android.Manifest
-import android.app.Dialog
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -44,27 +31,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aits.careesteem.R
+import com.aits.careesteem.base.BaseActivity
 import com.aits.careesteem.databinding.ActivityHomeBinding
-import com.aits.careesteem.databinding.DialogLogoutBinding
-import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.utils.SharedPrefConstant
-import com.aits.careesteem.view.auth.view.AuthActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.toColorInt
 import com.aits.careesteem.utils.GooglePlaceHolder
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -85,7 +67,12 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom - systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom - systemBars.bottom
+            )
             insets
         }
         val navHostFragment =
@@ -153,6 +140,7 @@ class HomeActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.bottom_clients -> {
                     // Navigate to clients fragment if not already open
                     if (navController.currentDestination?.id != R.id.bottom_clients) {
@@ -160,6 +148,7 @@ class HomeActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.bottom_alerts -> {
                     // Navigate to alerts fragment if not already open
                     if (navController.currentDestination?.id != R.id.bottom_alerts) {
@@ -167,6 +156,7 @@ class HomeActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 else -> false
             }
         }
@@ -218,7 +208,8 @@ class HomeActivity : AppCompatActivity() {
                 .circleCrop() // Makes the image circular
                 .into(profileImageView)
         } else {
-            val initials = GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
+            val initials =
+                GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
             val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(this, initials)
             profileImageView.setImageBitmap(initialsBitmap)
         }
@@ -263,6 +254,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 true
             }
+
             R.id.menu_profile -> {
                 //showLogout()
                 if (navController.currentDestination?.id != R.id.profileFragment) {
@@ -270,6 +262,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -293,12 +286,15 @@ class HomeActivity : AppCompatActivity() {
                     doubleBackToExitPressedOnce = false
                 }, 2000) // 2 seconds delay
             }
+
             R.id.bottom_clients -> {
                 navController.navigate(R.id.bottom_visits)
             }
+
             R.id.bottom_alerts -> {
                 navController.navigate(R.id.bottom_visits)
             }
+
             else -> {
                 // If not in bottom_visits, handle back navigation normally
                 super.onBackPressed()
@@ -309,15 +305,26 @@ class HomeActivity : AppCompatActivity() {
     private fun requestNotificationPermissions() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.POST_NOTIFICATIONS
-            val hasPermission = ContextCompat.checkSelfPermission(this, permission) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
 
             if (!hasPermission) {
-                ActivityCompat.requestPermissions(this, arrayOf(permission), REQUEST_CODE_NOTIFICATION_PERMISSION)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(permission),
+                    REQUEST_CODE_NOTIFICATION_PERMISSION
+                )
             }
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_NOTIFICATION_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {

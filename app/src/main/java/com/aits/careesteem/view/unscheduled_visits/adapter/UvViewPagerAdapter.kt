@@ -5,14 +5,18 @@
  */
 
 package com.aits.careesteem.view.unscheduled_visits.adapter
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.aits.careesteem.view.unscheduled_visits.view.UvMedicationFragment
-import com.aits.careesteem.view.unscheduled_visits.view.UvToDoFragment
 import com.aits.careesteem.view.unscheduled_visits.view.UvVisitNotesFragment
 
-class UvViewPagerAdapter(fragmentActivity: FragmentActivity, private val visitData: String, private val changes: Boolean) : FragmentStateAdapter(fragmentActivity) {
+class UvViewPagerAdapter(
+    fragmentActivity: FragmentActivity,
+    private val visitData: String,
+    private val changes: Boolean
+) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 2
 
     // Return a unique ID for each fragment position.

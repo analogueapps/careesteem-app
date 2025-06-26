@@ -5,9 +5,9 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/_25sdp">
 
     <LinearLayout
@@ -20,344 +20,357 @@
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp">
 
             <TextView
                 android:id="@+id/occupationType"
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:fontFamily="@font/robotoslab_regular"
-                android:textColor="@color/white"
                 android:text="@string/app_name"
-                android:textStyle="bold"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp"
-                 />
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/closeButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:src="@drawable/ic_close" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:padding="@dimen/_10sdp"
-            android:background="@drawable/ic_dialog_bottom_bg"
-            android:layout_margin="1dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/ic_dialog_bottom_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Name"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvName"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Age"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvAge"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Contact Number"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvContactNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvContactNumber"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Email"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvEmail"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Address"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvAddress"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="City"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvCity"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="#27998933"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:background="#27998933" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Post Code"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
                     android:text=":"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_weight="1"
+                    android:id="@+id/tvPostCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:id="@+id/tvPostCode"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 

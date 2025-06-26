@@ -8,21 +8,13 @@ package com.aits.careesteem.view.visits.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemTodoListBinding
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.AppConstant.setTextWithColoredStar
-import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.visits.model.TodoListResponse
 
 class TodoListAdapter(
@@ -113,7 +105,7 @@ class TodoListAdapter(
 //                    AppConstant.applyTextWithColoredAsterisk(todoName, data.todoName+"jdjshfhgjdsjfhgdsjhfgdsjhfgdsjhgfjhdsgf", maxWidth, binding.root.context)
 //                }
 
-                if(data.todoEssential) {
+                if (data.todoEssential) {
                     todoName.setTextWithColoredStar(
                         text = data.todoName,
                         starColor = ContextCompat.getColor(context, R.color.colorPrimary)

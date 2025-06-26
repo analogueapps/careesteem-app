@@ -58,12 +58,14 @@ class OngoingVisitsAdapter(
                 )
                 VisitViewHolder(binding)
             }
+
             TYPE_TRAVEL_TIME -> {
                 val binding = ItemTravelTimeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
                 TravelTimeViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
@@ -103,7 +105,7 @@ class OngoingVisitsAdapter(
                 // Here, we start a countdown using the planned end time.
                 tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
 
-                if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                if (data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
                     plannedTime.text = "Unscheduled Visit"
                 } else {
                     plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
@@ -112,21 +114,41 @@ class OngoingVisitsAdapter(
                 // Cancel any previous timer if this view is recycled
                 timerJob?.cancel()
 
-                if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
+                if (data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty()) {
                     btnCheckout.text = "Check out"
-                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(context, R.color.dialogTextColor)
-                    btnCheckout.setTextColor(ContextCompat.getColorStateList(context, R.color.black))
-                    timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
+                    btnCheckout.backgroundTintList =
+                        ContextCompat.getColorStateList(context, R.color.dialogTextColor)
+                    btnCheckout.setTextColor(
+                        ContextCompat.getColorStateList(
+                            context,
+                            R.color.black
+                        )
+                    )
+                    timerJob = DateTimeUtils.startCountdownTimer(
+                        data.visitDate,
+                        data.actualStartTime[0]
+                    ) { remainingTime ->
                         //println("Remaining Time: $remainingTime")
                         tvPlanTime.text = remainingTime
                         btnCheckout.isEnabled = false
-                        val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
+                        val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(
+                            data.visitDate,
+                            data.actualStartTime[0]
+                        )
                         //println("Has more than 2 minutes passed? $hasPassed")
                         if (hasPassed) {
                             btnCheckout.text = "Check out"
                             btnCheckout.isEnabled = true
-                            btnCheckout.backgroundTintList = ContextCompat.getColorStateList(context, R.color.notCompleteCardCorner)
-                            btnCheckout.setTextColor(ContextCompat.getColorStateList(context, R.color.white))
+                            btnCheckout.backgroundTintList = ContextCompat.getColorStateList(
+                                context,
+                                R.color.notCompleteCardCorner
+                            )
+                            btnCheckout.setTextColor(
+                                ContextCompat.getColorStateList(
+                                    context,
+                                    R.color.white
+                                )
+                            )
                         }
                     }
                 } else {

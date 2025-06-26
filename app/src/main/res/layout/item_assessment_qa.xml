@@ -5,46 +5,68 @@
   -->
 
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/qnsNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/robotoslab_regular"
-        android:text="No."
-        android:textStyle="normal"
-        android:textSize="@dimen/_10ssp"
-
-        tools:ignore="HardcodedText" />
+    <View
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_marginStart="@dimen/_5sdp"
-        android:orientation="vertical"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/assessment_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:id="@+id/question"
-            android:textStyle="normal"
-            android:textSize="@dimen/_10ssp"
-
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:visibility="gone"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/robotoslab_regular"
-            android:id="@+id/answer"
-            android:textStyle="normal"
+            android:hint="Question"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/robotoslab_regular"
+            android:hint="Answer"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/robotoslab_regular"
+            android:hint="Comment"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            android:visibility="gone"
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

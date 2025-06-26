@@ -19,7 +19,6 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.clients.model.ClientsList
-import com.aits.careesteem.view.visits.model.VisitListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -32,7 +31,7 @@ class ClientsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -48,12 +47,17 @@ class ClientsViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.getClientsList(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString()
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString()
                 )
 
                 if (response.isSuccessful) {
@@ -64,7 +68,11 @@ class ClientsViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

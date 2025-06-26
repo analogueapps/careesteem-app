@@ -10,7 +10,7 @@
         android:height="24dp"
         android:gravity="center">
         <bitmap
-            android:src="@drawable/ic_uv_calendar"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:src="@drawable/ic_uv_calendar" />
     </item>
 </layer-list>

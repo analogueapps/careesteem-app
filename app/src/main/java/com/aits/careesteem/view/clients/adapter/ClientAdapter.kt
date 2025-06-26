@@ -7,30 +7,16 @@
 package com.aits.careesteem.view.clients.adapter
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
-import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemClientBinding
-import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.view.clients.model.ClientsList
-import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.bumptech.glide.Glide
 
 class ClientAdapter(
     private val context: Context,
@@ -99,16 +85,19 @@ class ClientAdapter(
                         part2.visibility = View.INVISIBLE
                         part3.visibility = View.INVISIBLE
                     }
+
                     "moderate" -> {
                         part1.visibility = View.VISIBLE
                         part2.visibility = View.VISIBLE
                         part3.visibility = View.INVISIBLE
                     }
+
                     "high" -> {
                         part1.visibility = View.VISIBLE
                         part2.visibility = View.VISIBLE
                         part3.visibility = View.VISIBLE
                     }
+
                     else -> {
                         part1.visibility = View.INVISIBLE
                         part2.visibility = View.INVISIBLE

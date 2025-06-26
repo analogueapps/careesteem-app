@@ -12,14 +12,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.OpenableColumns
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Base64
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.aits.careesteem.R
@@ -43,19 +41,14 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 object AppConstant {
     // def Values
@@ -273,7 +266,8 @@ object AppConstant {
     }
 
     fun createRequestBody(value: String?): RequestBody {
-        return value?.toRequestBody("text/plain".toMediaTypeOrNull()) ?: "".toRequestBody("text/plain".toMediaTypeOrNull())
+        return value?.toRequestBody("text/plain".toMediaTypeOrNull())
+            ?: "".toRequestBody("text/plain".toMediaTypeOrNull())
     }
 
     fun createMultipartBodyParts(files: List<File>, context: Context): List<MultipartBody.Part> {
@@ -283,7 +277,11 @@ object AppConstant {
         }
     }
 
-    private fun createMultipartBodyPart(name: String, uri: Uri?, activity: Activity): MultipartBody.Part? {
+    private fun createMultipartBodyPart(
+        name: String,
+        uri: Uri?,
+        activity: Activity
+    ): MultipartBody.Part? {
         val file = uri?.let { uriToFile(activity, it) }
         return file?.let {
             val requestFile = it.asRequestBody(MultipartBody.FORM)
@@ -358,7 +356,12 @@ object AppConstant {
         }
     }
 
-    fun applyTextWithColoredAsterisk(textView: AppCompatTextView, fullText: String, maxWidth: Int, context: Context) {
+    fun applyTextWithColoredAsterisk(
+        textView: AppCompatTextView,
+        fullText: String,
+        maxWidth: Int,
+        context: Context
+    ) {
         val paint = textView.paint
         val asterisk = " *"
         val ellipsis = "…"
@@ -366,7 +369,13 @@ object AppConstant {
         val availableWidth = maxWidth - paint.measureText(asterisk)
 
         var cutIndex = fullText.length
-        while (cutIndex > 0 && paint.measureText(fullText.substring(0, cutIndex)) > availableWidth) {
+        while (cutIndex > 0 && paint.measureText(
+                fullText.substring(
+                    0,
+                    cutIndex
+                )
+            ) > availableWidth
+        ) {
             cutIndex--
         }
 
@@ -399,7 +408,13 @@ object AppConstant {
             val reservedWidth = paint.measureText("$ellipsis$asterisk")
 
             var cutIndex = text.length
-            while (cutIndex > 0 && paint.measureText(text.substring(0, cutIndex)) > availableWidth - reservedWidth) {
+            while (cutIndex > 0 && paint.measureText(
+                    text.substring(
+                        0,
+                        cutIndex
+                    )
+                ) > availableWidth - reservedWidth
+            ) {
                 cutIndex--
             }
 

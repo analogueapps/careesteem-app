@@ -8,18 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentAboutMeBinding
-import com.aits.careesteem.databinding.FragmentUvMedicationBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
-import com.aits.careesteem.view.unscheduled_visits.view.UvMedicationFragment
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class AboutMeFragment : Fragment() {
@@ -30,6 +27,7 @@ class AboutMeFragment : Fragment() {
     private val viewModel: ClientDetailsViewModel by viewModels()
 
     private var stringData: String? = null
+
     // Selected client object
     private lateinit var clientData: ClientsList.Data
 
@@ -43,6 +41,7 @@ class AboutMeFragment : Fragment() {
 
     companion object {
         private const val ARG_DATA = "ARG_DATA"
+
         @JvmStatic
         fun newInstance(param1: String) =
             AboutMeFragment().apply {
@@ -59,7 +58,7 @@ class AboutMeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(isVisible) {
+        if (isVisible) {
             viewModel.getClientDetails(requireActivity(), clientData.id.toString())
         }
     }
@@ -112,7 +111,8 @@ class AboutMeFragment : Fragment() {
                         .into(profileImage)
                 } else {
                     val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)
-                    val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+                    val initialsBitmap =
+                        GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
                     profileImage.setImageBitmap(initialsBitmap)
                 }
             }

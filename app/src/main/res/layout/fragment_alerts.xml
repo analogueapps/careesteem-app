@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".view.alerts.view.AlertsFragment">
 
@@ -23,51 +22,49 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:drawablePadding="8dip"
-                    android:drawableStart="@drawable/ic_alert"
-                    android:drawableTint="@color/colorPrimary"
-                    android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_12ssp"
-                    android:text="@string/raise_an_alert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     />
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:drawableStart="@drawable/ic_alert"
+                    android:drawablePadding="8dip"
+                    android:drawableTint="@color/colorPrimary"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/raise_an_alert"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_5sdp"
                     android:id="@+id/recyclerView"
-                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
                     android:id="@+id/btnCreateAlert"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:fontFamily="@font/robotoslab_regular"
-                    app:icon="@drawable/ic_icon_plus"
-                    app:iconTintMode="multiply"
                     android:text="@string/create_an_alert"
                     android:textAllCaps="false"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                     />
+                    android:textStyle="normal"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_icon_plus"
+                    app:iconTintMode="multiply" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -76,48 +73,47 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:visibility="gone"
         android:id="@+id/emptyLayout"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:src="@drawable/frame_no_alerts"
             android:layout_width="@dimen/_125sdp"
-            android:layout_height="@dimen/_153sdp"/>
+            android:layout_height="@dimen/_153sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:src="@drawable/frame_no_alerts" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
-            android:text="No Alert has been Created"
+            android:layout_gravity="center"
             android:fontFamily="@font/robotoslab_regular"
-            android:textStyle="normal"
+            android:gravity="center"
+            android:text="No Alert has been Created"
             android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
 
             tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
-            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/btnCreateUnscheduledVisit"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
-            app:icon="@drawable/ic_icon_plus"
-            app:iconTintMode="multiply"
-            app:iconSize="@dimen/_14sdp"
             android:text="@string/create_an_alert"
             android:textAllCaps="false"
-            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-             />
+            android:textStyle="normal"
+            app:icon="@drawable/ic_icon_plus"
+            app:iconSize="@dimen/_14sdp"
+            app:iconTintMode="multiply" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

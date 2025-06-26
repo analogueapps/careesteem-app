@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardUseCompatPadding="true"
+    android:elevation="2dp"
     app:cardBackgroundColor="@color/white"
+    app:cardUseCompatPadding="true"
     app:strokeColor="@android:color/transparent"
-    app:strokeWidth="2dp"
-    android:elevation="2dp">
+    app:strokeWidth="2dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout"
@@ -21,22 +20,21 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/agencyName"
-            android:layout_weight="1"
-            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
+            android:singleLine="true"
             android:text="@string/app_name"
-            android:textStyle="normal"
             android:textSize="@dimen/_10ssp"
-             />
+            android:textStyle="normal" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_export"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:src="@drawable/ic_export" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

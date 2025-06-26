@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.profile.view.ProfileFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,644 +21,624 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginStart="@dimen/_13sdp"
-                    android:layout_marginEnd="@dimen/_13sdp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_13sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_13sdp"
+                    android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:drawablePadding="8dip"
-                        android:layout_weight="1"
-                        android:gravity="center|left"
-                        android:drawableStart="@drawable/iconamoon_profile_fill"
-                        android:drawableTint="@color/colorPrimary"
-                        android:textColor="@color/colorPrimary"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="Profile Settings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/iconamoon_profile_fill"
+                        android:drawablePadding="8dip"
+                        android:drawableTint="@color/colorPrimary"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:gravity="center|left"
+                        android:text="Profile Settings"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText,RtlHardcoded" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSwitch"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_35sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:fontFamily="@font/robotoslab_regular"
-                        app:icon="@drawable/ic_swap"
-                        app:iconSize="@dimen/_14sdp"
-                        app:iconTintMode="multiply"
                         android:text="@string/switch_account"
                         android:textAllCaps="false"
-                        android:textStyle="normal"
                         android:textSize="@dimen/_8ssp"
-                        />
+                        android:textStyle="normal"
+                        app:icon="@drawable/ic_swap"
+                        app:iconSize="@dimen/_14sdp"
+                        app:iconTintMode="multiply" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--                <com.google.android.material.imageview.ShapeableImageView-->
-<!--                    android:id="@+id/profileImage"-->
-<!--                    android:layout_width="@dimen/_74sdp"-->
-<!--                    android:layout_height="@dimen/_74sdp"-->
-<!--                    android:src="@drawable/app_logo"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    app:shapeAppearanceOverlay="@style/Circular" />-->
-
+                <!--                <com.google.android.material.imageview.ShapeableImageView-->
+                <!--                    android:id="@+id/profileImage"-->
+                <!--                    android:layout_width="@dimen/_74sdp"-->
+                <!--                    android:layout_height="@dimen/_74sdp"-->
+                <!--                    android:src="@drawable/app_logo"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    app:shapeAppearanceOverlay="@style/Circular" />-->
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:padding="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_13sdp"
                     android:background="@drawable/ic_upcoming_inside"
                     android:backgroundTint="@color/completeCardBackground"
-                    android:layout_margin="@dimen/_13sdp"
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:padding="@dimen/_5sdp">
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_5sdp"/>
+                        android:layout_height="@dimen/_5sdp" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/name"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileName"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/agency"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileAgency"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/age"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileAge"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/contact_number"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileContactNumber"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/email"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileEmail"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/address"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileAddress"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/city"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profileCity"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_weight="1.3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text="@string/post_code"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                         <Space
                             android:layout_width="@dimen/_5sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/robotoslab_regular"
                             android:text=":"
-                            android:textStyle="normal"
                             android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
 
                             tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="@dimen/_20sdp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/profilePostCode"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
-                            
-                            android:textStyle="normal"
+
                             android:textSize="@dimen/_10ssp"
-                             />
+                            android:textStyle="normal" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_5sdp"/>
+                        android:layout_height="@dimen/_5sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:padding="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_13sdp"
                     android:background="@drawable/ic_upcoming_inside"
                     android:backgroundTint="@color/completeCardBackground"
-                    android:layout_margin="@dimen/_13sdp"
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:padding="@dimen/_5sdp">
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_5sdp"/>
+                        android:layout_height="@dimen/_5sdp" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:text="Push Notifications"
-                            android:textSize="@dimen/_10ssp"
-                            android:fontFamily="@font/robotoslab_regular"
-                            android:textStyle="normal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Push Notifications"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
                             tools:ignore="HardcodedText" />
 
-                        <Switch
-                            android:layout_gravity="center"
+                        <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switch_notification"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                            style="@style/CustomMaterialSwitchStyle"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="#33279989"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:gravity="center">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:text="Enable Face ID"
-                            android:textSize="@dimen/_10ssp"
-                            android:fontFamily="@font/robotoslab_regular"
-                            android:textStyle="normal"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Enable Face ID"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
                             tools:ignore="HardcodedText" />
 
-                        <Switch
-                            android:layout_gravity="center"
+                        <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switch_face_id"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                            style="@style/CustomMaterialSwitchStyle"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center" />
+
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_5sdp"/>
+                        android:layout_height="@dimen/_5sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/developed_by"
-                        android:textStyle="normal"
                         android:textSize="@dimen/_10ssp"
-                         />
+                        android:textStyle="normal" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtCopyrights"
-                        android:layout_marginStart="@dimen/_2sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
                         android:fontFamily="@font/robotoslab_regular"
-                        android:textColor="@color/colorPrimary"
                         android:text="@string/care_esteem_ltd"
-                        android:textStyle="normal"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_10ssp"
-                         />
+                        android:textStyle="normal" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appVersion"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Version"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/robotoslab_regular"
-                    app:icon="@drawable/ic_logout"
-                    app:iconTintMode="multiply"
                     android:text="@string/logout"
                     android:textAllCaps="false"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                     />
+                    android:textStyle="normal"
+                    app:icon="@drawable/ic_logout"
+                    app:iconTintMode="multiply" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -51,35 +51,44 @@ class RiskAssessmentParentAdapter(
             when (item) {
                 is RiskAssessmentItem.FilteredItem -> {
                     sectionTitle.text = item.title
-                    innerRecyclerView.adapter = QuestionAnswerAdapter(item.qaList)
+                    //innerRecyclerView.adapter = QuestionAnswerAdapter(item.title, item.qaList)
                 }
+
                 is RiskAssessmentItem.ActivityItem -> {
                     sectionTitle.text = "Activity Risk Assessment"
                     innerRecyclerView.adapter = ActivityRiskAssessmentAdapter(listOf(item.data))
                 }
+
                 is RiskAssessmentItem.BehaviourItem -> {
                     sectionTitle.text = "Behaviour Risk Assessment"
-                    innerRecyclerView.adapter = BehaviourRiskAssessmentAdapter(context, listOf(item.data))
+                    innerRecyclerView.adapter =
+                        BehaviourRiskAssessmentAdapter(context, listOf(item.data))
                 }
+
                 is RiskAssessmentItem.COSHHItem -> {
                     sectionTitle.text = "COSHH Risk Assessment"
                     innerRecyclerView.adapter = COSHHRiskAssessmentAdapter(listOf(item.data))
                 }
+
                 is RiskAssessmentItem.EquipmentItem -> {
                     sectionTitle.text = "Equipment Register"
                     innerRecyclerView.adapter = EquipmentRegisterAdapter(listOf(item.data))
                 }
+
                 is RiskAssessmentItem.FinancialItem -> {
                     sectionTitle.text = "Financial Risk Assessment"
                     innerRecyclerView.adapter = FinancialRiskAssessmentAdapter(listOf(item.data))
                 }
+
                 is RiskAssessmentItem.MedicationItem -> {
                     sectionTitle.text = "Medication Risk Assessment"
                     innerRecyclerView.adapter = MedicationRiskAssessmentAdapter(listOf(item.data))
                 }
+
                 is RiskAssessmentItem.SelfAdminItem -> {
                     sectionTitle.text = "Self Administration Risk Assessment"
-                    innerRecyclerView.adapter = SelfAdministrationRiskAssessmentAdapter(context, listOf(item.data))
+                    innerRecyclerView.adapter =
+                        SelfAdministrationRiskAssessmentAdapter(context, listOf(item.data))
                 }
             }
         }

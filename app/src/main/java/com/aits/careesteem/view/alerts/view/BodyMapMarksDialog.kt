@@ -3,15 +3,17 @@ package com.aits.careesteem.view.alerts.view
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.widget.Toolbar
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import com.aits.careesteem.databinding.DialogBodyMappingBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ToastyType
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.File
 
 class BodyMapMarksDialog : BottomSheetDialogFragment() {
@@ -51,7 +53,8 @@ class BodyMapMarksDialog : BottomSheetDialogFragment() {
 
         dialog.setOnShowListener { dlg ->
             val d = dlg as BottomSheetDialog
-            val bottomSheet = d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            val bottomSheet =
+                d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.isDraggable = false
@@ -106,7 +109,11 @@ class BodyMapMarksDialog : BottomSheetDialogFragment() {
 
         binding.btnSave.setOnClickListener {
             val bitmap = binding.bodyMapView.getBitmap()
-            val file = AppConstant.bitmapToFile(requireContext(), bitmap, "${System.currentTimeMillis()}.png")
+            val file = AppConstant.bitmapToFile(
+                requireContext(),
+                bitmap,
+                "${System.currentTimeMillis()}.png"
+            )
             file?.let {
                 listener?.onBodyMapSaved(bodyPartType ?: "", bodyPartName ?: "", it)
             } ?: run {
@@ -122,7 +129,11 @@ class BodyMapMarksDialog : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(bodyPartType: String, bodyPartName: String, bitmap: Bitmap): BodyMapMarksDialog {
+        fun newInstance(
+            bodyPartType: String,
+            bodyPartName: String,
+            bitmap: Bitmap
+        ): BodyMapMarksDialog {
             return BodyMapMarksDialog().apply {
                 arguments = Bundle().apply {
                     putString("bodyPartType", bodyPartType)

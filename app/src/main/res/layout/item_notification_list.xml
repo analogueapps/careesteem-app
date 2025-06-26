@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/_5sdp"
         app:cardBackgroundColor="@color/white"
-        app:strokeColor="@android:color/transparent"
+        app:cardCornerRadius="@dimen/_5sdp"
         app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:strokeColor="@android:color/transparent"
         app:strokeWidth="2dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -26,15 +25,15 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_launcher_round"
                 android:layout_gravity="center"
+                android:src="@mipmap/ic_launcher_round"
                 app:shapeAppearanceOverlay="@style/Circular" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginStart="@dimen/_5sdp"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -42,26 +41,24 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/notificationTitle"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
+                        android:singleLine="true"
                         android:text="@string/care_plan"
-                        android:textStyle="bold"
                         android:textSize="@dimen/_9ssp"
-                         />
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/notificationDate"
-                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/robotoslab_regular"
+                        android:singleLine="true"
                         android:text="@string/care_plan"
-                        android:textStyle="bold"
                         android:textSize="@dimen/_9ssp"
-                         />
+                        android:textStyle="bold" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -70,25 +67,24 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:id="@+id/notificationMessage"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
+                        android:singleLine="true"
                         android:text="@string/care_plan"
-                        android:textStyle="normal"
                         android:textSize="@dimen/_9ssp"
-                         />
+                        android:textStyle="normal" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
-                        android:background="@android:color/transparent"
                         android:id="@+id/btnDelete"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_margin="@dimen/_7ssp"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/fluent_delete" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

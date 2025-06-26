@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCompleteVisitsBinding
 import com.aits.careesteem.databinding.ItemTravelTimeBinding
-import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
@@ -57,12 +56,14 @@ class CompleteVisitsAdapter(
                 )
                 VisitViewHolder(binding)
             }
+
             TYPE_TRAVEL_TIME -> {
                 val binding = ItemTravelTimeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
                 TravelTimeViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
@@ -97,13 +98,16 @@ class CompleteVisitsAdapter(
                     tvClientName.text = AppConstant.checkClientName(data.clientName)
                     tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
                     tvPlanTime.text = AppConstant.checkNull(data.TotalActualTimeDiff[0])
-                    tvUserRequired.text = if (data.usersRequired == 0) "1" else "${data.usersRequired}"
+                    tvUserRequired.text =
+                        if (data.usersRequired == 0) "1" else "${data.usersRequired}"
 //                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
 //                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
-                    tvPlannedStartTime.text = "Check in time\n${DateTimeUtils.convertTime(data.actualStartTime[0])}"
-                    tvPlannedEndTime.text = "Check out time\n${DateTimeUtils.convertTime(data.actualEndTime[0])}"
+                    tvPlannedStartTime.text =
+                        "Check in time\n${DateTimeUtils.convertTime(data.actualStartTime[0])}"
+                    tvPlannedEndTime.text =
+                        "Check out time\n${DateTimeUtils.convertTime(data.actualEndTime[0])}"
 
-                    if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                    if (data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
                         tvUnscheduledIndicator.visibility = View.VISIBLE
                     } else {
                         tvUnscheduledIndicator.visibility = View.GONE
@@ -123,7 +127,7 @@ class CompleteVisitsAdapter(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("CompleteVisitsAdapter", "" + e.printStackTrace())
             }
         }
     }
@@ -152,7 +156,8 @@ class UserAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == EVEN_ITEM) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_even, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_even, parent, false)
             EvenViewHolder(view)
         } else {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_odd, parent, false)
@@ -178,15 +183,17 @@ class UserAdapter(
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
+                        .circleCrop()
                         .into(holder.imgEven)
                 } else {
-                    val initials = GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
+                    val initials =
+                        GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
                     val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                     holder.imgEven.setImageBitmap(initialsBitmap)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("CompleteVisitsAdapter", "" + e.printStackTrace())
             }
 
         } else if (holder is OddViewHolder) {
@@ -205,15 +212,17 @@ class UserAdapter(
                         .override(400, 300)
                         .placeholder(R.drawable.logo_preview)
                         .error(R.drawable.logo_preview)
+                        .circleCrop()
                         .into(holder.imgOdd)
                 } else {
-                    val initials = GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
+                    val initials =
+                        GooglePlaceHolder().getInitialsSingle(AppConstant.checkNull(item.name))
                     val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(context, initials)
                     holder.imgOdd.setImageBitmap(initialsBitmap)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("CompleteVisitsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("CompleteVisitsAdapter", "" + e.printStackTrace())
             }
         }
     }

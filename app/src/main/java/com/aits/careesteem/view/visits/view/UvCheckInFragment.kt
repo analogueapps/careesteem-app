@@ -7,33 +7,27 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import androidx.navigation.NavOptions
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.net.Uri.*
-import kotlinx.coroutines.Job
-import androidx.lifecycle.lifecycleScope
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation.findNavController
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
@@ -47,10 +41,7 @@ import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.home.view.HomeActivity
-import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
-import com.aits.careesteem.view.visits.model.VisitDetailsResponse
-import com.aits.careesteem.view.visits.view.CheckOutFragment.Companion
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -61,24 +52,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
-import com.google.maps.android.PolyUtil
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.CaptureActivity
 import com.journeyapps.barcodescanner.camera.CameraSettings
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -158,7 +143,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                 .into(binding.imageProfile)
         } else {
             val initials = GooglePlaceHolder().getInitialsSingle(clientData.full_name)
-            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+            val initialsBitmap =
+                GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
             binding.imageProfile.setImageBitmap(initialsBitmap)
         }
 
@@ -194,6 +180,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                         qrTimeoutJob?.cancel() // Cancel previous
                         showMapView()
                     }
+
                     1 -> {
                         showQrView()
                         qrTimeoutJob?.cancel() // Cancel previous
@@ -207,6 +194,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
@@ -329,12 +317,19 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             if (isGranted) {
                 enableMyLocation()
             } else {
-                Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Location permission is required",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
     private fun checkLocationPermissionAndEnable() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             == PackageManager.PERMISSION_GRANTED
         ) {
             enableMyLocation()
@@ -347,7 +342,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         try {
             googleMap.isMyLocationEnabled = true
             googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
-            googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
+            googleMap.uiSettings.isMyLocationButtonEnabled =
+                false // Enable the button to move to the current location
         } catch (e: SecurityException) {
             e.printStackTrace()
         }
@@ -371,6 +367,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                 override fun barcodeResult(result: BarcodeResult) {
                     handleQrResult(result.text)
                 }
+
                 override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
             })
             resume()
@@ -403,7 +400,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("SetTextI18n")
     private fun showCheckPopup() {
         if (!isAdded) return
-        if(binding.tabLayout.selectedTabPosition == 0) return
+        if (binding.tabLayout.selectedTabPosition == 0) return
 
         Dialog(requireContext()).apply {
             val binding = DialogForceCheckBinding.inflate(layoutInflater)
@@ -472,7 +469,10 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                         response.body()?.result?.geometry?.location?.let { location ->
                             destinationLatLng = LatLng(location.lat, location.lng)
                             clientData.radius.let { radius ->
-                                addMarkerAndRadius(destinationLatLng!!, radius.toString().toDouble())
+                                addMarkerAndRadius(
+                                    destinationLatLng!!,
+                                    radius.toString().toDouble()
+                                )
                             }
                         }
                     }
@@ -510,7 +510,8 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                             LatLng(currentLatLng.latitude, currentLatLng.longitude),
                             destLatLng,
                             radius.toString().toFloat()
-                        )) {
+                        )
+                    ) {
                         binding.btnCheckIn.visibility = View.VISIBLE
                     } else {
                         binding.btnCheckIn.visibility = View.GONE
@@ -539,9 +540,11 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkLocationServices() {
-        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
-            !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        ) {
             showLocationSettingsDialog()
         } else {
             viewModel.fetchCurrentLocation()
@@ -591,6 +594,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                     showPermissionDeniedDialog()
                 }
             }
+
             REQUEST_LOCATION_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkLocationServices()

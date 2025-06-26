@@ -11,7 +11,6 @@ import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.network.ApiService
 import com.aits.careesteem.network.trustAllCerts
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -52,7 +51,10 @@ object NetworkModule {
             AlertUtils.showLog("NetworkModule", "Token: $token")
             val requestWithHeaders = originalRequest.newBuilder()
                 .header("Accept", "application/json")
-                .header("Authorization", "Bearer ${preferences.getString(SharedPrefConstant.ACCESS_TOKEN, "")}")
+                .header(
+                    "Authorization",
+                    "Bearer ${preferences.getString(SharedPrefConstant.ACCESS_TOKEN, "")}"
+                )
                 .build()
             chain.proceed(requestWithHeaders)
         }

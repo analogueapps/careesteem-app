@@ -11,7 +11,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.databinding.ItemOngoingVisitsBinding
 import com.aits.careesteem.databinding.ItemTravelTimeBinding
 import com.aits.careesteem.databinding.ItemUpcomingVisitsBinding
 import com.aits.careesteem.utils.AppConstant
@@ -65,12 +64,14 @@ class UpcomingVisitsAdapter(
                 )
                 VisitViewHolder(binding)
             }
+
             TYPE_TRAVEL_TIME -> {
                 val binding = ItemTravelTimeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
                 TravelTimeViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }

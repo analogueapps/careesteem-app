@@ -7,32 +7,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_24sdp"
     android:layout_height="@dimen/_44sdp"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/ic_day_unselect_bg"
-    android:padding="5dp"
     android:layout_marginLeft="@dimen/_8sdp"
-    android:layout_marginRight="@dimen/_8sdp">
+    android:layout_marginRight="@dimen/_8sdp"
+    android:background="@drawable/ic_day_unselect_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/dayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dasds"
+        android:fontFamily="@font/robotoslab_regular"
         android:maxLength="2"
         android:singleLine="true"
-        android:textSize="@dimen/_8ssp"
-        android:fontFamily="@font/robotoslab_regular"
-        android:textColor="@android:color/black" />
+        android:text="Dasds"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_8ssp" />
 
     <TextView
-        android:layout_marginTop="@dimen/_5sdp"
         android:id="@+id/dayNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/robotoslab_regular"
         android:maxLength="2"
-        android:textSize="@dimen/_7ssp"
+        android:text="15"
         android:textColor="@android:color/black"
-        android:fontFamily="@font/robotoslab_regular" />
+        android:textSize="@dimen/_7ssp" />
 </LinearLayout>

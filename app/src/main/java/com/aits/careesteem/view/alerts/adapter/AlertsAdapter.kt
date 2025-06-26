@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemAlertListBinding
 import com.aits.careesteem.databinding.ItemBodyMapAddedBinding
@@ -30,7 +29,8 @@ class AlertsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder {
-        val binding = ItemAlertListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemAlertListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AlertViewHolder(binding)
     }
 
@@ -62,8 +62,14 @@ class AlertsAdapter(
                 val isExpanded = position == expandedPosition
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 alertTime.tag = if (isExpanded) "Visible" else "Invisible"
-                val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
-                alertTime.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+                val icon =
+                    if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+                alertTime.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    context.getDrawable(icon),
+                    null
+                )
 
                 // Toggle expand/collapse on click
                 alertLayout.setOnClickListener {
@@ -96,7 +102,7 @@ class AlertsAdapter(
                 recyclerView.adapter = ServerImageAdapter(context, bodyMapItems)
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("AlertsAdapter", "" + e.printStackTrace())
             }
         }
     }
@@ -108,7 +114,8 @@ class ServerImageAdapter(
 ) : RecyclerView.Adapter<ServerImageAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(binding)
     }
 
@@ -134,7 +141,7 @@ class ServerImageAdapter(
                 btnDelete.visibility = View.GONE
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("AlertsAdapter", "" + e.printStackTrace())
             }
         }
     }
@@ -146,7 +153,8 @@ class BodyMapImageAdapter(
 ) : RecyclerView.Adapter<BodyMapImageAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(binding)
     }
 
@@ -180,7 +188,7 @@ class BodyMapImageAdapter(
                 btnDelete.visibility = View.GONE
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("AlertsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("AlertsAdapter", "" + e.printStackTrace())
             }
         }
     }

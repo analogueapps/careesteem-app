@@ -7,11 +7,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
-    android:singleLine="true"
-    android:text="@string/app_name"
-    android:textSize="@dimen/_9ssp"
-    android:fontFamily="@font/robotoslab_regular"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:textAlignment="inherit"/>
+    android:fontFamily="@font/robotoslab_regular"
+    android:singleLine="true"
+    android:text="@string/app_name"
+    android:textAlignment="inherit"
+    android:textSize="@dimen/_9ssp" />

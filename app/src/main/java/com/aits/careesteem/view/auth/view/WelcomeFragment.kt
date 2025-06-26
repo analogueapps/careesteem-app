@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -60,7 +58,11 @@ class WelcomeFragment : Fragment() {
         setupViewmodel()
         setupWidget()
 
-        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.FALSE) {
+        if (sharedPreferences.getBoolean(
+                SharedPrefConstant.IS_LOGGED,
+                AppConstant.FALSE
+            ) == AppConstant.FALSE
+        ) {
             initAutoDetect()
         }
         return binding.root
@@ -177,7 +179,8 @@ class WelcomeFragment : Fragment() {
         val countryId = "ff84412b2bed11f091d77e1e"
         val selectedItemPosition = statuses.indexOfFirst { it.id == countryId }
         if (selectedItemPosition != -1) {
-            binding.tvCountryCode.text = "${statuses[selectedItemPosition].emoji} +${statuses[selectedItemPosition].country_code}"
+            binding.tvCountryCode.text =
+                "${statuses[selectedItemPosition].emoji} +${statuses[selectedItemPosition].country_code}"
             viewModel.setCountryCode(statuses[selectedItemPosition].id)
         }
 
@@ -227,11 +230,12 @@ class WelcomeFragment : Fragment() {
         viewModel.sendOtpUserLoginResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response != null) {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val direction = WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
-                        //response = dataString
-                        mobileNo = viewModel.phoneNumber.value!!,
-                        countryId = viewModel.countryCode.value!!
-                    )
+                    val direction =
+                        WelcomeFragmentDirections.actionWelcomeFragmentToVerifyOtpFragment(
+                            //response = dataString
+                            mobileNo = viewModel.phoneNumber.value!!,
+                            countryId = viewModel.countryCode.value!!
+                        )
                     findNavController().navigate(direction)
                 }
             }

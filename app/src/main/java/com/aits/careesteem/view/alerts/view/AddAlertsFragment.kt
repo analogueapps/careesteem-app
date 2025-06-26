@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -68,7 +67,7 @@ class AddAlertsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel.getClientsList(requireActivity())
         //viewModel.getVisits(requireActivity())
-        if(visitViewModel.visitsList.value!!.isEmpty()) {
+        if (visitViewModel.visitsList.value!!.isEmpty()) {
             // date in 2025-01-01 format
             val currentDate = LocalDate.now()
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -120,12 +119,20 @@ class AddAlertsFragment : Fragment() {
             }
 
             if (binding.severityOfConcern.text.isNullOrEmpty() || binding.severityOfConcern.text == "Select") {
-                AlertUtils.showToast(requireActivity(), "Please select severity of concerns", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please select severity of concerns",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
 
             if (binding.visitNotes.text.isNullOrEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter concern details", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please enter concern details",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
 
@@ -180,26 +187,50 @@ class AddAlertsFragment : Fragment() {
             //binding.allClientNameSpinner.performClick()
             if (binding.rvClientName.isVisible) {
                 binding.rvClientName.visibility = View.GONE
-                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    null
+                )
             } else {
                 binding.rvClientName.visibility = View.VISIBLE
-                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+                binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    null
+                )
             }
         }
 
         binding.visitName.setOnClickListener {
             if (clientId == "-1") {
-                AlertUtils.showToast(requireActivity(), "Please select a client", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please select a client",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
 
             //binding.allVisitTimeSpinner.performClick()
             if (binding.rvVisitName.isVisible) {
                 binding.rvVisitName.visibility = View.GONE
-                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    null
+                )
             } else {
                 binding.rvVisitName.visibility = View.VISIBLE
-                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+                binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    null
+                )
             }
         }
 
@@ -239,17 +270,28 @@ class AddAlertsFragment : Fragment() {
         binding.severityOfConcern.setOnClickListener {
             if (binding.rvConcern.isVisible) {
                 binding.rvConcern.visibility = View.GONE
-                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small), null)
+                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    null
+                )
             } else {
                 binding.rvConcern.visibility = View.VISIBLE
-                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small), null)
+                binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    null
+                )
             }
         }
 
         binding.apply {
             bodyName.setOnClickListener {
                 // if visible means in visible
-                if(bodyName.tag == "Invisible") bodyName.tag = "Visible" else bodyName.tag = "Invisible"
+                if (bodyName.tag == "Invisible") bodyName.tag = "Visible" else bodyName.tag =
+                    "Invisible"
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
@@ -275,7 +317,8 @@ class AddAlertsFragment : Fragment() {
 
             faceName.setOnClickListener {
                 bodyName.tag = "Invisible"
-                if(faceName.tag == "Invisible") faceName.tag = "Visible" else faceName.tag = "Invisible"
+                if (faceName.tag == "Invisible") faceName.tag = "Visible" else faceName.tag =
+                    "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
                 feetName.tag = "Invisible"
@@ -301,7 +344,8 @@ class AddAlertsFragment : Fragment() {
             handName.setOnClickListener {
                 bodyName.tag = "Invisible"
                 faceName.tag = "Invisible"
-                if(handName.tag == "Invisible") handName.tag = "Visible" else handName.tag = "Invisible"
+                if (handName.tag == "Invisible") handName.tag = "Visible" else handName.tag =
+                    "Invisible"
                 pelvisName.tag = "Invisible"
                 feetName.tag = "Invisible"
                 callWholeMethods()
@@ -343,7 +387,8 @@ class AddAlertsFragment : Fragment() {
                 bodyName.tag = "Invisible"
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
-                if(pelvisName.tag == "Invisible") pelvisName.tag = "Visible" else pelvisName.tag = "Invisible"
+                if (pelvisName.tag == "Invisible") pelvisName.tag = "Visible" else pelvisName.tag =
+                    "Invisible"
                 feetName.tag = "Invisible"
                 callWholeMethods()
             }
@@ -369,7 +414,8 @@ class AddAlertsFragment : Fragment() {
                 faceName.tag = "Invisible"
                 handName.tag = "Invisible"
                 pelvisName.tag = "Invisible"
-                if(feetName.tag == "Invisible") feetName.tag = "Visible" else feetName.tag = "Invisible"
+                if (feetName.tag == "Invisible") feetName.tag = "Visible" else feetName.tag =
+                    "Invisible"
                 callWholeMethods()
             }
 
@@ -617,11 +663,11 @@ class AddAlertsFragment : Fragment() {
                         .orEmpty()
 
                     val visitTimeOptions = filteredVisits.map { visit ->
-                        if(visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
+                        if (visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
                             "${visit.plannedStartTime} - ${visit.plannedEndTime}"
-                        } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
+                        } else if (visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
                             "${visit.actualStartTime[0]} (Unscheduled)"
-                        } else if(visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+                        } else if (visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
                             "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
                         } else {
                             "N/A"

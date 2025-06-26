@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.visits.view.QrCheckInFragment">
 
     <RelativeLayout
         android:id="@+id/layout_qr"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:ignore="UselessParent">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_300sdp"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/_10sdp"
             app:cardElevation="@dimen/_5sdp"
             app:cardUseCompatPadding="true">
 

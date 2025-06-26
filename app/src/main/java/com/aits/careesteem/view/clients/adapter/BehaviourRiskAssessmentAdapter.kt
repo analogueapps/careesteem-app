@@ -6,7 +6,6 @@
 
 package com.aits.careesteem.view.clients.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,7 +23,11 @@ class BehaviourRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemBehaviourRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemBehaviourRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 
@@ -60,11 +63,16 @@ class BehaviourRiskAssessmentAdapter(
                     if (hazard.isNotBlank()) {
                         RiskAssessmentRow(
                             potentialHazard = hazard,
-                            levelOfRisk = data.level_of_risk.getOrNull(index).orEmpty().ifBlank { "N/A" },
-                            riskRange = data.risk_range.getOrNull(index).orEmpty().ifBlank { "N/A" },
-                            supportMethod = data.support_methods.getOrNull(index).orEmpty().ifBlank { "N/A" },
-                            controlAdequate = data.controls_adequate.getOrNull(index).orEmpty().ifBlank { "N/A" },
-                            regulatoryMeasure = data.regulatory_measures.getOrNull(index).orEmpty().ifBlank { "N/A" }
+                            levelOfRisk = data.level_of_risk.getOrNull(index).orEmpty()
+                                .ifBlank { "N/A" },
+                            riskRange = data.risk_range.getOrNull(index).orEmpty()
+                                .ifBlank { "N/A" },
+                            supportMethod = data.support_methods.getOrNull(index).orEmpty()
+                                .ifBlank { "N/A" },
+                            controlAdequate = data.controls_adequate.getOrNull(index).orEmpty()
+                                .ifBlank { "N/A" },
+                            regulatoryMeasure = data.regulatory_measures.getOrNull(index).orEmpty()
+                                .ifBlank { "N/A" }
                         )
                     } else null
                 }

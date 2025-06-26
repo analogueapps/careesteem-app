@@ -6,8 +6,9 @@
 
 package com.aits.careesteem.network
 
-import javax.net.ssl.*
 import java.security.cert.X509Certificate
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
     override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}

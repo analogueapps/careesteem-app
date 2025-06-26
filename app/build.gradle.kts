@@ -32,15 +32,39 @@ android {
 //        }
 
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("DEBUG_BASE_URL", project)}\"")
-            buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
-            buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
+            buildConfigField(
+                "String",
+                "API_BASE_URL",
+                "\"${getLocalProperty("DEBUG_BASE_URL", project)}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_MAP_API_KEY",
+                "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_MAP_PLACES_API_KEY",
+                "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\""
+            )
         }
 
         release {
-            buildConfigField("String", "API_BASE_URL", "\"${getLocalProperty("RELEASE_BASE_URL", project)}\"")
-            buildConfigField("String", "GOOGLE_MAP_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\"")
-            buildConfigField("String", "GOOGLE_MAP_PLACES_API_KEY", "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\"")
+            buildConfigField(
+                "String",
+                "API_BASE_URL",
+                "\"${getLocalProperty("RELEASE_BASE_URL", project)}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_MAP_API_KEY",
+                "\"${getLocalProperty("GOOGLE_MAP_API_KEY", project)}\""
+            )
+            buildConfigField(
+                "String",
+                "GOOGLE_MAP_PLACES_API_KEY",
+                "\"${getLocalProperty("GOOGLE_MAP_PLACES_API_KEY", project)}\""
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -161,7 +185,8 @@ fun getLocalProperty(propertyName: String, project: Project): String {
         val properties = Properties().apply {
             load(propertiesFile.inputStream())
         }
-        return properties.getProperty(propertyName) ?: error("Property $propertyName not found in local.properties")
+        return properties.getProperty(propertyName)
+            ?: error("Property $propertyName not found in local.properties")
     } else {
         error("local.properties file not found")
     }

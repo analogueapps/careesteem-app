@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.visits.view.UvCheckInFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_alignParentTop="true"
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
         <FrameLayout
@@ -24,11 +24,11 @@
                 android:id="@+id/imageProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/logo_preview"
-                android:scaleType="centerCrop"
+                android:layout_gravity="center"
                 android:background="@drawable/circle_border"
                 android:padding="2dp"
-                android:layout_gravity="center" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo_preview" />
 
             <View
                 android:layout_width="@dimen/_8sdp"
@@ -42,39 +42,40 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="12dp">
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textStyle="bold"
                 android:fontFamily="@font/robotoslab_regular"
-                android:textSize="@dimen/_10ssp"
                 android:letterSpacing="0"
-                android:textColor="#000000" />
+                android:text="@string/app_name"
+                android:textColor="#000000"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
                 android:fontFamily="@font/robotoslab_regular"
-                android:textSize="@dimen/_9ssp"
-                android:textColor="#555555" />
+                android:text="@string/app_name"
+                android:textColor="#555555"
+                android:textSize="@dimen/_9ssp" />
         </LinearLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/topLayout"
         android:layout_centerInParent="true"
-        android:id="@+id/tabLayout"
-        android:layout_width="@dimen/_160sdp"
-        android:layout_height="@dimen/_33sdp"
         android:background="@drawable/ic_tab_background"
+        android:clipToPadding="true"
         android:minHeight="48dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
@@ -83,22 +84,21 @@
         app:tabMode="fixed"
         app:tabPaddingBottom="-1dp"
         app:tabPaddingTop="-1dp"
-        android:clipToPadding="true"
         app:tabRippleColor="@null" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_map"
-        android:layout_below="@+id/tabLayout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_14sdp"
-            android:layout_weight="1"
-            android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabLayout"
+            android:layout_margin="@dimen/_14sdp"
+            android:layout_weight="1">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/map"
@@ -109,59 +109,57 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:id="@+id/btnCheckIn"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
-            app:icon="@drawable/ic_sharp_timer"
-            app:iconTintMode="multiply"
+            android:gravity="center"
             android:text="@string/check_in"
             android:textAllCaps="false"
-            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-             />
+            android:textStyle="normal"
+            android:visibility="gone"
+            app:icon="@drawable/ic_sharp_timer"
+            app:iconTintMode="multiply" />
 
         <com.google.android.material.button.MaterialButton
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:id="@+id/btnCheckOut"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
-            app:icon="@drawable/ic_sharp_timer"
-            app:iconTintMode="multiply"
+            android:gravity="center"
             android:text="@string/check_out"
             android:textAllCaps="false"
-            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-             />
+            android:textStyle="normal"
+            android:visibility="gone"
+            app:icon="@drawable/ic_sharp_timer"
+            app:iconTintMode="multiply" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <RelativeLayout
-        android:visibility="gone"
-        android:layout_below="@+id/tabLayout"
         android:id="@+id/layout_qr"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
-            android:layout_margin="@dimen/_14sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_14sdp">
 
             <com.journeyapps.barcodescanner.DecoratedBarcodeView
                 android:id="@+id/qrView"

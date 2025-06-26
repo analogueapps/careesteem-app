@@ -4,7 +4,6 @@
   ~ found in the LICENSE file.
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -15,9 +14,9 @@
     </data>
 
     <RelativeLayout
-        android:background="@drawable/login_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/login_bg">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -37,34 +36,34 @@
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                android:textSize="@dimen/_26ssp"
-                android:textStyle="normal"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textAlignment="center"
-                android:gravity="center"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
                 android:letterSpacing="0"
-                android:layout_marginTop="@dimen/_16sdp" />
+                android:text="@string/welcome"
+                android:textAlignment="center"
+                android:textSize="@dimen/_26ssp"
+                android:textStyle="normal" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/please_sign_in_to_continue"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textAlignment="center"
                 android:layout_gravity="center"
+                android:fontFamily="@font/robotoslab_regular"
                 android:gravity="center"
-                android:letterSpacing="0" />
+                android:letterSpacing="0"
+                android:text="@string/please_sign_in_to_continue"
+                android:textAlignment="center"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/_22sdp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_margin="@dimen/_22sdp">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -81,10 +80,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:fontFamily="@font/robotoslab_regular"
+                        android:letterSpacing="0"
                         android:text="@string/enter_mobile_number"
                         android:textSize="@dimen/_11ssp"
-                        android:textStyle="normal"
-                        android:letterSpacing="0" />
+                        android:textStyle="normal" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -98,11 +97,11 @@
                     android:weightSum="1">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_weight="0.8"
                         android:id="@+id/tvCountryCode"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="0.8"
                         android:drawablePadding="10dip"
                         android:fontFamily="@font/robotoslab_regular"
                         android:gravity="center"
@@ -125,8 +124,8 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:paddingEnd="@dimen/_5sdp"
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.setPhoneNumber(s, start, before, count)}"
+                        android:paddingEnd="@dimen/_5sdp"
                         android:text="@{viewModel.phoneNumber}"
                         android:textColorHint="@android:color/background_light"
                         android:textSize="@dimen/_12ssp"
@@ -138,10 +137,10 @@
                     android:id="@+id/rvCountryList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="200dp"
-                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/bg_spinner_dropdown"
-                    android:layout_marginTop="2dp"/>
+                    android:maxHeight="200dp"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
@@ -150,32 +149,31 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@{viewModel.phoneNumberError}"
-                    android:textStyle="normal"
                     android:textColor="@color/red"
                     android:textSize="@dimen/_10ssp"
-                     />
+                    android:textStyle="normal" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/_133sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:enabled="@{viewModel.isPhoneNumberValid}"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:letterSpacing="0"
+                    android:onClick="@{() -> viewModel.onButtonClicked()}"
                     android:text="@string/request_otp"
                     android:textAllCaps="false"
-                    android:enabled="@{viewModel.isPhoneNumberValid}"
-                    android:onClick="@{() -> viewModel.onButtonClicked()}"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_12ssp"
-                    android:letterSpacing="0" />
+                    android:textStyle="normal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_margin="@dimen/_22sdp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/_22sdp"
                 android:src="@drawable/layer_welcome_bottom" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -14,7 +14,7 @@
         android:id="@+id/bottom_visits"
         android:name="com.aits.careesteem.view.visits.view.VisitsFragment"
         android:label="fragment_visits"
-        tools:layout="@layout/fragment_visits" >
+        tools:layout="@layout/fragment_visits">
         <action
             android:id="@+id/action_bottom_visits_to_ongoingVisitsDetailsFragment"
             app:destination="@id/ongoingVisitsDetailsFragment" />
@@ -29,7 +29,7 @@
         android:id="@+id/bottom_clients"
         android:name="com.aits.careesteem.view.clients.view.ClientsFragment"
         android:label="fragment_clients"
-        tools:layout="@layout/fragment_clients" >
+        tools:layout="@layout/fragment_clients">
         <action
             android:id="@+id/action_bottom_clients_to_clientsDetailsFragment"
             app:destination="@id/clientsDetailsFragment"
@@ -44,7 +44,7 @@
         android:id="@+id/clientsDetailsFragment"
         android:name="com.aits.careesteem.view.clients.view.ClientsDetailsFragment"
         android:label="fragment_clients_details"
-        tools:layout="@layout/fragment_clients_details" >
+        tools:layout="@layout/fragment_clients_details">
         <argument
             android:name="clientData"
             app:argType="string" />
@@ -68,7 +68,7 @@
         android:id="@+id/ongoingVisitsDetailsFragment"
         android:name="com.aits.careesteem.view.visits.view.OngoingVisitsDetailsFragment"
         android:label="fragment_ongoing_visits_details"
-        tools:layout="@layout/fragment_ongoing_visits_details" >
+        tools:layout="@layout/fragment_ongoing_visits_details">
         <argument
             android:name="visitDetailsId"
             app:argType="string" />
@@ -85,7 +85,7 @@
         android:id="@+id/unscheduledVisitsDetailsFragmentFragment"
         android:name="com.aits.careesteem.view.unscheduled_visits.view.UnscheduledVisitsDetailsFragmentFragment"
         android:label="fragment_unscheduled_visits_details_fragment"
-        tools:layout="@layout/fragment_unscheduled_visits_details_fragment" >
+        tools:layout="@layout/fragment_unscheduled_visits_details_fragment">
         <argument
             android:name="visitDetailsId"
             app:argType="string" />
@@ -97,7 +97,7 @@
         android:id="@+id/checkOutFragment"
         android:name="com.aits.careesteem.view.visits.view.CheckOutFragment"
         android:label="fragment_check_out"
-        tools:layout="@layout/fragment_check_out" >
+        tools:layout="@layout/fragment_check_out">
         <argument
             android:name="visitDetailsId"
             app:argType="string" />
@@ -120,7 +120,7 @@
         android:id="@+id/uvCheckInFragment"
         android:name="com.aits.careesteem.view.visits.view.UvCheckInFragment"
         android:label="fragment_uv_check_in"
-        tools:layout="@layout/fragment_uv_check_in" >
+        tools:layout="@layout/fragment_uv_check_in">
         <argument
             android:name="clinetData"
             app:argType="string" />

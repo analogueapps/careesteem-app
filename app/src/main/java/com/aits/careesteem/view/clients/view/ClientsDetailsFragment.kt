@@ -6,19 +6,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,7 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAboutClientBinding
 import com.aits.careesteem.databinding.DialogCarePlanBinding
-import com.aits.careesteem.databinding.DialogMedicationUpdateBinding
+import com.aits.careesteem.databinding.DialogCurrentGoingOnBinding
 import com.aits.careesteem.databinding.DialogMyCareNetworkBinding
 import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.DialogUploadedDocumentsBinding
@@ -36,11 +34,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
-import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
-import com.aits.careesteem.view.alerts.adapter.BodyMapImageAdapter
-import com.aits.careesteem.view.alerts.adapter.BodyMapItem
-import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.clients.adapter.ActivityRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.BehaviourRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.COSHHRiskAssessmentAdapter
@@ -53,15 +47,11 @@ import com.aits.careesteem.view.clients.adapter.MyCareNetworkAdapter
 import com.aits.careesteem.view.clients.adapter.OnDocumentClickListener
 import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
 import com.aits.careesteem.view.clients.adapter.SelfAdministrationRiskAssessmentAdapter
-import com.aits.careesteem.view.clients.helper.FilterQuestionAndAnswers
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
-import com.aits.careesteem.view.clients.model.ClientCarePlanAssessment
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
 import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
-import com.aits.careesteem.view.unscheduled_visits.adapter.UvViewPagerAdapter
-import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
@@ -72,22 +62,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
-import kotlin.reflect.full.memberProperties
-import androidx.core.net.toUri
-import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
-import com.aits.careesteem.databinding.DialogCurrentGoingOnBinding
 
 @AndroidEntryPoint
 class ClientsDetailsFragment : Fragment(),
     MyCareNetworkAdapter.OnMyCareNetworkItemClick,
-    OnDocumentClickListener
-{
+    OnDocumentClickListener {
     private var _binding: FragmentClientsDetailsBinding? = null
     private val binding get() = _binding!!
     private val args: ClientsDetailsFragmentArgs by navArgs()
@@ -178,7 +160,12 @@ class ClientsDetailsFragment : Fragment(),
 
                 text?.setBackgroundResource(R.drawable.bg_tab_selected)
                 text?.setTextColor(Color.WHITE)
-                text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
+                text?.setTypeface(
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        R.font.robotoslab_regular
+                    ), Typeface.BOLD
+                )
                 arrow?.visibility = View.VISIBLE
             }
 
@@ -189,7 +176,12 @@ class ClientsDetailsFragment : Fragment(),
 
                 text?.setBackgroundResource(R.drawable.bg_tab_unselected)
                 text?.setTextColor(Color.parseColor("#1E3037"))
-                text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
+                text?.setTypeface(
+                    ResourcesCompat.getFont(
+                        requireContext(),
+                        R.font.robotoslab_regular
+                    ), Typeface.NORMAL
+                )
                 arrow?.visibility = View.INVISIBLE
             }
 
@@ -210,12 +202,18 @@ class ClientsDetailsFragment : Fragment(),
         if (isSelected) {
             text.setBackgroundResource(R.drawable.bg_tab_selected)
             text.setTextColor(Color.WHITE)
-            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
+            text?.setTypeface(
+                ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular),
+                Typeface.BOLD
+            )
             arrow.visibility = View.VISIBLE
         } else {
             text.setBackgroundResource(R.drawable.bg_tab_unselected)
             text.setTextColor(Color.parseColor("#1E3037"))
-            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
+            text?.setTypeface(
+                ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular),
+                Typeface.NORMAL
+            )
             arrow.visibility = View.INVISIBLE
         }
 
@@ -254,17 +252,32 @@ class ClientsDetailsFragment : Fragment(),
                 if (myCareName.tag == "Invisible") {
                     // Expand MyCare
                     myCareName.tag = "Visible"
-                    myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    myCareName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                        null
+                    )
                     rvMyCareNetwork.visibility = View.VISIBLE
 
                     // Collapse MyCarePlan if it's visible
                     myCarePlanName.tag = "Invisible"
-                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                        null
+                    )
                     carePlanLayout.visibility = View.GONE
                 } else {
                     // Collapse MyCare
                     myCareName.tag = "Invisible"
-                    myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    myCareName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                        null
+                    )
                     rvMyCareNetwork.visibility = View.GONE
                 }
             }
@@ -273,17 +286,32 @@ class ClientsDetailsFragment : Fragment(),
                 if (myCarePlanName.tag == "Invisible") {
                     // Expand MyCarePlan
                     myCarePlanName.tag = "Visible"
-                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up), null)
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up),
+                        null
+                    )
                     carePlanLayout.visibility = View.VISIBLE
 
                     // Collapse MyCare if it's visible
                     myCareName.tag = "Invisible"
-                    myCareName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    myCareName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                        null
+                    )
                     rvMyCareNetwork.visibility = View.GONE
                 } else {
                     // Collapse MyCarePlan
                     myCarePlanName.tag = "Invisible"
-                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down), null)
+                    myCarePlanName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down),
+                        null
+                    )
                     carePlanLayout.visibility = View.GONE
                 }
             }
@@ -295,7 +323,10 @@ class ClientsDetailsFragment : Fragment(),
 
         binding.btnCreateUnscheduledVisit.setOnClickListener {
             shouldHandleVisitCheck = true
-            visitViewModel.getVisits(requireActivity(), LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            visitViewModel.getVisits(
+                requireActivity(),
+                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            )
         }
     }
 
@@ -836,7 +867,7 @@ class ClientsDetailsFragment : Fragment(),
 
         binding.closeButton.setOnClickListener { dialog.dismiss() }
         // Add data
-        val adapter = DocumentsAdapter(requireContext(), data,this)
+        val adapter = DocumentsAdapter(requireContext(), data, this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -866,9 +897,10 @@ class ClientsDetailsFragment : Fragment(),
 
             val gson = Gson()
             val dataString = gson.toJson(clientData)
-            val action = ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
-                clinetData = dataString
-            )
+            val action =
+                ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToUvCheckInFragment(
+                    clinetData = dataString
+                )
             findNavController().navigate(action)
         }
         binding.btnNegative.setOnClickListener {
@@ -886,7 +918,10 @@ class ClientsDetailsFragment : Fragment(),
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showAssessmentQuestionAndAnswer(title: String, filteredList: List<Pair<String, String>>) {
+    private fun showAssessmentQuestionAndAnswer(
+        title: String,
+        filteredList: List<Pair<String, String>>
+    ) {
         val dialog = Dialog(requireContext())
         val binding: DialogCarePlanBinding =
             DialogCarePlanBinding.inflate(layoutInflater)
@@ -902,9 +937,9 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = title
-        val adapter = QuestionAnswerAdapter(filteredList)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        //val adapter = QuestionAnswerAdapter(item.title, filteredList)
+        //binding.recyclerView.adapter = adapter
+        //binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Handle button clicks
         binding.closeButton.setOnClickListener {

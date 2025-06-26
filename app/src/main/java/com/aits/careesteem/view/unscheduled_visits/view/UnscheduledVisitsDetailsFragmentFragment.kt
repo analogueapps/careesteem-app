@@ -26,25 +26,19 @@ import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
-import com.aits.careesteem.view.visits.view.OngoingVisitsDetailsFragmentDirections
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.time.Duration
-import java.time.Instant
 
 @AndroidEntryPoint
 class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
     private var _binding: FragmentUnscheduledVisitsDetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private val args: UnscheduledVisitsDetailsFragmentFragmentArgs by navArgs()
+
     // Viewmodel
     private val viewModel: OngoingVisitsDetailsViewModel by viewModels()
 
@@ -62,7 +56,8 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUnscheduledVisitsDetailsFragmentBinding.inflate(inflater, container, false)
+        _binding =
+            FragmentUnscheduledVisitsDetailsFragmentBinding.inflate(inflater, container, false)
         setupViewModel()
         return binding.root
     }
@@ -98,21 +93,30 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = data?.totalPlannedTime
 
-            if(data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+            if (data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
                 plannedTime.text = "Unscheduled Visit"
             } else {
                 plannedTime.text = "${data?.plannedStartTime} - ${data?.plannedEndTime}"
             }
 
             btnCheckout.setOnClickListener {
-                if(AppConstant.isMoreThanTwoMinutesPassed(viewModel.visitsDetails.value?.visitDate.toString(), viewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
-                    val direction = UnscheduledVisitsDetailsFragmentFragmentDirections.actionUnscheduledVisitsDetailsFragmentFragmentToCheckOutFragment(
-                        visitDetailsId = args.visitDetailsId,
-                        action = 1
+                if (AppConstant.isMoreThanTwoMinutesPassed(
+                        viewModel.visitsDetails.value?.visitDate.toString(),
+                        viewModel.visitsDetails.value?.actualStartTime!![0].toString()
                     )
+                ) {
+                    val direction =
+                        UnscheduledVisitsDetailsFragmentFragmentDirections.actionUnscheduledVisitsDetailsFragmentFragmentToCheckOutFragment(
+                            visitDetailsId = args.visitDetailsId,
+                            action = 1
+                        )
                     findNavController().navigate(direction)
                 } else {
-                    AlertUtils.showToast(requireActivity(), "Checkout is only allowed after 2 minutes from check-in.", ToastyType.WARNING)
+                    AlertUtils.showToast(
+                        requireActivity(),
+                        "Checkout is only allowed after 2 minutes from check-in.",
+                        ToastyType.WARNING
+                    )
                 }
             }
 
@@ -129,47 +133,96 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 //                btnCheckout.text = "Check in"
 //                tvPlanTime.text = "00:00"
 //            }
-            if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
+            if (data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty()) {
                 btnCheckout.text = "Completed"
                 btnCheckout.isEnabled = false
-                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner)
+                btnCheckout.backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner)
                 tvPlanTime.text = data.TotalActualTimeDiff[0]
-                topCard.setStrokeColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardCorner))
-                topCard.setCardBackgroundColor(ContextCompat.getColorStateList(requireContext(), R.color.completeCardBackground))
-                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.completeCardInsideCount)
-                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.completeCardCorner))
-            } else if(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isEmpty()) {
+                topCard.setStrokeColor(
+                    ContextCompat.getColorStateList(
+                        requireContext(),
+                        R.color.completeCardCorner
+                    )
+                )
+                topCard.setCardBackgroundColor(
+                    ContextCompat.getColorStateList(
+                        requireContext(),
+                        R.color.completeCardBackground
+                    )
+                )
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(
+                    requireContext(),
+                    R.color.completeCardInsideCount
+                )
+                dividerView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.completeCardCorner
+                    )
+                )
+            } else if (data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isEmpty()) {
 //                btnCheckout.text = "Check out"
 //                timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
 //                    println("Remaining Time: $remainingTime")
 //                    tvPlanTime.text = remainingTime
 //                }
                 btnCheckout.text = "Check out"
-                dividerView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.ongoingCardCorner))
-                timerJob = DateTimeUtils.startCountdownTimer(data.visitDate, data.actualStartTime[0]) { remainingTime ->
+                dividerView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.ongoingCardCorner
+                    )
+                )
+                timerJob = DateTimeUtils.startCountdownTimer(
+                    data.visitDate,
+                    data.actualStartTime[0]
+                ) { remainingTime ->
                     //println("Remaining Time: $remainingTime")
                     tvPlanTime.text = remainingTime
                     btnCheckout.isEnabled = false
-                    btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.dialogTextColor)
-                    btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.black))
-                    val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(data.visitDate, data.actualStartTime[0])
+                    btnCheckout.backgroundTintList =
+                        ContextCompat.getColorStateList(requireContext(), R.color.dialogTextColor)
+                    btnCheckout.setTextColor(
+                        ContextCompat.getColorStateList(
+                            requireContext(),
+                            R.color.black
+                        )
+                    )
+                    val hasPassed = AppConstant.isMoreThanTwoMinutesPassed(
+                        data.visitDate,
+                        data.actualStartTime[0]
+                    )
                     //println("Has more than 2 minutes passed? $hasPassed")
                     if (hasPassed) {
                         btnCheckout.text = "Check out"
                         btnCheckout.isEnabled = true
-                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.notCompleteCardCorner)
-                        btnCheckout.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.white))
+                        btnCheckout.backgroundTintList = ContextCompat.getColorStateList(
+                            requireContext(),
+                            R.color.notCompleteCardCorner
+                        )
+                        btnCheckout.setTextColor(
+                            ContextCompat.getColorStateList(
+                                requireContext(),
+                                R.color.white
+                            )
+                        )
                     }
                 }
             } else {
                 btnCheckout.text = "Check in"
                 tvPlanTime.text = "00:00"
-                btnCheckout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.upcomingCardCorner)
-                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.upcomingCardInsideCount)
+                btnCheckout.backgroundTintList =
+                    ContextCompat.getColorStateList(requireContext(), R.color.upcomingCardCorner)
+                tvPlanTime.backgroundTintList = ContextCompat.getColorStateList(
+                    requireContext(),
+                    R.color.upcomingCardInsideCount
+                )
             }
 
             var changes = true
-            changes = !(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty())
+            changes =
+                !(data.actualStartTime.isNotEmpty() && data.actualStartTime[0].isNotEmpty() && data.actualEndTime.isNotEmpty() && data.actualEndTime[0].isNotEmpty())
 
             val gson = Gson()
             val dataString = gson.toJson(data)
@@ -202,7 +255,12 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 
                     text?.setBackgroundResource(R.drawable.bg_tab_selected)
                     text?.setTextColor(Color.WHITE)
-                    text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
+                    text?.setTypeface(
+                        ResourcesCompat.getFont(
+                            requireContext(),
+                            R.font.robotoslab_regular
+                        ), Typeface.BOLD
+                    )
                     arrow?.visibility = View.VISIBLE
                 }
 
@@ -213,7 +271,12 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 
                     text?.setBackgroundResource(R.drawable.bg_tab_unselected)
                     text?.setTextColor(Color.parseColor("#1E3037"))
-                    text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
+                    text?.setTypeface(
+                        ResourcesCompat.getFont(
+                            requireContext(),
+                            R.font.robotoslab_regular
+                        ), Typeface.NORMAL
+                    )
                     arrow?.visibility = View.INVISIBLE
                 }
 
@@ -241,12 +304,18 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         if (isSelected) {
             text.setBackgroundResource(R.drawable.bg_tab_selected)
             text.setTextColor(Color.WHITE)
-            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.BOLD)
+            text?.setTypeface(
+                ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular),
+                Typeface.BOLD
+            )
             arrow.visibility = View.VISIBLE
         } else {
             text.setBackgroundResource(R.drawable.bg_tab_unselected)
             text.setTextColor(Color.parseColor("#1E3037"))
-            text?.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular), Typeface.NORMAL)
+            text?.setTypeface(
+                ResourcesCompat.getFont(requireContext(), R.font.robotoslab_regular),
+                Typeface.NORMAL
+            )
             arrow.visibility = View.INVISIBLE
         }
 

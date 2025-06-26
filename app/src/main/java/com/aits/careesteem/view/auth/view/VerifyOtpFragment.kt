@@ -15,13 +15,13 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -36,7 +36,6 @@ import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.SmsBroadcastReceiver
 import com.aits.careesteem.utils.ToastyType
-import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.aits.careesteem.view.auth.viewmodel.VerifyOtpViewModel
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
@@ -153,7 +152,8 @@ class VerifyOtpFragment : Fragment() {
     }
 
     private fun setupWidgets() {
-        val fullText = "By entering OTP you agree to accept our Terms & Condition and Privacy Policy"
+        val fullText =
+            "By entering OTP you agree to accept our Terms & Condition and Privacy Policy"
         // Create a SpannableStringBuilder
         val spannableString = SpannableStringBuilder(fullText)
 
@@ -175,7 +175,8 @@ class VerifyOtpFragment : Fragment() {
         spannableString.setSpan(
             object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    Toast.makeText(widget.context, "Terms & Condition clicked!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(widget.context, "Terms & Condition clicked!", Toast.LENGTH_SHORT)
+                        .show()
                     // Add your navigation or action here
                 }
 
@@ -200,7 +201,8 @@ class VerifyOtpFragment : Fragment() {
         spannableString.setSpan(
             object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    Toast.makeText(widget.context, "Privacy Policy clicked!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(widget.context, "Privacy Policy clicked!", Toast.LENGTH_SHORT)
+                        .show()
                     // Add your navigation or action here
                 }
 
@@ -249,10 +251,14 @@ class VerifyOtpFragment : Fragment() {
         // Observe OTP validation success
         viewModel.isOtpValid.observe(viewLifecycleOwner, Observer { isValid ->
             if (isValid) {
-                if(viewModel.onTermsCheck.value == true) {
+                if (viewModel.onTermsCheck.value == true) {
                     viewModel.callVerifyOtpApi(requireActivity())
                 } else {
-                    AlertUtils.showToast(requireActivity(), "Please accept the terms and conditions", ToastyType.INFO)
+                    AlertUtils.showToast(
+                        requireActivity(),
+                        "Please accept the terms and conditions",
+                        ToastyType.INFO
+                    )
                 }
             } else {
                 val errorMessage = viewModel.otpError.value
@@ -268,12 +274,13 @@ class VerifyOtpFragment : Fragment() {
 //                val dataString = gson.toJson(response.data[0])
                 if (response.dbList.size == 1) {
                     viewModel.onAgencySelected(requireActivity(), response.dbList[0])
-                } else if(response.dbList.size > 1) {
+                } else if (response.dbList.size > 1) {
                     val dbString = gson.toJson(response.dbList)
                     viewLifecycleOwner.lifecycleScope.launch {
-                        val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSelectAgencyFragment(
-                            response = dbString
-                        )
+                        val direction =
+                            VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSelectAgencyFragment(
+                                response = dbString
+                            )
                         findNavController().navigate(direction)
                     }
                 } else {
@@ -291,9 +298,10 @@ class VerifyOtpFragment : Fragment() {
                 editor.putString(SharedPrefConstant.USER_DATA, dataString)
                 editor.apply()
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val direction = VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSetupPasscodeFragment(
-                        response = dataString
-                    )
+                    val direction =
+                        VerifyOtpFragmentDirections.actionVerifyOtpFragmentToSetupPasscodeFragment(
+                            response = dataString
+                        )
                     findNavController().navigate(direction)
                 }
             }
@@ -312,7 +320,8 @@ class VerifyOtpFragment : Fragment() {
         dialog.setCancelable(AppConstant.FALSE)
 
         binding.dialogTitle.text = "No Agency Found"
-        binding.dialogBody.text = "We couldn't find an agency with the provided number. Would you like to try another number or exit?"
+        binding.dialogBody.text =
+            "We couldn't find an agency with the provided number. Would you like to try another number or exit?"
         binding.btnPositive.text = "Try Again"
         binding.btnNegative.text = "Exit"
 

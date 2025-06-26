@@ -6,6 +6,8 @@
 
 package com.aits.careesteem.view.visits.model
 
+import java.io.Serializable
+
 data class MedicationDetailsListResponse(
     val `data`: List<Data>,
     val message: String,
@@ -29,7 +31,7 @@ data class MedicationDetailsListResponse(
         val medication_support: String,
         val medication_type: String,
         val nhs_medicine_name: String,
-        val quantity_each_dose: Int,
+        val quantity_each_dose: String,
         val scheduled_created_by: String,
         val scheduled_date: String,
         val scheduled_details_id: String,
@@ -58,5 +60,5 @@ data class MedicationDetailsListResponse(
         val body_part_names: List<String>,
 
         // want to change body_map_image_url instead of body_image
-    )
+    ) : Serializable
 }

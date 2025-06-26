@@ -15,7 +15,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
-import com.aits.careesteem.utils.*
+import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
+import com.aits.careesteem.utils.NetworkUtils
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
@@ -57,16 +61,22 @@ class AddAlertsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
-                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                } ?: return@launch
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
 
                 val response = repository.getClientsListAlerts(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).orEmpty(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .orEmpty(),
                     userId = userData.id,
                     visitDate = DateTimeUtils.getCurrentDateGMT()
                 )
@@ -77,7 +87,11 @@ class AddAlertsViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -95,16 +109,22 @@ class AddAlertsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
-                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                } ?: return@launch
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
 
                 val response = repository.getVisitList(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).orEmpty(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .orEmpty(),
                     userId = userData.id,
                     visitDate = DateTimeUtils.getCurrentDateGMT()
                 )
@@ -115,7 +135,11 @@ class AddAlertsViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -143,20 +167,26 @@ class AddAlertsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
-                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                } ?: return@launch
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
 
                 val bodyPartType = fileList.joinToString(", ") { it.bodyPartType }
                 val bodyPartNames = fileList.joinToString(", ") { it.bodyPartNames }
                 val fileName = fileList.joinToString(", ") { it.fileName }
 
                 val response = repository.sendAlert(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).orEmpty(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .orEmpty(),
                     clientId = clientId.toString(),
                     userId = userData.id.toString(),
                     visitDetailsId = visitDetailsId.toString(),
@@ -177,7 +207,11 @@ class AddAlertsViewModel @Inject constructor(
                     _alertAdded.value = false
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

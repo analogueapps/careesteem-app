@@ -2,47 +2,29 @@ package com.aits.careesteem.view.profile.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
-import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.DialogLogoutBinding
-import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.utils.getAppVersion
 import com.aits.careesteem.view.auth.view.AuthActivity
-import com.aits.careesteem.view.clients.viewmodel.ClientsViewModel
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -138,7 +120,8 @@ class ProfileFragment : Fragment() {
         dialog.setCancelable(AppConstant.FALSE)
 
         binding.dialogTitle.text = "Switch Account"
-        binding.dialogBody.text = "If you wish to switch your account, please check your current ongoing visits and any unsaved data will be lost beforehand, as you may lose the status of your ongoing visits."
+        binding.dialogBody.text =
+            "If you wish to switch your account, please check your current ongoing visits and any unsaved data will be lost beforehand, as you may lose the status of your ongoing visits."
         binding.btnPositive.text = "Proceed"
         binding.btnNegative.text = "Cancel"
 
@@ -242,7 +225,7 @@ class ProfileFragment : Fragment() {
         binding.profileCity.text = data.city
         binding.profilePostCode.text = data.postcode
 
-        if(data.profile_image_url.isNotEmpty()) {
+        if (data.profile_image_url.isNotEmpty()) {
             editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_image_url)
             editor.apply()
         }

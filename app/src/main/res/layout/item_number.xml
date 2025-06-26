@@ -5,23 +5,22 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="false"
-    android:focusable="true"
-    android:adjustViewBounds="true"
     android:layout_width="@dimen/_70sdp"
     android:layout_height="@dimen/_70sdp"
+    android:adjustViewBounds="true"
+    android:clickable="false"
+    android:focusable="true"
     android:gravity="center">
 
     <TextView
         android:id="@+id/numberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="0"
-        android:gravity="center"
         android:background="@drawable/ic_number_oval_bg"
         android:fontFamily="@font/robotoslab_regular"
+        android:gravity="center"
+        tools:text="0"
         tools:textSize="@dimen/_15ssp" />
 
     <ImageView

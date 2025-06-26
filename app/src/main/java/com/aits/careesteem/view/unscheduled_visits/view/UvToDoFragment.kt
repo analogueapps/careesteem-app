@@ -1,7 +1,6 @@
 package com.aits.careesteem.view.unscheduled_visits.view
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvTodoListAdapter
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvToDoViewModel
-import com.aits.careesteem.view.visits.view.ToDoFragment
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +53,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
     companion object {
         private const val ARG_ID = "ARG_ID"
         private const val ARG_CHANGES = "ARG_CHANGES"
+
         @JvmStatic
         fun newInstance(param1: String, param2: Boolean) =
             UvToDoFragment().apply {
@@ -72,7 +71,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
 
     override fun onResume() {
         super.onResume()
-        if(isVisible) {
+        if (isVisible) {
             viewModel.getUvToDoList(requireActivity(), id.toString())
         }
     }
@@ -92,7 +91,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
 
     private fun setupUi() {
         binding.apply {
-            if(isChanges) {
+            if (isChanges) {
                 btnAddVisitNotes.visibility = View.VISIBLE
                 btnTopAddVisitNotes.visibility = View.VISIBLE
             } else {
@@ -170,7 +169,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
 
     @SuppressLint("SetTextI18n")
     override fun onItemItemClicked(data: UvTodoListResponse.Data) {
-        if(!isChanges) {
+        if (!isChanges) {
             AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
@@ -195,8 +194,12 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             dialog.dismiss()
         }
         binding.btnSave.setOnClickListener {
-            if(binding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter Todo notes", ToastyType.WARNING)
+            if (binding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please enter Todo notes",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             dialog.dismiss()
@@ -220,7 +223,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
 
     @SuppressLint("SetTextI18n")
     private fun addNotes() {
-        if(!isChanges) {
+        if (!isChanges) {
             AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
             return
         }
@@ -244,8 +247,12 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             dialog.dismiss()
         }
         binding.btnSave.setOnClickListener {
-            if(binding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter Todo notes", ToastyType.WARNING)
+            if (binding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please enter Todo notes",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             dialog.dismiss()

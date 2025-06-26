@@ -5,7 +5,6 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -41,75 +40,74 @@
                         android:textSize="@dimen/_11ssp"
                         android:textStyle="normal" />
 
-<!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
-<!--                        android:id="@+id/btnTopAddVisitNotes"-->
-<!--                        android:layout_width="@dimen/_83sdp"-->
-<!--                        android:layout_height="@dimen/_23sdp"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:background="@drawable/ic_save_btn_bg"-->
-<!--                        android:gravity="center">-->
+                    <!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
+                    <!--                        android:id="@+id/btnTopAddVisitNotes"-->
+                    <!--                        android:layout_width="@dimen/_83sdp"-->
+                    <!--                        android:layout_height="@dimen/_23sdp"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:background="@drawable/ic_save_btn_bg"-->
+                    <!--                        android:gravity="center">-->
 
-<!--                        <androidx.appcompat.widget.AppCompatImageView-->
-<!--                            android:layout_width="@dimen/_16sdp"-->
-<!--                            android:layout_height="@dimen/_16sdp"-->
-<!--                            android:layout_marginEnd="@dimen/_2sdp"-->
-<!--                            android:src="@drawable/ic_add_notes" />-->
+                    <!--                        <androidx.appcompat.widget.AppCompatImageView-->
+                    <!--                            android:layout_width="@dimen/_16sdp"-->
+                    <!--                            android:layout_height="@dimen/_16sdp"-->
+                    <!--                            android:layout_marginEnd="@dimen/_2sdp"-->
+                    <!--                            android:src="@drawable/ic_add_notes" />-->
 
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_gravity="center"-->
-<!--                            android:fontFamily="@font/robotoslab_regular"-->
-<!--                            android:gravity="center"-->
-<!--                            android:text="@string/add_note"-->
-<!--                            android:textAllCaps="false"-->
-<!--                            android:textColor="@color/white"-->
-<!--                            android:textSize="@dimen/_10ssp"-->
-<!--                            android:textStyle="normal" />-->
+                    <!--                        <androidx.appcompat.widget.AppCompatTextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:fontFamily="@font/robotoslab_regular"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:text="@string/add_note"-->
+                    <!--                            android:textAllCaps="false"-->
+                    <!--                            android:textColor="@color/white"-->
+                    <!--                            android:textSize="@dimen/_10ssp"-->
+                    <!--                            android:textStyle="normal" />-->
 
-<!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
+                    <!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recyclerView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/_10sdp"-->
-<!--                    tools:listitem="@layout/item_visit_notes_list" />-->
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/recyclerView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/_10sdp"-->
+                <!--                    tools:listitem="@layout/item_visit_notes_list" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/recyclerView"
-                    tools:listitem="@layout/item_medication_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    tools:listitem="@layout/item_medication_list" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:visibility="gone"
                     android:id="@+id/prnLayout"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:textStyle="normal"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_10ssp"
-                        android:text="@string/list_of_prn_medication"
-                        android:layout_weight="1"
-                        android:textColor="#9B9B9B"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:text="@string/list_of_prn_medication"
+                        android:textColor="#9B9B9B"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:id="@+id/recyclerViewPrn"
-                        tools:listitem="@layout/item_todo_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        tools:listitem="@layout/item_todo_list" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -148,35 +146,35 @@
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal" />
 
-<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
-<!--            android:visibility="gone"-->
-<!--            android:layout_marginTop="@dimen/_10sdp"-->
-<!--            android:id="@+id/btnAddVisitNotes"-->
-<!--            android:layout_width="@dimen/_83sdp"-->
-<!--            android:layout_height="@dimen/_23sdp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:background="@drawable/ic_save_btn_bg"-->
-<!--            android:gravity="center">-->
+        <!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+        <!--            android:visibility="gone"-->
+        <!--            android:layout_marginTop="@dimen/_10sdp"-->
+        <!--            android:id="@+id/btnAddVisitNotes"-->
+        <!--            android:layout_width="@dimen/_83sdp"-->
+        <!--            android:layout_height="@dimen/_23sdp"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:background="@drawable/ic_save_btn_bg"-->
+        <!--            android:gravity="center">-->
 
-<!--            <androidx.appcompat.widget.AppCompatImageView-->
-<!--                android:layout_width="@dimen/_16sdp"-->
-<!--                android:layout_height="@dimen/_16sdp"-->
-<!--                android:layout_marginEnd="@dimen/_2sdp"-->
-<!--                android:src="@drawable/ic_add_notes" />-->
+        <!--            <androidx.appcompat.widget.AppCompatImageView-->
+        <!--                android:layout_width="@dimen/_16sdp"-->
+        <!--                android:layout_height="@dimen/_16sdp"-->
+        <!--                android:layout_marginEnd="@dimen/_2sdp"-->
+        <!--                android:src="@drawable/ic_add_notes" />-->
 
-<!--            <androidx.appcompat.widget.AppCompatTextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:fontFamily="@font/robotoslab_regular"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/add_note"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/_10ssp"-->
-<!--                android:textStyle="normal" />-->
+        <!--            <androidx.appcompat.widget.AppCompatTextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center"-->
+        <!--                android:fontFamily="@font/robotoslab_regular"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="@string/add_note"-->
+        <!--                android:textAllCaps="false"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="@dimen/_10ssp"-->
+        <!--                android:textStyle="normal" />-->
 
-<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
+        <!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

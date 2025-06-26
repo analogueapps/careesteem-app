@@ -250,6 +250,7 @@ interface ApiService {
         @Field("visit_notes") visitNotes: String,
         @Field("visit_user_id") visitUserId: String,
         @Field("updated_at") updatedAt: String,
+        @Field("updatedby_userid") updatedByUserid: String,
         @Field("visit_updated_at") visitUpdatedAt: String,
     ): Response<JsonObject>
 
@@ -315,7 +316,7 @@ interface ApiService {
         @Field("blister_pack_outcome") blisterPackOutcome: Int,
     ): Response<JsonObject>
 
-
+    @FormUrlEncoded
     @PUT("medication-prn-details/{prnDetailsId}")
     suspend fun updateMedicationPrn(
         @Path("prnDetailsId") prnDetailsId: String,

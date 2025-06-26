@@ -1,26 +1,24 @@
 package com.aits.careesteem.view.clients.view
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.databinding.FragmentCareNetworkBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.view.clients.adapter.CareNetworkAdapter
-import com.aits.careesteem.view.clients.adapter.MyCareNetworkAdapter
-import com.aits.careesteem.view.clients.model.ClientDetailsResponse
-import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import androidx.core.net.toUri
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.clients.adapter.CareNetworkAdapter
+import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 import com.aits.careesteem.view.clients.model.ClientsList
+import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CareNetworkFragment : Fragment(), CareNetworkAdapter.OnMyCareNetworkItemClick {
@@ -34,6 +32,7 @@ class CareNetworkFragment : Fragment(), CareNetworkAdapter.OnMyCareNetworkItemCl
     private lateinit var myCareNetworkAdapter: CareNetworkAdapter
 
     private var stringData: String? = null
+
     // Selected client object
     private lateinit var clientData: ClientsList.Data
 
@@ -47,6 +46,7 @@ class CareNetworkFragment : Fragment(), CareNetworkAdapter.OnMyCareNetworkItemCl
 
     companion object {
         private const val ARG_DATA = "ARG_DATA"
+
         @JvmStatic
         fun newInstance(param1: String) =
             CareNetworkFragment().apply {
@@ -63,7 +63,7 @@ class CareNetworkFragment : Fragment(), CareNetworkAdapter.OnMyCareNetworkItemCl
 
     override fun onResume() {
         super.onResume()
-        if(isVisible) {
+        if (isVisible) {
             viewModel.getClientDetails(requireActivity(), clientData.id.toString())
         }
     }
@@ -93,8 +93,12 @@ class CareNetworkFragment : Fragment(), CareNetworkAdapter.OnMyCareNetworkItemCl
     }
 
     override fun onMyCareNetworkItemClicked(data: ClientDetailsResponse.Data.MyCareNetworkData) {
-        if(AppConstant.checkNull(data.contact_number) == "N/A") {
-            AlertUtils.showToast(requireActivity(), "Contact number not available", ToastyType.ERROR)
+        if (AppConstant.checkNull(data.contact_number) == "N/A") {
+            AlertUtils.showToast(
+                requireActivity(),
+                "Contact number not available",
+                ToastyType.ERROR
+            )
         } else {
             val intent = Intent(Intent.ACTION_DIAL, "tel:${data.contact_number}".toUri())
             requireContext().startActivity(intent)

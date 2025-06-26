@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
@@ -9,7 +8,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.notification.view.NotificationsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,54 +20,52 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:drawablePadding="8dip"
-                        android:layout_weight="1"
-                        android:gravity="center|left"
-                        android:drawableStart="@drawable/ic_notifications"
-                        android:drawableTint="@color/colorPrimary"
-                        android:textColor="@color/colorPrimary"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/notifications"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                         />
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_notifications"
+                        android:drawablePadding="8dip"
+                        android:drawableTint="@color/colorPrimary"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:gravity="center|left"
+                        android:text="@string/notifications"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvClearAll"
-                        android:visibility="gone"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:textStyle="normal"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/clear_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                         />
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:text="@string/clear_all"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:visibility="gone" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_5sdp"
                     android:id="@+id/recyclerView"
-                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -78,44 +74,43 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:visibility="gone"
         android:id="@+id/emptyLayout"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_gravity="center"
-            android:layout_centerInParent="true"
-            android:src="@drawable/frame_no_notification"
             android:layout_width="@dimen/_168sdp"
-            android:layout_height="@dimen/_195sdp"/>
+            android:layout_height="@dimen/_195sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:src="@drawable/frame_no_notification" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No notifications yet"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:textStyle="bold"
+            android:gravity="center"
+            android:text="No notifications yet"
             android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
-            android:text="@string/you_will_be_notified_if_there_are_any_changes_to_your_schedule"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:textStyle="normal"
+            android:gravity="center"
+            android:text="@string/you_will_be_notified_if_there_are_any_changes_to_your_schedule"
             android:textSize="@dimen/_10ssp"
-             />
+            android:textStyle="normal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

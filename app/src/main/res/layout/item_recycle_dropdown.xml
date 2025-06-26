@@ -10,11 +10,11 @@
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_12ssp"
-        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:fontFamily="@font/robotoslab_regular"/>
+        android:fontFamily="@font/robotoslab_regular"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_12ssp" />
 
     <!-- Divider -->
     <View

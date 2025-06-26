@@ -10,18 +10,15 @@ import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
-import kotlinx.coroutines.Job
-import android.widget.TextView
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -65,6 +62,7 @@ import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.camera.CameraSettings
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -73,7 +71,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
@@ -170,6 +167,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         qrTimeoutJob?.cancel() // Cancel previous
                         showMapView()
                     }
+
                     1 -> {
                         showQrView()
                         qrTimeoutJob?.cancel() // Cancel previous
@@ -271,8 +269,12 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         binding.imageProfile.setImageBitmap(initialsBitmap)
 
         binding.btnCheckIn.setOnClickListener {
-            if(viewModel.markerPosition.value == null) {
-                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.", ToastyType.WARNING)
+            if (viewModel.markerPosition.value == null) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
@@ -285,8 +287,12 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnCheckOut.setOnClickListener {
-            if(viewModel.markerPosition.value == null) {
-                AlertUtils.showToast(requireActivity(), "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.", ToastyType.WARNING)
+            if (viewModel.markerPosition.value == null) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Unfortunately, we are unable to detect your current location. Please enable your location manually and try again, or opt for QR verification.",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             checkLocationAndProceed { ->
@@ -326,7 +332,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             "" // Return a default error message or handle it as needed
         }
 
-        if(alertType.isNotEmpty()) {
+        if (alertType.isNotEmpty()) {
             if (!isAdded) return
 
             val dialog = Dialog(requireContext()).apply {
@@ -401,7 +407,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             "" // Return a default error message or handle it as needed
         }
 
-        if(alertType.isNotEmpty()) {
+        if (alertType.isNotEmpty()) {
             if (!isAdded) return
 
             val dialog = Dialog(requireContext()).apply {
@@ -464,9 +470,13 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
         viewModel.isCheckOutEligible.observe(viewLifecycleOwner) { eligible ->
             if (eligible) {
-                if(AppConstant.isMoreThanTwoMinutesPassed(ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate.toString(), ongoingVisitsDetailsViewModel.visitsDetails.value?.actualStartTime!![0].toString())) {
+                if (AppConstant.isMoreThanTwoMinutesPassed(
+                        ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate.toString(),
+                        ongoingVisitsDetailsViewModel.visitsDetails.value?.actualStartTime!![0].toString()
+                    )
+                ) {
                     ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-                       // viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
+                        // viewModel.updateVisitCheckOut(requireActivity(), data, true,"")
                         showCheckOutPopup(data)
                     }
                 } else {
@@ -495,7 +505,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     private fun handleCheckOut(normalCheckIn: Boolean) {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, normalCheckIn,"")
+            viewModel.updateVisitCheckOut(requireActivity(), data, normalCheckIn, "")
         }
     }
 
@@ -514,15 +524,16 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             .setPopUpTo(R.id.checkOutFragment, true)
             .build()
 
-        val direction = if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
-            CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
-                args.visitDetailsId
-            )
-        } else {
-            CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
-                args.visitDetailsId
-            )
-        }
+        val direction =
+            if (ongoingVisitsDetailsViewModel.visitsDetails.value?.visitStatus == "Unscheduled") {
+                CheckOutFragmentDirections.actionCheckOutFragmentToUnscheduledVisitsDetailsFragmentFragment(
+                    args.visitDetailsId
+                )
+            } else {
+                CheckOutFragmentDirections.actionCheckOutFragmentToOngoingVisitsDetailsFragment(
+                    args.visitDetailsId
+                )
+            }
         findNavController().navigate(direction, navOptions)
     }
 
@@ -553,12 +564,19 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             if (isGranted) {
                 enableMyLocation()
             } else {
-                Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Location permission is required",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
     private fun checkLocationPermissionAndEnable() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             == PackageManager.PERMISSION_GRANTED
         ) {
             enableMyLocation()
@@ -571,7 +589,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         try {
             googleMap.isMyLocationEnabled = true
             googleMap.isMyLocationEnabled = true // This shows the blue dot for current location
-            googleMap.uiSettings.isMyLocationButtonEnabled = false // Enable the button to move to the current location
+            googleMap.uiSettings.isMyLocationButtonEnabled =
+                false // Enable the button to move to the current location
         } catch (e: SecurityException) {
             e.printStackTrace()
         }
@@ -630,7 +649,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("NewApi")
     private fun showCheckPopup() {
         if (!isAdded) return
-        if(binding.tabLayout.selectedTabPosition == 0) return
+        if (binding.tabLayout.selectedTabPosition == 0) return
 
         val dialog = Dialog(requireContext()).apply {
             val binding = DialogForceCheckBinding.inflate(layoutInflater)
@@ -665,7 +684,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 //                    }
 //                }
 
-                val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
+                val startTime =
+                    "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
 
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
                 val alertType = try {
@@ -691,14 +711,16 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         when (args.action) {
                             0 -> when {
                                 diff >= 20 -> "Early Check-In"
-                                diff <= -20  -> "Late Check-In"
+                                diff <= -20 -> "Late Check-In"
                                 else -> ""
                             }
+
                             1 -> when {
                                 diff >= 20 -> "Early Check-Out"
-                                diff <= -20  -> "Late Check-Out"
+                                diff <= -20 -> "Late Check-Out"
                                 else -> ""
                             }
+
                             else -> ""
                         }
                     } else {
@@ -730,7 +752,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("SetTextI18n")
     private fun showAnotherDialog(alertType: String) {
-        if(alertType.isNotEmpty()) {
+        if (alertType.isNotEmpty()) {
             if (!isAdded) return
 
             val dialog = Dialog(requireContext()).apply {
@@ -748,10 +770,17 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 when (alertType) {
-                    "Early Check-In" -> binding.dialogBody.text = "You’re checking in earlier than planned time.\nDo you want to continue?"
-                    "Late Check-In" -> binding.dialogBody.text = "You’re checking in later than planned time.\nDo you want to continue?"
-                    "Early Check-Out" -> binding.dialogBody.text = "You’re checking out earlier than planned time.\nDo you want to continue?"
-                    "Late Check-Out" -> binding.dialogBody.text = "You’re checking out later than planned time.\nDo you want to continue?"
+                    "Early Check-In" -> binding.dialogBody.text =
+                        "You’re checking in earlier than planned time.\nDo you want to continue?"
+
+                    "Late Check-In" -> binding.dialogBody.text =
+                        "You’re checking in later than planned time.\nDo you want to continue?"
+
+                    "Early Check-Out" -> binding.dialogBody.text =
+                        "You’re checking out earlier than planned time.\nDo you want to continue?"
+
+                    "Late Check-Out" -> binding.dialogBody.text =
+                        "You’re checking out later than planned time.\nDo you want to continue?"
                 }
 
                 binding.btnPositive.setOnClickListener {
@@ -763,18 +792,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                             false,
                             "Early Check-In"
                         )
+
                         "Late Check-In" -> viewModel.addVisitCheckIn(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
                             "Late Check-In"
                         )
+
                         "Early Check-Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
                             false,
                             "Early Check-Out"
                         )
+
                         "Late Check-Out" -> viewModel.updateVisitCheckOut(
                             requireActivity(),
                             ongoingVisitsDetailsViewModel.visitsDetails.value!!,
@@ -806,8 +838,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun performForceCheck() {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
             when (args.action) {
-                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false,"")
-                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false,"")
+                0 -> viewModel.addVisitCheckIn(requireActivity(), data, false, "")
+                1 -> viewModel.updateVisitCheckOut(requireActivity(), data, false, "")
             }
         }
     }
@@ -831,7 +863,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkLocationServices() {
-        val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
@@ -889,7 +922,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             })
     }
 
-    private fun addMarkerAndRadius(googleMap: GoogleMap, destinationLatLng: LatLng, radius: Double) {
+    private fun addMarkerAndRadius(
+        googleMap: GoogleMap,
+        destinationLatLng: LatLng,
+        radius: Double
+    ) {
 
         googleMap.addMarker(
             MarkerOptions()
@@ -915,7 +952,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                             LatLng(currentLatLng.latitude, currentLatLng.longitude),
                             destLatLng,
                             radius.toString().toFloat()
-                        )) {
+                        )
+                    ) {
                         if (args.action == 0) {
                             binding.btnCheckIn.visibility = View.VISIBLE
                         } else if (args.action == 1) {
@@ -981,6 +1019,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                     showPermissionDeniedDialog()
                 }
             }
+
             REQUEST_LOCATION_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkLocationServices()
@@ -1029,7 +1068,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                             LatLng(currentLatLng.latitude, currentLatLng.longitude),
                             destLatLng,
                             radius.toString().toFloat()
-                        )) {
+                        )
+                    ) {
                         action()
                     } else {
                         showLocationOutOfRangeMessage()
@@ -1039,7 +1079,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         } ?: showLocationNotAvailableMessage()
     }
 
-    private fun isWithinRadius(currentLatLng: LatLng, destinationLatLng: LatLng, radiusMeters: Float): Boolean {
+    private fun isWithinRadius(
+        currentLatLng: LatLng,
+        destinationLatLng: LatLng,
+        radiusMeters: Float
+    ): Boolean {
         val results = FloatArray(1)
         Location.distanceBetween(
             currentLatLng.latitude, currentLatLng.longitude,

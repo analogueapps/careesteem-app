@@ -4,135 +4,142 @@
   ~ found in the LICENSE file.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_sheet_rounded"
     android:orientation="vertical"
     tools:ignore="UselessParent">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:paddingLeft="@dimen/_12sdp"
+        android:paddingRight="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:paddingLeft="@dimen/_12sdp"
-            android:paddingRight="@dimen/_12sdp"
-            android:paddingBottom="@dimen/_12sdp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_11sdp">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginTop="@dimen/_11sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvTopHeading"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="Visit Notes"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_11sdp"
-                    android:letterSpacing="0"
-                    android:gravity="center"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/closeButton"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:tint="#4C5664"
-                    android:src="@drawable/ic_close_icon"
-                    android:backgroundTint="@android:color/transparent"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_marginTop="@dimen/_11sdp"
-                android:layout_marginBottom="@dimen/_11sdp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvBelowHeading"
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_5sdp"
+            <TextView
+                android:id="@+id/tvTopHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:letterSpacing="0"
                 android:text="Visit Notes"
+                android:textSize="@dimen/_11sdp"
                 android:textStyle="bold"
-                android:textSize="@dimen/_10ssp"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/visitNotes"
-                android:background="@drawable/ic_todo_dialog_edittext_bg"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:fontFamily="@font/robotoslab_regular"
-                android:hint="Enter visit notes"
-                android:textStyle="normal"
-                android:gravity="left|top"
-                android:lines="30"
-                android:textColor="#6D6D6D"
-                android:textSize="@dimen/_10ssp"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_cancel_btn_bg"
-                    android:gravity="center"
-                    android:textAllCaps="false"
-                    android:text="Cancel"
-                    android:textColor="@color/red"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_9ssp"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_save"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:background="@drawable/ic_save_btn_bg"
-                    android:gravity="center"
-                    android:textAllCaps="false"
-                    android:text="Save"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_9ssp"
-                    tools:ignore="HardcodedText" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_close_icon"
+                android:tint="#4C5664" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.core.widget.NestedScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:background="#E0E0E0" />
 
-</LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBelowHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center_vertical"
+                    android:text="Visit Notes"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/visitNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/ic_todo_dialog_edittext_bg"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="left|top"
+                    android:hint="Enter visit notes"
+                    android:lines="30"
+                    android:padding="@dimen/_10sdp"
+                    android:textColor="#6D6D6D"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_cancel_btn_bg"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <Space
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_save_btn_bg"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

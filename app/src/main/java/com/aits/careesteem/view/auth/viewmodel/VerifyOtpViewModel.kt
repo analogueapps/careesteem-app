@@ -23,7 +23,6 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.CreateHashToken
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
-import com.aits.careesteem.view.auth.model.SendOtpUserLoginResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,14 +36,14 @@ class VerifyOtpViewModel @Inject constructor(
     private val errorHandler: ErrorHandler,
     private val sharedPreferences: SharedPreferences,
     private val editor: Editor,
-): ViewModel(){
+) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     //var userData:SendOtpUserLoginResponse.Data? = null
-    var userMobile:String? = null
-    var userCountryId:String? = null
+    var userMobile: String? = null
+    var userCountryId: String? = null
 
     // OtpVerifyResponse
     private val _otpVerifyResponse = MutableLiveData<OtpVerifyResponse?>()
@@ -77,7 +76,8 @@ class VerifyOtpViewModel @Inject constructor(
 
     private fun updateVerifyButtonState() {
         val otpValue = otp.value
-        val isOtpValid = otpValue != null && otpValue.length == 6 && otpValue.matches(Regex("^[0-9]{6}$"))
+        val isOtpValid =
+            otpValue != null && otpValue.length == 6 && otpValue.matches(Regex("^[0-9]{6}$"))
         val isCheckboxChecked = _onTermsCheck.value == true
         _isVerifyButtonEnabled.value = isOtpValid && isCheckboxChecked
     }
@@ -141,7 +141,11 @@ class VerifyOtpViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -152,7 +156,11 @@ class VerifyOtpViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { apiResponse ->
-                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP sent successfully", ToastyType.SUCCESS)
+                        AlertUtils.showToast(
+                            activity,
+                            apiResponse.message ?: "OTP sent successfully",
+                            ToastyType.SUCCESS
+                        )
                         // check token null or not
 //                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data.token.toString())
 //                        editor.apply()
@@ -164,7 +172,11 @@ class VerifyOtpViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -185,7 +197,8 @@ class VerifyOtpViewModel @Inject constructor(
                 val seconds = (millisUntilFinished / 1000).toInt()
                 val minutes = seconds / 60
                 val secs = seconds % 60
-                _timerText.value = String.format("%02d:%02d", minutes, secs) + "s" // Update timer text
+                _timerText.value =
+                    String.format("%02d:%02d", minutes, secs) + "s" // Update timer text
             }
 
             override fun onFinish() {
@@ -208,7 +221,11 @@ class VerifyOtpViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -216,15 +233,21 @@ class VerifyOtpViewModel @Inject constructor(
                     contactNumber = userMobile!!,
                     countryCode = userCountryId!!,
                     otp = otp.value!!.toInt(),
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
-                    fcmToken = sharedPreferences.getString(SharedPrefConstant.FCM_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    fcmToken = sharedPreferences.getString(SharedPrefConstant.FCM_TOKEN, null)
+                        .toString(),
                 )
 
                 if (response.isSuccessful) {
                     _isLoading.value = false
                     response.body()?.let { apiResponse ->
                         _otpVerifyResponse.value = apiResponse
-                        AlertUtils.showToast(activity, apiResponse.message ?: "OTP verified successfully", ToastyType.SUCCESS)
+                        AlertUtils.showToast(
+                            activity,
+                            apiResponse.message ?: "OTP verified successfully",
+                            ToastyType.SUCCESS
+                        )
                         editor.putString(SharedPrefConstant.CONTACT_NUMBER, userCountryId)
                         editor.putString(SharedPrefConstant.TELEPHONE_CODE, userCountryId)
                         //editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())
@@ -234,7 +257,11 @@ class VerifyOtpViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -256,7 +283,11 @@ class VerifyOtpViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -273,7 +304,10 @@ class VerifyOtpViewModel @Inject constructor(
                         val gson = Gson()
                         val dataString = gson.toJson(apiResponse.data[0])
                         editor.putString(SharedPrefConstant.USER_DATA, dataString)
-                        editor.putString(SharedPrefConstant.HASH_TOKEN, apiResponse.data[0].hash_token.toString())
+                        editor.putString(
+                            SharedPrefConstant.HASH_TOKEN,
+                            apiResponse.data[0].hash_token.toString()
+                        )
                         editor.apply()
                         _createHashToken.value = apiResponse
                     }
@@ -281,7 +315,11 @@ class VerifyOtpViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

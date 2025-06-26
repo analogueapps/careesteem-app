@@ -1,43 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
   -->
 
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.clients.view.ClientsDetailsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:visibility="gone"
         android:id="@+id/swipe_refresh"
-        android:layout_above="@+id/btnCreateUnscheduledVisit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnCreateUnscheduledVisit"
+        android:visibility="gone">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    app:cardUseCompatPadding="true"
                     app:cardBackgroundColor="@color/white"
-                    app:strokeColor="@color/colorPrimary"
                     app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:strokeColor="@color/colorPrimary"
                     app:strokeWidth="2dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -51,22 +50,21 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/aboutName"
-                            android:layout_weight="1"
-                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:fontFamily="@font/robotoslab_regular"
+                            android:singleLine="true"
                             android:text="@string/app_name"
-                            android:textStyle="bold"
                             android:textSize="@dimen/_11ssp"
-                             />
+                            android:textStyle="bold" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_marginStart="@dimen/_5sdp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_export"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:src="@drawable/ic_export" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -75,10 +73,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    app:cardUseCompatPadding="true"
                     app:cardBackgroundColor="@color/white"
-                    app:strokeColor="@color/colorPrimary"
                     app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:strokeColor="@color/colorPrimary"
                     app:strokeWidth="2dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -92,18 +90,17 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/myCareName"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:tag="Invisible"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoslab_regular"
+                            android:layout_weight="1"
                             android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                            app:drawableTint="@color/black"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:singleLine="true"
+                            android:tag="Invisible"
                             android:text="@string/my_care_network"
-                            android:textStyle="bold"
                             android:textSize="@dimen/_11ssp"
-                             />
+                            android:textStyle="bold"
+                            app:drawableTint="@color/black" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -111,18 +108,18 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMyCareNetwork"
-                    android:visibility="gone"
-                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    app:cardUseCompatPadding="true"
                     app:cardBackgroundColor="@color/white"
-                    app:strokeColor="@color/colorPrimary"
                     app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardUseCompatPadding="true"
+                    app:strokeColor="@color/colorPrimary"
                     app:strokeWidth="2dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -136,18 +133,17 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/myCarePlanName"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:tag="Invisible"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/robotoslab_regular"
+                            android:layout_weight="1"
                             android:drawableEnd="@drawable/ic_keyboard_arrow_down"
-                            app:drawableTint="@color/black"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:singleLine="true"
+                            android:tag="Invisible"
                             android:text="@string/care_plan"
-                            android:textStyle="bold"
                             android:textSize="@dimen/_11ssp"
-                             />
+                            android:textStyle="bold"
+                            app:drawableTint="@color/black" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -155,20 +151,20 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/carePlanLayout"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/activityAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -181,36 +177,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/activity_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/activityRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -223,36 +218,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/activity_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/behaviourAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -265,36 +259,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/behaviour_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/behaviourRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -307,36 +300,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/behaviour_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/breathingAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -349,36 +341,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/breathing_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/clinicalAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -391,36 +382,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/clinical_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/communicationAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -433,36 +423,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/communication_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/continenceAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -475,36 +464,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/continence_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/cOSHHRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -517,36 +505,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/coshh_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/socialRelationshipsAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -559,36 +546,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/cultural_spiritual_amp_social_relationships_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/domesticAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -601,36 +587,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/domestic_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/environmentAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -643,36 +628,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/environment_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/equipmentAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -685,36 +669,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/equipment_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/equipmentRegister"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -727,36 +710,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/equipment_register"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/financialAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -769,36 +751,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/financial_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/financialRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -811,36 +792,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/financial_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/medicationAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp"
                         tools:ignore="TooManyViews">
 
@@ -854,36 +834,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/medication_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/medicationRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp"
                         tools:ignore="TooManyViews">
 
@@ -897,36 +876,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/medication_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/mentalHealthAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -939,36 +917,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/mental_health_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/movingHandlingAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -981,36 +958,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/moving_amp_handling_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/nutritionHydrationAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1023,36 +999,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/nutrition_amp_hydration_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/oralCareAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1065,36 +1040,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/oral_care_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/painAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1107,36 +1081,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/pain_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/personalHygieneAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1149,36 +1122,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/personal_hygiene_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/selfAdministrationRiskAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1191,36 +1163,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/self_administration_risk_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/skinAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1233,36 +1204,35 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/skin_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="gone"
                         android:id="@+id/sleepingAssessment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        app:cardUseCompatPadding="true"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#E9F9F7"
-                        app:strokeColor="#E9F9F7"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardUseCompatPadding="true"
+                        app:strokeColor="#E9F9F7"
                         app:strokeWidth="2dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -1275,22 +1245,21 @@
                             android:padding="@dimen/_8sdp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_weight="1"
-                                android:singleLine="true"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/robotoslab_regular"
+                                android:singleLine="true"
                                 android:text="@string/sleeping_assessment"
-                                android:textStyle="bold"
                                 android:textSize="@dimen/_11ssp"
-                                 />
+                                android:textStyle="bold" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_export"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:src="@drawable/ic_export" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -1305,45 +1274,45 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="@dimen/_5sdp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="@dimen/_5sdp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/topLayout"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_marginStart="@dimen/_10sdp"
                 android:id="@+id/clientName"
-                android:layout_weight="1"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:drawableStart="@drawable/client_prefix"
                 android:drawablePadding="8dip"
                 android:drawableTint="@color/colorPrimary"
                 android:fontFamily="@font/robotoslab_regular"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/uploadedDocuments"
-                android:layout_weight="1"
-                android:singleLine="true"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:background="@drawable/ic_uploaded_doc_bg"
-                android:text="Uploaded Documents"
-                android:gravity="center"
                 android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Uploaded Documents"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="normal"
@@ -1351,64 +1320,63 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--        <com.google.android.material.tabs.TabLayout-->
-<!--            android:layout_marginTop="@dimen/_10sdp"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/topLayout"-->
-<!--            android:id="@+id/tabLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:tabGravity="center"-->
-<!--            app:tabIndicatorHeight="0dp"-->
-<!--            app:tabMode="fixed"-->
-<!--            android:background="@android:color/transparent"-->
-<!--            app:tabRippleColor="@android:color/transparent"/>-->
+        <!--        <com.google.android.material.tabs.TabLayout-->
+        <!--            android:layout_marginTop="@dimen/_10sdp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/topLayout"-->
+        <!--            android:id="@+id/tabLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:tabGravity="center"-->
+        <!--            app:tabIndicatorHeight="0dp"-->
+        <!--            app:tabMode="fixed"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            app:tabRippleColor="@android:color/transparent"/>-->
 
         <com.google.android.material.tabs.TabLayout
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@+id/topLayout"
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorHeight="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@android:color/transparent"
-            app:tabRippleColor="@android:color/transparent"/>
+            app:layout_constraintTop_toBottomOf="@+id/topLayout"
+            app:tabIndicatorHeight="0dp"
+            app:tabRippleColor="@android:color/transparent" />
 
         <androidx.viewpager2.widget.ViewPager2
-            android:paddingTop="@dimen/_5sdp"
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            android:paddingTop="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:gravity="center"
-        android:layout_gravity="center"
         android:id="@+id/btnCreateUnscheduledVisit"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/_25sdp"
-        android:layout_marginEnd="@dimen/_25sdp"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginEnd="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/robotoslab_regular"
-        android:text="@string/create_an_unscheduled_visit"
-        app:icon="@drawable/flat_color_icons_plus"
-        app:iconTintMode="multiply"
-        app:iconSize="16dp"
-        app:iconPadding="3dip"
         android:backgroundTint="#FFCB7B"
-        android:textColor="#503101"
-        android:textAllCaps="false"
+        android:fontFamily="@font/robotoslab_regular"
+        android:gravity="center"
         android:letterSpacing="0"
-        android:textStyle="normal"
+        android:text="@string/create_an_unscheduled_visit"
+        android:textAllCaps="false"
+        android:textColor="#503101"
         android:textSize="@dimen/_11ssp"
-        style="@style/Widget.MaterialComponents.Button"
-        />
+        android:textStyle="normal"
+        app:icon="@drawable/flat_color_icons_plus"
+        app:iconPadding="3dip"
+        app:iconSize="16dp"
+        app:iconTintMode="multiply" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

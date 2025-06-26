@@ -14,7 +14,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
@@ -33,7 +32,6 @@ import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +40,7 @@ class VisitsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -79,7 +77,11 @@ class VisitsViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -88,7 +90,8 @@ class VisitsViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.getVisitList(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     userId = userData.id,
                     visitDate = visitDate
                 )
@@ -103,7 +106,8 @@ class VisitsViewModel @Inject constructor(
 
                             if (startEmpty && endEmpty) {
                                 try {
-                                    val planned = LocalDateTime.parse("${visit.visitDate}T${visit.plannedStartTime}")
+                                    val planned =
+                                        LocalDateTime.parse("${visit.visitDate}T${visit.plannedStartTime}")
                                     val now = LocalDateTime.now()
                                     Duration.between(planned, now).toHours() >= 4
                                 } catch (e: Exception) {
@@ -139,21 +143,25 @@ class VisitsViewModel @Inject constructor(
                         _completedVisits.value = completed
                         _notCompletedVisits.value = notCompleted
 
-                        if(inProgress.isEmpty()) {
+                        if (inProgress.isEmpty()) {
                             _visitCreated.postValue(Event(true))
                         } else {
                             _visitCreated.postValue(Event(false))
                         }
                     }
                 } else {
-                    if(response.code() == 404) {
+                    if (response.code() == 404) {
                         _visitCreated.postValue(Event(true))
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -168,44 +176,71 @@ class VisitsViewModel @Inject constructor(
     val _isCheckOutEligible = MutableLiveData<Boolean>()
     val isCheckOutEligible: LiveData<Boolean> get() = _isCheckOutEligible
 
-    fun checkOutEligible(activity: Activity, visitDetails: VisitListResponse.Data, findNavController: NavController) {
+    fun checkOutEligible(
+        activity: Activity,
+        visitDetails: VisitListResponse.Data,
+        findNavController: NavController
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.checkOutEligible(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetails.visitDetailsId
                 )
 
                 if (response.isSuccessful) {
                     _isCheckOutEligible.value = true
-                    if(AppConstant.isMoreThanTwoMinutesPassed(visitDetails.visitDate.toString(), visitDetails.actualStartTime!![0].toString())) {
-                        val direction = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-                            visitDetailsId = visitDetails.visitDetailsId,
-                            action = 1
+                    if (AppConstant.isMoreThanTwoMinutesPassed(
+                            visitDetails.visitDate.toString(),
+                            visitDetails.actualStartTime!![0].toString()
                         )
+                    ) {
+                        val direction =
+                            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+                                visitDetailsId = visitDetails.visitDetailsId,
+                                action = 1
+                            )
                         findNavController.navigate(direction)
                     } else {
                         //showToast("Checkout is only allowed after 2 minutes from check-in.")
-                        AlertUtils.showToast(activity, "Checkout is only allowed after 2 minutes from check-in.", ToastyType.WARNING)
+                        AlertUtils.showToast(
+                            activity,
+                            "Checkout is only allowed after 2 minutes from check-in.",
+                            ToastyType.WARNING
+                        )
                     }
                 } else {
                     //errorHandler.handleErrorResponse(response, activity)
                     when (response.code()) {
                         404 -> {
-                            AlertUtils.showToast(activity, "Please complete all essential tasks before checkout", ToastyType.WARNING)
+                            AlertUtils.showToast(
+                                activity,
+                                "Please complete all essential tasks before checkout",
+                                ToastyType.WARNING
+                            )
                         }
+
                         else -> errorHandler.handleErrorResponse(response, activity)
                     }
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

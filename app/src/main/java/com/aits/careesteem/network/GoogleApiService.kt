@@ -6,14 +6,13 @@
 
 package com.aits.careesteem.network
 
-import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.DirectionsResponse
 import com.aits.careesteem.view.visits.model.DistanceMatrixResponse
+import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface GoogleApiService {
     @GET("maps/api/place/details/json")

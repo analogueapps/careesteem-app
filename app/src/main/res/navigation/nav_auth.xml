@@ -14,7 +14,7 @@
         android:id="@+id/welcomeFragment"
         android:name="com.aits.careesteem.view.auth.view.WelcomeFragment"
         android:label="fragment_welcome"
-        tools:layout="@layout/fragment_welcome" >
+        tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcomeFragment_to_verifyOtpFragment"
             app:destination="@id/verifyOtpFragment"
@@ -24,7 +24,7 @@
         android:id="@+id/verifyOtpFragment"
         android:name="com.aits.careesteem.view.auth.view.VerifyOtpFragment"
         android:label="fragment_verify_otp"
-        tools:layout="@layout/fragment_verify_otp" >
+        tools:layout="@layout/fragment_verify_otp">
         <action
             android:id="@+id/action_verifyOtpFragment_to_selectAgencyFragment"
             app:destination="@id/selectAgencyFragment" />
@@ -52,7 +52,7 @@
         android:id="@+id/setupPasscodeFragment"
         android:name="com.aits.careesteem.view.auth.view.SetupPasscodeFragment"
         android:label="fragment_setup_passcode"
-        tools:layout="@layout/fragment_setup_passcode" >
+        tools:layout="@layout/fragment_setup_passcode">
         <argument
             android:name="response"
             app:argType="string" />
@@ -65,7 +65,7 @@
         android:id="@+id/confirmPasscodeFragment"
         android:name="com.aits.careesteem.view.auth.view.ConfirmPasscodeFragment"
         android:label="fragment_confirm_passcode"
-        tools:layout="@layout/fragment_confirm_passcode" >
+        tools:layout="@layout/fragment_confirm_passcode">
         <argument
             android:name="response"
             app:argType="string" />
@@ -77,7 +77,7 @@
         android:id="@+id/selectAgencyFragment"
         android:name="com.aits.careesteem.view.auth.view.SelectAgencyFragment"
         android:label="SelectAgencyFragment"
-        tools:layout="@layout/fragment_select_agency" >
+        tools:layout="@layout/fragment_select_agency">
         <argument
             android:name="response"
             app:argType="string" />

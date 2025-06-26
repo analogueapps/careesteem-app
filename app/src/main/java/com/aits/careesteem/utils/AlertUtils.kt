@@ -8,18 +8,9 @@ package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.util.Log
-import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.aits.careesteem.BuildConfig
-import com.aits.careesteem.R
-import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
 
 object AlertUtils {
@@ -118,10 +109,14 @@ object AlertUtils {
 //        }
         //Toasty.success(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
         when (type) {
-            ToastyType.SUCCESS -> Toasty.success(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.SUCCESS -> Toasty.success(activity!!, message!!, Toast.LENGTH_SHORT, true)
+                .show()
+
             ToastyType.ERROR -> Toasty.error(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
             ToastyType.INFO -> Toasty.info(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
-            ToastyType.WARNING -> Toasty.warning(activity!!, message!!, Toast.LENGTH_SHORT, true).show()
+            ToastyType.WARNING -> Toasty.warning(activity!!, message!!, Toast.LENGTH_SHORT, true)
+                .show()
+
             ToastyType.NORMAL -> Toasty.normal(activity!!, message!!, Toast.LENGTH_SHORT).show()
         }
     }

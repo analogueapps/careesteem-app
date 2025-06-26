@@ -6,12 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentPreloaderBinding
-import com.aits.careesteem.databinding.FragmentWelcomeBinding
-import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint

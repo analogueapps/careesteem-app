@@ -25,8 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ClientsFragment : Fragment(),
-    ClientAdapter.OnItemClick
-{
+    ClientAdapter.OnItemClick {
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
 

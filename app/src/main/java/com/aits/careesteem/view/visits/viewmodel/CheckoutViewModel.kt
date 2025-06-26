@@ -20,18 +20,18 @@ import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
 import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import com.aits.careesteem.utils.DateTimeUtils
-import com.aits.careesteem.utils.ToastyType
-import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -39,10 +39,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
-import java.net.URLDecoder
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +48,7 @@ class CheckoutViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -66,16 +62,19 @@ class CheckoutViewModel @Inject constructor(
     private val _qrVerified = MutableLiveData<Boolean>()
     val qrVerified: LiveData<Boolean> get() = _qrVerified
 
-    private val _addVisitCheckInResponseStart = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
+    private val _addVisitCheckInResponseStart =
+        MutableLiveData<List<AddVisitCheckInResponse.Data>>()
     val addVisitCheckInResponseStart: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponseStart
 
     private val _addVisitCheckInResponse = MutableLiveData<List<AddVisitCheckInResponse.Data>>()
     val addVisitCheckInResponse: LiveData<List<AddVisitCheckInResponse.Data>> get() = _addVisitCheckInResponse
 
-    private val _updateVisitCheckoutResponseStart = MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
+    private val _updateVisitCheckoutResponseStart =
+        MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
     val updateVisitCheckoutResponseStart: LiveData<List<UpdateVisitCheckoutResponse.Data>> get() = _updateVisitCheckoutResponseStart
 
-    private val _updateVisitCheckoutResponse = MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
+    private val _updateVisitCheckoutResponse =
+        MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
     val updateVisitCheckoutResponse: LiveData<List<UpdateVisitCheckoutResponse.Data>> get() = _updateVisitCheckoutResponse
 
     // Add uv data
@@ -96,16 +95,22 @@ class CheckoutViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
-                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                } ?: return@launch
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
 
                 val response = repository.addVisitCheckIn(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     clientId = visitsDetails.clientId,
                     visitDetailsId = visitsDetails.visitDetailsId,
                     userId = userData.id,
@@ -123,7 +128,11 @@ class CheckoutViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -205,7 +214,8 @@ class CheckoutViewModel @Inject constructor(
             val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
             val response = repository.automaticAlerts(
-                hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                    .toString(),
                 uatId = uatId,
                 visitDetailsId = visitDetailsId,
                 clientId = clientId,
@@ -233,12 +243,17 @@ class CheckoutViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.checkOutEligible(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -248,7 +263,11 @@ class CheckoutViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -272,7 +291,11 @@ class CheckoutViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -281,7 +304,8 @@ class CheckoutViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateVisitCheckout(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     userId = userData.id,
                     visitDetailsId = visitsDetails.visitDetailsId,
                     //actualEndTime = URLDecoder.decode(DateTimeUtils.getCurrentTimeAndSecGMT(), "UTF-8"),
@@ -299,7 +323,11 @@ class CheckoutViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -369,7 +397,11 @@ class CheckoutViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -378,7 +410,8 @@ class CheckoutViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledVisits(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     userId = userData.id.toString(),
                     clientId = clientId,
                     visitDate = DateTimeUtils.getCurrentDateGMT(),
@@ -396,7 +429,11 @@ class CheckoutViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -404,7 +441,7 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                if(!normalCheckInOut) {
+                if (!normalCheckInOut) {
                     automaticAlerts(
                         activity = activity,
                         uatId = _userActualTimeData.value!!.id,
@@ -430,7 +467,11 @@ class CheckoutViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -439,7 +480,8 @@ class CheckoutViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.verifyQrCode(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     clientId = clientId,
                     qrcodeToken = scanResult
                 )
@@ -452,7 +494,11 @@ class CheckoutViewModel @Inject constructor(
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

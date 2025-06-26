@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.visits.view.VisitNotesFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,33 +21,32 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/headerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:id="@+id/headerView"
-                        android:visibility="gone"
                         android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:textStyle="normal"
-                            android:fontFamily="@font/robotoslab_regular"
-                            android:textSize="@dimen/_11ssp"
-                            android:text="@string/list_of_visit_notes"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                             />
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="@string/list_of_visit_notes"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/btnTopAddVisitNotes"
@@ -81,10 +79,10 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -95,51 +93,49 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:visibility="gone"
         android:id="@+id/emptyLayout"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/gifImageView"
-            android:layout_centerInParent="true"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
-            android:scaleType="fitCenter"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:src="@drawable/no_notes" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:text="@string/no_visit_notes"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:textStyle="normal"
+            android:gravity="center"
+            android:text="@string/no_visit_notes"
             android:textSize="@dimen/_10ssp"
-             />
+            android:textStyle="normal" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddVisitNotes"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
-            app:icon="@drawable/ic_add_notes"
-            app:iconTintMode="multiply"
-            app:iconSize="24dp"
-            app:iconPadding="1dip"
             android:text="@string/add_note"
             android:textAllCaps="false"
-            android:textStyle="normal"
             android:textSize="@dimen/_12ssp"
-             />
+            android:textStyle="normal"
+            app:icon="@drawable/ic_add_notes"
+            app:iconPadding="1dip"
+            app:iconSize="24dp"
+            app:iconTintMode="multiply" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

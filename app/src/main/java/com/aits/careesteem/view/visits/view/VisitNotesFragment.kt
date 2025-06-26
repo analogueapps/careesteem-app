@@ -1,23 +1,33 @@
 package com.aits.careesteem.view.visits.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.*
-import com.aits.careesteem.utils.*
+import com.aits.careesteem.databinding.DialogVisitNotesBinding
+import com.aits.careesteem.databinding.FragmentVisitNotesBinding
+import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.visits.adapter.VisitNotesAdapter
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.viewmodel.VisitNotesViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
@@ -183,8 +193,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             dialog.dismiss()
         }
         dialogBinding.btnSave.setOnClickListener {
-            if(dialogBinding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter visit notes", ToastyType.WARNING)
+            if (dialogBinding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please enter visit notes",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             dialog.dismiss()
@@ -204,7 +218,8 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         )
 
         // ✅ Set Bottom Sheet max height to 75% of screen
-        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        val bottomSheet =
+            dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
         bottomSheet?.requestLayout()
 
@@ -232,8 +247,12 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         }
         dialogBinding.btnSave.setOnClickListener {
             // empty block for visit notes text
-            if(dialogBinding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter visit notes", ToastyType.WARNING)
+            if (dialogBinding.visitNotes.text.toString().isEmpty()) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Please enter visit notes",
+                    ToastyType.WARNING
+                )
                 return@setOnClickListener
             }
             dialog.dismiss()
@@ -255,7 +274,8 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         )
 
         // ✅ Set Bottom Sheet max height to 75% of screen
-        val bottomSheet = dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+        val bottomSheet =
+            dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
         bottomSheet?.requestLayout()
 

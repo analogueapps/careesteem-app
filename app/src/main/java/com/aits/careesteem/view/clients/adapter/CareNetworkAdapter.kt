@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemCareNetworkBinding
-import com.aits.careesteem.databinding.ItemMyCareNetworkBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
 
@@ -66,7 +65,8 @@ class CareNetworkAdapter(
                 val isExpanded = position == expandedPosition
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 alertName.tag = if (isExpanded) "Visible" else "Invisible"
-                val icon = if (isExpanded) R.drawable.round_arrow_up else R.drawable.round_arrow_down
+                val icon =
+                    if (isExpanded) R.drawable.round_arrow_up else R.drawable.round_arrow_down
                 alertName.setImageResource(icon)
 
                 // Toggle expand/collapse on click

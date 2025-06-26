@@ -19,7 +19,11 @@ class ActivityRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemActivityRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemActivityRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 

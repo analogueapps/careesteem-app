@@ -11,14 +11,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemMedicationListBinding
-import com.aits.careesteem.databinding.ItemVisitNotesListBinding
-import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.view.unscheduled_visits.model.UvMedicationListResponse
-import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 
 class UvMedicationListAdapter(

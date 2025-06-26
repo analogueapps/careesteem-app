@@ -35,6 +35,7 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
     lateinit var pinTwoProgress: View
     lateinit var pinThreeProgress: View
     lateinit var pinFourProgress: View
+
     //lateinit var pinFiveProgress: View
     //lateinit var pinSixProgress: View
     lateinit var numbersGridView: RecyclerView
@@ -75,7 +76,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
 //        setDotProgressLayoutParams(pinFiveProgress)
 //        setDotProgressLayoutParams(pinSixProgress)
 
-        numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
+        numbersGridView.adapter =
+            NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
     }
 
     // create method for setting fingerVisible
@@ -83,7 +85,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         get() = isFingerVisible
         set(value) {
             isFingerVisible = value
-            numbersGridView.adapter = NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
+            numbersGridView.adapter =
+                NumbersAdapter(attributes, isFingerVisible, onFingerprintClickListener)
         }
 
 
@@ -236,7 +239,8 @@ class PinView(context: Context, attrs: AttributeSet) : LinearLayout(context, att
                     position == 9 -> {
                         viewHolder.apply {
                             numberTextView.visibility = View.GONE
-                            fingerImageView.visibility = if (isFingerVisible) View.VISIBLE else View.GONE
+                            fingerImageView.visibility =
+                                if (isFingerVisible) View.VISIBLE else View.GONE
                             itemView.setOnClickListener {
                                 if (isFingerVisible) {
 //                                    deleteLastPin()

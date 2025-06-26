@@ -2,22 +2,17 @@ package com.aits.careesteem.view.clients.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.ItemAlertListBinding
 import com.aits.careesteem.databinding.ItemAttachedDocumentsBinding
-import com.aits.careesteem.databinding.ItemBodyMapAddedBinding
 import com.aits.careesteem.databinding.ItemUploadedDocumentsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
-import com.bumptech.glide.Glide
 
 class DocumentsAdapter(
     private val context: Context,
@@ -35,7 +30,8 @@ class DocumentsAdapter(
 //    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder {
-        val binding = ItemUploadedDocumentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemUploadedDocumentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AlertViewHolder(binding)
     }
 
@@ -64,8 +60,14 @@ class DocumentsAdapter(
                 val isExpanded = position == expandedPosition
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 alertName.tag = if (isExpanded) "Visible" else "Invisible"
-                val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
-                alertName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
+                val icon =
+                    if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+                alertName.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    context.getDrawable(icon),
+                    null
+                )
 
                 // Toggle expand/collapse on click
                 alertLayout.setOnClickListener {
@@ -84,10 +86,11 @@ class DocumentsAdapter(
 
                 // Setup nested image recycler
                 recyclerView.layoutManager = LinearLayoutManager(context)
-                recyclerView.adapter = AttachDocumentAdapter(data.attach_document, documentClickListener)
+                recyclerView.adapter =
+                    AttachDocumentAdapter(data.attach_document, documentClickListener)
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("DocumentsAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("DocumentsAdapter", "" + e.printStackTrace())
             }
         }
     }
@@ -99,7 +102,8 @@ class AttachDocumentAdapter(
 ) : RecyclerView.Adapter<AttachDocumentAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val binding = ItemAttachedDocumentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemAttachedDocumentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(binding)
     }
 
@@ -137,7 +141,7 @@ class AttachDocumentAdapter(
 //                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("AttachDocumentAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("AttachDocumentAdapter", "" + e.printStackTrace())
             }
         }
     }

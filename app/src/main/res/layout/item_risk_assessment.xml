@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/care_plan_bg"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:padding="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:singleLine="true"
             android:text=""
-            android:textStyle="normal"
-            android:textSize="@dimen/_12ssp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

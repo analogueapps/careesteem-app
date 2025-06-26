@@ -10,7 +10,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.view.AuthActivity

@@ -1,27 +1,23 @@
 package com.aits.careesteem.view.auth.view
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentConfirmPasscodeBinding
-import com.aits.careesteem.databinding.FragmentEnterPasscodeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.CreateHashToken
-import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.viewmodel.PasscodeViewModel
-import com.aits.careesteem.view.home.view.HomeActivity
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,7 +55,11 @@ class ConfirmPasscodeFragment : Fragment() {
             if (args.passcode == passcode) {
                 addPinToServer(passcode)
             } else {
-                AlertUtils.showToast(requireActivity(), "Passcode does not match.", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Passcode does not match.",
+                    ToastyType.WARNING
+                )
             }
         }
     }

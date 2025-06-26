@@ -27,7 +27,7 @@ class AlertsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -42,16 +42,22 @@ class AlertsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
-                val userData = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                    Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                } ?: return@launch
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
 
                 val response = repository.getAlertsList(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     userId = userData.id
                 )
 
@@ -60,13 +66,17 @@ class AlertsViewModel @Inject constructor(
                         _alertsList.value = list.data
                     }
                 } else {
-                    if(response.code() == 404) {
+                    if (response.code() == 404) {
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

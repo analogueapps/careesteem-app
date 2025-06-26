@@ -21,7 +21,6 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UvTodoListResponse
-import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +39,7 @@ class UvToDoViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -56,12 +55,17 @@ class UvToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.getUnscheduledTodoDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -70,13 +74,17 @@ class UvToDoViewModel @Inject constructor(
                         _toDoList.value = list.data
                     }
                 } else {
-                    if(response.code() == 404) {
+                    if (response.code() == 404) {
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -94,7 +102,11 @@ class UvToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -108,7 +120,8 @@ class UvToDoViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.addUnscheduledTodoDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetailsId,
                     todoUserId = userData.id,
                     todoCreatedAt = createdAt,
@@ -119,12 +132,20 @@ class UvToDoViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -140,13 +161,22 @@ class UvToDoViewModel @Inject constructor(
         }
     }
 
-    fun updateNotes(activity: Activity, visitDetailsId: String, todoDetailsId: String, todoNotes: String) {
+    fun updateNotes(
+        activity: Activity,
+        visitDetailsId: String,
+        todoDetailsId: String,
+        todoNotes: String
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
@@ -155,7 +185,8 @@ class UvToDoViewModel @Inject constructor(
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateUnscheduledTodoDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     todoId = todoDetailsId,
                     todoUserId = userData.id,
                     todoNotes = todoNotes,
@@ -166,12 +197,20 @@ class UvToDoViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {

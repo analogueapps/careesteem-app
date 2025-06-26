@@ -9,7 +9,6 @@ package com.aits.careesteem.view.clients.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.databinding.ItemEquipmentRegisterBinding
 import com.aits.careesteem.databinding.ItemFinancialRiskAssessmentBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
@@ -20,7 +19,11 @@ class FinancialRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemFinancialRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFinancialRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 

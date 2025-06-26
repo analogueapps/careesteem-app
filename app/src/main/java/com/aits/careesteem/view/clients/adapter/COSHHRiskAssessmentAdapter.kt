@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemCoshhRiskAssessmentBinding
-import com.aits.careesteem.databinding.ItemMedicationRiskAssessmentBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 
@@ -20,7 +19,11 @@ class COSHHRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemCoshhRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCoshhRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 

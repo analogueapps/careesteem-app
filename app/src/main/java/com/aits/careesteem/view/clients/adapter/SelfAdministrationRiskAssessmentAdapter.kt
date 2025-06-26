@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.databinding.ItemActivityRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentBinding
 import com.aits.careesteem.databinding.ItemSelfAdministrationRiskAssessmentMedicationBinding
 import com.aits.careesteem.utils.AppConstant
@@ -25,7 +24,11 @@ class SelfAdministrationRiskAssessmentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemSelfAdministrationRiskAssessmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSelfAdministrationRiskAssessmentBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return ViewHolder(binding)
     }
 

@@ -3,19 +3,11 @@ package com.aits.careesteem.view.auth.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemAgencyListBinding
-import com.aits.careesteem.databinding.ItemAlertListBinding
-import com.aits.careesteem.utils.AppConstant
-import com.aits.careesteem.view.alerts.adapter.AlertsAdapter
-import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
-import com.aits.careesteem.view.auth.model.OtpVerifyResponse.DbList
 import com.aits.careesteem.view.visits.adapter.MedicationListAdapter.OnItemItemClick
-import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 
 class SelectAgencyAdapter(
     private val context: Context,

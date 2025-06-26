@@ -20,15 +20,12 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.visits.model.TodoListResponse
-import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +34,7 @@ class ToDoViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-): ViewModel() {
+) : ViewModel() {
 
     // LiveData for UI
     private val _isLoading = MutableLiveData<Boolean>()
@@ -59,12 +56,17 @@ class ToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.getToDoList(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     visitDetailsId = visitDetailsId
                 )
 
@@ -73,16 +75,21 @@ class ToDoViewModel @Inject constructor(
                         _toDoList.value = list.data
                         //_completeCount.value = list.data.count { it.todoEssential }
                         _totalCount.value = list.data.count { it.todoEssential }
-                        _completeCount.value = list.data.count { it.todoEssential && it.todoOutcome.isNotEmpty() }
+                        _completeCount.value =
+                            list.data.count { it.todoEssential && it.todoOutcome.isNotEmpty() }
                     }
                 } else {
-                    if(response.code() == 404) {
+                    if (response.code() == 404) {
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -94,18 +101,31 @@ class ToDoViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(activity: Activity, todoOutcome: Int, clientId: String, visitDetailsId: String, todoDetailsId: String, carerNotes: String, todoEssential: Boolean) {
+    fun updateTodo(
+        activity: Activity,
+        todoOutcome: Int,
+        clientId: String,
+        visitDetailsId: String,
+        todoDetailsId: String,
+        carerNotes: String,
+        todoEssential: Boolean
+    ) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.updateTodoDetails(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     todoId = todoDetailsId,
                     carerNotes = carerNotes,
                     todoOutcome = todoOutcome
@@ -115,12 +135,20 @@ class ToDoViewModel @Inject constructor(
                     val responseBody = response.body()
                     val jsonElement: JsonElement? = responseBody
                     val jsonObject = JSONObject(jsonElement.toString())
-                    AlertUtils.showToast(activity, jsonObject.optString("message"), ToastyType.SUCCESS)
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
             } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
             } catch (e: Exception) {
@@ -132,8 +160,8 @@ class ToDoViewModel @Inject constructor(
                     activity = activity,
                     visitDetailsId = visitDetailsId
                 )
-                if(todoOutcome == 0) {
-                    if(todoEssential) {
+                if (todoOutcome == 0) {
+                    if (todoEssential) {
                         automaticAlerts(
                             activity = activity,
                             todoDetailsId = todoDetailsId,
@@ -156,12 +184,17 @@ class ToDoViewModel @Inject constructor(
             try {
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(activity, "No Internet Connection. Please check your network and try again.", ToastyType.ERROR)
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
                     return@launch
                 }
 
                 val response = repository.automaticTodoAlerts(
-                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString(),
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
                     todoDetailsId = todoDetailsId,
                     visitDetailsId = visitDetailsId,
                     clientId = clientId,
@@ -176,11 +209,11 @@ class ToDoViewModel @Inject constructor(
                     //errorHandler.handleErrorResponse(response, activity)
                 }
             } catch (e: SocketTimeoutException) {
-                AlertUtils.showLog("activity","Request Timeout. Please try again.")
+                AlertUtils.showLog("activity", "Request Timeout. Please try again.")
             } catch (e: HttpException) {
                 AlertUtils.showLog("activity", "Server error: ${e.message}")
             } catch (e: Exception) {
-                AlertUtils.showLog("activity","An error occurred: ${e.message}")
+                AlertUtils.showLog("activity", "An error occurred: ${e.message}")
                 e.printStackTrace()
             }
         }

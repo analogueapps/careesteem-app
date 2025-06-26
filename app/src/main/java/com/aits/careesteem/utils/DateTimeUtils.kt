@@ -1,18 +1,11 @@
 package com.aits.careesteem.utils
 
 import android.annotation.SuppressLint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.Duration
-import java.time.Instant
-import java.util.*
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 object DateTimeUtils {
 
@@ -33,7 +26,7 @@ object DateTimeUtils {
      * Get current time in GMT with format "HH:mm"
      */
     fun getCurrentTimeGMT(): String {
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()).apply {
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }
         return timeFormat.format(Date())

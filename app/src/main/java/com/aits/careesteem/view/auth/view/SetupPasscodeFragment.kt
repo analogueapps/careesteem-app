@@ -1,18 +1,15 @@
 package com.aits.careesteem.view.auth.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.aits.careesteem.R
-import com.aits.careesteem.databinding.FragmentEnterPasscodeBinding
 import com.aits.careesteem.databinding.FragmentSetupPasscodeBinding
 import com.aits.careesteem.view.auth.model.CreateHashToken
-import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,10 +44,11 @@ class SetupPasscodeFragment : Fragment() {
 
     private fun moveConfirm(passcode: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val direction = SetupPasscodeFragmentDirections.actionSetupPasscodeFragmentToConfirmPasscodeFragment(
-                response = args.response,
-                passcode = passcode
-            )
+            val direction =
+                SetupPasscodeFragmentDirections.actionSetupPasscodeFragmentToConfirmPasscodeFragment(
+                    response = args.response,
+                    passcode = passcode
+                )
             findNavController().navigate(direction)
         }
     }

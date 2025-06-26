@@ -54,12 +54,14 @@ class NotCompleteVisitsAdapter(
                 )
                 VisitViewHolder(binding)
             }
+
             TYPE_TRAVEL_TIME -> {
                 val binding = ItemTravelTimeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
                 TravelTimeViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }

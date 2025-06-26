@@ -11,17 +11,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.aits.careesteem.R
-import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.base.BaseActivity
 import com.aits.careesteem.utils.BiometricAuthListener
-import com.aits.careesteem.utils.BiometricUtils
-import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.auth.view.AuthActivity
-import com.aits.careesteem.view.home.view.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +27,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity(), BiometricAuthListener {
+class SplashActivity : BaseActivity(), BiometricAuthListener {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 

@@ -3,8 +3,6 @@ package com.aits.careesteem.view.visits.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,13 +22,20 @@ import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentVisitsBinding
 import com.aits.careesteem.network.GoogleApiService
-import com.aits.careesteem.utils.*
+import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.SharedPrefConstant
+import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
 import com.aits.careesteem.view.unscheduled_visits.model.VisitItem
-import com.aits.careesteem.view.visits.adapter.*
+import com.aits.careesteem.view.visits.adapter.CompleteVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.NotCompleteVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.OngoingVisitsAdapter
+import com.aits.careesteem.view.visits.adapter.UpcomingVisitsAdapter
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +44,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.DayOfWeek
@@ -46,7 +53,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,8 +69,10 @@ class VisitsFragment : Fragment(),
     private var _binding: FragmentVisitsBinding? = null
     private val binding get() = _binding!!
 
-    @Inject lateinit var sharedPreferences: SharedPreferences
-    @Inject lateinit var editor: SharedPreferences.Editor
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
 
     private val viewModel: VisitsViewModel by activityViewModels()
     private val profileViewModel: ProfileViewModel by activityViewModels()
@@ -76,8 +85,10 @@ class VisitsFragment : Fragment(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var currentWeekStart: LocalDate = LocalDate.now().with(DayOfWeek.MONDAY)
+
     @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate: LocalDate = currentWeekStart
+
     @RequiresApi(Build.VERSION_CODES.O)
     private var initialWeekStart: LocalDate = currentWeekStart
 
@@ -96,7 +107,11 @@ class VisitsFragment : Fragment(),
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentVisitsBinding.inflate(inflater, container, false)
         setupAdapters()
         setupUI()
@@ -107,11 +122,13 @@ class VisitsFragment : Fragment(),
 
     private fun setupAdapters() {
         with(binding) {
-            ongoingAdapter = OngoingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
+            ongoingAdapter =
+                OngoingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
             rvOngoingVisits.layoutManager = LinearLayoutManager(requireContext())
             rvOngoingVisits.adapter = ongoingAdapter
 
-            upcomingAdapter = UpcomingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
+            upcomingAdapter =
+                UpcomingVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
             rvUpcomingVisits.layoutManager = LinearLayoutManager(requireContext())
             rvUpcomingVisits.adapter = upcomingAdapter
 
@@ -119,7 +136,8 @@ class VisitsFragment : Fragment(),
             rvCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
             rvCompletedVisits.adapter = completeAdapter
 
-            notCompleteAdapter = NotCompleteVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
+            notCompleteAdapter =
+                NotCompleteVisitsAdapter(requireContext(), this@VisitsFragment, this@VisitsFragment)
             rvNotCompletedVisits.layoutManager = LinearLayoutManager(requireContext())
             rvNotCompletedVisits.adapter = notCompleteAdapter
         }
@@ -164,7 +182,11 @@ class VisitsFragment : Fragment(),
         binding.arrowLeft.setOnClickListener {
             val previousWeek = currentWeekStart.minusWeeks(1)
             if (previousWeek.isBefore(initialWeekStart.minusWeeks(maxWeeksBehind.toLong()))) {
-                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the previous 3 weeks", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Cannot navigate beyond the previous 3 weeks",
+                    ToastyType.WARNING
+                )
             } else {
                 currentWeekStart = previousWeek
                 addCheckedDate(currentWeekStart)
@@ -175,7 +197,11 @@ class VisitsFragment : Fragment(),
         binding.arrowRight.setOnClickListener {
             val nextWeek = currentWeekStart.plusWeeks(1)
             if (nextWeek.isAfter(initialWeekStart.plusWeeks(maxWeeksAhead.toLong()))) {
-                AlertUtils.showToast(requireActivity(), "Cannot navigate beyond the next 3 weeks", ToastyType.WARNING)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Cannot navigate beyond the next 3 weeks",
+                    ToastyType.WARNING
+                )
             } else {
                 currentWeekStart = nextWeek
                 addCheckedDate(currentWeekStart)
@@ -201,7 +227,12 @@ class VisitsFragment : Fragment(),
             tvOngoingVisits.setOnClickListener { toggle(tvOngoingVisits, rvOngoingVisits) }
             tvUpcomingVisits.setOnClickListener { toggle(tvUpcomingVisits, rvUpcomingVisits) }
             tvCompletedVisits.setOnClickListener { toggle(tvCompletedVisits, rvCompletedVisits) }
-            tvNotCompletedVisits.setOnClickListener { toggle(tvNotCompletedVisits, rvNotCompletedVisits) }
+            tvNotCompletedVisits.setOnClickListener {
+                toggle(
+                    tvNotCompletedVisits,
+                    rvNotCompletedVisits
+                )
+            }
         }
     }
 
@@ -224,12 +255,16 @@ class VisitsFragment : Fragment(),
         val formatter = DateTimeFormatter.ofPattern("MMMM d", Locale.ENGLISH)
         val yearFormat = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH)
 
-        binding.dateRangeText.text = "${weekStart.format(formatter)} to ${weekEnd.format(formatter)} ${weekEnd.format(yearFormat)}"
+        binding.dateRangeText.text =
+            "${weekStart.format(formatter)} to ${weekEnd.format(formatter)} ${
+                weekEnd.format(yearFormat)
+            }"
         binding.calendarContainer.removeAllViews()
 
         for (i in 0..6) {
             val date = weekStart.plusDays(i.toLong())
-            val view = LayoutInflater.from(requireContext()).inflate(R.layout.item_day, binding.calendarContainer, false)
+            val view = LayoutInflater.from(requireContext())
+                .inflate(R.layout.item_day, binding.calendarContainer, false)
             val dayName = view.findViewById<TextView>(R.id.dayName)
             val dayNumber = view.findViewById<TextView>(R.id.dayNumber)
 
@@ -364,7 +399,8 @@ class VisitsFragment : Fragment(),
                 .build()
 
             val apiService = retrofit.create(GoogleApiService::class.java)
-            val response = apiService.getTravelTime(origin, destination, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
+            val response =
+                apiService.getTravelTime(origin, destination, BuildConfig.GOOGLE_MAP_PLACES_API_KEY)
             if (response.isSuccessful) {
                 val body = response.body()
                 body?.routes!!.firstOrNull()?.legs?.firstOrNull()?.duration?.text
@@ -416,7 +452,7 @@ class VisitsFragment : Fragment(),
                 binding.tvOngoingVisits.text =
                     getString(R.string.ongoing_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
-            if(visits.isEmpty()) {
+            if (visits.isEmpty()) {
                 binding.tvOngoingVisits.visibility = View.GONE
                 //binding.rvOngoingVisits.visibility = View.GONE
             } else {
@@ -439,7 +475,7 @@ class VisitsFragment : Fragment(),
                 binding.tvCompletedVisits.text =
                     getString(R.string.completed_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
-            if(visits.isEmpty()) {
+            if (visits.isEmpty()) {
                 binding.tvCompletedVisits.visibility = View.GONE
                 //binding.rvCompletedVisits.visibility = View.GONE
             } else {
@@ -462,7 +498,7 @@ class VisitsFragment : Fragment(),
                 binding.tvNotCompletedVisits.text =
                     getString(R.string.not_completed_visits) + " (${itemList.count { item -> item is VisitItem.VisitCard }})"
             }
-            if(visits.isEmpty()) {
+            if (visits.isEmpty()) {
                 binding.tvNotCompletedVisits.visibility = View.GONE
                 //binding.rvNotCompletedVisits.visibility = View.GONE
             } else {
@@ -487,7 +523,7 @@ class VisitsFragment : Fragment(),
     }
 
     private fun updateProfileDetails(data: UserDetailsResponse.Data) {
-        if(data.profile_image_url == null) return
+        if (data.profile_image_url == null) return
         if (data.profile_image_url.isNotEmpty()) {
             editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_image_url).apply()
         }
@@ -495,13 +531,16 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
-        val action = VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(data.visitDetailsId, 0)
+        val action =
+            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(data.visitDetailsId, 0)
         findNavController().navigate(action)
     }
 
     override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
         val action = if (data.visitType == "Unscheduled") {
-            VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(data.visitDetailsId)
+            VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+                data.visitDetailsId
+            )
         } else {
             VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(data.visitDetailsId)
         }
@@ -515,7 +554,11 @@ class VisitsFragment : Fragment(),
     override fun onDirectionItemItemClicked(data: VisitListResponse.Data) {
         val uri = data.placeId.let {
             "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=$it".toUri()
-        } ?: return AlertUtils.showToast(requireActivity(), "Client location not found", ToastyType.ERROR)
+        } ?: return AlertUtils.showToast(
+            requireActivity(),
+            "Client location not found",
+            ToastyType.ERROR
+        )
 
         val mapIntent = Intent(Intent.ACTION_VIEW, uri).apply {
             setPackage("com.google.android.apps.maps")
@@ -524,13 +567,19 @@ class VisitsFragment : Fragment(),
         if (mapIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(mapIntent)
         } else {
-            AlertUtils.showToast(requireActivity(), "Google Maps is not installed", ToastyType.ERROR)
+            AlertUtils.showToast(
+                requireActivity(),
+                "Google Maps is not installed",
+                ToastyType.ERROR
+            )
         }
     }
 
     override fun onViewItemItemClicked(data: VisitListResponse.Data) {
         val action = if (data.visitType == "Unscheduled") {
-            VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(data.visitDetailsId)
+            VisitsFragmentDirections.actionBottomVisitsToUnscheduledVisitsDetailsFragmentFragment(
+                data.visitDetailsId
+            )
         } else {
             VisitsFragmentDirections.actionBottomVisitsToOngoingVisitsDetailsFragment(data.visitDetailsId)
         }

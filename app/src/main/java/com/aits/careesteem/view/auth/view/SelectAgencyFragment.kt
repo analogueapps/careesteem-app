@@ -85,9 +85,10 @@ class SelectAgencyFragment : Fragment(), SelectAgencyAdapter.OnItemItemClick {
                 editor.putString(SharedPrefConstant.USER_DATA, dataString)
                 editor.apply()
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val direction = SelectAgencyFragmentDirections.actionSelectAgencyFragmentToSetupPasscodeFragment(
-                        response = dataString
-                    )
+                    val direction =
+                        SelectAgencyFragmentDirections.actionSelectAgencyFragmentToSetupPasscodeFragment(
+                            response = dataString
+                        )
                     findNavController().navigate(direction)
                 }
             }
@@ -104,7 +105,8 @@ class SelectAgencyFragment : Fragment(), SelectAgencyAdapter.OnItemItemClick {
         dialog.setCancelable(AppConstant.FALSE)
 
         binding.dialogTitle.text = "Agency Selection"
-        binding.dialogBody.text = "Are you sure you want to log in with the ${data.agency_name} agency?"
+        binding.dialogBody.text =
+            "Are you sure you want to log in with the ${data.agency_name} agency?"
 
         // Handle button clicks
         binding.btnPositive.setOnClickListener {

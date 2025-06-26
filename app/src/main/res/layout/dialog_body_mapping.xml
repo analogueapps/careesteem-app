@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_bottom_sheet_rounded"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/bg_bottom_sheet_rounded">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:visibility="gone"
-        android:background="#F0FCFA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#F0FCFA"
+        android:visibility="gone"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingEnd="16dp"
             android:paddingStart="6dp"
+            android:paddingEnd="16dp"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_close_icon" />
 
@@ -27,95 +27,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/_10sdp"
         android:paddingRight="@dimen/_10sdp"
-        android:orientation="vertical"
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginTop="@dimen/_11sdp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_11sdp">
 
             <TextView
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:fontFamily="@font/robotoslab_regular"
-                android:text="Body Maps"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
-                android:letterSpacing="0"
                 android:gravity="center"
+                android:letterSpacing="0"
+                android:text="Body Maps"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/closeButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
                 android:src="@drawable/ic_close_icon"
-                android:tint="#4C5664"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
+                android:tint="#4C5664" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
-            android:layout_marginTop="@dimen/_11sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0E0E0"
-            />
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="#E0E0E0" />
 
         <TextView
-            android:layout_gravity="center"
+            android:id="@+id/bodyPartName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/robotoslab_regular"
-            android:id="@+id/bodyPartName"
-            android:textStyle="normal"
-            android:textSize="@dimen/_12ssp"
             android:letterSpacing="0"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:orientation="vertical"
-            android:background="@drawable/ic_body_map_outline_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_350sdp">
+            android:background="@drawable/ic_body_map_outline_bg"
+            android:orientation="vertical">
 
             <com.aits.careesteem.view.bodymap.BodyMapView
                 android:id="@+id/bodyMapView"
-                android:padding="@dimen/_10sdp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="@dimen/_10sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/comp_body_front" />
 
             <View
-                android:background="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"/>
+                android:layout_height="2dp"
+                android:background="@color/colorAccent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:padding="@dimen/_10sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp">
 
                 <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="start"
-                    android:paddingStart="@dimen/_10sdp"
                     android:orientation="horizontal"
+                    android:paddingStart="@dimen/_10sdp"
                     tools:ignore="RtlSymmetry">
 
                     <!-- Undo Button -->
@@ -127,7 +126,7 @@
 
                     <Space
                         android:layout_width="@dimen/_20sdp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
                     <!-- Redo Button -->
                     <androidx.appcompat.widget.AppCompatImageButton
@@ -139,17 +138,17 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSave"
-                    android:layout_weight="1.5"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
+                    android:layout_weight="1.5"
                     android:background="@drawable/ic_btn_green_bg"
-                    android:gravity="center"
-                    android:textAllCaps="false"
-                    android:text="Save"
-                    android:textColor="#279989"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="#279989"
                     android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
 
                     tools:ignore="HardcodedText" />
 

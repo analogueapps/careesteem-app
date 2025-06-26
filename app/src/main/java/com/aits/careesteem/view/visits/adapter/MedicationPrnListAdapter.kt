@@ -9,14 +9,9 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.aits.careesteem.R
-import com.aits.careesteem.databinding.ItemMedicationListBinding
 import com.aits.careesteem.databinding.ItemPrnMedicationListBinding
-import com.aits.careesteem.databinding.ItemTodoListBinding
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvMedicationListAdapter.OnPnrItemItemClick
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 

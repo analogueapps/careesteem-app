@@ -18,7 +18,8 @@ class FileAdapter(
 ) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemBodyMapAddedBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -55,7 +56,7 @@ class FileAdapter(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                AlertUtils.showLog("FileAdapter",""+e.printStackTrace())
+                AlertUtils.showLog("FileAdapter", "" + e.printStackTrace())
             }
         }
     }

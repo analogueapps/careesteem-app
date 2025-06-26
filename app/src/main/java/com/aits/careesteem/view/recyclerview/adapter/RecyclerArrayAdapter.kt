@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
-import com.aits.careesteem.view.auth.model.CountryList
 
 class RecyclerArrayAdapter(
     private val countries: List<String>,

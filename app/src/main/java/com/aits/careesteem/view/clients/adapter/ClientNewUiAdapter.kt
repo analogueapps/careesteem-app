@@ -6,11 +6,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.aits.careesteem.view.clients.view.AboutMeFragment
 import com.aits.careesteem.view.clients.view.CareNetworkFragment
 import com.aits.careesteem.view.clients.view.CarePlanFragment
-import com.aits.careesteem.view.unscheduled_visits.view.UvMedicationFragment
-import com.aits.careesteem.view.unscheduled_visits.view.UvToDoFragment
-import com.aits.careesteem.view.unscheduled_visits.view.UvVisitNotesFragment
 
-class ClientNewUiAdapter(fragmentActivity: FragmentActivity, private val clientData: String) : FragmentStateAdapter(fragmentActivity) {
+class ClientNewUiAdapter(fragmentActivity: FragmentActivity, private val clientData: String) :
+    FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 3
 
     // Return a unique ID for each fragment position.

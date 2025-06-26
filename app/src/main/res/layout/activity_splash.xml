@@ -9,12 +9,12 @@
     tools:context=".view.entry.view.SplashActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:src="@drawable/app_logo"
         android:layout_width="@dimen/_133sdp"
         android:layout_height="@dimen/_133sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/app_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

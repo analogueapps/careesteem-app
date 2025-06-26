@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.CareEsteem" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
@@ -123,5 +123,15 @@
     <style name="CustomDialogTheme" parent="Theme.MaterialComponents.Dialog">
         <item name="android:backgroundDimAmount">0.8</item> <!-- This sets the dim to 0.8f -->
     </style>
+
+    <style name="CustomMaterialSwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <!-- Thumb color when checked and unchecked -->
+        <item name="thumbColor">@color/custom_thumb_color</item>
+
+        <!-- Track color when checked and unchecked -->
+        <item name="trackColor">@color/custom_track_color</item>
+
+    </style>
+
 
 </resources>

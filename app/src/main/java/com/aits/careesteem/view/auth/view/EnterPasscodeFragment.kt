@@ -22,7 +22,6 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.auth.viewmodel.PasscodeViewModel
-import com.aits.careesteem.view.home.view.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -54,7 +53,7 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     }
 
     private fun setupWidgets() {
-        if(sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)) {
+        if (sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)) {
             binding.pinView.fingerVisible = true
         } else {
             binding.pinView.fingerVisible = false
@@ -111,7 +110,11 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
 
         viewModel.isPasscodeVerified.observe(viewLifecycleOwner) { isPasscodeVerified ->
             if (isPasscodeVerified) {
-                AlertUtils.showToast(requireActivity(),"Passcode verified successfully.", ToastyType.SUCCESS)
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Passcode verified successfully.",
+                    ToastyType.SUCCESS
+                )
                 editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
                 editor.apply()
 //                val intent = Intent(requireActivity(), HomeActivity::class.java)
@@ -129,6 +132,7 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
             BiometricPrompt.ERROR_USER_CANCELED -> {
 
             }
+
             BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
 
             }

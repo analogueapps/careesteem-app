@@ -6,13 +6,12 @@
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/colorPrimary"
-    app:cardCornerRadius="@dimen/_8sdp"
     app:strokeWidth="2dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -31,49 +30,47 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/updatedAt"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
+                    android:layout_weight="1"
                     android:drawableStart="@drawable/ic_calender_small"
                     android:drawablePadding="2dip"
+                    android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                     />
+                    android:textStyle="normal" />
 
                 <View
                     android:id="@+id/view"
-                    android:background="@color/black"
-                    android:layout_margin="@dimen/_5sdp"
                     android:layout_width="1dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/updatedByUserName"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textStyle="normal"
                     android:textSize="@dimen/_10ssp"
-                     />
+                    android:textStyle="normal" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:visibility="gone"
                     android:id="@+id/editButton"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:backgroundTint="@android:color/transparent"
                     android:src="@drawable/ic_edit_round_pencil"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"/>
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -84,9 +81,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textStyle="normal"
                 android:textSize="@dimen/_10ssp"
-                 />
+                android:textStyle="normal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aits.careesteem.R
-import com.aits.careesteem.databinding.FragmentAboutMeBinding
 import com.aits.careesteem.databinding.FragmentCarePlanBinding
 import com.aits.careesteem.utils.ProgressLoader
-import com.aits.careesteem.view.clients.adapter.CareNetworkAdapter
+import com.aits.careesteem.view.clients.adapter.ClientAdapter
+import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
 import com.aits.careesteem.view.clients.adapter.RiskAssessmentParentAdapter
 import com.aits.careesteem.view.clients.helper.FilterQuestionAndAnswers
 import com.aits.careesteem.view.clients.model.ClientsList
@@ -30,6 +29,7 @@ class CarePlanFragment : Fragment() {
 
     // Adapter
     private lateinit var adapter: RiskAssessmentParentAdapter
+    private lateinit var questionAnswerAdapter: QuestionAnswerAdapter
 
     val finalList = mutableListOf<RiskAssessmentItem>()
 
@@ -37,6 +37,15 @@ class CarePlanFragment : Fragment() {
 
     // Selected client object
     private lateinit var clientData: ClientsList.Data
+
+    private var isAnyAssessmentVisible = false
+
+    private fun showIfAnyAssessmentVisible() {
+        if (!isAnyAssessmentVisible) {
+            isAnyAssessmentVisible = true
+            //binding.assessmentContainer.visibility = View.VISIBLE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +94,10 @@ class CarePlanFragment : Fragment() {
         adapter = RiskAssessmentParentAdapter(requireContext(), mutableListOf())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
+
+        questionAnswerAdapter = QuestionAnswerAdapter()
+        binding.rvAssessment.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAssessment.adapter = questionAnswerAdapter
     }
 
     private fun setupViewModel() {
@@ -105,11 +118,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Activity Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Activity Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.activityAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Activity Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -120,11 +132,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Environment Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Environment Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.environmentAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Environment Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -135,11 +146,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Financial Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Financial Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.financialAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Financial Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -150,11 +160,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Mental Health Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Mental Health Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.mentalHealthAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Mental Health Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -165,11 +174,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Communication Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Communication Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.communicationAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Communication Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -180,11 +188,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Personal Hygiene Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Personal Hygiene Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.personalHygieneAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Personal Hygiene Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -195,11 +202,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Medication Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Medication Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.medicationAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Medication Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -210,11 +216,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Clinical Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Clinical Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.clinicalAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Clinical Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -225,11 +230,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Cultural, Spiritual & Social Relationships Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Cultural, Spiritual & Social Relationships Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.socialRelationshipsAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Cultural, Spiritual & Social Relationships Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -240,11 +244,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Behaviour Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Behaviour Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.behaviourAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Behaviour Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -255,11 +258,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Oral Care Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Oral Care Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.oralCareAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Oral Care Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -270,11 +272,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Breathing Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Breathing Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.breathingAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Breathing Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -285,11 +286,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Continence Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Continence Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.continenceAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Continence Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -300,11 +300,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Domestic Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Domestic Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.domesticAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Domestic Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -315,11 +314,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Equipment Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Equipment Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.equipmentAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Equipment Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -330,11 +328,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Moving Handling Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Moving Handling Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.movingHandlingAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Moving Handling Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -345,11 +342,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Pain Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Pain Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.painAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Pain Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -360,11 +356,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Sleeping Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Sleeping Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.sleepingAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Sleeping Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -375,11 +370,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Skin Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Skin Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.skinAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Skin Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -390,11 +384,10 @@ class CarePlanFragment : Fragment() {
                         clientData,
                         data
                     )
-                //showAssessmentQuestionAndAnswer("Nutrition & Hydration Assessment", filteredList)
-                finalList.add(RiskAssessmentItem.FilteredItem("Nutrition & Hydration Assessment", filteredList))
-                updateAdapterData()
-            } else {
-                //binding.nutritionHydrationAssessment.visibility = View.GONE
+                if (filteredList.isNotEmpty()) {
+                    showAssessmentQuestionAndAnswer("Nutrition & Hydration Assessment", filteredList)
+                    showIfAnyAssessmentVisible()
+                }
             }
         }
 
@@ -446,6 +439,10 @@ class CarePlanFragment : Fragment() {
 //        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 //        binding.recyclerView.adapter = adapter
 
+    }
+
+    private fun showAssessmentQuestionAndAnswer(title: String, filteredList: List<Triple<String, String, String>>) {
+        questionAnswerAdapter.updateData(title, filteredList)
     }
 
     private fun updateAdapterData() {

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2025 ANALOGUE IT SOLUTIONS. All rights reserved.
   ~ Use of this source code is governed by a MIT-style license that can be
   ~ found in the LICENSE file.
@@ -21,89 +20,92 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/headerView"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:visibility="gone"
-                        android:textStyle="normal"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:textSize="@dimen/_12ssp"
-                        android:text="@string/list_of_todo_s"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                         />
+                        android:layout_weight="1"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:text="@string/list_of_todo_s"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:visibility="gone" />
 
                     <SearchView
-                        android:theme="@style/AppSearchView"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:background="@drawable/ic_todo_search_bg"
                         android:id="@+id/searchView"
-                        android:queryHint="Search"
                         android:layout_width="@dimen/_140sdp"
                         android:layout_height="@dimen/_28sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/ic_todo_search_bg"
                         android:iconifiedByDefault="true"
-                        android:searchIcon="@drawable/ic_search"
                         android:queryBackground="@android:color/transparent"
+                        android:queryHint="Search"
+                        android:searchIcon="@drawable/ic_search"
+                        android:theme="@style/AppSearchView"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:gravity="end">
+
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:textStyle="normal"
-                            android:fontFamily="@font/robotoslab_regular"
-                            android:textSize="@dimen/_12ssp"
-                            android:text="@string/essentials"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                             />
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="@string/essentials"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal" />
+
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/submitCount"
-                                android:layout_marginStart="@dimen/_2sdp"
-                                android:textStyle="normal"
-                                android:fontFamily="@font/robotoslab_regular"
-                                android:textSize="@dimen/_12ssp"
-                                android:text="0"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:text="0"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
+
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:textStyle="normal"
-                                android:fontFamily="@font/robotoslab_regular"
-                                android:textSize="@dimen/_12ssp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_2sdp"
                                 android:layout_marginEnd="@dimen/_2sdp"
+                                android:fontFamily="@font/robotoslab_regular"
                                 android:text="/"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
+
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/totalCount"
-                                android:textStyle="normal"
-                                android:fontFamily="@font/robotoslab_regular"
-                                android:textSize="@dimen/_12ssp"
-                                android:text="0"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:text="0"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -113,11 +115,11 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/recyclerView"
-                    tools:listitem="@layout/item_todo_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    tools:listitem="@layout/item_todo_list" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -126,34 +128,33 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:visibility="gone"
         android:id="@+id/emptyLayout"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/gifImageView"
-            android:layout_centerInParent="true"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
-            android:scaleType="fitCenter"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:src="@drawable/no_todo" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:text="@string/no_todos"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/robotoslab_regular"
-            android:textStyle="normal"
+            android:gravity="center"
+            android:text="@string/no_todos"
             android:textSize="@dimen/_10ssp"
-             />
+            android:textStyle="normal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

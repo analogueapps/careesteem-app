@@ -6,7 +6,6 @@
 
 package com.aits.careesteem.network
 
-import android.content.Context
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.alerts.model.AlertListResponse
 import com.aits.careesteem.view.alerts.model.ClientNameListResponse
@@ -33,14 +32,10 @@ import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.Query
 import java.io.File
 import javax.inject.Inject
 
@@ -367,7 +362,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             visitUserId = visitUserId,
             updatedAt = visitUserId,
             visitNotes = visitNotes,
-            visitUpdatedAt = visitUpdatedAt
+            visitUpdatedAt = visitUpdatedAt,
+            updatedByUserid = visitUserId
         )
     }
 

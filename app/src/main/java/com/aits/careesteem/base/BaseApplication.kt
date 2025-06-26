@@ -9,16 +9,14 @@ package com.aits.careesteem.base
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatDelegate
 import com.aits.careesteem.R
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
-import com.aits.careesteem.view.home.view.HomeActivity
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -41,7 +39,11 @@ class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
         // Set the default time zone to UK time
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"))
 
-        if (sharedPreferences.getBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.FALSE) == AppConstant.TRUE) {
+        if (sharedPreferences.getBoolean(
+                SharedPrefConstant.IS_LOGGED,
+                AppConstant.FALSE
+            ) == AppConstant.TRUE
+        ) {
             editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
             editor.apply()
         } else {
@@ -85,4 +87,15 @@ class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
     override fun onActivityStopped(activity: Activity) {}
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
     override fun onActivityDestroyed(activity: Activity) {}
+
+    override fun attachBaseContext(newBase: Context) {
+        val configuration = newBase.resources.configuration
+        if (configuration.fontScale != 1f) {
+            configuration.fontScale = 1f
+            val context = newBase.createConfigurationContext(configuration)
+            super.attachBaseContext(context)
+        } else {
+            super.attachBaseContext(newBase)
+        }
+    }
 }
