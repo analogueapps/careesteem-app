@@ -26,18 +26,18 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/headerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/headerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:gravity="center"
-                        android:visibility="gone">
+                        android:gravity="center">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="match_parent"

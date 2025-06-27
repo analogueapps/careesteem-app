@@ -189,52 +189,6 @@ class UvVisitNotesFragment : Fragment(),
 
         val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visit_notes,visitData?.visitDetailsId,1,data.id)
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
-
-//        val dialog = BottomSheetDialog(requireContext())
-//        val binding = DialogVisitNotesBinding.inflate(layoutInflater)
-//        dialog.window?.setDimAmount(0.8f)
-//        dialog.setContentView(binding.root)
-//        dialog.setCancelable(AppConstant.TRUE)
-//
-//        // add data
-//        binding.tvTopHeading.text = "Visit Notes"
-//        binding.tvBelowHeading.text = "Visit Notes"
-//        binding.visitNotes.hint = "Enter visit notes"
-//        binding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.visit_notes)
-//
-//        // Handle button clicks
-//        binding.closeButton.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        binding.btnCancel.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        binding.btnSave.setOnClickListener {
-//            if (binding.visitNotes.text.toString().isEmpty()) {
-//                AlertUtils.showToast(
-//                    requireActivity(),
-//                    "Please enter Visit notes",
-//                    ToastyType.WARNING
-//                )
-//                return@setOnClickListener
-//            }
-//            dialog.dismiss()
-//            viewModel.updateNotes(
-//                activity = requireActivity(),
-//                visitDetailsId = visitData?.visitDetailsId.toString(),
-//                visitNotesId = data.id,
-//                visitNotes = binding.visitNotes.text.toString().trim()
-//            )
-//        }
-//
-//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-//
-//        val window = dialog.window
-//        window?.setLayout(
-//            WindowManager.LayoutParams.MATCH_PARENT,
-//            WindowManager.LayoutParams.WRAP_CONTENT
-//        )
-//        dialog.show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -246,49 +200,6 @@ class UvVisitNotesFragment : Fragment(),
 
         val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitData?.visitDetailsId,0,"")
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
-//        val dialog = BottomSheetDialog(requireContext())
-//        val binding = DialogVisitNotesBinding.inflate(layoutInflater)
-//        dialog.window?.setDimAmount(0.8f)
-//        dialog.setContentView(binding.root)
-//        dialog.setCancelable(AppConstant.TRUE)
-//
-//        // add data
-//        binding.tvTopHeading.text = "Visit Notes"
-//        binding.tvBelowHeading.text = "Visit Notes"
-//        binding.visitNotes.hint = "Enter visit notes"
-//
-//        // Handle button clicks
-//        binding.closeButton.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        binding.btnCancel.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//        binding.btnSave.setOnClickListener {
-//            if (binding.visitNotes.text.toString().isEmpty()) {
-//                AlertUtils.showToast(
-//                    requireActivity(),
-//                    "Please enter Visit notes",
-//                    ToastyType.WARNING
-//                )
-//                return@setOnClickListener
-//            }
-//            dialog.dismiss()
-//            viewModel.addNotes(
-//                activity = requireActivity(),
-//                visitDetailsId = visitData?.visitDetailsId.toString(),
-//                visitNotes = binding.visitNotes.text.toString().trim()
-//            )
-//        }
-//
-//        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-//
-//        val window = dialog.window
-//        window?.setLayout(
-//            WindowManager.LayoutParams.MATCH_PARENT,
-//            WindowManager.LayoutParams.WRAP_CONTENT
-//        )
-//        dialog.show()
     }
 
     override fun onVisitNoteUpdated(

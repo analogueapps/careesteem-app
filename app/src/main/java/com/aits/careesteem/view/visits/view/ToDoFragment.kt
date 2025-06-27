@@ -90,9 +90,7 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         _binding = null
     }
 
-    // -------------------------------
-    // UI Setup
-    // -------------------------------
+    
 
     private fun setupUi() = with(binding) {
         // No add button for ToDo currently, but if needed add here similarly to VisitNotesFragment
@@ -117,9 +115,7 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         }
     }
 
-    // -------------------------------
-    // ViewModel Observers
-    // -------------------------------
+
 
     private fun setupViewModel() {
         viewModel.isLoading.observe(viewLifecycleOwner) {

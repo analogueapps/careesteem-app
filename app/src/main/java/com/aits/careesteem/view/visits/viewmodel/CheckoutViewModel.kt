@@ -74,8 +74,8 @@ class CheckoutViewModel @Inject constructor(
     val updateVisitCheckoutResponseStart: LiveData<List<UpdateVisitCheckoutResponse.Data>> get() = _updateVisitCheckoutResponseStart
 
     private val _updateVisitCheckoutResponse =
-        MutableLiveData<List<UpdateVisitCheckoutResponse.Data>>()
-    val updateVisitCheckoutResponse: LiveData<List<UpdateVisitCheckoutResponse.Data>> get() = _updateVisitCheckoutResponse
+        MutableLiveData<List<UpdateVisitCheckoutResponse.Data>?>()
+    val updateVisitCheckoutResponse: MutableLiveData<List<UpdateVisitCheckoutResponse.Data>?> get() = _updateVisitCheckoutResponse
 
     // Add uv data
     private val _userActualTimeData = MutableLiveData<AddUvVisitResponse.UserActualTimeData>()
@@ -286,7 +286,7 @@ class CheckoutViewModel @Inject constructor(
         alertType: String,
     ) {
         _isLoading.value = true
-        val actualEndTime = DateTimeUtils.getCurrentTimeGMT()
+        val actualEndTime = DateTimeUtils.getCurrentTimeWithSecGMT()
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -335,56 +335,66 @@ class CheckoutViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                //_addVisitCheckInResponse.value = _addVisitCheckInResponseStart.value
+
                 try {
                     val alertJobs = mutableListOf<Deferred<Boolean>>()
 
-                    if (!normalCheckInOut) {
-                        val job1 = viewModelScope.async {
-                            automaticAlerts(
-                                activity = activity,
-                                uatId = _updateVisitCheckoutResponseStart.value!![0].id,
-                                visitDetailsId = visitsDetails.visitDetailsId,
-                                clientId = visitsDetails.clientId,
-                                actualStartTime = visitsDetails.plannedStartTime,
-                                startTime = "",
-                                actualEndTime = visitsDetails.plannedEndTime,
-                                endTime = actualEndTime,
-                                checkInOut = "checkout",
-                                isSchedule = visitsDetails.visitType != "Unscheduled",
-                                alertType = "Force Check-Out",
-                            )
+                    val responseList = _updateVisitCheckoutResponseStart.value
+                    val responseItem = responseList?.firstOrNull()  // Safer than using `!!`
+
+                    if (responseItem != null) {
+                        // Force Check-Out alert
+                        if (!normalCheckInOut) {
+                            val job1 = viewModelScope.async {
+                                automaticAlerts(
+                                    activity = activity,
+                                    uatId = responseItem.id,
+                                    visitDetailsId = visitsDetails.visitDetailsId,
+                                    clientId = visitsDetails.clientId,
+                                    actualStartTime = visitsDetails.plannedStartTime,
+                                    startTime = "",
+                                    actualEndTime = visitsDetails.plannedEndTime,
+                                    endTime = actualEndTime,
+                                    checkInOut = "checkout",
+                                    isSchedule = visitsDetails.visitType != "Unscheduled",
+                                    alertType = "Force Check-Out",
+                                )
+                            }
+                            alertJobs.add(job1)
                         }
-                        alertJobs.add(job1)
+
+                        // Conditional alert
+                        if (alertType.isNotEmpty()) {
+                            val job2 = viewModelScope.async {
+                                automaticAlerts(
+                                    activity = activity,
+                                    uatId = responseItem.id,
+                                    visitDetailsId = visitsDetails.visitDetailsId,
+                                    clientId = visitsDetails.clientId,
+                                    actualStartTime = visitsDetails.plannedStartTime,
+                                    startTime = "",
+                                    actualEndTime = visitsDetails.plannedEndTime,
+                                    endTime = actualEndTime,
+                                    checkInOut = "checkout",
+                                    isSchedule = visitsDetails.visitType != "Unscheduled",
+                                    alertType = alertType,
+                                )
+                            }
+                            alertJobs.add(job2)
+                        }
+
+                        // Wait for all parallel alert jobs to complete
+                        alertJobs.awaitAll()
+
+                        // Then update LiveData
+                        _updateVisitCheckoutResponse.value = responseList
                     }
 
-                    if (alertType.isNotEmpty()) {
-                        val job2 = viewModelScope.async {
-                            automaticAlerts(
-                                activity = activity,
-                                uatId = _updateVisitCheckoutResponseStart.value!![0].id,
-                                visitDetailsId = visitsDetails.visitDetailsId,
-                                clientId = visitsDetails.clientId,
-                                actualStartTime = visitsDetails.plannedStartTime,
-                                startTime = "",
-                                actualEndTime = visitsDetails.plannedEndTime,
-                                endTime = actualEndTime,
-                                checkInOut = "checkout",
-                                isSchedule = visitsDetails.visitType != "Unscheduled",
-                                alertType = alertType,
-                            )
-                        }
-                        alertJobs.add(job2)
-                    }
-
-                    // Wait for both alert API calls to complete
-                    alertJobs.awaitAll()
-
-                    // Only then update list and LiveData
-                    _updateVisitCheckoutResponse.value = _updateVisitCheckoutResponseStart.value
-
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    AlertUtils.showLog("Automatic Alert Error", e.localizedMessage ?: "Unknown error")
                 } finally {
-                    _isLoading.value = false
+                    _isLoading.value = false // Just in case
                 }
             }
         }
@@ -415,7 +425,7 @@ class CheckoutViewModel @Inject constructor(
                     userId = userData.id.toString(),
                     clientId = clientId,
                     visitDate = DateTimeUtils.getCurrentDateGMT(),
-                    actualStartTime = DateTimeUtils.getCurrentTimeGMT(),
+                    actualStartTime = DateTimeUtils.getCurrentTimeWithSecGMT(),
                     createdAt = DateTimeUtils.getCurrentTimestampGMT(),
                 )
 
@@ -442,19 +452,21 @@ class CheckoutViewModel @Inject constructor(
             } finally {
                 _isLoading.value = false
                 if (!normalCheckInOut) {
-                    automaticAlerts(
-                        activity = activity,
-                        uatId = _userActualTimeData.value!!.id,
-                        visitDetailsId = _userActualTimeData.value!!.visit_details_id,
-                        clientId = _userActualTimeData.value!!.client_id,
-                        actualStartTime = "",
-                        startTime = "",
-                        actualEndTime = "",
-                        endTime = "",
-                        checkInOut = "checkin",
-                        isSchedule = false,
-                        alertType = "Force Check-In"
-                    )
+                    _userActualTimeData.value?.let { data ->
+                        automaticAlerts(
+                            activity = activity,
+                            uatId = data.id,
+                            visitDetailsId = data.visit_details_id,
+                            clientId = data.client_id,
+                            actualStartTime = "",
+                            startTime = "",
+                            actualEndTime = "",
+                            endTime = "",
+                            checkInOut = "checkin",
+                            isSchedule = false,
+                            alertType = "Force Check-In"
+                        )
+                    }
                 }
             }
         }

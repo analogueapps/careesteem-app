@@ -135,12 +135,17 @@ class MedicationFragment : Fragment(),
 
     @SuppressLint("SetTextI18n")
     private fun setupViewModel() {
+        var hasLoadedData = false
+
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
                 ProgressLoader.showProgress(requireActivity())
             } else {
                 ProgressLoader.dismissProgress()
+                if (hasLoadedData) {
+                    updateUI()  // Only update UI *after* data has been loaded and loading has finished
+                }
             }
         }
 
@@ -154,13 +159,15 @@ class MedicationFragment : Fragment(),
         // Observe main list
         viewModel.medicationList.observe(viewLifecycleOwner) { list ->
             mainList = list
-            updateUI()
+            //updateUI()
+            hasLoadedData = true
         }
 
         // Observe PRN list
         viewModel.prnMedicationList.observe(viewLifecycleOwner) { list ->
             prnList = list
-            updateUI()
+            //updateUI()
+            hasLoadedData = true
         }
     }
 

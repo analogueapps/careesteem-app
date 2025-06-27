@@ -36,8 +36,7 @@ class CareNetworkAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataItem = adapterList[position]
-        holder.bind(dataItem)
+        holder.bind(adapterList[position], position)
     }
 
     override fun getItemCount(): Int = adapterList.size
@@ -54,7 +53,7 @@ class CareNetworkAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(data: ClientDetailsResponse.Data.MyCareNetworkData) {
+        fun bind(data: ClientDetailsResponse.Data.MyCareNetworkData, position: Int) {
             binding.apply {
                 occupationType.text = data.occupation_type
 

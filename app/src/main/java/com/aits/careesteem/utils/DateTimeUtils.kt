@@ -26,6 +26,16 @@ object DateTimeUtils {
      * Get current time in GMT with format "HH:mm"
      */
     fun getCurrentTimeGMT(): String {
+        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()).apply {
+            timeZone = gmtTimeZone
+        }
+        return timeFormat.format(Date())
+    }
+
+    /**
+     * Get current time in GMT with format "HH:mm:ss"
+     */
+    fun getCurrentTimeWithSecGMT(): String {
         val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).apply {
             timeZone = gmtTimeZone
         }

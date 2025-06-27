@@ -22,13 +22,6 @@ class DocumentsAdapter(
 
     private var expandedPosition = RecyclerView.NO_POSITION
 
-//    private var adapterList = listOf<UploadedDocumentsResponse.Data>()
-//
-//    fun updateList(newList: List<UploadedDocumentsResponse.Data>) {
-//        adapterList = newList
-//        notifyDataSetChanged()
-//    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlertViewHolder {
         val binding =
             ItemUploadedDocumentsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -36,7 +29,7 @@ class DocumentsAdapter(
     }
 
     override fun onBindViewHolder(holder: AlertViewHolder, position: Int) {
-        holder.bind(adapterList[position])
+        holder.bind(adapterList[position], position)
     }
 
     override fun getItemCount(): Int = adapterList.size
@@ -53,7 +46,7 @@ class DocumentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-        fun bind(data: UploadedDocumentsResponse.Data) = with(binding) {
+        fun bind(data: UploadedDocumentsResponse.Data, position: Int) = with(binding) {
             try {
                 alertName.text = AppConstant.checkNull(data.document_name)
 
@@ -130,15 +123,9 @@ class AttachDocumentAdapter(
                     alertName.text = AppConstant.checkNull(data.filename)
 
                     viewFile.setOnClickListener {
-                        println("Click")
-                        documentClickListener.onDocumentClicked(data.url ?: "")
+                        documentClickListener.onDocumentClicked(data.url)
                     }
                 }
-
-//                binding.root.setOnClickListener {
-//                    Log.d("AttachDocumentAdapter", "Root clicked!")
-//                    documentClickListener.onDocumentClicked(data.url ?: "")
-//                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 AlertUtils.showLog("AttachDocumentAdapter", "" + e.printStackTrace())

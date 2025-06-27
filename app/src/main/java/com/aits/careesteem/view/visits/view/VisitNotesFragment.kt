@@ -18,6 +18,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.bottomsheet.VisitNotesBottomSheetFragment
 import com.aits.careesteem.view.visits.adapter.VisitNotesAdapter
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.viewmodel.VisitNotesViewModel
@@ -30,7 +31,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
+class VisitNotesFragment : Fragment(),
+    VisitNotesAdapter.OnItemItemClick,
+    VisitNotesBottomSheetFragment.OnVisitNotesUpdateListener
+{
 
     private var _binding: FragmentVisitNotesBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +45,8 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
     private var visitId: String? = null
     private var clientId: String? = null
     private var allowChanges: Boolean = true
+
+    private var mainList: List<ClientVisitNotesDetails.Data>? = null
 
     companion object {
         private const val ARG_VISIT_ID = "ARG_VISIT_ID"
@@ -91,10 +97,6 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         _binding = null
     }
 
-    // -------------------------------
-    // UI Setup
-    // -------------------------------
-
     private fun setupUi() = with(binding) {
         val visibility = if (allowChanges) View.VISIBLE else View.GONE
         btnAddVisitNotes.visibility = visibility
@@ -123,21 +125,31 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         }
     }
 
-    // -------------------------------
-    // ViewModel Observers
-    // -------------------------------
-
     private fun setupViewModel() {
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            ProgressLoader.toggle(requireActivity(), it)
+        var hasLoadedData = false
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                ProgressLoader.showProgress(requireActivity())
+            } else {
+                ProgressLoader.dismissProgress()
+                if (hasLoadedData) {
+                    updateUI()
+                }
+            }
         }
 
         viewModel.visitNotesList.observe(viewLifecycleOwner) { data ->
-            if (data.isNullOrEmpty()) {
-                showEmptyState()
-            } else {
-                showNotes(data)
-            }
+            mainList = data
+            hasLoadedData = true
+        }
+    }
+
+    private fun updateUI() {
+        if (mainList.isNullOrEmpty()) {
+            showEmptyState()
+        } else {
+            showNotes(mainList!!)
         }
     }
 
@@ -158,10 +170,6 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
         visitNotesAdapter.updateList(data)
     }
 
-    // -------------------------------
-    // Note Actions
-    // -------------------------------
-
     override fun onItemItemClicked(data: ClientVisitNotesDetails.Data) {
         if (!allowChanges) {
             AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
@@ -176,109 +184,39 @@ class VisitNotesFragment : Fragment(), VisitNotesAdapter.OnItemItemClick {
             return
         }
 
-        val dialog = BottomSheetDialog(requireContext())
-        val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
-        dialog.window?.setDimAmount(0.8f)
-        dialog.setContentView(dialogBinding.root)
-        dialog.setCancelable(AppConstant.TRUE)
-
-//        // Set max height
-//        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
-//        binding.root.layoutParams = binding.root.layoutParams?.apply {
-//            height = maxHeight
-//        }
-
-        dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialogBinding.btnSave.setOnClickListener {
-            if (dialogBinding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(
-                    requireActivity(),
-                    "Please enter visit notes",
-                    ToastyType.WARNING
-                )
-                return@setOnClickListener
-            }
-            dialog.dismiss()
-            viewModel.addVisitNotes(
-                requireActivity(),
-                visitDetailsId = visitId.orEmpty(),
-                visitNotes = dialogBinding.visitNotes.text.toString().trim()
-            )
-        }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val window = dialog.window
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-
-        // ✅ Set Bottom Sheet max height to 75% of screen
-        val bottomSheet =
-            dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
-        bottomSheet?.requestLayout()
-
-        dialog.show()
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitId,0,"")
+        bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
     }
 
     private fun showEditNoteDialog(data: ClientVisitNotesDetails.Data) {
-        val dialog = BottomSheetDialog(requireContext())
-        val dialogBinding = DialogVisitNotesBinding.inflate(layoutInflater)
-        dialog.window?.setDimAmount(0.8f)
-        dialog.setContentView(dialogBinding.root)
-        dialog.setCancelable(AppConstant.TRUE)
-
-//        // Set max height
-//        val maxHeight = (resources.displayMetrics.heightPixels * 0.5).toInt()
-//        binding.root.layoutParams = binding.root.layoutParams?.apply {
-//            height = maxHeight
-//        }
-
-        dialogBinding.visitNotes.text = Editable.Factory.getInstance().newEditable(data.visitNotes)
-
-        dialogBinding.closeButton.setOnClickListener { dialog.dismiss() }
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
+        if (!allowChanges) {
+            AlertUtils.showToast(requireActivity(), "Changes not allowed", ToastyType.WARNING)
+            return
         }
-        dialogBinding.btnSave.setOnClickListener {
-            // empty block for visit notes text
-            if (dialogBinding.visitNotes.text.toString().isEmpty()) {
-                AlertUtils.showToast(
-                    requireActivity(),
-                    "Please enter visit notes",
-                    ToastyType.WARNING
-                )
-                return@setOnClickListener
-            }
-            dialog.dismiss()
-            viewModel.updateVisitNotes(
+
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visitNotes, visitId,1,data.id)
+        bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
+    }
+
+    override fun onVisitNoteUpdated(
+        visitNotes: String,
+        visitDetailsId: String,
+        visitNotesId: String,
+        action: Int
+    ) {
+        if(action == 0) {
+            viewModel.addVisitNotes(
                 activity = requireActivity(),
-                visitDetailsId = visitId.orEmpty(),
-                createdByUserid = data.createdByUserId,
-                visitNotesId = data.id,
-                visitNotes = dialogBinding.visitNotes.text.toString().trim()
+                visitDetailsId = visitDetailsId,
+                visitNotes = visitNotes
             )
+        } else {
+//            viewModel.updateVisitNotes(
+//                activity = requireActivity(),
+//                visitDetailsId = visitDetailsId,
+//                visitNotesId = visitNotesId,
+//                visitNotes = visitNotes
+//            )
         }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        val window = dialog.window
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-
-        // ✅ Set Bottom Sheet max height to 75% of screen
-        val bottomSheet =
-            dialog.delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.layoutParams?.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
-        bottomSheet?.requestLayout()
-
-        dialog.show()
     }
 }

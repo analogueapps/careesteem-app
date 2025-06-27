@@ -686,7 +686,6 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                 val startTime =
                     "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
                 val alertType = try {
                     val planTime = when (args.action) {
