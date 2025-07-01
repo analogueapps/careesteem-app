@@ -16,6 +16,18 @@
         android:layout_height="16dp"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/sectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotoslab_regular"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:text="Assessment"
+        android:singleLine="true"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

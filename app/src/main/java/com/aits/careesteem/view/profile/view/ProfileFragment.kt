@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.DialogLogoutBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
@@ -119,10 +120,13 @@ class ProfileFragment : Fragment() {
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
-        binding.dialogTitle.text = "Switch Account"
+        binding.imgPopup.setImageResource(R.drawable.switch_account)
+        binding.dialogTitle.text = "You are about to switch accounts."
         binding.dialogBody.text =
-            "If you wish to switch your account, please check your current ongoing visits and any unsaved data will be lost beforehand, as you may lose the status of your ongoing visits."
-        binding.btnPositive.text = "Proceed"
+            "Unsaved changes or data in your current session may be lost." +
+                    "\n" +
+                    "Do you want to continue?"
+        binding.btnPositive.text = "Switch Account"
         binding.btnNegative.text = "Cancel"
 
         // Handle button clicks

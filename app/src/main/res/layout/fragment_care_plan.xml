@@ -10,40 +10,55 @@
     tools:context=".view.clients.view.CarePlanFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/assessmentLayout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/assessmentLayout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textSize="@dimen/_14ssp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:text="Assessment"
-                android:singleLine="true"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                android:layout_marginBottom="@dimen/_10sdp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAssessment"
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/robotoslab_regular"-->
+<!--                    android:textSize="@dimen/_14ssp"-->
+<!--                    android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                    android:text="Assessment"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textStyle="bold"-->
+<!--                    tools:ignore="HardcodedText" />-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAssessment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/riskAssessmentLayout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

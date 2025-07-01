@@ -1,25 +1,25 @@
 package com.aits.careesteem.view.clients.model
 
 sealed class RiskAssessmentItem {
-    data class ActivityItem(val data: CarePlanRiskAssList.Data.ActivityRiskAssessmentData) :
+    data class ActivityItem(val data: List<CarePlanRiskAssList.Data.ActivityRiskAssessmentData>) :
         RiskAssessmentItem()
 
-    data class BehaviourItem(val data: CarePlanRiskAssList.Data.BehaviourRiskAssessmentData) :
+    data class BehaviourItem(val data: List<CarePlanRiskAssList.Data.BehaviourRiskAssessmentData>) :
         RiskAssessmentItem()
 
-    data class COSHHItem(val data: CarePlanRiskAssList.Data.COSHHRiskAssessmentData) :
+    data class COSHHItem(val data: List<CarePlanRiskAssList.Data.COSHHRiskAssessmentData>) :
         RiskAssessmentItem()
 
-    data class EquipmentItem(val data: CarePlanRiskAssList.Data.EquipmentRegisterData) :
+    data class EquipmentItem(val data: List<CarePlanRiskAssList.Data.EquipmentRegisterData>) :
         RiskAssessmentItem()
 
-    data class FinancialItem(val data: CarePlanRiskAssList.Data.FinancialRiskAssessmentData) :
+    data class FinancialItem(val data: List<CarePlanRiskAssList.Data.FinancialRiskAssessmentData>) :
         RiskAssessmentItem()
 
-    data class MedicationItem(val data: CarePlanRiskAssList.Data.MedicationRiskAssessmentData) :
+    data class MedicationItem(val data: List<CarePlanRiskAssList.Data.MedicationRiskAssessmentData>) :
         RiskAssessmentItem()
 
-    data class SelfAdminItem(val data: CarePlanRiskAssList.Data.SelfAdministrationRiskAssessmentData) :
+    data class SelfAdminItem(val data: List<CarePlanRiskAssList.Data.SelfAdministrationRiskAssessmentData>) :
         RiskAssessmentItem()
 
     // New type for filtered list

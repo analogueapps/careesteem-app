@@ -10,920 +10,474 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Medicine Name"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMedicineName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Dose"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Route"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRoute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Time/Frequency"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTimeFrequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Self-Administration"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelfAdministration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Self-administer fully or partially?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSelfAdministerFully"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp"
-        android:visibility="gone" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Medicines they are taking and what they are for?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMedicines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="What time to take the medicines?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTimeToTakeMedicines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="What dosage to take?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDosageToTake"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="How to take the medicines?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTakeMedicines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="About any special instructions?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSpecialInstructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="About common, possible side effects?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSideEffects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="What to do if they miss a dose?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMissedDose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Any difficulty in reading the label on the medicines?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDifficultyReadingLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Open their medication (blister packs, bottles)?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvOpensMedication"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="About safe storage?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSafeStorage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Agree to notify?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAgreesToNotify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Responsible for reorder?"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvResponsibleForReorder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp"
-        android:background="@color/colorAccent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/_1sdp"
-        android:background="@color/colorAccent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fontFamily="@font/robotoslab_regular"
-        android:text="Signatures of All Involved Admins in the Assessment"
-        android:textSize="@dimen/_9ssp"
-        android:textStyle="normal"
-
-        tools:ignore="HardcodedText" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Name"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Date"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvName1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Name"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDate1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Date"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvName2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Name"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDate2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Date"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <View
-        android:id="@+id/viewLay"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@color/colorAccent"
-        android:visibility="gone" />
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
+                    android:text="Self Administration Risk Assessment"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelfAdministerFullyQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Medicines they are taking and what they are for?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSelfAdministerFully"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMedicinesQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Medicines they are taking and what they are for?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMedicines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTimeToTakeMedicinesQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="What time to take the medicines?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTimeToTakeMedicines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDosageToTakeQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="What dosage to take?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDosageToTake"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTakeMedicinesQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="How to take the medicines?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTakeMedicines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSpecialInstructionsQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="About any special instructions?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSpecialInstructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSideEffectsQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="About common, possible side effects?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSideEffects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMissedDoseQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="What to do if they miss a dose?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMissedDose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDifficultyReadingLabelQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Any difficulty in reading the label on the medicines?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDifficultyReadingLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOpensMedicationQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Open their medication (blister packs, bottles)?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOpensMedication"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSafeStorageQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="About safe storage?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSafeStorage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAgreesToNotifyQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Agree to notify?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAgreesToNotify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/assessment_bg"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvResponsibleForReorderQns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="Responsible for reorder?"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvResponsibleForReorder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+
+                    tools:ignore="HardcodedText" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

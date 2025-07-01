@@ -42,7 +42,13 @@ data class CarePlanRiskAssList(
             val task_support_required: String,
             val test_completed_on: String,
             val unique_id: String,
-            val updated_at: String
+            val reduced_risks: String,
+            val important_user: String,
+            val user_achieve_goals_by: String,
+            val outcome_achieve: String,
+            val support_achieve: String,
+            val help_user_achieve_goals: String,
+            val updated_at: String,
         )
 
         data class BehaviourRiskAssessmentData(
@@ -105,7 +111,13 @@ data class CarePlanRiskAssList(
             val test_completed_on: String,
             val type_of_harm: String,
             val unique_id: String,
-            val updated_at: String
+            val updated_at: String,
+            val reduced_risks: String,
+            val important_user: String,
+            val user_achieve_goals_by: String,
+            val outcome_achieve: String,
+            val support_achieve: String,
+            val help_user_achieve_goals: String,
         )
 
         data class EquipmentRegisterData(
@@ -127,7 +139,13 @@ data class CarePlanRiskAssList(
             val status: String,
             val test_completed_on: String,
             val unique_id: String,
-            val updated_at: String
+            val updated_at: String,
+            val reduced_risks: String,
+            val important_user: String,
+            val user_achieve_goals_by: String,
+            val outcome_achieve: String,
+            val support_achieve: String,
+            val help_user_achieve_goals: String,
         )
 
         data class FinancialRiskAssessmentData(
@@ -157,7 +175,13 @@ data class CarePlanRiskAssList(
             val spending_limit: String,
             val status: String,
             val test_completed_on: String,
-            val updated_at: String
+            val updated_at: String,
+            val reduced_risks: String,
+            val important_user: String,
+            val user_achieve_goals_by: String,
+            val outcome_achieve: String,
+            val support_achieve: String,
+            val help_user_achieve_goals: String,
         )
 
         data class MedicationRiskAssessmentData(

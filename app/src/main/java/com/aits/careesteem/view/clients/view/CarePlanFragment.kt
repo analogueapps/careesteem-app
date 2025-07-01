@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.databinding.FragmentCarePlanBinding
 import com.aits.careesteem.utils.ProgressLoader
-import com.aits.careesteem.view.clients.adapter.ClientAdapter
 import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
 import com.aits.careesteem.view.clients.adapter.RiskAssessmentParentAdapter
 import com.aits.careesteem.view.clients.helper.FilterQuestionAndAnswers
@@ -91,7 +90,7 @@ class CarePlanFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        adapter = RiskAssessmentParentAdapter(requireContext(), mutableListOf())
+        adapter = RiskAssessmentParentAdapter(requireContext(), mutableListOf(), clientData)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
@@ -231,7 +230,10 @@ class CarePlanFragment : Fragment() {
                         data
                     )
                 if (filteredList.isNotEmpty()) {
-                    showAssessmentQuestionAndAnswer("Cultural, Spiritual & Social Relationships Assessment", filteredList)
+                    showAssessmentQuestionAndAnswer(
+                        "Cultural, Spiritual & Social Relationships Assessment",
+                        filteredList
+                    )
                     showIfAnyAssessmentVisible()
                 }
             }
@@ -385,55 +387,71 @@ class CarePlanFragment : Fragment() {
                         data
                     )
                 if (filteredList.isNotEmpty()) {
-                    showAssessmentQuestionAndAnswer("Nutrition & Hydration Assessment", filteredList)
+                    showAssessmentQuestionAndAnswer(
+                        "Nutrition & Hydration Assessment",
+                        filteredList
+                    )
                     showIfAnyAssessmentVisible()
                 }
             }
         }
 
-        // activityRiskAssessment
+        // Activity Risk Assessment
         viewModel.activityRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach {
+            data.takeIf { it.isNotEmpty() }?.let {
                 finalList.add(RiskAssessmentItem.ActivityItem(it))
+                updateAdapterData()
             }
-            updateAdapterData()
         }
 
-        // behaviourRiskAssessment
+// Behaviour Risk Assessment
         viewModel.behaviourRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.BehaviourItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.BehaviourItem(it))
+                updateAdapterData()
+            }
         }
 
-        // selfAdministrationRiskAssessment
+// Self Administration Risk Assessment
         viewModel.selfAdministrationRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.SelfAdminItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.SelfAdminItem(it))
+                updateAdapterData()
+            }
         }
 
-        // medicationRiskAssessment
+// Medication Risk Assessment
         viewModel.medicationRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.MedicationItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.MedicationItem(it))
+                updateAdapterData()
+            }
         }
 
-        // equipmentRegister
+// Equipment Register
         viewModel.equipmentRegisterData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.EquipmentItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.EquipmentItem(it))
+                updateAdapterData()
+            }
         }
 
-        // financialRiskAssessment
+// Financial Risk Assessment
         viewModel.financialRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.FinancialItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.FinancialItem(it))
+                updateAdapterData()
+            }
         }
 
-        // cOSHHRiskAssessment
+// COSHH Risk Assessment
         viewModel.cOSHHRiskAssessmentData.observe(viewLifecycleOwner) { data ->
-            data.forEach { finalList.add(RiskAssessmentItem.COSHHItem(it)) }
-            updateAdapterData()
+            data.takeIf { it.isNotEmpty() }?.let {
+                finalList.add(RiskAssessmentItem.COSHHItem(it))
+                updateAdapterData()
+            }
         }
+
 
 //        val adapter = RiskAssessmentParentAdapter(requireContext(), finalList)
 //        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -441,7 +459,10 @@ class CarePlanFragment : Fragment() {
 
     }
 
-    private fun showAssessmentQuestionAndAnswer(title: String, filteredList: List<Triple<String, String, String>>) {
+    private fun showAssessmentQuestionAndAnswer(
+        title: String,
+        filteredList: List<Triple<String, String, String>>
+    ) {
         questionAnswerAdapter.updateData(title, filteredList)
     }
 

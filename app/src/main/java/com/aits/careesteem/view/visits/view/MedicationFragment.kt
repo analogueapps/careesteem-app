@@ -135,66 +135,56 @@ class MedicationFragment : Fragment(),
 
     @SuppressLint("SetTextI18n")
     private fun setupViewModel() {
-        var hasLoadedData = false
 
-        // Observe loading state
+        // Loading state observer
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                ProgressLoader.showProgress(requireActivity())
-            } else {
-                ProgressLoader.dismissProgress()
-                if (hasLoadedData) {
-                    updateUI()  // Only update UI *after* data has been loaded and loading has finished
-                }
-            }
+            if (isLoading) ProgressLoader.showProgress(requireActivity())
+            else ProgressLoader.dismissProgress()
         }
 
-        // Data visibility
+        // Completed count observer
         viewModel.completeCount.observe(viewLifecycleOwner) { count ->
-            if (count != null) {
-                binding.submitCount.text = count.toString()
-            }
+            binding.submitCount.text = count?.toString() ?: "0"
         }
 
-        // Observe main list
+        // Medication list observer
         viewModel.medicationList.observe(viewLifecycleOwner) { list ->
             mainList = list
-            //updateUI()
-            hasLoadedData = true
+            updateUI()
         }
 
-        // Observe PRN list
+        // PRN medication list observer
         viewModel.prnMedicationList.observe(viewLifecycleOwner) { list ->
             prnList = list
-            //updateUI()
-            hasLoadedData = true
+            updateUI()
         }
     }
-
 
     private fun updateUI() = with(binding) {
         val isMainEmpty = mainList.isNullOrEmpty()
         val isPrnEmpty = prnList.isNullOrEmpty()
 
+        // Show empty state if both lists are empty
         if (isMainEmpty && isPrnEmpty) {
             showEmptyState()
-            recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
-            headerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
-            prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
         } else {
             emptyLayout.visibility = View.GONE
-            recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
-            headerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
-            prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
+        }
 
-            mainList?.let {
-                totalCount.text = it.size.toString()
-                medicationListAdapter.updateList(it)
-            }
+        // Main medication section
+        recyclerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
+        headerView.visibility = if (isMainEmpty) View.GONE else View.VISIBLE
 
-            prnList?.let {
-                medicationPnrListAdapter.updateList(it)
-            }
+        mainList?.takeIf { it.isNotEmpty() }?.let {
+            totalCount.text = it.size.toString()
+            medicationListAdapter.updateList(it)
+        }
+
+        // PRN medication section
+        prnLayout.visibility = if (isPrnEmpty) View.GONE else View.VISIBLE
+
+        prnList?.takeIf { it.isNotEmpty() }?.let {
+            medicationPnrListAdapter.updateList(it)
         }
     }
 

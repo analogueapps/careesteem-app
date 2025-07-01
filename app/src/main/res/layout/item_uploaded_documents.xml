@@ -3,22 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_5sdp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/alertCard"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/_5sdp"
-        app:cardUseCompatPadding="true"
-        app:strokeColor="#DDDDDD"
-        app:strokeWidth="2dp">
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_document_main_bg"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/alertLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_35sdp"
             android:clickable="true"
             android:focusable="true"
             android:orientation="horizontal"
@@ -48,44 +45,58 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/detailLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/alertCard"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Additional Info"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
+            android:layout_below="@+id/alertCard"
+            android:orientation="vertical"
+            android:padding="@dimen/_8sdp"
+            android:visibility="gone">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/additionalInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Additional Info"
-            android:textSize="@dimen/_9ssp"
-            android:textStyle="normal"
-            tools:ignore="HardcodedText" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Additional Info"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/additionalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Additional Info"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/robotoslab_regular"
+                android:text="Added Documents"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

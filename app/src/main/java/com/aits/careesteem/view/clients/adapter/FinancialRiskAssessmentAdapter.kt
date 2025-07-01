@@ -6,15 +6,19 @@
 
 package com.aits.careesteem.view.clients.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemFinancialRiskAssessmentBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
+import com.aits.careesteem.view.clients.model.ClientsList
 
 class FinancialRiskAssessmentAdapter(
     private val adapterList: List<CarePlanRiskAssList.Data.FinancialRiskAssessmentData>,
+    private val clientData: ClientsList.Data,
 ) : RecyclerView.Adapter<FinancialRiskAssessmentAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,36 +36,51 @@ class FinancialRiskAssessmentAdapter(
         holder.bind(dataItem)
     }
 
-    override fun getItemCount(): Int = adapterList.size
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemCount(): Int = 1
 
     inner class ViewHolder(private val binding: ItemFinancialRiskAssessmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(data: CarePlanRiskAssList.Data.FinancialRiskAssessmentData) {
             binding.apply {
-                tvRequiresAssistance.text = AppConstant.checkNull(data.requires_assistance)
+                val requiresAssistance = AppConstant.checkNull(data.requires_assistance)
+                tvRequiresAssistance.text = requiresAssistance
+
+                if(requiresAssistance.lowercase() == "yes") {
+                    assessmentLayout.visibility = View.VISIBLE
+                } else {
+                    assessmentLayout.visibility = View.GONE
+                }
+
                 tvResponsibleParty.text = AppConstant.checkNull(data.responsible_party)
                 tvFamilyMemberName.text = AppConstant.checkNull(data.family_member_name)
-                tvAgencyName.text = AppConstant.checkNull(data.agency_name)
+                tvOthers.text = AppConstant.checkNull(data.other)
+
                 tvLocalAuthorityName.text = AppConstant.checkNull(data.local_authority_name)
                 tvSpendingLimit.text = AppConstant.checkNull(data.spending_limit)
                 tvSpendingDetails.text = AppConstant.checkNull(data.spending_details)
-                tvMoneySpentBy.text = AppConstant.checkNull(data.money_spent_by)
                 tvActivitiesFinances.text = AppConstant.checkNull(data.activities_finances)
+                tvActivitiesFinancesDetails.text = AppConstant.checkNull(data.activities_finances_details)
                 tvSafeLocation.text = AppConstant.checkNull(data.safe_location)
                 tvProvideDetails.text = AppConstant.checkNull(data.provide_details)
-                tvName1.text = AppConstant.checkNull(data.sign_1)
-                tvName2.text = AppConstant.checkNull(data.sign_2)
-                tvDate1.text = AppConstant.checkNull(data.date_1)
-                tvDate2.text = AppConstant.checkNull(data.date_2)
+//                tvName1.text = AppConstant.checkNull(data.sign_1)
+//                tvName2.text = AppConstant.checkNull(data.sign_2)
+//                tvDate1.text = AppConstant.checkNull(data.date_1)
+//                tvDate2.text = AppConstant.checkNull(data.date_2)
+
+                questionOne.text = "1. What risks there are and what we are doing to reduce the risks?"
+                answerOne.text = AppConstant.checkNull(data.reduced_risks)
+                questionTwo.text = "2. What Outcomes would ${AppConstant.checkClientFirstName(clientData.full_name)} like to achieve?"
+                answerTwo.text = AppConstant.checkNull(data.outcome_achieve)
+                questionThree.text = "3. Who will support ${AppConstant.checkClientFirstName(clientData.full_name)} to achieve these goals?"
+                answerThree.text = AppConstant.checkNull(data.support_achieve)
+                questionFour.text = "4. What is needed to help ${AppConstant.checkClientFirstName(clientData.full_name)} achieve these goals?"
+                answerFour.text = AppConstant.checkNull(data.help_user_achieve_goals)
+                questionFive.text = "5. When would the service user like to achieve these goals by?"
+                answerFive.text = AppConstant.checkNull(data.user_achieve_goals_by)
+                questionSix.text = "6. Why is this important to ${AppConstant.checkClientFirstName(clientData.full_name)}?"
+                answerSix.text = AppConstant.checkNull(data.important_user)
             }
         }
     }

@@ -40,6 +40,7 @@ import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
@@ -281,7 +282,37 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 if (data.visitStatus == "Unscheduled") {
                     viewModel.createUnscheduledVisit(requireActivity(), data.clientId, true)
                 } else {
-                    showCheckInPopup(data)
+                    val dialog = Dialog(requireContext())
+                    val binding: DialogForceCheckBinding =
+                        DialogForceCheckBinding.inflate(layoutInflater)
+                    dialog.window?.setDimAmount(0.8f)
+                    dialog.setContentView(binding.root)
+                    dialog.setCancelable(false)
+
+                    binding.imgPopup.setImageResource(R.drawable.check)
+                    binding.dialogTitle.text = "Check In"
+                    binding.dialogBody.text =
+                        "Are you sure you want to check in now?"
+                    binding.btnPositive.text = "Yes"
+                    binding.btnNegative.text = "No"
+
+                    // Handle button clicks
+                    binding.btnPositive.setOnClickListener {
+                        dialog.dismiss()
+                        showCheckInPopup(data)
+                    }
+                    binding.btnNegative.setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                    val window = dialog.window
+                    window?.setLayout(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                    )
+                    dialog.show()
                 }
             }
         }
@@ -297,10 +328,40 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             }
             checkLocationAndProceed { ->
                 //showCheckOutPopup(data)
-                viewModel.checkOutEligible(
-                    requireActivity(),
-                    data.visitDetailsId
+                val dialog = Dialog(requireContext())
+                val binding: DialogForceCheckBinding =
+                    DialogForceCheckBinding.inflate(layoutInflater)
+                dialog.window?.setDimAmount(0.8f)
+                dialog.setContentView(binding.root)
+                dialog.setCancelable(false)
+
+                binding.imgPopup.setImageResource(R.drawable.check)
+                binding.dialogTitle.text = "Check Out"
+                binding.dialogBody.text =
+                    "Are you sure you want to check out now?"
+                binding.btnPositive.text = "Yes"
+                binding.btnNegative.text = "No"
+
+                // Handle button clicks
+                binding.btnPositive.setOnClickListener {
+                    dialog.dismiss()
+                    viewModel.checkOutEligible(
+                        requireActivity(),
+                        data.visitDetailsId
+                    )
+                }
+                binding.btnNegative.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                val window = dialog.window
+                window?.setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
                 )
+                dialog.show()
             }
         }
     }

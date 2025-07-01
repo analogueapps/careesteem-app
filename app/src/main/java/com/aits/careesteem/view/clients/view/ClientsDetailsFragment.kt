@@ -45,7 +45,6 @@ import com.aits.careesteem.view.clients.adapter.FinancialRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.MedicationRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.adapter.MyCareNetworkAdapter
 import com.aits.careesteem.view.clients.adapter.OnDocumentClickListener
-import com.aits.careesteem.view.clients.adapter.QuestionAnswerAdapter
 import com.aits.careesteem.view.clients.adapter.SelfAdministrationRiskAssessmentAdapter
 import com.aits.careesteem.view.clients.model.CarePlanRiskAssList
 import com.aits.careesteem.view.clients.model.ClientDetailsResponse
@@ -973,7 +972,7 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = "COSHH Risk Assessment"
-        val adapter = COSHHRiskAssessmentAdapter(data!!)
+        val adapter = COSHHRiskAssessmentAdapter(data!!, clientData)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -1009,7 +1008,7 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = "Financial Risk Assessment"
-        val adapter = FinancialRiskAssessmentAdapter(data!!)
+        val adapter = FinancialRiskAssessmentAdapter(data!!, clientData)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -1045,7 +1044,7 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = "Equipment Register"
-        val adapter = EquipmentRegisterAdapter(data!!)
+        val adapter = EquipmentRegisterAdapter(data!!, clientData)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -1118,7 +1117,7 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = "Self Administration Risk Assessment"
-        val adapter = SelfAdministrationRiskAssessmentAdapter(requireContext(), data!!)
+        val adapter = SelfAdministrationRiskAssessmentAdapter(requireContext(), data!!, clientData)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -1191,7 +1190,7 @@ class ClientsDetailsFragment : Fragment(),
 
         // Add data
         binding.dialogTitle.text = "Activity Risk Assessment"
-        val adapter = ActivityRiskAssessmentAdapter(data!!)
+        val adapter = ActivityRiskAssessmentAdapter(data!!, clientData)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

@@ -36,15 +36,7 @@ class BehaviourRiskAssessmentAdapter(
         holder.bind(dataItem)
     }
 
-    override fun getItemCount(): Int = adapterList.size
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemCount(): Int = 1
 
     inner class ViewHolder(private val binding: ItemBehaviourRiskAssessmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -87,10 +79,10 @@ class BehaviourRiskAssessmentAdapter(
                     .filter { it.isNotBlank() }
                     .joinToString(", ")
 
-                tvName1.text = AppConstant.checkNull(data.sign_1)
-                tvName2.text = AppConstant.checkNull(data.sign_2)
-                tvDate1.text = AppConstant.checkNull(data.date_1)
-                tvDate2.text = AppConstant.checkNull(data.date_2)
+//                tvName1.text = AppConstant.checkNull(data.sign_1)
+//                tvName2.text = AppConstant.checkNull(data.sign_2)
+//                tvDate1.text = AppConstant.checkNull(data.date_1)
+//                tvDate2.text = AppConstant.checkNull(data.date_2)
             }
         }
     }

@@ -74,6 +74,14 @@ object AppConstant {
         }
     }
 
+    fun checkClientFirstName(value: String?): String {
+        return if (value.isNullOrEmpty()) {
+            "N/A"
+        } else {
+            value.split(" ").first()
+        }
+    }
+
     fun checkNullOrNull(value: String?): String {
         return if (value.isNullOrEmpty()) {
             "N/A"

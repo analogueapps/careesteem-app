@@ -11,58 +11,19 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/hazardName"
+        android:id="@+id/tvNameOfProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="start"
-        android:hint="Hazard"
+        android:hint="Product"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:text="Potential Hazards"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="normal"
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:fontFamily="@font/robotoslab_regular"
-            android:gravity="center"
-            android:text=":"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPotentialHazards"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/robotoslab_regular"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="normal"
-
-            tools:ignore="HardcodedText" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
         android:padding="@dimen/_5sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -72,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="Level Of Risk"
+            android:text="Type Of Harm"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
 
@@ -91,15 +52,14 @@
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvLevelOfRisk"
+            android:id="@+id/tvTypeOfHarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.3"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="N/A"
             android:textSize="@dimen/_10ssp"
-
             android:textStyle="normal"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -121,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="Risk Range"
+            android:text="Description Substance"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
 
@@ -140,15 +100,14 @@
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRiskRange"
+            android:id="@+id/tvDescriptionSubstance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.3"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="N/A"
             android:textSize="@dimen/_10ssp"
-
             android:textStyle="normal"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -170,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="Support Methods"
+            android:text="Color"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
 
@@ -189,15 +148,14 @@
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSupportMethods"
+            android:id="@+id/tvColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.3"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="N/A"
             android:textSize="@dimen/_10ssp"
-
             android:textStyle="normal"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -219,7 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="Controls Adequate"
+            android:text="Details Substance"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
 
@@ -238,15 +196,14 @@
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvControlsAdequate"
+            android:id="@+id/tvDetailsSubstance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.3"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="N/A"
             android:textSize="@dimen/_10ssp"
-
             android:textStyle="normal"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -268,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="Regulatory Measures"
+            android:text="Contact Substance"
             android:textSize="@dimen/_10ssp"
             android:textStyle="normal"
 
@@ -287,15 +244,14 @@
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvRegulatoryMeasures"
+            android:id="@+id/tvContactSubstance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.3"
             android:fontFamily="@font/robotoslab_regular"
-            android:text="N/A"
             android:textSize="@dimen/_10ssp"
-
             android:textStyle="normal"
+
             tools:ignore="HardcodedText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

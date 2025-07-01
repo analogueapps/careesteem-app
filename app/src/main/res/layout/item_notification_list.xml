@@ -73,12 +73,13 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
-                        android:singleLine="true"
+                        android:maxLines="2"
                         android:text="@string/care_plan"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_gravity="center"
                         android:id="@+id/btnDelete"
                         android:layout_width="24dp"
                         android:layout_height="24dp"

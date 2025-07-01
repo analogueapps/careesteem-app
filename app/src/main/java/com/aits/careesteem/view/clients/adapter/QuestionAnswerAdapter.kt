@@ -136,7 +136,7 @@ class QuestionAnswerAdapter : RecyclerView.Adapter<QuestionAnswerAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], position)
     }
 
     override fun getItemCount(): Int = items.size
@@ -161,7 +161,9 @@ class QuestionAnswerAdapter : RecyclerView.Adapter<QuestionAnswerAdapter.ViewHol
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(item: SectionedItem) = with(binding) {
+        fun bind(item: SectionedItem, position: Int) = with(binding) {
+            sectionHeader.visibility = if (position == 0) View.VISIBLE else View.GONE
+
             // Title
             title.text = item.title
             title.visibility = if (item.isFirstInSection) View.VISIBLE else View.GONE
