@@ -199,6 +199,13 @@ class WelcomeFragment : Fragment() {
             } else {
                 binding.rvCountryList.visibility = View.VISIBLE
             }
+            // Prevent click from reaching root
+            it.isClickable = true
+        }
+
+        // Hide dropdown when user clicks outside
+        binding.root.setOnClickListener {
+            binding.rvCountryList.visibility = View.GONE
         }
 
     }

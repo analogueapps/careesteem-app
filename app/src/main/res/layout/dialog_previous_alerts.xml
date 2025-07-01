@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bottom_sheet_rounded"
+    android:orientation="vertical"
+    tools:ignore="UselessParent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_12sdp"
+        android:paddingRight="@dimen/_12sdp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_11sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/robotoslab_regular"
+                android:gravity="center"
+                android:letterSpacing="0"
+                android:text="Previous Visit Notes"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_close_icon"
+                android:tint="#4C5664" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_11sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:background="#E0E0E0" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

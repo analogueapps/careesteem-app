@@ -295,8 +295,8 @@ class ClientDetailsViewModel @Inject constructor(
                 val response = repository.getClientCarePlanRiskAss(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
                         .toString(),
-                    //clientId = clientId
-                    clientId = "ec0f4840ccc34177821f1952"
+                    clientId = clientId
+                    //clientId = "ec0f4840ccc34177821f1952"
                 )
 
                 if (response.isSuccessful) {

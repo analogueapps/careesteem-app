@@ -733,4 +733,14 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken
         )
     }
+
+    suspend fun getClientPreviousVisitNotesDetails(
+        hashToken: String,
+        visitDetailsId: String
+    ): Response<ClientVisitNotesDetails> {
+        return apiService.getClientPreviousVisitNotesDetails(
+            hashToken = hashToken,
+            visitDetailsId = visitDetailsId,
+        )
+    }
 }

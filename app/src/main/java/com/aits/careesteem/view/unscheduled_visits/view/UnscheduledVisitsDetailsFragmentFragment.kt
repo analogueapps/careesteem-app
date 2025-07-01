@@ -1,6 +1,7 @@
 package com.aits.careesteem.view.unscheduled_visits.view
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -23,7 +24,9 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.bottomsheet.PreviousVisitNotesBottomSheetFragment
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvViewPagerAdapter
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
@@ -32,6 +35,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
@@ -42,6 +46,12 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
     // Viewmodel
     private val viewModel: OngoingVisitsDetailsViewModel by viewModels()
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
+
     override fun onResume() {
         super.onResume()
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -50,6 +60,10 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getVisitDetails(requireActivity(), args.visitDetailsId)
+
+        if(sharedPreferences.getBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, false)){
+            viewModel.getPreviousVisitNotes(requireActivity(), args.visitDetailsId)
+        }
     }
 
     override fun onCreateView(
@@ -77,6 +91,17 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         viewModel.visitsDetails.observe(viewLifecycleOwner) { data ->
             if (data != null) {
                 setupCardData(data)
+            }
+        }
+
+        viewModel.visitNotesList.observe(viewLifecycleOwner) {
+            editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, false)
+            editor.apply()
+            it?.let {
+                //showPreviousVisitNotes(it)
+                val gson = Gson()
+                val bottomSheet = PreviousVisitNotesBottomSheetFragment.newInstance(gson.toJson(it))
+                bottomSheet.show(childFragmentManager, PreviousVisitNotesBottomSheetFragment.TAG)
             }
         }
     }

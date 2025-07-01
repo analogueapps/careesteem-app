@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -38,6 +39,7 @@ import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -69,6 +71,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class UvCheckInFragment : Fragment(), OnMapReadyCallback {
@@ -85,6 +88,9 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     private var qrScanning = false
 
     private var qrTimeoutJob: Job? = null
+
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
@@ -277,6 +283,9 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun navigateToVisitDetails(visitDetailsId: String) {
+        editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, true)
+        editor.apply()
+
         val direction = UvCheckInFragmentDirections
             .actionUvCheckInFragmentToUnscheduledVisitsDetailsFragmentFragment(
                 visitDetailsId

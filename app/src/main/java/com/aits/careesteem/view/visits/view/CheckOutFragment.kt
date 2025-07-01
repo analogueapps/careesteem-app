@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
@@ -39,6 +40,7 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.home.view.HomeActivity
@@ -74,6 +76,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -93,6 +96,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private var qrScanning = false
 
     private var qrTimeoutJob: Job? = null
+
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_CODE = 5555
@@ -581,6 +587,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun navigateAfterCheckIn() {
+        editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, false)
+        editor.apply()
+
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.checkOutFragment, true)
             .build()

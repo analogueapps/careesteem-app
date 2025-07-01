@@ -23,4 +23,8 @@ object SharedPrefConstant {
     const val NOTIFICATION_COUNT = "NOTIFICATION_COUNT"
     const val NOTIFICATION_ENABLE = "NOTIFICATION_ENABLE"
     const val LOCK_ENABLE = "LOCK_ENABLE"
+
+
+
+    const val SHOW_PREVIOUS_NOTES = "SHOW_PREVIOUS_NOTES"
 }

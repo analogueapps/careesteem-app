@@ -13,6 +13,7 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +39,9 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
 
     private val _visitsDetails = MutableLiveData<VisitDetailsResponse.Data>()
     val visitsDetails: LiveData<VisitDetailsResponse.Data> get() = _visitsDetails
+
+    private val _visitNotesList = MutableLiveData<List<ClientVisitNotesDetails.Data>>()
+    val visitNotesList: LiveData<List<ClientVisitNotesDetails.Data>> get() = _visitNotesList
 
     fun getVisitDetails(activity: Activity, visitDetailsId: String) {
         _isLoading.value = true
@@ -84,6 +88,58 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun getPreviousVisitNotes(activity: Activity, visitDetailsId: String) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.getClientPreviousVisitNotesDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    visitDetailsId = visitDetailsId
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { list ->
+                        _visitNotesList.value = list.data
+                    }
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                    if (response.code() == 404) {
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
+                e.printStackTrace()
+            } finally {
+                editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, false)
+                editor.apply()
             }
         }
     }

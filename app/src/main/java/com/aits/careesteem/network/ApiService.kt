@@ -468,4 +468,10 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Body request: ClearNotificationRequest
     ): Response<JsonObject>
+
+    @GET("get-client-Previous-visitnotes-details/{visitDetailsId}")
+    suspend fun getClientPreviousVisitNotesDetails(
+        @Path("visitDetailsId") visitDetailsId: String,
+        @Query("hash_token") hashToken: String
+    ): Response<ClientVisitNotesDetails>
 }
