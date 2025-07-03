@@ -4,14 +4,19 @@
   ~ found in the LICENSE file.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:bottom="8dp"
-        android:top="8dp">
-        <selector>
-            <item
-                android:drawable="@drawable/ic_tab_select_background"
-                android:state_selected="true" />
-        </selector>
-    </item>
-</layer-list>
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item-->
+<!--        android:bottom="8dp"-->
+<!--        android:top="8dp">-->
+<!--        <selector>-->
+<!--            <item-->
+<!--                android:drawable="@drawable/ic_tab_select_background"-->
+<!--                android:state_selected="true" />-->
+<!--        </selector>-->
+<!--    </item>-->
+<!--</layer-list>-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/tab_selected_bg" android:state_selected="true"/>
+    <item android:drawable="@drawable/tab_unselected_bg"/>
+</selector>

@@ -407,7 +407,6 @@
                     android:hint="Enter medication notes"
                     android:lines="5"
                     android:padding="@dimen/_10sdp"
-                    android:textColor="#6D6D6D"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText,RtlHardcoded" />

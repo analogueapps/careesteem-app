@@ -7,6 +7,7 @@
 package com.aits.careesteem.view.home.view
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +16,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,7 +26,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -62,19 +66,31 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom - systemBars.bottom
+
+        // Force show status bar
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        // Extend layout to draw behind status bar
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        // Make status bar transparent
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        // Set status bar icons to dark (black)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
+            view.setPadding(
+                0,
+                insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+                0,
+                insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
             )
             insets
         }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
         navController = navHostFragment.navController
@@ -166,6 +182,7 @@ class HomeActivity : BaseActivity() {
     }
 
     // Inflate the menu resource
+    @SuppressLint("InflateParams")
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 

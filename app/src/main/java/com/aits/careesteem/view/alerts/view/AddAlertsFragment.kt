@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -180,6 +181,19 @@ class AddAlertsFragment : Fragment() {
                         bodyMapController.visibility = View.VISIBLE
                     }
                 }
+            }
+        }
+
+        val maxHeightPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            200f, // max height in dp
+            resources.displayMetrics
+        ).toInt()
+
+        binding.rvClientName.viewTreeObserver.addOnGlobalLayoutListener {
+            if (binding.rvClientName.height > maxHeightPx) {
+                binding.rvClientName.layoutParams.height = maxHeightPx
+                binding.rvClientName.requestLayout()
             }
         }
 

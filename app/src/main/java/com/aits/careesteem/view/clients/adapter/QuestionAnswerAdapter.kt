@@ -7,10 +7,14 @@
 package com.aits.careesteem.view.clients.adapter
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemAssessmentQaBinding
 
 //class QuestionAnswerAdapter(
@@ -182,7 +186,21 @@ class QuestionAnswerAdapter : RecyclerView.Adapter<QuestionAnswerAdapter.ViewHol
             } else {
                 comment.visibility = View.GONE
             }
+
+            // Apply background to the content layout
+            rootLayout.background = ContextCompat.getDrawable(
+                itemView.context,
+                R.drawable.assessment_bg
+            )
+
+            // Set margins to create separation
+            (rootLayout.layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
+                topMargin = if (position == 0) 0 else (-1).dpToPx() // Overlap the divider
+                bottomMargin = 0
+            }
         }
     }
+
+    private fun Int.dpToPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 }
 

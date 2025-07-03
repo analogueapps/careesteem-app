@@ -42,6 +42,7 @@
                         android:visibility="gone" />
 
                     <SearchView
+                        android:visibility="gone"
                         android:id="@+id/searchView"
                         android:layout_width="@dimen/_140sdp"
                         android:layout_height="@dimen/_28sdp"
@@ -53,6 +54,13 @@
                         android:searchIcon="@drawable/ic_search"
                         android:theme="@style/AppSearchView"
                         tools:ignore="HardcodedText" />
+
+                    <include
+                        android:id="@+id/included_header"
+                        layout="@layout/search_view"
+                        android:layout_width="@dimen/_140sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_marginStart="@dimen/_10sdp"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"

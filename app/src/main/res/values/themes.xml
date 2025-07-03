@@ -4,13 +4,13 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorPrimary</item>
         <item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- This removes the default back/up icon -->
         <item name="windowActionBar">true</item>
         <item name="displayOptions">showTitle|useLogo</item>
@@ -127,7 +127,7 @@
     <style name="CustomMaterialSwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <!-- Thumb color when checked and unchecked -->
         <item name="thumbColor">@color/custom_thumb_color</item>
-
+        <item name="thumbStrokeColor">@color/colorPrimary</item>
         <!-- Track color when checked and unchecked -->
         <item name="trackColor">@color/custom_track_color</item>
 

@@ -72,6 +72,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"
@@ -102,6 +103,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"
@@ -132,6 +134,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"
@@ -162,6 +165,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"
@@ -192,6 +196,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"
@@ -222,6 +227,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_marginTop="-1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/assessment_bg"

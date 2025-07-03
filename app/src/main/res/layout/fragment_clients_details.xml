@@ -1338,8 +1338,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topLayout"
+            app:tabGravity="fill"
             app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabPaddingStart="8dp"
+            app:tabPaddingEnd="8dp"
             app:tabRippleColor="@android:color/transparent" />
 
         <androidx.viewpager2.widget.ViewPager2
@@ -1358,7 +1364,7 @@
         android:id="@+id/btnCreateUnscheduledVisit"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
@@ -1372,7 +1378,7 @@
         android:text="@string/create_an_unscheduled_visit"
         android:textAllCaps="false"
         android:textColor="#503101"
-        android:textSize="@dimen/_11ssp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="normal"
         app:icon="@drawable/flat_color_icons_plus"
         app:iconPadding="3dip"

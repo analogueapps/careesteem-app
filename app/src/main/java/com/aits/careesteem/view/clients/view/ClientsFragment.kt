@@ -1,9 +1,13 @@
 package com.aits.careesteem.view.clients.view
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -105,6 +109,28 @@ class ClientsFragment : Fragment(),
                 return true
             }
         })
+
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        binding.includedHeader.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                binding.includedHeader.ivClear.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                // i want to take this one and parse to adapter
+                clientAdapter.filter(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        binding.includedHeader.ivClear.setOnClickListener {
+            binding.includedHeader.etSearch.text.clear()
+            binding.includedHeader.etSearch.clearFocus()
+            binding.includedHeader.ivClear.visibility = View.GONE
+
+            // Hide keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.includedHeader.etSearch.windowToken, 0)
+        }
 
     }
 

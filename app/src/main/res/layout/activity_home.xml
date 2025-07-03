@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".view.home.view.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:paddingEnd="10dp"
+        android:paddingEnd="13dp"
+        android:paddingStart="5dp"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

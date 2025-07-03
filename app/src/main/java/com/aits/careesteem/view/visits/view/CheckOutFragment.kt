@@ -154,21 +154,21 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         tabLayout.addTab(tab1)
         tabLayout.addTab(tab2)
 
+        // Set custom views for tabs (no width adjustments needed)
         for (i in 0 until tabLayout.tabCount) {
             val tab = tabLayout.getTabAt(i)
             val textView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.lyt_tab_title, null) as TextView
-            textView.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            // Set tab text correctly
             textView.text = tab?.text
             tab?.customView = textView
+
+            // Add this to update the initial state
+            textView.isSelected = tab?.isSelected ?: false
         }
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.customView?.isSelected = true
                 when (tab?.position) {
                     0 -> {
                         qrTimeoutJob?.cancel() // Cancel previous
@@ -189,7 +189,9 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.customView?.isSelected = false
+            }
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
@@ -587,7 +589,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun navigateAfterCheckIn() {
-        editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, false)
+        editor.putBoolean(SharedPrefConstant.SHOW_PREVIOUS_NOTES, true)
         editor.apply()
 
         val navOptions = NavOptions.Builder()

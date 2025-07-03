@@ -58,6 +58,10 @@
             android:id="@+id/action_clientsDetailsFragment_to_uvCheckInFragment"
             app:destination="@id/uvCheckInFragment"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_clientsDetailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -128,5 +132,14 @@
             android:id="@+id/action_uvCheckInFragment_to_unscheduledVisitsDetailsFragmentFragment"
             app:destination="@id/unscheduledVisitsDetailsFragmentFragment"
             app:launchSingleTop="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.aits.careesteem.view.webview.view.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="fileUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

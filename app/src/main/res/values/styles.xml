@@ -4,7 +4,7 @@
   ~ found in the LICENSE file.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Normal">
         <item name="cornerSize">0%</item>
@@ -56,6 +56,25 @@
         <item name="cornerSizeTopRight">10dp</item>
         <item name="cornerSizeBottomLeft">10dp</item>
         <item name="cornerSizeBottomRight">10dp</item>
+    </style>
+
+    <style name="SwitchButtonMD" tools:ignore="ResourceName">
+        <item name="kswThumbDrawable">@drawable/ksw_md_thumb</item>
+        <item name="kswBackColor">@color/ksw_md_back_color</item>
+        <item name="kswThumbRangeRatio">1.45</item>
+        <item name="kswThumbMarginLeft">-16dp</item>
+        <item name="kswThumbMarginTop">-14dp</item>
+        <item name="kswThumbMarginRight">-16dp</item>
+        <item name="kswThumbMarginBottom">-14dp</item>
+        <item name="kswThumbWidth">@dimen/ksw_md_thumb_ripple_size</item>
+        <item name="kswThumbHeight">@dimen/ksw_md_thumb_ripple_size</item>
+    </style>
+
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 
 </resources>

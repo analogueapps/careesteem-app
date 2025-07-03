@@ -13,11 +13,13 @@ import com.aits.careesteem.databinding.ItemUploadedDocumentsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class DocumentsAdapter(
     private val context: Context,
     private val adapterList: List<UploadedDocumentsResponse.Data>,
-    private val documentClickListener: OnDocumentClickListener
+    private val documentClickListener: OnDocumentClickListener,
+    private val dialog: BottomSheetDialog?
 ) : RecyclerView.Adapter<DocumentsAdapter.AlertViewHolder>() {
 
     private var expandedPosition = RecyclerView.NO_POSITION
@@ -80,7 +82,7 @@ class DocumentsAdapter(
                 // Setup nested image recycler
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter =
-                    AttachDocumentAdapter(data.attach_document, documentClickListener)
+                    AttachDocumentAdapter(data.attach_document, documentClickListener, dialog)
             } catch (e: Exception) {
                 e.printStackTrace()
                 AlertUtils.showLog("DocumentsAdapter", "" + e.printStackTrace())
@@ -91,7 +93,8 @@ class DocumentsAdapter(
 
 class AttachDocumentAdapter(
     private val documentList: List<UploadedDocumentsResponse.Data.AttachDocument>,
-    private val documentClickListener: OnDocumentClickListener
+    private val documentClickListener: OnDocumentClickListener,
+    private val dialog: BottomSheetDialog?
 ) : RecyclerView.Adapter<AttachDocumentAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -123,7 +126,7 @@ class AttachDocumentAdapter(
                     alertName.text = AppConstant.checkNull(data.filename)
 
                     viewFile.setOnClickListener {
-                        documentClickListener.onDocumentClicked(data.url)
+                        documentClickListener.onDocumentClicked(data.url, dialog)
                     }
                 }
             } catch (e: Exception) {
@@ -135,5 +138,5 @@ class AttachDocumentAdapter(
 }
 
 interface OnDocumentClickListener {
-    fun onDocumentClicked(url: String)
+    fun onDocumentClicked(url: String, dialog: BottomSheetDialog?)
 }

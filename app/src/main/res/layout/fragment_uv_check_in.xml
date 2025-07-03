@@ -79,11 +79,11 @@
         android:minHeight="48dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
-        app:tabGravity="fill"
+        app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
-        app:tabPaddingBottom="-1dp"
-        app:tabPaddingTop="-1dp"
+        app:tabPaddingEnd="5dp"
+        app:tabPaddingStart="5dp"
         app:tabRippleColor="@null" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -111,7 +111,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckIn"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
@@ -130,7 +130,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckOut"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_gravity="center"

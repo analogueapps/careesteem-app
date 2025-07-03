@@ -185,7 +185,7 @@ class WelcomeFragment : Fragment() {
         }
 
         val adapter = CountryListAdapter(statuses) { selected ->
-            binding.tvCountryCode.text = "${selected.emoji} +${selected.country_code}"
+            binding.tvCountryCode.text = "${selected.emoji}  +${selected.country_code}"
             viewModel.setCountryCode(selected.id)
             binding.rvCountryList.visibility = View.GONE
         }

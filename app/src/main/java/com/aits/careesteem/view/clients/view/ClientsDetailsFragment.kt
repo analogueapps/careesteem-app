@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -52,6 +53,7 @@ import com.aits.careesteem.view.clients.model.ClientsList
 import com.aits.careesteem.view.clients.model.UploadedDocumentsResponse
 import com.aits.careesteem.view.clients.viewmodel.ClientDetailsViewModel
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
+import com.aits.careesteem.view.webview.view.WebViewActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -67,8 +69,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ClientsDetailsFragment : Fragment(),
-    MyCareNetworkAdapter.OnMyCareNetworkItemClick,
-    OnDocumentClickListener {
+    MyCareNetworkAdapter.OnMyCareNetworkItemClick{
     private var _binding: FragmentClientsDetailsBinding? = null
     private val binding get() = _binding!!
     private val args: ClientsDetailsFragmentArgs by navArgs()
@@ -866,7 +867,20 @@ class ClientsDetailsFragment : Fragment(),
 
         binding.closeButton.setOnClickListener { dialog.dismiss() }
         // Add data
-        val adapter = DocumentsAdapter(requireContext(), data, this)
+        //val adapter = DocumentsAdapter(requireContext(), data, this)
+        val adapter = DocumentsAdapter(requireContext(), data, object : OnDocumentClickListener {
+            override fun onDocumentClicked(url: String, dialogRef: BottomSheetDialog?) {
+                dialogRef?.dismiss()
+//                val action =
+//                    ClientsDetailsFragmentDirections.actionClientsDetailsFragmentToWebViewFragment(
+//                        fileUrl = url
+//                    )
+//                findNavController().navigate(action)
+                val intent = Intent(requireActivity(), WebViewActivity::class.java)
+                intent.putExtra("fileUrl", url)
+                startActivity(intent)
+            }
+        }, dialog)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -1246,15 +1260,5 @@ class ClientsDetailsFragment : Fragment(),
             WindowManager.LayoutParams.WRAP_CONTENT
         )
         dialog.show()
-    }
-
-    override fun onDocumentClicked(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-            activity?.startActivity(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            AlertUtils.showToast(requireActivity(), "Unable to open document", ToastyType.ERROR)
-        }
     }
 }

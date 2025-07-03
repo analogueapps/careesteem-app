@@ -136,7 +136,7 @@
                 android:text="@string/add_note"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="normal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

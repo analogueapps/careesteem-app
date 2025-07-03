@@ -38,7 +38,7 @@ class PreloaderFragment : Fragment() {
             .into(binding.gifImageView)
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(5000)
+            delay(3000)
             val intent = Intent(requireActivity(), HomeActivity::class.java)
             startActivity(intent)
             activity?.finish()

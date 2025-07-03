@@ -153,10 +153,10 @@ class MedicationBottomSheetFragment : BottomSheetDialogFragment() {
                 return@setOnClickListener
             }
 
-            if (notes.isEmpty()) {
-                AlertUtils.showToast(requireActivity(), "Please enter notes", ToastyType.WARNING)
-                return@setOnClickListener
-            }
+//            if (notes.isEmpty()) {
+//                AlertUtils.showToast(requireActivity(), "Please enter notes", ToastyType.WARNING)
+//                return@setOnClickListener
+//            }
 
             dismiss()
 

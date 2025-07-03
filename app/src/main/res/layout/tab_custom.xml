@@ -5,6 +5,7 @@
     android:clipChildren="true"
     android:clipToPadding="true"
     android:gravity="center"
+    android:layout_marginHorizontal="4dp"
     android:orientation="vertical">
 
     <TextView
