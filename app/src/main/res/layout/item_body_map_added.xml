@@ -47,7 +47,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/_10sdp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_delete"
+                android:src="@drawable/fluent_delete"
                 android:tint="@color/notCompleteCardCorner" />
 
         </RelativeLayout>

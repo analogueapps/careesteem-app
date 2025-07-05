@@ -11,8 +11,10 @@ import com.aits.careesteem.R
 import com.aits.careesteem.base.BaseActivity
 import com.aits.careesteem.databinding.ActivityAuthBinding
 import com.aits.careesteem.databinding.DialogExitBinding
+import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,6 +39,16 @@ class AuthActivity : BaseActivity() {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    editor.putString(SharedPrefConstant.FCM_TOKEN, token)
+                    editor.apply()
+                }
+            }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_auth) as NavHostFragment
         navController = navHostFragment.navController

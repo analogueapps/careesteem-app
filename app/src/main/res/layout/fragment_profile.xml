@@ -55,9 +55,10 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSwitch"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="52dp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/robotoslab_regular"
+                        android:letterSpacing="0"
                         android:text="@string/switch_account"
                         android:textAllCaps="false"
                         android:textSize="@dimen/_12ssp"
@@ -536,12 +537,12 @@
                             android:textStyle="normal"
                             tools:ignore="HardcodedText" />
 
-<!--                        <com.google.android.material.materialswitch.MaterialSwitch-->
-<!--                            android:id="@+id/switch_notification"-->
-<!--                            style="@style/CustomMaterialSwitchStyle"-->
-<!--                            android:layout_width="@dimen/_40sdp"-->
-<!--                            android:layout_height="@dimen/_20sdp"-->
-<!--                            android:layout_gravity="center" />-->
+                        <!--                        <com.google.android.material.materialswitch.MaterialSwitch-->
+                        <!--                            android:id="@+id/switch_notification"-->
+                        <!--                            style="@style/CustomMaterialSwitchStyle"-->
+                        <!--                            android:layout_width="@dimen/_40sdp"-->
+                        <!--                            android:layout_height="@dimen/_20sdp"-->
+                        <!--                            android:layout_gravity="center" />-->
 
                         <com.aits.careesteem.view.switchbutton.view.SwitchButton
                             android:id="@+id/switch_notification"
@@ -549,14 +550,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            app:kswThumbColor="@color/custom_thumb_color"
                             app:kswBackColor="@color/custom_track_color"
+                            app:kswThumbColor="@color/custom_thumb_color"
+                            app:kswThumbHeight="20dp"
+                            app:kswThumbMargin="2dp"
+                            app:kswThumbWidth="20dp"
                             app:kswTrackStrokeColor="@color/colorAccent"
                             app:kswTrackStrokeWidth="2dp"
-                            app:kswThumbHeight="20dp"
-                            app:kswThumbWidth="20dp"
-                            app:kswThumbMargin="2dp"
-                            tools:ignore="RtlHardcoded"/>
+                            tools:ignore="RtlHardcoded" />
 
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -586,12 +587,12 @@
                             android:textStyle="normal"
                             tools:ignore="HardcodedText" />
 
-<!--                        <com.google.android.material.materialswitch.MaterialSwitch-->
-<!--                            android:id="@+id/switch_face_id"-->
-<!--                            style="@style/CustomMaterialSwitchStyle"-->
-<!--                            android:layout_width="@dimen/_40sdp"-->
-<!--                            android:layout_height="@dimen/_20sdp"-->
-<!--                            android:layout_gravity="center" />-->
+                        <!--                        <com.google.android.material.materialswitch.MaterialSwitch-->
+                        <!--                            android:id="@+id/switch_face_id"-->
+                        <!--                            style="@style/CustomMaterialSwitchStyle"-->
+                        <!--                            android:layout_width="@dimen/_40sdp"-->
+                        <!--                            android:layout_height="@dimen/_20sdp"-->
+                        <!--                            android:layout_gravity="center" />-->
 
 
                         <com.aits.careesteem.view.switchbutton.view.SwitchButton
@@ -600,14 +601,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            app:kswThumbColor="@color/custom_thumb_color"
                             app:kswBackColor="@color/custom_track_color"
+                            app:kswThumbColor="@color/custom_thumb_color"
+                            app:kswThumbHeight="20dp"
+                            app:kswThumbMargin="2dp"
+                            app:kswThumbWidth="20dp"
                             app:kswTrackStrokeColor="@color/colorAccent"
                             app:kswTrackStrokeWidth="2dp"
-                            app:kswThumbHeight="20dp"
-                            app:kswThumbWidth="20dp"
-                            app:kswThumbMargin="2dp"
-                            tools:ignore="RtlHardcoded"/>
+                            tools:ignore="RtlHardcoded" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -660,16 +661,19 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/robotoslab_regular"
+                    android:letterSpacing="0"
                     android:text="@string/logout"
                     android:textAllCaps="false"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     app:icon="@drawable/ic_logout"
-                    app:iconTintMode="multiply" />
+                    app:iconSize="@dimen/_14sdp"
+                    app:iconTintMode="multiply"
+                    tools:ignore="TooManyViews" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

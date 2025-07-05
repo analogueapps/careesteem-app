@@ -124,6 +124,7 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         medicationSupport.text = data.medication_support
         doseQty.text = data.quantity_each_dose.toString()
         medicationRoute.text = data.medication_route_name
+        medicationNotes.setText(data.carer_notes)
 
         frequencyMedication.text = when (data.medication_type) {
             "PRN" -> "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"

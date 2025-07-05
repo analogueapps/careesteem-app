@@ -49,7 +49,22 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
         _binding = FragmentEnterPasscodeBinding.inflate(inflater, container, false)
         setupViewmodel()
         setupWidgets()
+        setupBiometric()
         return binding.root
+    }
+
+    private fun setupBiometric() {
+//        if (sharedPreferences.getBoolean(
+//                SharedPrefConstant.LOCK_ENABLE,
+//                false
+//            )
+//        ) {
+//            BiometricUtils.showBiometricPrompt(
+//                activity = requireActivity() as AppCompatActivity,
+//                listener = this,
+//                cryptoObject = null,
+//            )
+//        }
     }
 
     private fun setupWidgets() {

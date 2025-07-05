@@ -1362,9 +1362,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCreateUnscheduledVisit"
-        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
@@ -1382,7 +1381,7 @@
         android:textStyle="normal"
         app:icon="@drawable/flat_color_icons_plus"
         app:iconPadding="3dip"
-        app:iconSize="16dp"
+        app:iconSize="18dp"
         app:iconTintMode="multiply" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

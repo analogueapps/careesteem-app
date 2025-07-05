@@ -23,7 +23,7 @@
         android:singleLine="true"
         android:text="Dasds"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/_8ssp" />
+        android:textSize="@dimen/_9ssp" />
 
     <TextView
         android:id="@+id/dayNumber"
@@ -34,5 +34,5 @@
         android:maxLength="2"
         android:text="15"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/_7ssp" />
+        android:textSize="@dimen/_9ssp" />
 </LinearLayout>

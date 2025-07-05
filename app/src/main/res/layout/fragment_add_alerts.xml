@@ -64,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:background="@drawable/bg_spinner_dropdown_light"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -1319,7 +1319,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_cancel_btn_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -1327,7 +1327,7 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_9ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -1338,7 +1338,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_save_btn_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -1346,7 +1346,7 @@
                 android:text="Save"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_9ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 

@@ -86,7 +86,7 @@ class HomeActivity : BaseActivity() {
                 0,
                 insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
                 0,
-                insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+                0
             )
             insets
         }
@@ -242,13 +242,18 @@ class HomeActivity : BaseActivity() {
 
         val badgeTextView = actionView.findViewById<TextView>(R.id.badge)
         val notificationCount =
-            sharedPreferences.getString(SharedPrefConstant.NOTIFICATION_COUNT, null)?.toInt()
+            sharedPreferences.getString(SharedPrefConstant.NOTIFICATION_COUNT, null)
 
-        if (notificationCount!! > 0) {
-            badgeTextView.visibility = View.VISIBLE
-            badgeTextView.text = notificationCount.toString()
-        } else {
-            badgeTextView.visibility = View.GONE
+
+        notificationCount?.let {
+            it.toIntOrNull()?.let { count ->
+                if (count > 0) {
+                    badgeTextView.visibility = View.VISIBLE
+                    badgeTextView.text = count.toString()
+                } else {
+                    badgeTextView.visibility = View.GONE
+                }
+            }
         }
 
         // Set click listener to propagate click to menu item

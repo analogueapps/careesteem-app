@@ -353,10 +353,11 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                 // Handle button clicks
                 binding.btnPositive.setOnClickListener {
                     dialog.dismiss()
-                    viewModel.checkOutEligible(
-                        requireActivity(),
-                        data.visitDetailsId
-                    )
+                    showCheckOutPopup(data)
+//                    viewModel.checkOutEligible(
+//                        requireActivity(),
+//                        data.visitDetailsId
+//                    )
                 }
                 binding.btnNegative.setOnClickListener {
                     dialog.dismiss()
@@ -376,29 +377,51 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
-        val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-        val plannedDate = data.visitDate
+        val startTime =
+            "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
+        val plannedDate = data
         val alertType = try {
+            val planTime = when (args.action) {
+                0 -> data.plannedStartTime
+                1 -> data.plannedEndTime
+                else -> null
+            }
+
             // Combine planned date + planned time
-            val plannedDateTimeStr = "$plannedDate ${data.plannedEndTime}"
+            val plannedDateTimeStr = "$plannedDate $planTime"
 
             // Define formatter
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
             // Parse both date-times
             val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
             val currentDateTime = LocalDateTime.parse(startTime, formatter)
 
-            // Compare
-            when {
-                currentDateTime.isBefore(plannedDateTime) -> "Early Check-Out"
-                currentDateTime.isAfter(plannedDateTime) -> "Late Check-Out"
-                else -> ""
+            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+
+            if (currentDateTime != null) {
+                when (args.action) {
+                    0 -> when {
+                        diff >= 20 -> "Early Check-In"
+                        diff <= -20 -> "Late Check-In"
+                        else -> ""
+                    }
+
+                    1 -> when {
+                        diff >= 20 -> "Early Check-Out"
+                        diff <= -20 -> "Late Check-Out"
+                        else -> ""
+                    }
+
+                    else -> ""
+                }
+            } else {
+                ""
             }
+
         } catch (e: Exception) {
-            // Handle the exception here (log it, show a message, etc.)
-            e.printStackTrace()  // You can replace this with proper logging or message display
-            "" // Return a default error message or handle it as needed
+            e.printStackTrace()
+            ""
         }
 
         if (alertType.isNotEmpty()) {
@@ -449,11 +472,18 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("NewApi")
     private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
-        val startTime = "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-        val plannedDate = data.visitDate
+        val startTime =
+            "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
+        val plannedDate = data
         val alertType = try {
+            val planTime = when (args.action) {
+                0 -> data.plannedStartTime
+                1 -> data.plannedEndTime
+                else -> null
+            }
+
             // Combine planned date + planned time
-            val plannedDateTimeStr = "$plannedDate ${data.plannedStartTime}"
+            val plannedDateTimeStr = "$plannedDate $planTime"
 
             // Define formatter
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
@@ -464,16 +494,29 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
 
-            // Check the comparison between the current time and planned end time
-            when {
-                diff >= 20 -> "Early Check-In"
-                diff <= -20 -> "Late Check-In"
-                else -> ""
+            if (currentDateTime != null) {
+                when (args.action) {
+                    0 -> when {
+                        diff >= 20 -> "Early Check-In"
+                        diff <= -20 -> "Late Check-In"
+                        else -> ""
+                    }
+
+                    1 -> when {
+                        diff >= 20 -> "Early Check-Out"
+                        diff <= -20 -> "Late Check-Out"
+                        else -> ""
+                    }
+
+                    else -> ""
+                }
+            } else {
+                ""
             }
+
         } catch (e: Exception) {
-            // Handle the exception here (log it, show a message, etc.)
-            e.printStackTrace()  // You can replace this with proper logging or message display
-            "" // Return a default error message or handle it as needed
+            e.printStackTrace()
+            ""
         }
 
         if (alertType.isNotEmpty()) {

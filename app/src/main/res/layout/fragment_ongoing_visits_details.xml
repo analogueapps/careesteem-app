@@ -26,7 +26,7 @@
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/ongoingCardCorner"
-            app:strokeWidth="2.5dp">
+            app:strokeWidth="1dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -183,6 +183,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/topCard"
             app:tabIndicatorHeight="0dp"

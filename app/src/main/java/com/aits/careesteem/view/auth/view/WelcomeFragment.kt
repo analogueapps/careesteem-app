@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentWelcomeBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -115,7 +116,7 @@ class WelcomeFragment : Fragment() {
         return localNumber
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
     private fun setupWidget() {
 //        // Add a TextWatcher to the EditText
 //        binding.etMobile.addTextChangedListener(object : TextWatcher {
@@ -188,6 +189,12 @@ class WelcomeFragment : Fragment() {
             binding.tvCountryCode.text = "${selected.emoji}  +${selected.country_code}"
             viewModel.setCountryCode(selected.id)
             binding.rvCountryList.visibility = View.GONE
+            binding.tvCountryCode.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                null
+            )
         }
 
         binding.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
@@ -196,8 +203,20 @@ class WelcomeFragment : Fragment() {
         binding.tvCountryCode.setOnClickListener {
             if (binding.rvCountryList.isVisible) {
                 binding.rvCountryList.visibility = View.GONE
+                binding.tvCountryCode.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    null
+                )
             } else {
                 binding.rvCountryList.visibility = View.VISIBLE
+                binding.tvCountryCode.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    null
+                )
             }
             // Prevent click from reaching root
             it.isClickable = true
@@ -206,6 +225,12 @@ class WelcomeFragment : Fragment() {
         // Hide dropdown when user clicks outside
         binding.root.setOnClickListener {
             binding.rvCountryList.visibility = View.GONE
+            binding.tvCountryCode.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                null
+            )
         }
 
     }

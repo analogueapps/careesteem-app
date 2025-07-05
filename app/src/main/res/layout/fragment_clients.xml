@@ -37,24 +37,26 @@
                 android:textStyle="bold" />
 
             <SearchView
-                android:visibility="gone"
                 android:id="@+id/searchView"
-                android:layout_width="@dimen/_140sdp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_28sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="0.7"
                 android:background="@drawable/ic_search_bg"
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
                 android:queryHint="Search"
                 android:searchIcon="@drawable/ic_search"
                 android:theme="@style/AppSearchView"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <include
                 android:id="@+id/included_header"
                 layout="@layout/search_view"
-                android:layout_width="@dimen/_140sdp"
-                android:layout_height="@dimen/_28sdp"/>
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_weight="0.7" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -59,6 +59,7 @@ data class MedicationDetailsListResponse(
         val body_map_image_url: List<String>,
         val body_part_names: List<String>,
 
+        val carer_notes: String
         // want to change body_map_image_url instead of body_image
     ) : Serializable
 }

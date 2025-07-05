@@ -91,7 +91,7 @@ class CheckoutViewModel @Inject constructor(
         alertType: String,
     ) {
         _isLoading.value = true
-        val actualStartTime = DateTimeUtils.getCurrentTimeInSecGMT()
+        val actualStartTime = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
         viewModelScope.launch {
             try {
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
@@ -286,7 +286,7 @@ class CheckoutViewModel @Inject constructor(
         alertType: String,
     ) {
         _isLoading.value = true
-        val actualEndTime = DateTimeUtils.getCurrentTimeWithSecGMT()
+        val actualEndTime = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
         viewModelScope.launch {
             try {
                 // Check if network is available before making the request
@@ -425,7 +425,7 @@ class CheckoutViewModel @Inject constructor(
                     userId = userData.id.toString(),
                     clientId = clientId,
                     visitDate = DateTimeUtils.getCurrentDateGMT(),
-                    actualStartTime = DateTimeUtils.getCurrentTimeWithSecGMT(),
+                    actualStartTime = DateTimeUtils.getCurrentTimestampForCheckOutGMT(),
                     createdAt = DateTimeUtils.getCurrentTimestampGMT(),
                 )
 

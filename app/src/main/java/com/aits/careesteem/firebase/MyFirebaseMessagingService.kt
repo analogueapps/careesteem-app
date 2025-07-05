@@ -48,18 +48,22 @@ open class MyFirebaseMessagingService : FirebaseMessagingService() {
         try {
             val title = data["title"]
             val message = data["body"]
-            val imageUrl = data["image"]
+//            var imageUrl: String? = null
+//            if(data["image"] != null) {
+//                imageUrl = data["image"]
+//            }
 
             val intent: Intent?
             intent = Intent(applicationContext, HomeActivity::class.java)
 
             val mNotificationManager = MyNotificationManager(applicationContext)
-            if (imageUrl == "null" || imageUrl == "") {
-                mNotificationManager.showSmallNotification(title, message, intent)
-            } else {
-                mNotificationManager.showBigNotification(title, message, imageUrl!!, intent)
-            }
-        } catch (e: java.lang.Exception) {
+            mNotificationManager.showSmallNotification(title, message, intent)
+//            if (imageUrl == "null" || imageUrl == "") {
+//                mNotificationManager.showSmallNotification(title, message, intent)
+//            } else {
+//                mNotificationManager.showBigNotification(title, message, imageUrl!!, intent)
+//            }
+        } catch (e: Exception) {
             Log.d(TAG, "sendPushNotification Exception: " + e.message)
         }
     }

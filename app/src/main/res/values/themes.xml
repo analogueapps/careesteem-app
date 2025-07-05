@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CareEsteem" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
@@ -11,6 +11,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>"
         <!-- This removes the default back/up icon -->
         <item name="windowActionBar">true</item>
         <item name="displayOptions">showTitle|useLogo</item>
@@ -34,6 +37,10 @@
 
 
     <style name="SquareButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:foreground">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:translationZ">0dp</item>
         <item name="shapeAppearance">@style/SquareShapeAppearance</item>
     </style>
 
@@ -132,6 +139,7 @@
         <item name="trackColor">@color/custom_track_color</item>
 
     </style>
+
 
 
 </resources>

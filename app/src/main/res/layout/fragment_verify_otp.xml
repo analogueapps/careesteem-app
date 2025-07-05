@@ -104,7 +104,7 @@
                         android:layout_marginStart="@dimen/_5sdp"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/enter_otp"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="normal" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -183,7 +183,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="@dimen/_133sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:enabled="@{viewModel.isVerifyButtonEnabled()}"
@@ -191,7 +191,8 @@
                     android:onClick="@{() -> viewModel.onVerifyOtp()}"
                     android:text="@string/verify_otp"
                     android:textAllCaps="false"
-                    android:textSize="@dimen/_12ssp"
+                    android:letterSpacing="0"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="normal" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -205,7 +206,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/didn_t_received_the_otp"
-                        android:textSize="@dimen/_9ssp"
+                        android:textSize="@dimen/_10ssp"
                         android:textStyle="normal" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -216,7 +217,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@{viewModel.timerText}"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_9ssp"
+                        android:textSize="@dimen/_10ssp"
                         android:textStyle="normal"
                         android:visibility="@{viewModel.timerVisible}"
 
@@ -230,7 +231,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/resend_otp"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_9ssp"
+                        android:textSize="@dimen/_10ssp"
                         android:textStyle="normal"
                         android:visibility="@{viewModel.resendVisible}" />
 

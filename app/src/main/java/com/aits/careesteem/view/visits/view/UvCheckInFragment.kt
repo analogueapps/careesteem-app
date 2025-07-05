@@ -231,12 +231,43 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
         binding.btnCheckIn.setOnClickListener { handleCheckInClick() }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleCheckInClick() {
         viewModel.markerPosition.value?.let { currentLocation ->
             destinationLatLng?.let { destination ->
                 clientData.radius.let { radius ->
                     if (isWithinRadius(currentLocation, destination, radius.toString().toFloat())) {
-                        proceedWithCheckIn()
+                        val dialog = Dialog(requireContext())
+                        val binding: DialogForceCheckBinding =
+                            DialogForceCheckBinding.inflate(layoutInflater)
+                        dialog.window?.setDimAmount(0.8f)
+                        dialog.setContentView(binding.root)
+                        dialog.setCancelable(false)
+
+                        binding.imgPopup.setImageResource(R.drawable.check)
+                        binding.dialogTitle.text = "Check In"
+                        binding.dialogBody.text =
+                            "Are you sure you want to check in now?"
+                        binding.btnPositive.text = "Yes"
+                        binding.btnNegative.text = "No"
+
+                        // Handle button clicks
+                        binding.btnPositive.setOnClickListener {
+                            dialog.dismiss()
+                            proceedWithCheckIn()
+                        }
+                        binding.btnNegative.setOnClickListener {
+                            dialog.dismiss()
+                        }
+
+                        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                        val window = dialog.window
+                        window?.setLayout(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT
+                        )
+                        dialog.show()
                     } else {
                         showLocationOutOfRangeMessage()
                     }

@@ -69,6 +69,7 @@ class NotificationViewModel @Inject constructor(
                     }
                 } else {
                     if (response.code() == 404) {
+                        _notificationList.value = emptyList()
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)

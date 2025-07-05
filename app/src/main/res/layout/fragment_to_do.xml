@@ -34,7 +34,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.3"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_todo_s"
                         android:textSize="@dimen/_12ssp"
@@ -58,8 +58,9 @@
                     <include
                         android:id="@+id/included_header"
                         layout="@layout/search_view"
-                        android:layout_width="@dimen/_140sdp"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/_28sdp"
+                        android:layout_weight="0.7"
                         android:layout_marginStart="@dimen/_10sdp"/>
 
                     <androidx.appcompat.widget.LinearLayoutCompat

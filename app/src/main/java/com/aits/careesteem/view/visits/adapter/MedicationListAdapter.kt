@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemMedicationListBinding
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
+import com.aits.careesteem.view.visits.model.TodoListResponse
 
 class MedicationListAdapter(
     private val context: Context,
@@ -26,10 +27,23 @@ class MedicationListAdapter(
         fun onItemItemClicked(data: MedicationDetailsListResponse.Data)
     }
 
+    private var fullAdapterList = listOf<MedicationDetailsListResponse.Data>()
     private var adapterList = listOf<MedicationDetailsListResponse.Data>()
 
     fun updateList(list: List<MedicationDetailsListResponse.Data>) {
+        fullAdapterList = list
         adapterList = list
+        notifyDataSetChanged()
+    }
+
+    fun filter(query: String) {
+        adapterList = if (query.isEmpty()) {
+            fullAdapterList
+        } else {
+            fullAdapterList.filter {
+                it.nhs_medicine_name.contains(query, ignoreCase = true)
+            }
+        }
         notifyDataSetChanged()
     }
 

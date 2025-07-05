@@ -13,7 +13,7 @@
     app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/upcomingCardCorner"
-    app:strokeWidth="2.5dp">
+    app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout"

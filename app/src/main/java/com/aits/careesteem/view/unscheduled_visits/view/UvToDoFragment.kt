@@ -205,7 +205,7 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
             dialog.dismiss()
             viewModel.updateNotes(
                 activity = requireActivity(),
-                visitDetailsId = id.toString(),
+                visitDetailsId = data.visit_details_id,
                 todoDetailsId = data.id,
                 todoNotes = binding.visitNotes.text.toString().trim()
             )
@@ -256,11 +256,11 @@ class UvToDoFragment : Fragment(), UvTodoListAdapter.OnItemItemClick {
                 return@setOnClickListener
             }
             dialog.dismiss()
-            viewModel.addNotes(
-                activity = requireActivity(),
-                visitDetailsId = id.toString(),
-                todoNotes = binding.visitNotes.text.toString().trim()
-            )
+//            viewModel.addNotes(
+//                activity = requireActivity(),
+//                visitDetailsId = ,
+//                todoNotes = binding.visitNotes.text.toString().trim()
+//            )
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)

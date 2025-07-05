@@ -25,6 +25,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/headerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -32,13 +33,21 @@
                     android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_submitted_medications"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="normal" />
+
+                    <include
+                        android:id="@+id/included_header"
+                        layout="@layout/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_weight="0.7" />
 
                     <!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
                     <!--                        android:id="@+id/btnTopAddVisitNotes"-->
@@ -99,7 +108,7 @@
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_prn_medication"
                         android:textColor="#9B9B9B"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="normal" />
 
                     <androidx.recyclerview.widget.RecyclerView

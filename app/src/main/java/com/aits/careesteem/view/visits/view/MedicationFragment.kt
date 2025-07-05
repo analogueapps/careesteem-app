@@ -1,11 +1,15 @@
 package com.aits.careesteem.view.visits.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -158,6 +162,28 @@ class MedicationFragment : Fragment(),
             prnList = list
             updateUI()
         }
+
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        binding.includedHeader.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                binding.includedHeader.ivClear.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                // i want to take this one and parse to adapter
+                medicationListAdapter.filter(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        binding.includedHeader.ivClear.setOnClickListener {
+            binding.includedHeader.etSearch.text.clear()
+            binding.includedHeader.etSearch.clearFocus()
+            binding.includedHeader.ivClear.visibility = View.GONE
+
+            // Hide keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.includedHeader.etSearch.windowToken, 0)
+        }
     }
 
     private fun updateUI() = with(binding) {
@@ -260,7 +286,7 @@ class MedicationFragment : Fragment(),
     ) {
         viewModel.medicationPrn(
             activity = requireActivity(),
-            visitDetailsId = id.toString(),
+            visitDetailsId = visitDetailsId,
             medicationDetails = data,
             status = status.toString(),
             carerNotes = notes.toString()
@@ -275,7 +301,7 @@ class MedicationFragment : Fragment(),
     ) {
         viewModel.medicationPrnUpdate(
             activity = requireActivity(),
-            visitDetailsId = id.toString(),
+            visitDetailsId = visitDetailsId,
             prnDetailsId = data.prn_details_id,
             status = status.toString(),
             carerNotes = notes.toString()
@@ -293,7 +319,7 @@ class MedicationFragment : Fragment(),
                 viewModel.medicationBlisterPack(
                     activity = requireActivity(),
                     clientId = clientId.toString(),
-                    visitDetailsId = id.toString(),
+                    visitDetailsId = visitDetailsId,
                     blisterPackDetailsId = data.blister_pack_details_id,
                     status = status.toString(),
                     carerNotes = notes.toString()
@@ -304,7 +330,7 @@ class MedicationFragment : Fragment(),
                 viewModel.medicationScheduled(
                     activity = requireActivity(),
                     clientId = clientId.toString(),
-                    visitDetailsId = id.toString(),
+                    visitDetailsId = visitDetailsId,
                     scheduledDetailsId = data.scheduled_details_id,
                     status = status.toString(),
                     carerNotes = notes.toString()
@@ -314,7 +340,7 @@ class MedicationFragment : Fragment(),
             "PRN" -> {
                 viewModel.medicationPrnUpdate(
                     activity = requireActivity(),
-                    visitDetailsId = id.toString(),
+                    visitDetailsId = visitDetailsId,
                     prnDetailsId = data.prn_details_id,
                     status = status.toString(),
                     carerNotes = notes.toString()

@@ -117,7 +117,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckIn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
@@ -129,14 +129,16 @@
             android:textAllCaps="false"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
+            android:letterSpacing="0"
             android:visibility="gone"
+            app:iconSize="@dimen/_14sdp"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckOut"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
@@ -149,6 +151,8 @@
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             android:visibility="gone"
+            android:letterSpacing="0"
+            app:iconSize="@dimen/_14sdp"
             app:icon="@drawable/ic_sharp_timer"
             app:iconTintMode="multiply" />
 

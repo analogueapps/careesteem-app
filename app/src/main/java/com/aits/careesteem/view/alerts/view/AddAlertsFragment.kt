@@ -10,9 +10,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,6 +25,7 @@ import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.alerts.adapter.FileAdapter
@@ -190,12 +193,25 @@ class AddAlertsFragment : Fragment() {
             resources.displayMetrics
         ).toInt()
 
-        binding.rvClientName.viewTreeObserver.addOnGlobalLayoutListener {
-            if (binding.rvClientName.height > maxHeightPx) {
-                binding.rvClientName.layoutParams.height = maxHeightPx
-                binding.rvClientName.requestLayout()
-            }
+        binding?.let { safeBinding ->
+            val recyclerView = safeBinding.rvClientName
+
+            recyclerView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (view == null || !isAdded) return // Avoid if Fragment is detached
+
+                    recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                    if (recyclerView.height > maxHeightPx) {
+                        recyclerView.layoutParams = recyclerView.layoutParams.apply {
+                            height = maxHeightPx
+                        }
+                        recyclerView.requestLayout()
+                    }
+                }
+            })
         }
+
 
         binding.clientName.setOnClickListener {
             //binding.allClientNameSpinner.performClick()
@@ -276,6 +292,12 @@ class AddAlertsFragment : Fragment() {
         val adapter = RecyclerArrayAdapter(severityList) { selected ->
             binding.severityOfConcern.text = selected
             binding.rvConcern.visibility = View.GONE
+            binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                null
+            )
         }
 
         binding.rvConcern.layoutManager = LinearLayoutManager(requireContext())
@@ -624,6 +646,7 @@ class AddAlertsFragment : Fragment() {
 
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupViewModel() {
         // Observe loading state
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -676,29 +699,66 @@ class AddAlertsFragment : Fragment() {
                         ?.filter { it.clientId == clientId }
                         .orEmpty()
 
+//                    val visitTimeOptions = filteredVisits.map { visit ->
+//                        if (visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
+//                            "${visit.plannedStartTime} - ${visit.plannedEndTime}"
+//                        } else if (visit.actualStartTime.isNotEmpty() && visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime.isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+//                            "${visit.actualStartTime[0]} (Unscheduled)"
+//                        } else if (visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
+//                            "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
+//                        } else {
+//                            "N/A"
+//                        }
+//                    }.distinct().toMutableList() // Convert to mutable list
+
                     val visitTimeOptions = filteredVisits.map { visit ->
-                        if (visit.plannedStartTime.isNotEmpty() && visit.plannedEndTime.isNotEmpty()) {
-                            "${visit.plannedStartTime} - ${visit.plannedEndTime}"
-                        } else if (visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isEmpty()) {
-                            "${visit.actualStartTime[0]} (Unscheduled)"
-                        } else if (visit.actualStartTime[0].isNotEmpty() && visit.actualEndTime[0].isNotEmpty()) {
-                            "${visit.actualStartTime[0]} - ${visit.actualEndTime[0]}"
-                        } else {
-                            "N/A"
+                        val plannedStart = visit.plannedStartTime
+                        val plannedEnd = visit.plannedEndTime
+                        val actualStart = visit.actualStartTime.firstOrNull()
+                        val actualEnd = visit.actualEndTime.firstOrNull()
+
+                        when {
+                            plannedStart.isNotEmpty() && plannedEnd.isNotEmpty() -> {
+                                "$plannedStart - $plannedEnd"
+                            }
+                            actualStart != null && actualStart.isNotEmpty() &&
+                                    (actualEnd == null || actualEnd.isEmpty()) -> {
+                                "${DateTimeUtils.convertTime(actualStart)} (Unscheduled)"
+                            }
+                            actualStart != null && actualEnd != null &&
+                                    actualStart.isNotEmpty() && actualEnd.isNotEmpty() -> {
+                                "${DateTimeUtils.convertTime(actualStart)} - ${DateTimeUtils.convertTime(actualEnd)}"
+                            }
+                            else -> {
+                                "N/A"
+                            }
                         }
-                    }.distinct().toMutableList() // Convert to mutable list
+                    }.distinct().toMutableList()
 
                     val adapter = RecyclerArrayAdapter(visitTimeOptions) { selected ->
                         binding.visitName.text = selected
                         val position = visitTimeOptions.indexOf(selected)
                         visitDetailsId = filteredVisits.getOrNull(position)?.visitDetailsId ?: "-1"
                         binding.rvVisitName.visibility = View.GONE
+                        binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
+                            null,
+                            null,
+                            requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                            null
+                        )
                     }
 
                     binding.rvVisitName.layoutManager = LinearLayoutManager(requireContext())
                     binding.rvVisitName.adapter = adapter
 
                     binding.rvClientName.visibility = View.GONE
+
+                    binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
+                        null,
+                        null,
+                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                        null
+                    )
                 }
 
                 binding.rvClientName.layoutManager = LinearLayoutManager(requireContext())

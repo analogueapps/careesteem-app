@@ -20,6 +20,7 @@ data class VisitDetailsResponse(
         val plannedStartTime: String,
         val profile_photo: List<String>,
         val profile_photo_name: List<String>,
+        val client_profile_image_url: String,
         val radius: Any,
         val sessionTime: String,
         val sessionType: String,

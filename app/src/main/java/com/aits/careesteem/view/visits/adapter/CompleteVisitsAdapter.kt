@@ -100,18 +100,7 @@ class CompleteVisitsAdapter(
                     tvPlanTime.text = AppConstant.checkNull(data.TotalActualTimeDiff[0])
                     tvUserRequired.text =
                         if (data.usersRequired == 0) "1" else "${data.usersRequired}"
-//                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
-//                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
-                    tvPlannedStartTime.text =
-                        "Check in time\n${DateTimeUtils.convertTime(data.actualStartTime[0])}"
-                    tvPlannedEndTime.text =
-                        "Check out time\n${DateTimeUtils.convertTime(data.actualEndTime[0])}"
 
-                    if (data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
-                        tvUnscheduledIndicator.visibility = View.VISIBLE
-                    } else {
-                        tvUnscheduledIndicator.visibility = View.GONE
-                    }
 
                     val userList = data.userName.mapIndexed { index, name ->
                         val photoUrl = data.profile_photo_name.getOrNull(index).orEmpty()
@@ -123,6 +112,19 @@ class CompleteVisitsAdapter(
 
                     layout.setOnClickListener {
                         onViewItemItemClick.onViewItemItemClicked(data)
+                    }
+
+//                tvPlannedStartTime.text = "Check in time\n${AppConstant.visitListTimer(data.plannedStartTime)}"
+//                tvPlannedEndTime.text = "Check out time\n${AppConstant.visitListTimer(data.plannedEndTime)}"
+                    tvPlannedStartTime.text =
+                        "Check in time\n${DateTimeUtils.convertTime(data.actualStartTime[0])}"
+                    tvPlannedEndTime.text =
+                        "Check out time\n${DateTimeUtils.convertTime(data.actualEndTime[0])}"
+
+                    if (data?.plannedStartTime!!.isEmpty() && data?.plannedEndTime!!.isEmpty()) {
+                        tvUnscheduledIndicator.visibility = View.VISIBLE
+                    } else {
+                        tvUnscheduledIndicator.visibility = View.GONE
                     }
                 }
             } catch (e: Exception) {

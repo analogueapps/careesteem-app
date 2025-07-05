@@ -89,6 +89,7 @@
             android:src="@drawable/frame_no_alerts" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -103,7 +104,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateUnscheduledVisit"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_height="52dp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:fontFamily="@font/robotoslab_regular"
@@ -112,6 +113,7 @@
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             app:icon="@drawable/ic_icon_plus"
+            android:letterSpacing="0"
             app:iconSize="@dimen/_14sdp"
             app:iconTintMode="multiply" />
 

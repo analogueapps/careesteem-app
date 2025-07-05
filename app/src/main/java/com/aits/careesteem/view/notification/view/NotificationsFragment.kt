@@ -2,6 +2,7 @@ package com.aits.careesteem.view.notification.view
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.aits.careesteem.databinding.FragmentNotificationsBinding
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.notification.adapter.NotificationAdapter
 import com.aits.careesteem.view.notification.model.NotificationListResponse
 import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
@@ -25,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemClick {
@@ -36,6 +39,12 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
 
     // Adapter
     private lateinit var notificationAdapter: NotificationAdapter
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var editor: SharedPreferences.Editor
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -97,6 +106,7 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
 
         // Data visibility
         viewModel.notificationList.observe(viewLifecycleOwner) { data ->
+            updateNotificationCount(data)
             if (data.isNotEmpty()) {
                 binding.apply {
                     emptyLayout.visibility = View.GONE
@@ -112,6 +122,12 @@ class NotificationsFragment : Fragment(), NotificationAdapter.OnDeleteItemItemCl
                 }
             }
         }
+    }
+
+    private fun updateNotificationCount(list: List<NotificationListResponse.Data>) {
+        editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, list.size.toString()).apply()
+        //editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, "10").apply()
+        requireActivity().invalidateOptionsMenu()
     }
 
     @SuppressLint("SetTextI18n")
