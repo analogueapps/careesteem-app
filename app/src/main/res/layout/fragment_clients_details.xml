@@ -37,7 +37,7 @@
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardUseCompatPadding="true"
                     app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="2dp">
+                    app:strokeWidth="1dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/aboutLayout"
@@ -77,7 +77,7 @@
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardUseCompatPadding="true"
                     app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="2dp">
+                    app:strokeWidth="1dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/myCareLayout"
@@ -120,7 +120,7 @@
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardUseCompatPadding="true"
                     app:strokeColor="@color/colorPrimary"
-                    app:strokeWidth="2dp">
+                    app:strokeWidth="1dp">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/myCarePlanLayout"
@@ -165,7 +165,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/activityAssessmentLayout"
@@ -206,7 +206,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/activityRiskAssessmentLayout"
@@ -247,7 +247,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/behaviourAssessmentLayout"
@@ -288,7 +288,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/behaviourRiskAssessmentLayout"
@@ -329,7 +329,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/breathingAssessmentLayout"
@@ -370,7 +370,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/clinicalAssessmentLayout"
@@ -411,7 +411,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/communicationAssessmentLayout"
@@ -452,7 +452,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/continenceAssessmentLayout"
@@ -493,7 +493,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/cOSHHRiskAssessmentLayout"
@@ -534,7 +534,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/socialRelationshipsAssessmentLayout"
@@ -575,7 +575,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/domesticAssessmentLayout"
@@ -616,7 +616,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/environmentAssessmentLayout"
@@ -657,7 +657,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/equipmentAssessmentLayout"
@@ -698,7 +698,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/equipmentRegisterLayout"
@@ -739,7 +739,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/financialAssessmentLayout"
@@ -780,7 +780,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/financialRiskAssessmentLayout"
@@ -821,7 +821,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp"
+                        app:strokeWidth="1dp"
                         tools:ignore="TooManyViews">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -863,7 +863,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp"
+                        app:strokeWidth="1dp"
                         tools:ignore="TooManyViews">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -905,7 +905,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/mentalHealthAssessmentLayout"
@@ -946,7 +946,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/movingHandlingAssessmentLayout"
@@ -987,7 +987,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/nutritionHydrationAssessmentLayout"
@@ -1028,7 +1028,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/oralCareAssessmentLayout"
@@ -1069,7 +1069,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/painAssessmentLayout"
@@ -1110,7 +1110,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/personalHygieneAssessmentLayout"
@@ -1151,7 +1151,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/selfAdministrationRiskAssessmentLayout"
@@ -1192,7 +1192,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/skinAssessmentLayout"
@@ -1233,7 +1233,7 @@
                         app:cardCornerRadius="@dimen/_5sdp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/sleepingAssessmentLayout"
@@ -1303,8 +1303,8 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/uploadedDocuments"
-                android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:layout_weight="1"
@@ -1314,7 +1314,7 @@
                 android:singleLine="true"
                 android:text="Uploaded Documents"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_9ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="normal"
                 tools:ignore="HardcodedText" />
 
@@ -1359,29 +1359,5 @@
             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreateUnscheduledVisit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/_25sdp"
-        android:layout_marginEnd="@dimen/_25sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:backgroundTint="#FFCB7B"
-        android:fontFamily="@font/robotoslab_regular"
-        android:gravity="center"
-        android:letterSpacing="0"
-        android:text="@string/create_an_unscheduled_visit"
-        android:textAllCaps="false"
-        android:textColor="#503101"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        app:icon="@drawable/flat_color_icons_plus"
-        app:iconPadding="3dip"
-        app:iconSize="18dp"
-        app:iconTintMode="multiply" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

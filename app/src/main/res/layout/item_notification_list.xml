@@ -12,7 +12,7 @@
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"
         app:strokeColor="@android:color/transparent"
-        app:strokeWidth="2dp">
+        app:strokeWidth="1dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

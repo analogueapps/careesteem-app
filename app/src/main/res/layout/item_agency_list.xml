@@ -7,7 +7,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardUseCompatPadding="true"
     app:strokeColor="@android:color/transparent"
-    app:strokeWidth="2dp">
+    app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout"

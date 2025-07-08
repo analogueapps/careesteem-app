@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.databinding.DialogPreviousAlertsBinding
 import com.aits.careesteem.view.visits.adapter.VisitNotesAdapter
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
@@ -46,14 +47,29 @@ class PreviousVisitNotesBottomSheetFragment : BottomSheetDialogFragment(), Visit
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(
+
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(
                 com.google.android.material.R.id.design_bottom_sheet
             )
-            bottomSheet?.layoutParams?.height =
-                (resources.displayMetrics.heightPixels * 0.75).toInt()
+            bottomSheet?.let {
+                val behavior = BottomSheetBehavior.from(it)
+
+                // 85% of screen height
+                val layoutParams = it.layoutParams
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+                it.layoutParams = layoutParams
+
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
+                behavior.skipCollapsed = true
+            }
         }
+
         dialog.window?.setDimAmount(0.8f)
+        // 💡 This is the fix for keyboard overlap
+        //dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return dialog
     }
 

@@ -321,13 +321,13 @@ class ClientsDetailsFragment : Fragment(),
             }
         }
 
-        binding.btnCreateUnscheduledVisit.setOnClickListener {
-            shouldHandleVisitCheck = true
-            visitViewModel.getVisits(
-                requireActivity(),
-                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            )
-        }
+//        binding.btnCreateUnscheduledVisit.setOnClickListener {
+//            shouldHandleVisitCheck = true
+//            visitViewModel.getVisits(
+//                requireActivity(),
+//                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+//            )
+//        }
     }
 
     @SuppressLint("SetTextI18n")

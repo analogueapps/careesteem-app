@@ -220,7 +220,7 @@ class AddAlertsFragment : Fragment() {
                 binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_down),
                     null
                 )
             } else {
@@ -228,7 +228,7 @@ class AddAlertsFragment : Fragment() {
                 binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_up),
                     null
                 )
             }
@@ -250,7 +250,7 @@ class AddAlertsFragment : Fragment() {
                 binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_down),
                     null
                 )
             } else {
@@ -258,7 +258,7 @@ class AddAlertsFragment : Fragment() {
                 binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_up),
                     null
                 )
             }
@@ -295,7 +295,7 @@ class AddAlertsFragment : Fragment() {
             binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
                 null,
                 null,
-                requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                requireContext().getDrawable(R.drawable.round_arrow_down),
                 null
             )
         }
@@ -309,7 +309,7 @@ class AddAlertsFragment : Fragment() {
                 binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_down),
                     null
                 )
             } else {
@@ -317,7 +317,7 @@ class AddAlertsFragment : Fragment() {
                 binding.severityOfConcern.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,
-                    requireContext().getDrawable(R.drawable.ic_keyboard_arrow_up_small),
+                    requireContext().getDrawable(R.drawable.round_arrow_up),
                     null
                 )
             }
@@ -743,7 +743,7 @@ class AddAlertsFragment : Fragment() {
                         binding.visitName.setCompoundDrawablesWithIntrinsicBounds(
                             null,
                             null,
-                            requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                            requireContext().getDrawable(R.drawable.round_arrow_down),
                             null
                         )
                     }
@@ -756,7 +756,7 @@ class AddAlertsFragment : Fragment() {
                     binding.clientName.setCompoundDrawablesWithIntrinsicBounds(
                         null,
                         null,
-                        requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
+                        requireContext().getDrawable(R.drawable.round_arrow_down),
                         null
                     )
                 }

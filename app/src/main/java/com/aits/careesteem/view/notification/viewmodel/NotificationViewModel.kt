@@ -66,10 +66,12 @@ class NotificationViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _notificationList.value = list.data
+                        editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, list.data.size.toString()).apply()
                     }
                 } else {
                     if (response.code() == 404) {
                         _notificationList.value = emptyList()
+                        editor.putString(SharedPrefConstant.NOTIFICATION_COUNT, "0").apply()
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)

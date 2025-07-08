@@ -55,7 +55,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_negative"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_btn_red_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -63,7 +63,7 @@
                 android:text="No"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -74,7 +74,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_positive"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_btn_green_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -82,7 +82,7 @@
                 android:text="Yes"
                 android:textAllCaps="false"
                 android:textColor="#279989"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 

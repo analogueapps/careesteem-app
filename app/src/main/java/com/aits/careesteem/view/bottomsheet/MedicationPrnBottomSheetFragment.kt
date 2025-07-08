@@ -1,15 +1,19 @@
 package com.aits.careesteem.view.bottomsheet
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogMedicationUpdatePrnBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -18,6 +22,7 @@ import com.aits.careesteem.view.alerts.adapter.BodyMapImageAdapter
 import com.aits.careesteem.view.alerts.adapter.BodyMapItem
 import com.aits.careesteem.view.recyclerview.adapter.MedicationStatusAdapter
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -86,14 +91,29 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.setOnShowListener {
-            val bottomSheet = dialog.findViewById<FrameLayout>(
+
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(
                 com.google.android.material.R.id.design_bottom_sheet
             )
-            bottomSheet?.layoutParams?.height =
-                (resources.displayMetrics.heightPixels * 0.75).toInt()
+            bottomSheet?.let {
+                val behavior = BottomSheetBehavior.from(it)
+
+                // 85% of screen height
+                val layoutParams = it.layoutParams
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+                it.layoutParams = layoutParams
+
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
+                behavior.skipCollapsed = true
+            }
         }
+
         dialog.window?.setDimAmount(0.8f)
+        // 💡 This is the fix for keyboard overlap
+        //dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return dialog
     }
 
@@ -116,6 +136,7 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         setupUI()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupUI() = with(binding) {
         closeButton.setOnClickListener { dismiss() }
 
@@ -137,13 +158,61 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         val adapter = MedicationStatusAdapter(statuses) { selected ->
             medicationStatus.text = selected
             rvStatus.visibility = View.GONE
+            binding.medicationStatus.setCompoundDrawablesWithIntrinsicBounds(
+                null,
+                null,
+                requireContext().getDrawable(R.drawable.round_arrow_down    ),
+                null
+            )
         }
 
         rvStatus.layoutManager = LinearLayoutManager(requireContext())
         rvStatus.adapter = adapter
 
+        val maxHeightPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            200f, // max height in dp
+            resources.displayMetrics
+        ).toInt()
+
+        binding?.let { safeBinding ->
+            val recyclerView = safeBinding.rvStatus
+
+            recyclerView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (view == null || !isAdded) return // Avoid if Fragment is detached
+
+                    recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                    if (recyclerView.height > maxHeightPx) {
+                        recyclerView.layoutParams = recyclerView.layoutParams.apply {
+                            height = maxHeightPx
+                        }
+                        recyclerView.requestLayout()
+                    }
+                }
+            })
+        }
+
         medicationStatus.setOnClickListener {
-            rvStatus.visibility = if (rvStatus.isVisible) View.GONE else View.VISIBLE
+            //rvStatus.visibility = if (rvStatus.isVisible) View.GONE else View.VISIBLE
+            if (binding.rvStatus.isVisible) {
+                binding.rvStatus.visibility = View.GONE
+                binding.medicationStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.round_arrow_down),
+                    null
+                )
+            } else {
+                binding.rvStatus.visibility = View.VISIBLE
+                binding.medicationStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    requireContext().getDrawable(R.drawable.round_arrow_up),
+                    null
+                )
+            }
         }
 
         if (!data.body_part_names.isNullOrEmpty() && !data.body_map_image_url.isNullOrEmpty()) {
@@ -159,9 +228,11 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView.adapter = BodyMapImageAdapter(requireContext(), bodyMapItems)
+            medicationNotes.setLines(10)
         } else {
             tvBodyMap.visibility = View.GONE
             recyclerView.visibility = View.GONE
+            medicationNotes.setLines(10)
         }
 
         btnSave.setOnClickListener {

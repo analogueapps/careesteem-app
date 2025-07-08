@@ -30,8 +30,9 @@
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:text="Previous Visit Notes"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -40,7 +41,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close_icon"
+                android:src="@drawable/cross"
                 android:tint="#4C5664" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

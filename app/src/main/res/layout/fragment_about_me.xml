@@ -6,414 +6,453 @@
     android:layout_height="match_parent"
     tools:context=".view.clients.view.AboutMeFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/mainCard"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="4dp"
-        app:cardUseCompatPadding="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/_13sdp"
-            android:paddingTop="@dimen/_17sdp"
-            android:paddingRight="@dimen/_13sdp"
-            android:paddingBottom="@dimen/_17sdp">
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/profileImage"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_gravity="center"
-                android:src="@drawable/app_logo"
-                app:shapeAppearanceOverlay="@style/Circular" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.cardview.widget.CardView
+                android:id="@+id/mainCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/_13sdp"
+                    android:paddingTop="@dimen/_17sdp"
+                    android:paddingRight="@dimen/_13sdp"
+                    android:paddingBottom="@dimen/_17sdp">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:text="Gender"
-                        android:textColor="#585E5D"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        tools:ignore="HardcodedText" />
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/app_logo"
+                        app:shapeAppearanceOverlay="@style/Circular" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvGender"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@drawable/profile_tile_bg"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText" />
+                        android:layout_marginTop="@dimen/_20sdp">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:text="Gender"
+                                android:textColor="#585E5D"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="normal"
+                                tools:ignore="HardcodedText" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvGender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/profile_tile_bg"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:paddingLeft="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingRight="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_5sdp"
+                                android:text="N/A"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_8ssp"
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:text="Religion"
+                                android:textColor="#585E5D"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="normal"
+                                tools:ignore="HardcodedText" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvReligion"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/profile_tile_bg"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:paddingLeft="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingRight="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_5sdp"
+                                android:text="N/A"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_8ssp"
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:text="Ethnicity"
+                                android:textColor="#585E5D"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="normal"
+                                tools:ignore="HardcodedText" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvEthnicity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:background="@drawable/profile_tile_bg"
+                                android:fontFamily="@font/robotoslab_regular"
+                                android:paddingLeft="@dimen/_10sdp"
+                                android:paddingTop="@dimen/_5sdp"
+                                android:paddingRight="@dimen/_10sdp"
+                                android:paddingBottom="@dimen/_5sdp"
+                                android:text="N/A"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/_8ssp"
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_20sdp" />
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="@string/name"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text=":"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/profileName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Date of Birth"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text=":"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/dateOfBirth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="@string/age"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text=":"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/profileAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="NHS No."
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text=":"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/nhsNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Marital Status"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text=":"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <Space
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="match_parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/maritalStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:text="Religion"
-                        android:textColor="#585E5D"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        tools:ignore="HardcodedText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvReligion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@drawable/profile_tile_bg"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:text="Ethnicity"
-                        android:textColor="#585E5D"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        tools:ignore="HardcodedText" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvEthnicity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@drawable/profile_tile_bg"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:paddingLeft="@dimen/_10sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_10sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="N/A"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp" />
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.3"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="@string/name"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-                <Space
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text=":"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/profileName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.3"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="Date of Birth"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text=":"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/dateOfBirth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.3"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="@string/age"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-                <Space
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text=":"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal"
-
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/profileAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.3"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="NHS No."
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text=":"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal"
-
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/nhsNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginEnd="@dimen/_5sdp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.3"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="Marital Status"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_5sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text=":"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal"
-                    tools:ignore="HardcodedText" />
-
-                <Space
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/maritalStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreateUnscheduledVisit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:backgroundTint="#FFCB7B"
+            android:fontFamily="@font/robotoslab_regular"
+            android:gravity="center"
+            android:letterSpacing="0"
+            android:text="@string/create_an_unscheduled_visit"
+            android:textAllCaps="false"
+            android:textColor="#503101"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            app:icon="@drawable/flat_color_icons_plus"
+            app:iconPadding="3dip"
+            app:iconSize="18dp"
+            app:iconTintMode="multiply" />
 
-    </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

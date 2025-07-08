@@ -12,7 +12,7 @@
     app:cardCornerRadius="@dimen/_8sdp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/colorPrimary"
-    app:strokeWidth="2dp">
+    app:strokeWidth="1dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout"
@@ -43,15 +43,18 @@
                     android:drawablePadding="2dip"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal" />
 
                 <View
                     android:id="@+id/view"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_5sdp"
-                    android:background="@color/black" />
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorPrimary" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/updatedByUserName"
@@ -60,7 +63,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/app_name"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -81,7 +84,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/app_name"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="normal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

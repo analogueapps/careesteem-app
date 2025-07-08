@@ -8,6 +8,10 @@ package com.aits.careesteem.view.home.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +24,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
@@ -29,6 +34,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.activityViewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -42,11 +49,14 @@ import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
+import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.getValue
 
 
 @AndroidEntryPoint
@@ -63,6 +73,8 @@ class HomeActivity : BaseActivity() {
 
     // Double back press variables
     private var doubleBackToExitPressedOnce = false
+
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,6 +191,9 @@ class HomeActivity : BaseActivity() {
 
         // Request notification permissions (for Android 13 and above)
         requestNotificationPermissions()
+
+        // handle Viewmodels
+        handleViewModel()
     }
 
     // Inflate the menu resource
@@ -241,19 +256,14 @@ class HomeActivity : BaseActivity() {
         val actionView = layoutInflater.inflate(R.layout.menu_notification_badge, null)
 
         val badgeTextView = actionView.findViewById<TextView>(R.id.badge)
-        val notificationCount =
-            sharedPreferences.getString(SharedPrefConstant.NOTIFICATION_COUNT, null)
+        // Read count from SharedPreferences
+        val notificationCount = sharedPreferences.getString(SharedPrefConstant.NOTIFICATION_COUNT, "0") ?: "0"
 
-
-        notificationCount?.let {
-            it.toIntOrNull()?.let { count ->
-                if (count > 0) {
-                    badgeTextView.visibility = View.VISIBLE
-                    badgeTextView.text = count.toString()
-                } else {
-                    badgeTextView.visibility = View.GONE
-                }
-            }
+        if ((notificationCount.toIntOrNull() ?: 0) > 0) {
+            badgeTextView.visibility = View.VISIBLE
+            badgeTextView.text = if (notificationCount.toInt() > 99) "99+" else notificationCount
+        } else {
+            badgeTextView.visibility = View.GONE
         }
 
         // Set click listener to propagate click to menu item
@@ -359,5 +369,37 @@ class HomeActivity : BaseActivity() {
 
     companion object {
         private const val REQUEST_CODE_NOTIFICATION_PERMISSION = 1001
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(visitRefreshReceiver,
+                IntentFilter("com.aits.careesteem.ACTION_VISIT_REFRESH")
+            )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(visitRefreshReceiver)
+    }
+
+    private val visitRefreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val title = intent?.getStringExtra("title")
+            val message = intent?.getStringExtra("message")
+            AlertUtils.showLog("HomeActivity", "Received visit refresh: $title - $message")
+            // Also refresh notifications when activity starts
+            notificationViewModel.getNotificationList(this@HomeActivity)
+        }
+    }
+
+    private fun handleViewModel() {
+        // notificationViewModel.notificationList and list count after that menu icon refreshed
+        notificationViewModel.notificationList.observe(this) {
+            // toolbar menu refresh
+            invalidateOptionsMenu()
+        }
     }
 }

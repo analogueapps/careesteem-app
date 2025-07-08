@@ -1,11 +1,13 @@
 package com.aits.careesteem.view.auth.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -59,10 +61,10 @@ class WelcomeFragment : Fragment() {
         setupViewmodel()
         setupWidget()
 
-        if (sharedPreferences.getBoolean(
+        if (!sharedPreferences.getBoolean(
                 SharedPrefConstant.IS_LOGGED,
-                AppConstant.FALSE
-            ) == AppConstant.FALSE
+                false
+            )
         ) {
             initAutoDetect()
         }
@@ -222,6 +224,8 @@ class WelcomeFragment : Fragment() {
             it.isClickable = true
         }
 
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         // Hide dropdown when user clicks outside
         binding.root.setOnClickListener {
             binding.rvCountryList.visibility = View.GONE
@@ -231,6 +235,10 @@ class WelcomeFragment : Fragment() {
                 requireContext().getDrawable(R.drawable.ic_keyboard_arrow_down_small),
                 null
             )
+
+            binding.etMobile.clearFocus()
+            // Hide keyboard
+            inputMethodManager.hideSoftInputFromWindow(binding.etMobile.windowToken, 0)
         }
 
     }

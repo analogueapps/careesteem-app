@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/_15sdp"
-        android:paddingRight="@dimen/_15sdp">
+        android:paddingLeft="@dimen/_10sdp"
+        android:paddingRight="@dimen/_10sdp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/raise_an_alert"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_13ssp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -38,23 +38,22 @@
 
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/clients_ran"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/clientName"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/ic_edittext_light_bg"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-            android:drawableTint="@color/black"
+            android:drawableEnd="@drawable/round_arrow_down"
             android:fontFamily="@font/robotoslab_regular"
             android:gravity="center_vertical"
             android:hint="Select"
             android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="normal"
             tools:ignore="HardcodedText" />
 
@@ -72,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_12ssp"
 
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/visits_ran"
@@ -83,16 +82,15 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/visitName"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/ic_edittext_light_bg"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-            android:drawableTint="@color/black"
+            android:drawableEnd="@drawable/round_arrow_down"
             android:fontFamily="@font/robotoslab_regular"
             android:gravity="center_vertical"
             android:hint="Select"
             android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="normal"
             tools:ignore="HardcodedText" />
 
@@ -113,25 +111,24 @@
 
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/severity_of_concern_ran"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/severityOfConcern"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_35sdp"
 
             android:layout_marginTop="@dimen/_5sdp"
 
             android:background="@drawable/ic_edittext_light_bg"
-            android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-            android:drawableTint="@color/black"
+            android:drawableEnd="@drawable/round_arrow_down"
             android:fontFamily="@font/robotoslab_regular"
             android:gravity="center_vertical"
             android:hint="Select"
             android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="normal"
 
             tools:ignore="HardcodedText" />
@@ -153,7 +150,7 @@
 
             android:fontFamily="@font/robotoslab_regular"
             android:text="@string/concern_details_ran"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -170,7 +167,7 @@
             android:hint="Enter Notes"
             android:lines="5"
             android:padding="@dimen/_10sdp"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="normal"
 
             tools:ignore="HardcodedText,RtlHardcoded" />
@@ -183,7 +180,7 @@
 
             android:fontFamily="@font/robotoslab_regular"
             android:text="Body Maps"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
@@ -200,7 +197,7 @@
                 android:layout_weight="1.5"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="Disable"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="normal"
 
                 tools:ignore="HardcodedText" />
@@ -212,7 +209,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="Enable"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="normal"
 
                 tools:ignore="HardcodedText" />
@@ -240,7 +237,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_26sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -274,7 +271,7 @@
                             android:tag="Invisible"
                             android:text="Body"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_9ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="bold"
                             app:drawableTint="@color/white"
                             tools:ignore="HardcodedText" />
@@ -293,12 +290,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/bodyFront"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutBodyFront"
@@ -318,7 +315,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Body Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
                                 tools:ignore="HardcodedText" />
 
@@ -340,12 +337,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/bodyBack"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutBodyBack"
@@ -365,7 +362,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Body Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -393,7 +390,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_26sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -427,7 +424,7 @@
                             android:tag="Invisible"
                             android:text="Face"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_9ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="bold"
                             app:drawableTint="@color/white"
                             tools:ignore="HardcodedText" />
@@ -446,12 +443,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/faceFront"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutFaceFront"
@@ -471,7 +468,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Face Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -495,12 +492,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/faceBack"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutFaceBack"
@@ -520,7 +517,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Face Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -549,7 +546,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_26sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -583,7 +580,7 @@
                             android:tag="Invisible"
                             android:text="Hand"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_9ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="bold"
                             app:drawableTint="@color/white"
 
@@ -603,12 +600,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rightFront"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutRightFront"
@@ -628,7 +625,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Right Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -652,12 +649,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rightBack"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutRightBack"
@@ -677,7 +674,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Right Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
                                 tools:ignore="HardcodedText" />
 
@@ -700,12 +697,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/leftFront"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutLeftFront"
@@ -725,7 +722,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Left Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -749,12 +746,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/leftBack"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutLeftBack"
@@ -774,7 +771,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Left Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -803,7 +800,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_26sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -837,7 +834,7 @@
                             android:tag="Invisible"
                             android:text="Pelvis"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_9ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="bold"
                             app:drawableTint="@color/white"
                             tools:ignore="HardcodedText" />
@@ -856,12 +853,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/pelvisFront"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutPelvisFront"
@@ -881,7 +878,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Pelvis Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -905,12 +902,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/pelvisBack"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutPelvisBack"
@@ -930,7 +927,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Pelvis Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -959,7 +956,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_26sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_margin="0dp"
                     android:padding="0dp"
                     app:cardBackgroundColor="@color/colorPrimary"
@@ -993,7 +990,7 @@
                             android:tag="Invisible"
                             android:text="Feet"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_9ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="bold"
                             app:drawableTint="@color/white"
 
@@ -1013,12 +1010,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rightFrontFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutRightFrontFeet"
@@ -1038,7 +1035,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Right Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -1062,12 +1059,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rightBackFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutRightBackFeet"
@@ -1088,7 +1085,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Right Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -1112,12 +1109,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/rightHeelFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutRightHeelFeet"
@@ -1138,7 +1135,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Right Heel"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -1162,12 +1159,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/leftFrontFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutLeftFrontFeet"
@@ -1188,7 +1185,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Left Front"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -1212,12 +1209,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/leftBackFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutLeftBackFeet"
@@ -1238,7 +1235,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Left Back"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />
@@ -1262,12 +1259,12 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/leftHeelFeet"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_26sdp"
+                        android:layout_height="@dimen/_35sdp"
                         app:cardBackgroundColor="#E9F9F7"
                         app:cardCornerRadius="4dp"
                         app:cardUseCompatPadding="true"
                         app:strokeColor="#E9F9F7"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layoutLeftHeelFeet"
@@ -1288,7 +1285,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:singleLine="true"
                                 android:text="Left Heel"
-                                android:textSize="@dimen/_9ssp"
+                                android:textSize="@dimen/_10ssp"
                                 android:textStyle="normal"
 
                                 tools:ignore="HardcodedText" />

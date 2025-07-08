@@ -68,7 +68,7 @@
                         android:layout_height="18dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/_10sdp"
-                        android:src="@drawable/round_arrow_down" />
+                        android:src="@drawable/ic_keyboard_arrow_down_small" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

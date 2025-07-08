@@ -35,8 +35,9 @@
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:text="Medication Details"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -45,7 +46,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close_icon"
+                android:src="@drawable/cross"
                 android:tint="#4C5664" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -105,7 +106,7 @@
                                 android:fontFamily="@font/robotoslab_regular"
                                 android:text="Quantity For Each Dose :"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_10ssp"
+                                android:textSize="@dimen/_11ssp"
                                 android:textStyle="normal"
                                 tools:ignore="HardcodedText" />
 
@@ -119,7 +120,7 @@
                                 android:singleLine="true"
                                 android:text="@string/app_name"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_10ssp"
+                                android:textSize="@dimen/_11ssp"
                                 android:textStyle="normal" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -345,14 +346,15 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Status"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/medicationStatus"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/ic_medication_field_bg"
                     android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
@@ -361,7 +363,7 @@
                     android:gravity="center_vertical"
                     android:hint="Select"
                     android:padding="@dimen/_5sdp"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText" />
 
@@ -375,10 +377,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvStatus"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/bg_spinner_dropdown_light"
-                    android:maxHeight="250dp"
                     android:nestedScrollingEnabled="true"
                     android:overScrollMode="never"
                     android:scrollbars="vertical"
@@ -391,9 +392,9 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:text="Notes"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
-
+                    android:textColor="@color/colorPrimary"
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -407,7 +408,7 @@
                     android:hint="Enter medication notes"
                     android:lines="5"
                     android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 
@@ -423,7 +424,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_cancel"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_cancel_btn_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -431,7 +432,7 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -442,7 +443,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_save_btn_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -450,7 +451,7 @@
                 android:text="Save"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_10ssp"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 

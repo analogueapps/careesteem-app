@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_sheet_rounded">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -26,7 +26,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="@dimen/_10sdp"
         android:paddingRight="@dimen/_10sdp"
@@ -46,7 +46,8 @@
                 android:gravity="center"
                 android:letterSpacing="0"
                 android:text="Body Maps"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -56,7 +57,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close_icon"
+                android:src="@drawable/cross"
                 android:tint="#4C5664" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -76,12 +77,14 @@
             android:fontFamily="@font/robotoslab_regular"
             android:letterSpacing="0"
             android:textSize="@dimen/_12ssp"
-            android:textStyle="normal"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_350sdp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/ic_body_map_outline_bg"
@@ -89,7 +92,7 @@
 
             <com.aits.careesteem.view.bodymap.BodyMapView
                 android:id="@+id/bodyMapView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -120,8 +123,10 @@
                     <!-- Undo Button -->
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnUndo"
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_26sdp"
+                        android:background="@drawable/ic_save_btn_bg"
+                        android:tint="@color/white"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:src="@drawable/ic_undo" />
 
                     <Space
@@ -131,23 +136,25 @@
                     <!-- Redo Button -->
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnRedo"
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_26sdp"
+                        android:background="@drawable/ic_save_btn_bg"
+                        android:tint="@color/white"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:src="@drawable/ic_redo" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSave"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_height="45dp"
                     android:layout_weight="1.5"
-                    android:background="@drawable/ic_btn_green_bg"
+                    android:background="@drawable/ic_save_btn_bg"
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text="Save"
                     android:textAllCaps="false"
-                    android:textColor="#279989"
-                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="bold"
 
                     tools:ignore="HardcodedText" />

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ import com.aits.careesteem.view.visits.adapter.TodoListAdapter
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.ToDoViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -212,6 +214,25 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         dialog.window?.setDimAmount(0.8f)
         dialog.setContentView(binding.root)
         dialog.setCancelable(true) // Same as AppConstant.FALSE
+
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(
+                com.google.android.material.R.id.design_bottom_sheet
+            )
+            bottomSheet?.let {
+                val behavior = BottomSheetBehavior.from(it)
+
+                // 85% of screen height
+                val layoutParams = it.layoutParams
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+                it.layoutParams = layoutParams
+
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
+                behavior.skipCollapsed = true
+            }
+        }
 
 //        // Set max height for the bottom sheet
 //        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()

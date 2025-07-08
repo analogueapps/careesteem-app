@@ -24,6 +24,7 @@ import com.aits.careesteem.R
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import androidx.core.net.toUri
 
 const val FCM_CHANNEL_ID = "care_esteem_channel"
 
@@ -45,18 +46,18 @@ class MyNotificationManager(private var mCtx: Context) {
         val mBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(mCtx, FCM_CHANNEL_ID)
         val notification: Notification =
-            mBuilder.setSmallIcon(R.drawable.ic_launcher_foreground).setTicker(title).setWhen(0)
+            mBuilder.setSmallIcon(R.drawable.logo_preview).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(Html.fromHtml(title).toString())
                 .setContentText(Html.fromHtml(message).toString())
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(bigPictureStyle)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.logo_preview)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(
                         mCtx.resources,
-                        R.drawable.ic_launcher_foreground
+                        R.drawable.logo_preview
                     )
                 )
                 .setPriority(Notification.PRIORITY_HIGH)
@@ -123,17 +124,17 @@ class MyNotificationManager(private var mCtx: Context) {
         val mBuilder: NotificationCompat.Builder =
             NotificationCompat.Builder(mCtx, FCM_CHANNEL_ID)
         val notification: Notification =
-            mBuilder.setSmallIcon(R.drawable.ic_launcher_foreground).setTicker(title).setWhen(0)
+            mBuilder.setSmallIcon(R.drawable.logo_preview).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentTitle(Html.fromHtml(title).toString())
                 .setContentText(Html.fromHtml(message).toString())
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.logo_preview)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(resultPendingIntent)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(
                         mCtx.resources,
-                        R.drawable.ic_launcher_foreground
+                        R.drawable.logo_preview
                     )
                 )
                 .setPriority(Notification.PRIORITY_HIGH)
@@ -176,7 +177,7 @@ class MyNotificationManager(private var mCtx: Context) {
             mCtx.startActivity(intent)
         } else {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + mCtx.packageName)
+            intent.data = ("package:" + mCtx.packageName).toUri()
             mCtx.startActivity(intent)
         }
     }

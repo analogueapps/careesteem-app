@@ -67,7 +67,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_negative"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_btn_red_bg"
                 android:fontFamily="@font/robotoslab_regular"
@@ -86,7 +86,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_positive"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/ic_btn_green_bg"
                 android:fontFamily="@font/robotoslab_regular"

@@ -64,7 +64,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Date of Birth"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -76,7 +76,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -111,7 +111,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Age"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -123,7 +123,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -158,7 +158,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="NHs No."
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -170,7 +170,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -205,7 +205,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Gender"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -217,7 +217,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -252,7 +252,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Religion"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -264,7 +264,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -275,7 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -299,7 +299,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Marital Status"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -311,7 +311,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -322,7 +322,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -346,7 +346,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Ethnicity"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -358,7 +358,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center"
                     android:text=":"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />
@@ -369,7 +369,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
 
                     tools:ignore="HardcodedText" />

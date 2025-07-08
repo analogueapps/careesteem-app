@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/tabText"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_25sdp"
+        android:layout_height="@dimen/_28sdp"
         android:background="@drawable/bg_tab_unselected"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="center"
@@ -21,7 +21,7 @@
         android:paddingBottom="4dp"
         android:text="Tab"
         android:textColor="#607D8B"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_11ssp"
         android:textStyle="normal" />
 
     <ImageView

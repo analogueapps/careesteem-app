@@ -77,14 +77,14 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
             bottomSheet?.let {
                 val behavior = BottomSheetBehavior.from(it)
 
-                // 75% of screen height
+                // 85% of screen height
                 val layoutParams = it.layoutParams
-                layoutParams.height = (resources.displayMetrics.heightPixels * 0.75).toInt()
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
                 it.layoutParams = layoutParams
 
-                //behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                behavior.isDraggable = false
-//                behavior.skipCollapsed = true
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
+                behavior.skipCollapsed = true
             }
         }
 

@@ -54,18 +54,18 @@ class EnterPasscodeFragment : Fragment(), BiometricAuthListener {
     }
 
     private fun setupBiometric() {
-//        if (sharedPreferences.getBoolean(
-//                SharedPrefConstant.LOCK_ENABLE,
-//                false
-//            )
-//        ) {
-//            BiometricUtils.showBiometricPrompt(
-//                activity = requireActivity() as AppCompatActivity,
-//                listener = this,
-//                cryptoObject = null,
-//            )
-//        }
+        if (sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)) {
+            // Post the biometric dialog to the main thread after fragment transactions finish
+            binding.root.post {
+                BiometricUtils.showBiometricPrompt(
+                    activity = requireActivity() as AppCompatActivity,
+                    listener = this,
+                    cryptoObject = null,
+                )
+            }
+        }
     }
+
 
     private fun setupWidgets() {
         if (sharedPreferences.getBoolean(SharedPrefConstant.LOCK_ENABLE, false)) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import com.aits.careesteem.databinding.DialogBodyMappingBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -51,24 +52,44 @@ class BodyMapMarksDialog : BottomSheetDialogFragment() {
             }
         }
 
-        dialog.setOnShowListener { dlg ->
-            val d = dlg as BottomSheetDialog
-            val bottomSheet =
-                d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+//        dialog.setOnShowListener { dlg ->
+//            val d = dlg as BottomSheetDialog
+//            val bottomSheet =
+//                d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+//            bottomSheet?.let {
+//                val behavior = BottomSheetBehavior.from(it)
+//                behavior.isDraggable = false
+//                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//                behavior.skipCollapsed = true
+//            }
+//
+//            // ✅ Set dim amount to 0.8
+//            d.window?.apply {
+//                addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+//                setDimAmount(0.8f)
+//            }
+//        }
+
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(
+                com.google.android.material.R.id.design_bottom_sheet
+            )
             bottomSheet?.let {
                 val behavior = BottomSheetBehavior.from(it)
-                behavior.isDraggable = false
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                behavior.skipCollapsed = true
-            }
 
-            // ✅ Set dim amount to 0.8
-            d.window?.apply {
-                addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-                setDimAmount(0.8f)
+                // 85% of screen height
+                val layoutParams = it.layoutParams
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+                it.layoutParams = layoutParams
+
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
+                behavior.skipCollapsed = true
             }
         }
 
+        dialog.window?.setDimAmount(0.8f)
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         return dialog

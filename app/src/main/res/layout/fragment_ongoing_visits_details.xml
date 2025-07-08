@@ -183,7 +183,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/topCard"
             app:tabIndicatorHeight="0dp"

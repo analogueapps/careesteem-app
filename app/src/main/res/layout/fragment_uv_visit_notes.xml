@@ -40,13 +40,13 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_visit_notes"
-                        android:textSize="@dimen/_11ssp"
+                        android:textSize="@dimen/_12ssp"
                         android:textStyle="normal" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnTopAddVisitNotes"
                         android:layout_width="wrap_content"
-                        android:layout_height="52dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"

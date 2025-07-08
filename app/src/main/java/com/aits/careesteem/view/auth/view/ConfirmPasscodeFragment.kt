@@ -83,7 +83,9 @@ class ConfirmPasscodeFragment : Fragment() {
 
         viewModel.createPasscodeResponse.observe(viewLifecycleOwner) { response ->
             if (response == true) {
-                editor.putBoolean(SharedPrefConstant.IS_LOGGED, AppConstant.TRUE)
+                editor.putBoolean(SharedPrefConstant.IS_LOGGED, true)
+                editor.putBoolean(SharedPrefConstant.LOCK_ENABLE, true)
+                editor.putBoolean(SharedPrefConstant.NOTIFICATION_ENABLE, true)
                 editor.apply()
                 findNavController().navigate(R.id.preloaderFragment)
 //                val intent = Intent(requireActivity(), HomeActivity::class.java)
