@@ -92,9 +92,10 @@ class MedicationViewModel @Inject constructor(
                             ) && it.visit_details_id != visitDetailsId
                         }
                         _completeCount.value = list.data.count {
-                            (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
-                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
-                                    it.status != "Scheduled" && it.status != "Not Scheduled"
+//                            (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+//                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
+//                                    it.status != "Scheduled" && it.status != "Not Scheduled"
+                            it.status != "Scheduled" && it.status != "Not Scheduled"
                         }
                         _medicationList.value = normalList
                         _prnMedicationList.value = prnList

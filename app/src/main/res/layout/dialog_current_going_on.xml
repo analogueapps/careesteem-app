@@ -15,6 +15,7 @@
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp">
@@ -27,7 +28,8 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:gravity="center"
                 android:text="Check-Out Required"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
@@ -37,12 +39,13 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_close_icon"
+                android:src="@drawable/cross"
                 android:tint="#000000" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/_10sdp"
@@ -66,8 +69,8 @@
             android:gravity="center"
             android:text="Check-Out Required Before Next Check-In"
             android:textColor="#137365"
-            android:textSize="@dimen/_10ssp"
-            android:textStyle="normal"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <TextView
@@ -79,14 +82,14 @@
             android:gravity="center"
             android:text="You must complete the current client's check-out before checking in a new client."
             android:textColor="#7D7D7D"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="normal"
             tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_positive"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/_10sdp"
             android:layout_weight="1"
@@ -97,7 +100,7 @@
             android:text="Dismiss"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
             tools:ignore="HardcodedText,InefficientWeight" />
 

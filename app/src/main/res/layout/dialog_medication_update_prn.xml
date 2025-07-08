@@ -328,11 +328,12 @@
                     android:id="@+id/tvBodyMap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:text="Body Maps"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:visibility="gone"
 
@@ -350,7 +351,8 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Status"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -360,13 +362,12 @@
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/ic_medication_field_bg"
-                    android:drawableEnd="@drawable/ic_keyboard_arrow_down_small"
-                    android:drawableTint="@color/black"
+                    android:drawableEnd="@drawable/round_arrow_down"
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:hint="Select"
                     android:padding="@dimen/_5sdp"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText" />
 
@@ -380,7 +381,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvStatus"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/bg_spinner_dropdown_light"
                     android:nestedScrollingEnabled="true"
@@ -395,7 +396,8 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:text="Notes"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
 
                     tools:ignore="HardcodedText" />
@@ -411,7 +413,7 @@
                     android:hint="Enter medication notes"
                     android:lines="5"
                     android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 

@@ -46,7 +46,7 @@ class FileAdapter(
                     Glide.with(context)
                         .load(File(data.filePath))
                         .override(400, 300)
-                        .placeholder(R.drawable.logo_preview)
+                        
                         .into(fileImageView)
 
                     // Handle delete button click

@@ -20,6 +20,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:textColor="@color/colorPrimary"
         android:id="@+id/sectionTitleee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

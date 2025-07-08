@@ -184,7 +184,7 @@ class VisitNotesFragment : Fragment(),
             return
         }
 
-        val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitId,0,"")
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitId,0,"", "")
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
     }
 
@@ -194,7 +194,7 @@ class VisitNotesFragment : Fragment(),
             return
         }
 
-        val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visitNotes, visitId,1,data.id)
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visitNotes, visitId,1,data.id, data.createdByUserId)
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
     }
 
@@ -202,6 +202,7 @@ class VisitNotesFragment : Fragment(),
         visitNotes: String,
         visitDetailsId: String,
         visitNotesId: String,
+        createdByUserid: String,
         action: Int
     ) {
         if(action == 0) {
@@ -211,12 +212,13 @@ class VisitNotesFragment : Fragment(),
                 visitNotes = visitNotes
             )
         } else {
-//            viewModel.updateVisitNotes(
-//                activity = requireActivity(),
-//                visitDetailsId = visitDetailsId,
-//                visitNotesId = visitNotesId,
-//                visitNotes = visitNotes
-//            )
+            viewModel.updateVisitNotes(
+                activity = requireActivity(),
+                visitDetailsId = visitDetailsId,
+                visitNotesId = visitNotesId,
+                visitNotes = visitNotes,
+                createdByUserid = createdByUserid
+            )
         }
     }
 }

@@ -143,7 +143,7 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
             Glide.with(requireContext())
                 .load(clientData.profile_image_url)
                 .override(400, 300)
-                .placeholder(R.drawable.logo_preview)
+                
                 .error(R.drawable.logo_preview)
                 .circleCrop() // Makes the image circular
                 .into(binding.imageProfile)

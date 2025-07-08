@@ -33,15 +33,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableEnd="@drawable/ic_keyboard_arrow_down"
+                android:drawableEnd="@drawable/round_arrow_down"
                 android:fontFamily="@font/robotoslab_regular"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:tag="Invisible"
                 android:text="@string/care_plan"
                 android:textSize="@dimen/_10ssp"
-                android:textStyle="bold"
-                app:drawableTint="@color/black" />
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

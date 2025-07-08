@@ -183,7 +183,7 @@ class UserAdapter(
                     Glide.with(context)
                         .load(AppConstant.checkNull(item.photoUrl))
                         .override(400, 300)
-                        .placeholder(R.drawable.logo_preview)
+                        
                         .error(R.drawable.logo_preview)
                         .circleCrop()
                         .into(holder.imgEven)
@@ -212,7 +212,7 @@ class UserAdapter(
                     Glide.with(context)
                         .load(AppConstant.checkNull(item.photoUrl))
                         .override(400, 300)
-                        .placeholder(R.drawable.logo_preview)
+                        
                         .error(R.drawable.logo_preview)
                         .circleCrop()
                         .into(holder.imgOdd)

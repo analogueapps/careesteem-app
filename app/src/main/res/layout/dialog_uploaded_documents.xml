@@ -33,7 +33,8 @@
                     android:gravity="center"
                     android:letterSpacing="0"
                     android:text="Uploaded Documents"
-                    android:textSize="@dimen/_11sdp"
+                    android:textSize="@dimen/_14ssp"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
@@ -43,7 +44,7 @@
                     android:layout_height="24dp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_close_icon"
+                    android:src="@drawable/cross"
                     android:tint="#4C5664" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

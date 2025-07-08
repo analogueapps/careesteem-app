@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAboutClientBinding
 import com.aits.careesteem.databinding.DialogCarePlanBinding
@@ -151,6 +152,14 @@ class ClientsDetailsFragment : Fragment(),
             val isSelected = (i == binding.viewPager.currentItem)
             tab?.customView = createCustomTab(titles[i], isSelected)
         }
+
+        // Handle tab changes to show/hide the button
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.btnCreateUnscheduledVisit.visibility = if (position == 0) View.VISIBLE else View.GONE
+            }
+        })
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -321,13 +330,13 @@ class ClientsDetailsFragment : Fragment(),
             }
         }
 
-//        binding.btnCreateUnscheduledVisit.setOnClickListener {
-//            shouldHandleVisitCheck = true
-//            visitViewModel.getVisits(
-//                requireActivity(),
-//                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-//            )
-//        }
+        binding.btnCreateUnscheduledVisit.setOnClickListener {
+            shouldHandleVisitCheck = true
+            visitViewModel.getVisits(
+                requireActivity(),
+                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            )
+        }
     }
 
     @SuppressLint("SetTextI18n")

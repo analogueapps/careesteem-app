@@ -68,12 +68,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/editButton"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_edit_round_pencil"
-                    android:visibility="gone" />
+
+                    android:src="@drawable/ic_edit_round_pencil" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

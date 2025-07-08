@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/robotoslab_regular"
-        android:textSize="@dimen/_10ssp"
-        android:textStyle="normal" />
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

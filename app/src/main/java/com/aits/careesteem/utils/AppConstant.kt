@@ -161,7 +161,7 @@ object AppConstant {
         return try {
             // Define input and output formatters
             val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' hh:mm a")
+            val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
             // Parse the input string
             val localDateTime = LocalDateTime.parse(input, inputFormatter)

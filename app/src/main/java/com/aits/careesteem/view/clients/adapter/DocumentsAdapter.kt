@@ -56,7 +56,7 @@ class DocumentsAdapter(
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 alertName.tag = if (isExpanded) "Visible" else "Invisible"
                 val icon =
-                    if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+                    if (isExpanded) R.drawable.round_arrow_up else R.drawable.round_arrow_down
                 alertName.setCompoundDrawablesWithIntrinsicBounds(
                     null,
                     null,

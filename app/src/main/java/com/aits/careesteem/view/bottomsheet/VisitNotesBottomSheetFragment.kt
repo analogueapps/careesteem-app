@@ -24,13 +24,15 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
         private const val ARG_ID = "arg_id"
         private const val ARG_ACTION = "arg_action"
         private const val ARG_VISIT_ID = "arg_visit_id"
+        private const val ARG_CREATE_USER_ID = "arg_create_user_id"
 
-        fun newInstance(data: String?, id: String?, action: Int, visitId: String?): VisitNotesBottomSheetFragment {
+        fun newInstance(data: String?, id: String?, action: Int, visitId: String?, createdByUserid: String?): VisitNotesBottomSheetFragment {
             val args = Bundle().apply {
                 putString(ARG_DATA, data)
                 putString(ARG_ID, id)
                 putInt(ARG_ACTION, action)
                 putString(ARG_VISIT_ID, visitId)
+                putString(ARG_CREATE_USER_ID, createdByUserid)
             }
             return VisitNotesBottomSheetFragment().apply {
                 arguments = args
@@ -45,6 +47,7 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
     private var visitId: String = ""
     private var action: Int = 0
     private var visitNotesId: String = ""
+    private var createdByUserid: String = ""
 
     private var visitNoteUpdateListener: OnVisitNotesUpdateListener? = null
 
@@ -53,6 +56,7 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
             visitNotes: String,
             visitDetailsId: String,
             visitNotesId: String,
+            createdByUserid: String,
             action: Int
         )
     }
@@ -111,6 +115,7 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
         visitId = arguments?.getString(ARG_ID).orEmpty()
         action = arguments?.getInt(ARG_ACTION) ?: 0
         visitNotesId = arguments?.getString(ARG_VISIT_ID).orEmpty()
+        createdByUserid = arguments?.getString(ARG_CREATE_USER_ID).orEmpty()
 
         setupUI()
     }
@@ -134,7 +139,7 @@ class VisitNotesBottomSheetFragment : BottomSheetDialogFragment() {
 
             dismiss()
 
-            visitNoteUpdateListener?.onVisitNoteUpdated(notes, visitId, visitNotesId, action)
+            visitNoteUpdateListener?.onVisitNoteUpdated(notes, visitId, visitNotesId, createdByUserid, action)
         }
 
         btnCancel.setOnClickListener {

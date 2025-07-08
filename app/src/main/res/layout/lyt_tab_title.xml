@@ -34,8 +34,8 @@
     android:fontFamily="@font/robotoslab_regular"
     android:gravity="center"
     android:paddingStart="10dp"
-    android:paddingTop="12dp"
+    android:paddingTop="10dp"
     android:paddingEnd="10dp"
-    android:paddingBottom="12dp"
-    android:textSize="@dimen/_9ssp"
+    android:paddingBottom="10dp"
+    android:textSize="@dimen/_10sdp"
     android:textStyle="bold"/>

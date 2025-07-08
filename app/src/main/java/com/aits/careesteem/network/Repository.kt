@@ -359,10 +359,8 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         return apiService.updateUnscheduledVisitNotesDetails(
             hashToken = hashToken,
             visitNotesId = visitNotesId,
-            visitUserId = visitUserId,
-            updatedAt = visitUserId,
+            updatedAt = visitUpdatedAt,
             visitNotes = visitNotes,
-            visitUpdatedAt = visitUpdatedAt,
             updatedByUserid = visitUserId
         )
     }

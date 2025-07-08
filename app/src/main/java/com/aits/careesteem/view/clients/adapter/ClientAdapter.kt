@@ -117,7 +117,7 @@ class ClientAdapter(
                     Glide.with(context)
                         .load(data.profile_image_url)
                         .override(400, 300)
-                        .placeholder(R.drawable.logo_preview)
+                        
                         .error(R.drawable.logo_preview)
                         .circleCrop() // Makes the image circular
                         .into(clientImage)

@@ -13,7 +13,7 @@
         android:gravity="center|left"
         android:fontFamily="@font/robotoslab_regular"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/_10ssp" />
+        android:textSize="@dimen/_11ssp" />
 
     <!-- Divider -->
     <View

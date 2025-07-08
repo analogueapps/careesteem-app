@@ -254,7 +254,7 @@ class ProfileFragment : Fragment() {
 //            Glide.with(requireContext())
 //                .load(savedPhoto)
 //                .override(400, 300)
-//                .placeholder(R.drawable.logo_preview)
+//                
 //                .error(R.drawable.logo_preview)
 //                .into(binding.profileImage)
 //        } else {

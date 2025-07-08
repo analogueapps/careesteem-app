@@ -235,15 +235,17 @@ class HomeActivity : BaseActivity() {
             Glide.with(this)
                 .load(savedPhoto)
                 .override(400, 300)
-                .placeholder(R.drawable.logo_preview)
+                
                 .error(R.drawable.logo_preview)
                 .circleCrop() // Makes the image circular
                 .into(profileImageView)
         } else {
-            val initials =
-                GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
-            val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(this, initials)
-            profileImageView.setImageBitmap(initialsBitmap)
+            if (userData != null) {
+                val initials =
+                    GooglePlaceHolder().getInitialsDouble(userData.first_name, userData.last_name)
+                val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(this, initials)
+                profileImageView.setImageBitmap(initialsBitmap)
+            }
         }
 
         menuItem.actionView = profileImageView

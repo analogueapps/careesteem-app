@@ -55,10 +55,14 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_248sdp"
-                android:layout_height="@dimen/_246sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_270sdp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_22sdp"
+                android:layout_marginTop="@dimen/_22sdp"
+                android:layout_marginRight="@dimen/_22sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:scaleType="fitXY"
                 android:src="@drawable/layer_agency_bottom" />
 
 

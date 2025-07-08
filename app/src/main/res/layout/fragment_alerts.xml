@@ -38,7 +38,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="@string/raise_an_alert"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_13ssp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -53,7 +53,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCreateAlert"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
@@ -62,7 +62,9 @@
                     android:textAllCaps="false"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
+                    android:letterSpacing="0"
                     android:visibility="gone"
+                    app:iconSize="@dimen/_14sdp"
                     app:icon="@drawable/ic_icon_plus"
                     app:iconTintMode="multiply" />
 

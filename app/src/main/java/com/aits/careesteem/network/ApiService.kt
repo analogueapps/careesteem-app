@@ -248,10 +248,8 @@ interface ApiService {
         @Path("visitNotesId") visitNotesId: String,
         @Query("hash_token") hashToken: String,
         @Field("visit_notes") visitNotes: String,
-        @Field("visit_user_id") visitUserId: String,
         @Field("updated_at") updatedAt: String,
         @Field("updatedby_userid") updatedByUserid: String,
-        @Field("visit_updated_at") visitUpdatedAt: String,
     ): Response<JsonObject>
 
     @GET("getclientvisitnotesdetails/{visitDetailsId}")

@@ -91,13 +91,13 @@ class AboutMeFragment : Fragment() {
 
     @SuppressLint("NewApi")
     private fun setupWidget() {
-        binding.btnCreateUnscheduledVisit.setOnClickListener {
-            shouldHandleVisitCheck = true
-            visitViewModel.getVisits(
-                requireActivity(),
-                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            )
-        }
+//        binding.btnCreateUnscheduledVisit.setOnClickListener {
+//            shouldHandleVisitCheck = true
+//            visitViewModel.getVisits(
+//                requireActivity(),
+//                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+//            )
+//        }
     }
 
     private fun setupViewModel() {
@@ -204,7 +204,7 @@ class AboutMeFragment : Fragment() {
                     Glide.with(requireContext())
                         .load(clientData.profile_image_url)
                         .override(400, 300)
-                        .placeholder(R.drawable.logo_preview)
+                        
                         .error(R.drawable.logo_preview)
                         .circleCrop() // Makes the image circular
                         .into(profileImage)

@@ -187,7 +187,7 @@ class UvVisitNotesFragment : Fragment(),
             return
         }
 
-        val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visit_notes,visitData?.visitDetailsId,1,data.id)
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance(data.visit_notes,visitData?.visitDetailsId,1,data.id, data.visit_user_id)
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
     }
 
@@ -198,7 +198,7 @@ class UvVisitNotesFragment : Fragment(),
             return
         }
 
-        val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitData?.visitDetailsId,0,"")
+        val bottomSheet = VisitNotesBottomSheetFragment.newInstance("",visitData?.visitDetailsId,0,"", "")
         bottomSheet.show(childFragmentManager, VisitNotesBottomSheetFragment.TAG)
     }
 
@@ -206,6 +206,7 @@ class UvVisitNotesFragment : Fragment(),
         visitNotes: String,
         visitDetailsId: String,
         visitNotesId: String,
+        createdByUserid: String,
         action: Int
     ) {
         if(action == 0) {

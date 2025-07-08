@@ -33,7 +33,7 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:text="@string/list_of_clients"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:textStyle="bold" />
 
             <SearchView

@@ -169,6 +169,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.tabs.TabLayout
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

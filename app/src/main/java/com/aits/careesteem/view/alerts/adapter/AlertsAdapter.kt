@@ -52,7 +52,7 @@ class AlertsAdapter(
                 val isExpanded = position == expandedPosition
                 detailLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 alertTime.tag = if (isExpanded) "Visible" else "Invisible"
-                val icon = if (isExpanded) R.drawable.ic_keyboard_arrow_up else R.drawable.ic_keyboard_arrow_down
+                val icon = if (isExpanded) R.drawable.round_arrow_up else R.drawable.round_arrow_down
                 alertTime.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getDrawable(icon), null)
 
                 alertLayout.setOnClickListener {
@@ -110,7 +110,7 @@ class ServerImageAdapter(
                 Glide.with(context)
                     .load(data.imageUrl.replace("\\", "/"))
                     .override(400, 300)
-                    .placeholder(R.drawable.logo_preview)
+                    
                     .into(fileImageView)
 
                 btnDelete.visibility = View.GONE
@@ -148,7 +148,7 @@ class BodyMapImageAdapter(
                 Glide.with(context)
                     .load(data.imageUrl.replace("\\", "/"))
                     .override(400, 300)
-                    .placeholder(R.drawable.logo_preview)
+                    
                     .into(fileImageView)
 
                 btnDelete.visibility = View.GONE
