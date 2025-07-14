@@ -8,6 +8,7 @@ package com.aits.careesteem.view.home.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -38,13 +39,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aits.careesteem.R
 import com.aits.careesteem.base.BaseActivity
 import com.aits.careesteem.databinding.ActivityHomeBinding
+import com.aits.careesteem.databinding.DialogConfirmExitBinding
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
@@ -163,29 +167,44 @@ class HomeActivity : BaseActivity() {
             when (item.itemId) {
                 R.id.bottom_visits -> {
                     // Navigate to visits fragment if not already open
-                    if (navController.currentDestination?.id != R.id.bottom_visits) {
+                    if (navController.currentDestination?.id == R.id.addAlertsFragment) {
+                        showConfirmAlert {
+                            navController.navigate(R.id.bottom_visits)
+                        }
+                        return@setOnItemSelectedListener false
+                    } else if (navController.currentDestination?.id != R.id.bottom_visits) {
                         navController.navigate(R.id.bottom_visits)
                     }
-                    true
+                    return@setOnItemSelectedListener true
                 }
 
                 R.id.bottom_clients -> {
                     // Navigate to clients fragment if not already open
-                    if (navController.currentDestination?.id != R.id.bottom_clients) {
+                    if (navController.currentDestination?.id == R.id.addAlertsFragment) {
+                        showConfirmAlert {
+                            navController.navigate(R.id.bottom_clients)
+                        }
+                        return@setOnItemSelectedListener false
+                    } else if (navController.currentDestination?.id != R.id.bottom_clients) {
                         navController.navigate(R.id.bottom_clients)
                     }
-                    true
+                    return@setOnItemSelectedListener true
                 }
 
                 R.id.bottom_alerts -> {
                     // Navigate to alerts fragment if not already open
-                    if (navController.currentDestination?.id != R.id.bottom_alerts) {
+                    if (navController.currentDestination?.id == R.id.addAlertsFragment) {
+                        showConfirmAlert {
+                            navController.navigate(R.id.bottom_alerts)
+                        }
+                        return@setOnItemSelectedListener false
+                    } else if (navController.currentDestination?.id != R.id.bottom_alerts) {
                         navController.navigate(R.id.bottom_alerts)
                     }
-                    true
+                    return@setOnItemSelectedListener true
                 }
 
-                else -> false
+                else -> return@setOnItemSelectedListener false
             }
         }
 
@@ -403,5 +422,32 @@ class HomeActivity : BaseActivity() {
             // toolbar menu refresh
             invalidateOptionsMenu()
         }
+    }
+
+    private fun showConfirmAlert(onConfirmed: () -> Unit) {
+        val dialog = Dialog(this)
+        val binding: DialogConfirmExitBinding = DialogConfirmExitBinding.inflate(layoutInflater)
+
+        dialog.window?.setDimAmount(0.8f)
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+
+        binding.btnPositive.setOnClickListener {
+            dialog.dismiss()
+            onConfirmed() // call the callback
+        }
+
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+            // do nothing
+        }
+
+        dialog.show()
     }
 }

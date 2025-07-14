@@ -18,7 +18,8 @@ import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListRespons
 
 class UvVisitNotesListAdapter(
     private val context: Context,
-    private val onItemItemClick: OnItemItemClick
+    private val onItemItemClick: OnItemItemClick,
+    private val isChanges: Boolean
 ) : RecyclerView.Adapter<UvVisitNotesListAdapter.ViewHolder>() {
 
     interface OnItemItemClick {
@@ -66,10 +67,17 @@ class UvVisitNotesListAdapter(
                     else -> ""
                 }
                 updatedAt.text = AppConstant.visitUvNotesListTimer(date)
-                view.visibility = View.GONE
-                updatedByUserName.visibility = View.GONE
+//                view.visibility = View.GONE
+//                updatedByUserName.visibility = View.GONE
+                updatedByUserName.text = "Updated by: " +  AppConstant.checkNull(data.user_last_name)
                 editButton.visibility = View.VISIBLE
                 visitNotes.text = data.visit_notes
+
+                if(isChanges) {
+                    editButton.visibility = View.VISIBLE
+                } else {
+                    editButton.visibility = View.GONE
+                }
 
                 editButton.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

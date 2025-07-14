@@ -51,8 +51,8 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
                     android:layout_marginTop="2dp"
+                    android:layout_marginRight="@dimen/_5sdp"
                     android:layout_marginBottom="2dp"
                     android:background="@color/colorPrimary" />
 
@@ -72,8 +72,9 @@
                     android:layout_height="26dp"
                     android:layout_marginStart="@dimen/_5sdp"
                     android:backgroundTint="@android:color/transparent"
-
-                    android:src="@drawable/ic_edit_round_pencil" />
+                    android:src="@drawable/ic_edit_round_pencil"
+                    android:tint="@color/colorPrimary"
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

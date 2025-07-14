@@ -220,14 +220,14 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateProfileDetails(data: UserDetailsResponse.Data) {
-        binding.profileName.text = data.name
-        binding.profileAgency.text = data.Agency
-        binding.profileAge.text = if (data.age == 0) "" else data.age.toString()
-        binding.profileEmail.text = data.email
-        binding.profileContactNumber.text = data.contact_number
-        binding.profileAddress.text = data.address
-        binding.profileCity.text = data.city
-        binding.profilePostCode.text = data.postcode
+        binding.profileName.text = AppConstant.checkNull(data.name)
+        binding.profileAgency.text = AppConstant.checkNull(data.Agency)
+        binding.profileAge.text = AppConstant.checkAge(data.age)
+        binding.profileEmail.text = AppConstant.checkNull(data.email)
+        binding.profileContactNumber.text = AppConstant.checkNull(data.contact_number)
+        binding.profileAddress.text = AppConstant.checkNull(data.address)
+        binding.profileCity.text = AppConstant.checkNull(data.city)
+        binding.profilePostCode.text = AppConstant.checkNull(data.postcode)
 
         if (data.profile_image_url.isNotEmpty()) {
             editor.putString(SharedPrefConstant.PROFILE_IMAGE, data.profile_image_url)

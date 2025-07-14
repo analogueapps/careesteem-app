@@ -97,6 +97,7 @@ class CompleteVisitsAdapter(
                 binding.apply {
                     tvClientName.text = AppConstant.checkClientName(data.clientName)
                     tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                    tvClientPostCode.text = "${AppConstant.checkNull(data.clientCity)}, ${AppConstant.checkNull(data.clientPostcode)}"
                     tvPlanTime.text = AppConstant.checkNull(data.TotalActualTimeDiff[0])
                     tvUserRequired.text =
                         if (data.usersRequired == 0) "1" else "${data.usersRequired}"

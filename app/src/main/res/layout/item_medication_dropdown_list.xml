@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/robotoslab_regular"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_11ssp" />
 
     </LinearLayout>
 

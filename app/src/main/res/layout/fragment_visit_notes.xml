@@ -59,7 +59,7 @@
                             android:gravity="center"
                             android:text="@string/add_note"
                             android:textAllCaps="false"
-                            android:textSize="@dimen/_12ssp"
+                            android:textSize="@dimen/_11ssp"
                             android:textStyle="normal"
                             android:letterSpacing="0"
                             app:icon="@drawable/ic_add_notes"

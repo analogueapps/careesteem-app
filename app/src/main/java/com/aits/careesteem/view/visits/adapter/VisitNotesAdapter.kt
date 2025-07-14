@@ -9,6 +9,7 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemVisitNotesListBinding
@@ -17,7 +18,9 @@ import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 
 class VisitNotesAdapter(
     private val context: Context,
-    private val onItemItemClick: OnItemItemClick
+    private val onItemItemClick: OnItemItemClick,
+    private val showOnly: Boolean,
+    private val isChanges: Boolean,
 ) : RecyclerView.Adapter<VisitNotesAdapter.ViewHolder>() {
 
     interface OnItemItemClick {
@@ -64,8 +67,19 @@ class VisitNotesAdapter(
                 else if (data.createdAt.isNotEmpty() && data.updatedAt.isNotEmpty()) data.updatedAt
                 else data.createdAt
                 updatedAt.text = AppConstant.visitNotesListTimer(date)
-                updatedByUserName.text = "Updated by: " + data.updatedByUserName
+                updatedByUserName.text = "Updated by: " + AppConstant.checkUserLastName(data.updatedByUserName)
                 visitNotes.text = data.visitNotes
+
+                if(isChanges) {
+                    if(showOnly) {
+                        editButton.visibility = ViewGroup.GONE
+                    } else {
+                        editButton.visibility = ViewGroup.VISIBLE
+                    }
+                   // editButton.visibility = View.VISIBLE
+                } else {
+                    editButton.visibility = View.GONE
+                }
 
                 editButton.setOnClickListener {
                     onItemItemClick.onItemItemClicked(data)

@@ -14,7 +14,7 @@ data class UserDetailsResponse(
     data class Data(
         val Agency: String,
         val address: String,
-        val age: Any,
+        val age: Int,
         val city: String,
         val contact_number: String,
         val email: String,

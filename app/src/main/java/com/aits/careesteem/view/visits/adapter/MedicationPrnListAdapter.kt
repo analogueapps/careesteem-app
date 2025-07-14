@@ -9,9 +9,11 @@ package com.aits.careesteem.view.visits.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemPrnMedicationListBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvMedicationListAdapter.OnPnrItemItemClick
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 
@@ -61,6 +63,8 @@ class MedicationPrnListAdapter(
                 medicationName.text = data.nhs_medicine_name
                 medicationSupport.text = data.medication_support
                 medicationType.text = data.medication_type
+                medicationSession.visibility = View.VISIBLE
+                medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
                 layout.setOnClickListener {
                     onPnrItemItemClick.onPnrItemItemClicked(data)
                 }

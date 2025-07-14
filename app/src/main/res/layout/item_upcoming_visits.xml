@@ -50,7 +50,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:maxLines="2"
+                    android:singleLine="true"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="normal" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvClientPostCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:singleLine="true"
                     android:text="@string/app_name"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="normal" />

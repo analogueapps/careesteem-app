@@ -39,7 +39,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_submitted_medications"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_11ssp"
                         android:textStyle="normal" />
 
                     <include
@@ -107,8 +107,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_prn_medication"
-                        android:textColor="#9B9B9B"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_11ssp"
                         android:textStyle="normal" />
 
                     <androidx.recyclerview.widget.RecyclerView

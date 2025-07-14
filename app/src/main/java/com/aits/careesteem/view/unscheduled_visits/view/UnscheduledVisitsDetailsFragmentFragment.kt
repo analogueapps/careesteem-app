@@ -90,6 +90,7 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
         // Data visibility
         viewModel.visitsDetails.observe(viewLifecycleOwner) { data ->
             if (data != null) {
+                binding.topCard.visibility = View.VISIBLE
                 setupCardData(data)
             }
         }
@@ -113,7 +114,9 @@ class UnscheduledVisitsDetailsFragmentFragment : Fragment() {
 
         binding.apply {
             tvClientName.text = AppConstant.checkClientName(data?.clientName)
-            tvClientAddress.text = data?.clientAddress
+            //tvClientAddress.text = data?.clientAddress
+            tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+            tvClientPostCode.text = "${AppConstant.checkNull(data.clientCity)}, ${AppConstant.checkNull(data.clientPostcode)}"
             // You may have another field in your data representing the total planned time.
             // Here, we start a countdown using the planned end time.
             tvPlanTime.text = data?.totalPlannedTime

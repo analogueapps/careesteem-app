@@ -11,6 +11,8 @@ data class VisitDetailsResponse(
         val actualStartTime: List<String>,
         val chooseSessions: Any,
         val clientAddress: String,
+        val clientCity: String,
+        val clientPostcode: String,
         val clientId: String,
         val clientName: String,
         val latitude: Any,

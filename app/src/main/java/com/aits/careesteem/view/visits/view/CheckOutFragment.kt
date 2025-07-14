@@ -48,6 +48,7 @@ import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.aits.careesteem.view.visits.viewmodel.CheckoutViewModel
 import com.aits.careesteem.view.visits.viewmodel.OngoingVisitsDetailsViewModel
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -273,9 +274,23 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         }
         binding.textName.text = AppConstant.checkClientName(data.clientName)
 
-        val initials = GooglePlaceHolder().getInitialsSingle(data.clientName)
-        val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
-        binding.imageProfile.setImageBitmap(initialsBitmap)
+        if (data.client_profile_image_url != null && data.client_profile_image_url.isNotEmpty()) {
+            Glide.with(requireContext())
+                .load(data.client_profile_image_url)
+                .override(400, 300)
+                .error(R.drawable.logo_preview)
+                .circleCrop() // Makes the image circular
+                .into(binding.imageProfile)
+        } else {
+            val initials = GooglePlaceHolder().getInitialsSingle(data.clientName)
+            val initialsBitmap =
+                GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+            binding.imageProfile.setImageBitmap(initialsBitmap)
+        }
+
+//        val initials = GooglePlaceHolder().getInitialsSingle(data.clientName)
+//        val initialsBitmap = GooglePlaceHolder().createInitialsAvatar(requireContext(), initials)
+//        binding.imageProfile.setImageBitmap(initialsBitmap)
 
         binding.btnCheckIn.setOnClickListener {
             if (viewModel.markerPosition.value == null) {
@@ -399,17 +414,30 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
 
+            // if plannedStartTime and plannedEndTime have one hour
+            val hourPart = data.totalPlannedTime.split(":")[0].toIntOrNull()
+            var graceMinute = 0
+            graceMinute = if (hourPart != null) {
+                if (hourPart >= 1) {
+                    20
+                } else {
+                    5
+                }
+            } else {
+                0
+            }
+
             if (currentDateTime != null) {
                 when (args.action) {
                     0 -> when {
-                        diff >= 20 -> "Early Check-In"
-                        diff <= -20 -> "Late Check-In"
+                        diff >= graceMinute -> "Early Check-In"
+                        diff <= -graceMinute -> "Late Check-In"
                         else -> ""
                     }
 
                     1 -> when {
-                        diff >= 20 -> "Early Check-Out"
-                        diff <= -20 -> "Late Check-Out"
+                        diff >= graceMinute -> "Early Check-Out"
+                        diff <= -graceMinute -> "Late Check-Out"
                         else -> ""
                     }
 
@@ -494,17 +522,30 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
 
+            // if plannedStartTime and plannedEndTime have one hour
+            val hourPart = data.totalPlannedTime.split(":")[0].toIntOrNull()
+            var graceMinute = 0
+            graceMinute = if (hourPart != null) {
+                if (hourPart >= 1) {
+                    20
+                } else {
+                    5
+                }
+            } else {
+                0
+            }
+
             if (currentDateTime != null) {
                 when (args.action) {
                     0 -> when {
-                        diff >= 20 -> "Early Check-In"
-                        diff <= -20 -> "Late Check-In"
+                        diff >= graceMinute -> "Early Check-In"
+                        diff <= -graceMinute -> "Late Check-In"
                         else -> ""
                     }
 
                     1 -> when {
-                        diff >= 20 -> "Early Check-Out"
-                        diff <= -20 -> "Late Check-Out"
+                        diff >= graceMinute -> "Early Check-Out"
+                        diff <= -graceMinute -> "Late Check-Out"
                         else -> ""
                     }
 
@@ -821,17 +862,30 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
                     val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
 
+                    // if plannedStartTime and plannedEndTime have one hour
+                    val hourPart = ongoingVisitsDetailsViewModel.visitsDetails.value?.totalPlannedTime?.split(":")[0]?.toIntOrNull()
+                    var graceMinute = 0
+                    graceMinute = if (hourPart != null) {
+                        if (hourPart >= 1) {
+                            20
+                        } else {
+                            5
+                        }
+                    } else {
+                        0
+                    }
+
                     if (currentDateTime != null) {
                         when (args.action) {
                             0 -> when {
-                                diff >= 20 -> "Early Check-In"
-                                diff <= -20 -> "Late Check-In"
+                                diff >= graceMinute -> "Early Check-In"
+                                diff <= -graceMinute -> "Late Check-In"
                                 else -> ""
                             }
 
                             1 -> when {
-                                diff >= 20 -> "Early Check-Out"
-                                diff <= -20 -> "Late Check-Out"
+                                diff >= graceMinute -> "Early Check-Out"
+                                diff <= -graceMinute -> "Late Check-Out"
                                 else -> ""
                             }
 

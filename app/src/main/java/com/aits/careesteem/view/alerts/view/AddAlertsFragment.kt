@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,8 +24,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
+import com.aits.careesteem.databinding.DialogConfirmExitBinding
+import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.ToastyType
@@ -84,10 +88,22 @@ class AddAlertsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAddAlertsBinding.inflate(inflater, container, false)
+        setupOnBackPressed()
         setupAdapter()
         setupWidgets()
         setupViewModel()
         return binding.root
+    }
+
+    private fun setupOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showConfirmExitPopup()
+                }
+            }
+        )
     }
 
     private fun setupAdapter() {
@@ -102,10 +118,38 @@ class AddAlertsFragment : Fragment() {
         }
     }
 
+    private fun showConfirmExitPopup() {
+        val dialog = Dialog(requireContext())
+        val binding: DialogConfirmExitBinding =
+            DialogConfirmExitBinding.inflate(layoutInflater)
+        dialog.window?.setDimAmount(0.8f)
+        dialog.setContentView(binding.root)
+        dialog.setCancelable(AppConstant.FALSE)
+
+        // Handle button clicks
+        binding.btnPositive.setOnClickListener {
+            dialog.dismiss()
+            findNavController().popBackStack()
+        }
+        binding.btnNegative.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val window = dialog.window
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupWidgets() {
         binding.btnCancel.setOnClickListener {
-            findNavController().popBackStack()
+            showConfirmExitPopup()
         }
 
         binding.btnSave.setOnClickListener {

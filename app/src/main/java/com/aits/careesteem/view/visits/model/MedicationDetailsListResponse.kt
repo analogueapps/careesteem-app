@@ -41,6 +41,8 @@ data class MedicationDetailsListResponse(
         val scheduled_start_date: String,
         val scheduled_user_id: String,
         val select_preference: String,
+        val by_exact_time: String,
+        val session_type: String,
         val visit_details_id: Any,
         // Newly added fields
         val prn_id: String,
@@ -59,7 +61,8 @@ data class MedicationDetailsListResponse(
         val body_map_image_url: List<String>,
         val body_part_names: List<String>,
 
-        val carer_notes: String
+        val carer_notes: String,
+        val additional_instructions: String
         // want to change body_map_image_url instead of body_image
     ) : Serializable
 }

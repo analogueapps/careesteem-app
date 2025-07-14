@@ -9,6 +9,7 @@ package com.aits.careesteem.utils
 import android.app.Activity
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
@@ -41,18 +42,34 @@ object ProgressLoader {
         dialog?.setContentView(R.layout.lyt_custom_progress_dialog)
         dialog?.setCancelable(false)
 
-        // Set transparent background for dialog content
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(0))
+        val window = dialog?.window
+        if (window != null) {
+            // Remove background to make it transparent
+            window.setBackgroundDrawable(ColorDrawable(0))
 
-        // Set dim amount for background (0.0 to 1.0)
-        dialog?.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        dialog?.window?.setDimAmount(0.8f) // 👈 Background dim amount here
+            // Set window size and position
+            window.setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
 
-        // Load GIF using Glide
+            // FORCE dialog to appear at center
+            val layoutParams = WindowManager.LayoutParams()
+            layoutParams.copyFrom(window.attributes)
+            layoutParams.gravity = Gravity.CENTER
+            layoutParams.windowAnimations = 0 // Disable any animations
+            window.attributes = layoutParams
+
+            // Optional: Dim background
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window.setDimAmount(0.6f)
+        }
+
+        // Load GIF
         val gifView = dialog?.findViewById<ImageView>(R.id.loaderImage)
         Glide.with(activity)
             .asGif()
-            .load(R.drawable.logo_animation_primary) // Replace with your actual GIF resource
+            .load(R.drawable.logo_animation_primary)
             .into(gifView!!)
 
         dialog?.show()

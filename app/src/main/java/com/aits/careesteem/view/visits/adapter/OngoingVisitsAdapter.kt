@@ -101,6 +101,7 @@ class OngoingVisitsAdapter(
             binding.apply {
                 tvClientName.text = AppConstant.checkClientName(data.clientName)
                 tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                tvClientPostCode.text = "${AppConstant.checkNull(data.clientCity)}, ${AppConstant.checkNull(data.clientPostcode)}"
                 // You may have another field in your data representing the total planned time.
                 // Here, we start a countdown using the planned end time.
                 tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)

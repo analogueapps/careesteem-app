@@ -1,10 +1,13 @@
 package com.aits.careesteem.view.visits.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -207,6 +210,7 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         showEditTodoDialog(data)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun showEditTodoDialog(data: TodoListResponse.Data) {
         val dialog = BottomSheetDialog(requireContext())
         val binding: DialogTodoEditBinding =
@@ -242,6 +246,15 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
         binding.closeButton.setOnClickListener { dialog.dismiss() }
         // Setup views
         binding.apply {
+            carerNotes.movementMethod = ScrollingMovementMethod.getInstance()
+            carerNotes.setOnTouchListener { v, event ->
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                    v.parent.requestDisallowInterceptTouchEvent(false)
+                }
+                false
+            }
+
             todoName.text = AppConstant.checkNull(data.todoName)
             val addNote = AppConstant.checkNull(data.additionalNotes)
             additionalNotes.text = addNote

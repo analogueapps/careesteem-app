@@ -16,6 +16,8 @@ data class VisitListResponse(
         var visitDetailsId: String,
         var uatId: Int = 0,
         var clientAddress: String,
+        var clientCity: String,
+        var clientPostcode: String,
         var clientName: String,
         var plannedEndTime: String,
         var plannedStartTime: String,

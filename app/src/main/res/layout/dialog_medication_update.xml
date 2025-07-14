@@ -61,6 +61,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             android:layout_weight="1"
             android:paddingBottom="@dimen/_10sdp">
 
@@ -92,7 +93,7 @@
                             android:singleLine="true"
                             android:text="@string/app_name"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_13ssp"
+                            android:textSize="@dimen/_12ssp"
                             android:textStyle="bold" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -328,7 +329,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:text="Body Maps"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:visibility="gone"
@@ -341,13 +342,42 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/addNoteMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:text="Additional Instructions"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/additionalNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="normal" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/robotoslab_regular"
                     android:text="Status"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     tools:ignore="HardcodedText" />
@@ -363,7 +393,7 @@
                     android:gravity="center_vertical"
                     android:hint="Select"
                     android:padding="@dimen/_5sdp"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText" />
 
@@ -392,7 +422,7 @@
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="center_vertical"
                     android:text="Notes"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     tools:ignore="HardcodedText" />
@@ -404,11 +434,20 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/ic_medication_field_bg"
                     android:fontFamily="@font/robotoslab_regular"
-                    android:gravity="left|top"
+                    android:gravity="top|top"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    android:maxLines="10"
+                    android:minLines="5"
+                    android:overScrollMode="always"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:longClickable="true"
                     android:hint="Enter medication notes"
-                    android:lines="5"
+                    android:imeOptions="flagNoExtractUi"
                     android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_11ssp"
                     android:textStyle="normal"
                     tools:ignore="HardcodedText,RtlHardcoded" />
 

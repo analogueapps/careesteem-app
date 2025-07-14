@@ -2,30 +2,25 @@ package com.aits.careesteem.view.unscheduled_visits.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.DialogVisitNotesBinding
 import com.aits.careesteem.databinding.FragmentUvVisitNotesBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.ToastyType
-import com.aits.careesteem.view.bottomsheet.MedicationBottomSheetFragment
 import com.aits.careesteem.view.bottomsheet.VisitNotesBottomSheetFragment
 import com.aits.careesteem.view.unscheduled_visits.adapter.UvVisitNotesListAdapter
 import com.aits.careesteem.view.unscheduled_visits.model.UvVisitNotesListResponse
 import com.aits.careesteem.view.unscheduled_visits.viewmodel.UvVisitNotesViewModel
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -126,7 +121,7 @@ class UvVisitNotesFragment : Fragment(),
 
     private fun setupAdapter() {
         uvVisitNotesListAdapter =
-            UvVisitNotesListAdapter(requireContext(), this@UvVisitNotesFragment)
+            UvVisitNotesListAdapter(requireContext(), this@UvVisitNotesFragment, isChanges)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = uvVisitNotesListAdapter
     }

@@ -63,7 +63,8 @@ class UvMedicationListAdapter(
                     medicationSupport.text = data.medication_support
                     medicationType.text = data.medication_type
                     todoStatus.visibility = View.GONE
-
+                    medicationSession.visibility = View.VISIBLE
+                    medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
                     layout.setOnClickListener {
                         onPnrItemItemClick.onPnrItemItemClicked(data)
                     }

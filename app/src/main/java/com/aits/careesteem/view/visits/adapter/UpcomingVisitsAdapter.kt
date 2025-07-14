@@ -88,25 +88,28 @@ class UpcomingVisitsAdapter(
     inner class VisitViewHolder(private val binding: ItemUpcomingVisitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("NewApi")
+        @SuppressLint("NewApi", "SetTextI18n")
         fun bind(data: VisitListResponse.Data) {
-            binding.tvClientName.text = AppConstant.checkClientName(data.clientName)
-            binding.tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
-            binding.tvPlannedStartTime.text = AppConstant.checkNull(data.plannedStartTime)
-            binding.tvPlannedEndTime.text = AppConstant.checkNull(data.plannedEndTime)
-            binding.tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
-            binding.tvUserRequired.text = AppConstant.checkNull(data.usersRequired.toString())
+            binding.apply {
+                tvClientName.text = AppConstant.checkClientName(data.clientName)
+                tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                tvClientPostCode.text = "${AppConstant.checkNull(data.clientCity)}, ${AppConstant.checkNull(data.clientPostcode)}"
+                tvPlannedStartTime.text = AppConstant.checkNull(data.plannedStartTime)
+                tvPlannedEndTime.text = AppConstant.checkNull(data.plannedEndTime)
+                tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
+                tvUserRequired.text = AppConstant.checkNull(data.usersRequired.toString())
 
-            val today = java.time.LocalDate.now().toString()
-            val isToday = data.visitDate == today
+                val today = java.time.LocalDate.now().toString()
+                val isToday = data.visitDate == today
 
-            binding.btnCheckIn.isEnabled = isToday && upcomingVisitsList.isEmpty()
+                btnCheckIn.isEnabled = isToday && upcomingVisitsList.isEmpty()
 
-            binding.btnCheckIn.setOnClickListener {
-                onItemItemClick.onItemItemClicked(data)
-            }
-            binding.btnGetDirection.setOnClickListener {
-                onDirectionItemItemClick.onDirectionItemItemClicked(data)
+                btnCheckIn.setOnClickListener {
+                    onItemItemClick.onItemItemClicked(data)
+                }
+                btnGetDirection.setOnClickListener {
+                    onDirectionItemItemClick.onDirectionItemItemClicked(data)
+                }
             }
         }
     }

@@ -91,7 +91,10 @@ class PreviousVisitNotesBottomSheetFragment : BottomSheetDialogFragment(), Visit
         val type = object : TypeToken<List<ClientVisitNotesDetails.Data>>() {}.type
         val convertedList: List<ClientVisitNotesDetails.Data> = gson.fromJson(visitNote, type)
 
-        visitNotesAdapter = VisitNotesAdapter(requireContext(),  this@PreviousVisitNotesBottomSheetFragment)
+        visitNotesAdapter = VisitNotesAdapter(requireContext(),  this@PreviousVisitNotesBottomSheetFragment,
+            showOnly = true,
+            isChanges = false
+        )
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = visitNotesAdapter

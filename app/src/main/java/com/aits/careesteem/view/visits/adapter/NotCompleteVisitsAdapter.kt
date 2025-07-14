@@ -6,6 +6,7 @@
 
 package com.aits.careesteem.view.visits.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -89,10 +90,12 @@ class NotCompleteVisitsAdapter(
     inner class VisitViewHolder(private val binding: ItemNotCompleteVisitsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(data: VisitListResponse.Data) {
             binding.apply {
                 tvClientName.text = AppConstant.checkClientName(data.clientName)
                 tvClientAddress.text = AppConstant.checkNull(data.clientAddress)
+                tvClientPostCode.text = "${AppConstant.checkNull(data.clientCity)}, ${AppConstant.checkNull(data.clientPostcode)}"
                 tvPlanTime.text = AppConstant.checkNull(data.totalPlannedTime)
                 tvUserRequired.text = "${data.usersRequired}"
 //                tvPlannedStartTime.text = AppConstant.visitListTimer(data.plannedStartTime)

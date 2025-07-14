@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -136,9 +138,17 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         setupUI()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "ClickableViewAccessibility")
     private fun setupUI() = with(binding) {
         closeButton.setOnClickListener { dismiss() }
+        medicationNotes.movementMethod = ScrollingMovementMethod.getInstance()
+        medicationNotes.setOnTouchListener { v, event ->
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+            false
+        }
 
         nhsMedicineName.text = data.nhs_medicine_name
         medicationType.text = data.medication_type
@@ -146,6 +156,11 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         doseQty.text = data.quantity_each_dose.toString()
         medicationRoute.text = data.medication_route_name
         medicationNotes.setText(data.carer_notes)
+        val addNote = AppConstant.checkNull(data.additional_instructions)
+        additionalNotes.text = addNote
+        if (addNote != "N/A") {
+            addNoteMain.visibility = View.VISIBLE
+        }
 
         frequencyMedication.text = when (data.medication_type) {
             "PRN" -> "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ItemMedicationListBinding
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 
@@ -75,9 +76,9 @@ class MedicationListAdapter(
         fun bind(data: MedicationDetailsListResponse.Data) {
             try {
                 binding.apply {
-                    medicationName.text = data.nhs_medicine_name
-                    medicationSupport.text = data.medication_support
-                    medicationType.text = data.medication_type
+                    medicationName.text = AppConstant.checkNull(data.nhs_medicine_name)
+                    medicationSupport.text = AppConstant.checkNull(data.medication_support)
+                    medicationType.text = AppConstant.checkNull(data.medication_type)
 
                     if (data.status == "Scheduled" || data.status == "Not Scheduled") {
                         todoStatus.visibility = View.GONE
@@ -85,6 +86,22 @@ class MedicationListAdapter(
                     } else {
                         todoStatus.visibility = View.VISIBLE
                         expendIcon.visibility = View.GONE
+                    }
+
+                    if (data.medication_type == "Scheduled") {
+                        medicationSession.visibility = View.VISIBLE
+                        if(data.select_preference.lowercase() == "by exact time") {
+                            medicationSession.text = "@ ${AppConstant.checkNull(data.by_exact_time)}"
+                        } else if(data.select_preference.lowercase() == "by session") {
+                            medicationSession.text = "@ ${AppConstant.checkNull(data.session_type)}"
+                        } else {
+                            medicationSession.text = "@ N/A"
+                        }
+                    } else if (data.medication_type == "PRN") {
+                        medicationSession.visibility = View.VISIBLE
+                        medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+                    } else {
+                        medicationSession.visibility = View.GONE
                     }
 
                     todoStatus.text = data.status

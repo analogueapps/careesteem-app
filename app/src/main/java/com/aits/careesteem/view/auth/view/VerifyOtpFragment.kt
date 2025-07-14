@@ -319,9 +319,9 @@ class VerifyOtpFragment : Fragment() {
         dialog.setContentView(binding.root)
         dialog.setCancelable(AppConstant.FALSE)
 
-        binding.dialogTitle.text = "No Agency Found"
+        binding.dialogTitle.text = "No Company Found"
         binding.dialogBody.text =
-            "We couldn't find an agency with the provided number. Would you like to try another number or exit?"
+            "We couldn't find an company with the provided number. Would you like to try another number or exit?"
         binding.btnPositive.text = "Try Again"
         binding.btnNegative.text = "Exit"
 

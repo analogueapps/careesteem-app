@@ -54,12 +54,12 @@ class MyNotificationManager(private var mCtx: Context) {
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(bigPictureStyle)
                 .setSmallIcon(R.drawable.logo_preview)
-                .setLargeIcon(
-                    BitmapFactory.decodeResource(
-                        mCtx.resources,
-                        R.drawable.logo_preview
-                    )
-                )
+//                .setLargeIcon(
+//                    BitmapFactory.decodeResource(
+//                        mCtx.resources,
+//                        R.drawable.logo_preview
+//                    )
+//                )
                 .setPriority(Notification.PRIORITY_HIGH)
                 .build()
         notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL
@@ -131,12 +131,12 @@ class MyNotificationManager(private var mCtx: Context) {
                 .setSmallIcon(R.drawable.logo_preview)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(resultPendingIntent)
-                .setLargeIcon(
-                    BitmapFactory.decodeResource(
-                        mCtx.resources,
-                        R.drawable.logo_preview
-                    )
-                )
+//                .setLargeIcon(
+//                    BitmapFactory.decodeResource(
+//                        mCtx.resources,
+//                        R.drawable.logo_preview
+//                    )
+//                )
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setStyle(
                     NotificationCompat.BigTextStyle().bigText(Html.fromHtml(message).toString())

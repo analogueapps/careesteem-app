@@ -107,7 +107,7 @@ class VisitNotesFragment : Fragment(),
     }
 
     private fun setupRecyclerView() {
-        visitNotesAdapter = VisitNotesAdapter(requireContext(), this)
+        visitNotesAdapter = VisitNotesAdapter(requireContext(), this, false, isChanges = allowChanges)
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = visitNotesAdapter

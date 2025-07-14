@@ -70,7 +70,8 @@ object AppConstant {
         return if (value.isNullOrEmpty()) {
             "N/A"
         } else {
-            value.split(" ").last()
+            //value.split(" ").last()
+            value
         }
     }
 
@@ -78,7 +79,16 @@ object AppConstant {
         return if (value.isNullOrEmpty()) {
             "N/A"
         } else {
-            value.split(" ").first()
+            //value.split(" ").first()
+            value
+        }
+    }
+
+    fun checkUserLastName(value: String?): String {
+        return if (value.isNullOrEmpty()) {
+            "N/A"
+        } else {
+            value.split(" ").last()
         }
     }
 
@@ -87,6 +97,14 @@ object AppConstant {
             "N/A"
         } else {
             value
+        }
+    }
+
+    fun checkAge(value: Int): String {
+        return if (value > 0) {
+            value.toString()
+        } else {
+            "N/A"
         }
     }
 
