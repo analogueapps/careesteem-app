@@ -235,6 +235,198 @@ class UvMedicationViewModel @Inject constructor(
         }
     }
 
+    fun medicationBlisterPack(
+        activity: Activity,
+        clientId: String,
+        visitDetailsId: String,
+        blisterPackDetailsId: String,
+        status: String,
+        carerNotes: String
+    ) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val response = repository.medicationBpDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    blisterPackDetailsId = blisterPackDetailsId,
+                    status = status,
+                    carerNotes = carerNotes
+                )
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonElement: JsonElement? = responseBody
+                    val jsonObject = JSONObject(jsonElement.toString())
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                getMedicationDetails(
+                    activity = activity,
+                    visitDetailsId = visitDetailsId
+                )
+                if (status != "Fully Taken") {
+                    automaticAlerts(
+                        activity = activity,
+                        status = status,
+                        scheduledId = "",
+                        blisterPackId = blisterPackDetailsId,
+                        visitDetailsId = visitDetailsId,
+                        clientId = clientId
+                    )
+                }
+            }
+        }
+    }
+
+    private fun automaticAlerts(
+        activity: Activity,
+        status: String,
+        scheduledId: Any,
+        blisterPackId: Any,
+        visitDetailsId: String,
+        clientId: String,
+    ) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val response = repository.automaticMedicationAlerts(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    scheduledId = scheduledId,
+                    blisterPackId = blisterPackId,
+                    visitDetailsId = visitDetailsId,
+                    clientId = clientId,
+                    alertType = "Medication $status",
+                    alertStatus = "Action Required",
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT()
+                )
+
+                if (response.isSuccessful) {
+                    //_isCheckOutEligible.value = true
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showLog("activity", "Request Timeout. Please try again.")
+            } catch (e: HttpException) {
+                AlertUtils.showLog("activity", "Server error: ${e.message}")
+            } catch (e: Exception) {
+                AlertUtils.showLog("activity", "An error occurred: ${e.message}")
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun medicationScheduled(
+        activity: Activity,
+        clientId: String,
+        visitDetailsId: String,
+        scheduledDetailsId: String,
+        status: String,
+        carerNotes: String
+    ) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val response = repository.medicationScheduledDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    scheduledDetailsId = scheduledDetailsId,
+                    status = status,
+                    carerNotes = carerNotes
+                )
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val jsonElement: JsonElement? = responseBody
+                    val jsonObject = JSONObject(jsonElement.toString())
+                    AlertUtils.showToast(
+                        activity,
+                        jsonObject.optString("message"),
+                        ToastyType.SUCCESS
+                    )
+                } else {
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                getMedicationDetails(
+                    activity = activity,
+                    visitDetailsId = visitDetailsId
+                )
+                if (status != "Fully Taken") {
+                    automaticAlerts(
+                        activity = activity,
+                        status = status,
+                        scheduledId = scheduledDetailsId,
+                        blisterPackId = "",
+                        visitDetailsId = visitDetailsId,
+                        clientId = clientId
+                    )
+                }
+            }
+        }
+    }
+
     fun medicationPrnUpdate(
         activity: Activity,
         visitDetailsId: String,

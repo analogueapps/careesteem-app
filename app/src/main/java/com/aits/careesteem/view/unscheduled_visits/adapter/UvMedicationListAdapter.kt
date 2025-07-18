@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aits.careesteem.databinding.ItemMedicationListBinding
+import com.aits.careesteem.databinding.ItemPrnMedicationListBinding
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 
 class UvMedicationListAdapter(
@@ -33,7 +34,7 @@ class UvMedicationListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemMedicationListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemPrnMedicationListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -52,7 +53,7 @@ class UvMedicationListAdapter(
         return position
     }
 
-    inner class ViewHolder(private val binding: ItemMedicationListBinding) :
+    inner class ViewHolder(private val binding: ItemPrnMedicationListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
@@ -62,7 +63,6 @@ class UvMedicationListAdapter(
                     medicationName.text = data.nhs_medicine_name
                     medicationSupport.text = data.medication_support
                     medicationType.text = data.medication_type
-                    todoStatus.visibility = View.GONE
                     medicationSession.visibility = View.VISIBLE
                     medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
                     layout.setOnClickListener {

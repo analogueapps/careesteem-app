@@ -36,6 +36,7 @@ import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
 import com.aits.careesteem.view.recyclerview.adapter.RecyclerArrayAdapter
+import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -259,6 +260,17 @@ class AddAlertsFragment : Fragment() {
 
         binding.clientName.setOnClickListener {
             //binding.allClientNameSpinner.performClick()
+
+            // check visitViewModel.visitsList have value or not (Based on visits only we showing clients name)
+            if (visitViewModel.visitsList.value!!.isEmpty()) {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "No visits are available",
+                    ToastyType.WARNING
+                )
+                return@setOnClickListener
+            }
+
             if (binding.rvClientName.isVisible) {
                 binding.rvClientName.visibility = View.GONE
                 binding.clientName.setCompoundDrawablesWithIntrinsicBounds(

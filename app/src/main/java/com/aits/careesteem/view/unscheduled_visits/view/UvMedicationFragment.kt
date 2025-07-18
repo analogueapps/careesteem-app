@@ -162,7 +162,7 @@ class UvMedicationFragment : Fragment(),
             coroutineScope.launch {
                 try {
                     delay(2000)
-                    binding.swipeRefresh.isRefreshing = AppConstant.FALSE
+                    binding.swipeRefresh.isRefreshing = false
                     viewModel.getMedicationDetails(
                         requireActivity(),
                         visitData?.visitDetailsId.toString()
@@ -367,12 +367,53 @@ class UvMedicationFragment : Fragment(),
         data: MedicationDetailsListResponse.Data,
         visitDetailsId: String
     ) {
-        viewModel.medicationPrnUpdate(
-            activity = requireActivity(),
-            visitDetailsId = visitDetailsId,
-            prnDetailsId = data.prn_details_id,
-            status = status.toString(),
-            carerNotes = notes.toString()
-        )
+//        viewModel.medicationPrnUpdate(
+//            activity = requireActivity(),
+//            visitDetailsId = visitDetailsId,
+//            prnDetailsId = data.prn_details_id,
+//            status = status.toString(),
+//            carerNotes = notes.toString()
+//        )
+        when (data.medication_type) {
+            "Blister Pack" -> {
+                viewModel.medicationBlisterPack(
+                    activity = requireActivity(),
+                    clientId = visitData?.clientId.toString(),
+                    visitDetailsId = visitDetailsId,
+                    blisterPackDetailsId = data.blister_pack_details_id,
+                    status = status.toString(),
+                    carerNotes = notes.toString()
+                )
+            }
+
+            "Scheduled" -> {
+                viewModel.medicationScheduled(
+                    activity = requireActivity(),
+                    clientId = visitData?.clientId.toString(),
+                    visitDetailsId = visitDetailsId,
+                    scheduledDetailsId = data.scheduled_details_id,
+                    status = status.toString(),
+                    carerNotes = notes.toString()
+                )
+            }
+
+            "PRN" -> {
+                viewModel.medicationPrnUpdate(
+                    activity = requireActivity(),
+                    visitDetailsId = visitDetailsId,
+                    prnDetailsId = data.prn_details_id,
+                    status = status.toString(),
+                    carerNotes = notes.toString()
+                )
+            }
+
+            else -> {
+                AlertUtils.showToast(
+                    requireActivity(),
+                    "Something went wrong",
+                    ToastyType.ERROR
+                )
+            }
+        }
     }
 }

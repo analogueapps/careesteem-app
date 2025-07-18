@@ -72,7 +72,7 @@ class ToDoViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
-                        _toDoList.value = list.data
+                        _toDoList.value = list.data.sortedByDescending { it.todoEssential }
                         //_completeCount.value = list.data.count { it.todoEssential }
                         _totalCount.value = list.data.count { it.todoEssential }
                         _completeCount.value =

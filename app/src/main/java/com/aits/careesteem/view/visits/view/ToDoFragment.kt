@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.SearchView
@@ -24,6 +25,8 @@ import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SafeCoroutineScope
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.bottomsheet.MedicationPrnBottomSheetFragment
+import com.aits.careesteem.view.bottomsheet.TodoBottomSheetFragment
 import com.aits.careesteem.view.visits.adapter.TodoListAdapter
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.viewmodel.ToDoViewModel
@@ -37,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
+class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick, TodoBottomSheetFragment.OnTodoUpdateListener {
 
     private var _binding: FragmentToDoBinding? = null
     private val binding get() = _binding!!
@@ -212,98 +215,19 @@ class ToDoFragment : Fragment(), TodoListAdapter.OnItemItemClick {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun showEditTodoDialog(data: TodoListResponse.Data) {
-        val dialog = BottomSheetDialog(requireContext())
-        val binding: DialogTodoEditBinding =
-            DialogTodoEditBinding.inflate(layoutInflater)
-        dialog.window?.setDimAmount(0.8f)
-        dialog.setContentView(binding.root)
-        dialog.setCancelable(true) // Same as AppConstant.FALSE
-
-        dialog.setOnShowListener { dialogInterface ->
-            val bottomSheetDialog = dialogInterface as BottomSheetDialog
-            val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(
-                com.google.android.material.R.id.design_bottom_sheet
-            )
-            bottomSheet?.let {
-                val behavior = BottomSheetBehavior.from(it)
-
-                // 85% of screen height
-                val layoutParams = it.layoutParams
-                layoutParams.height = (resources.displayMetrics.heightPixels * 0.85).toInt()
-                it.layoutParams = layoutParams
-
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                behavior.isDraggable = false
-                behavior.skipCollapsed = true
-            }
-        }
-
-//        // Set max height for the bottom sheet
-//        val maxHeight = (resources.displayMetrics.heightPixels * 0.7).toInt()
-//        binding.root.layoutParams = binding.root.layoutParams?.apply {
-//            height = maxHeight
-//        }
-        binding.closeButton.setOnClickListener { dialog.dismiss() }
-        // Setup views
-        binding.apply {
-            carerNotes.movementMethod = ScrollingMovementMethod.getInstance()
-            carerNotes.setOnTouchListener { v, event ->
-                v.parent.requestDisallowInterceptTouchEvent(true)
-                if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                    v.parent.requestDisallowInterceptTouchEvent(false)
-                }
-                false
-            }
-
-            todoName.text = AppConstant.checkNull(data.todoName)
-            val addNote = AppConstant.checkNull(data.additionalNotes)
-            additionalNotes.text = addNote
-            if (addNote != "N/A") {
-                addNoteMain.visibility = View.VISIBLE
-            }
-
-            carerNotes.text = Editable.Factory.getInstance().newEditable(data.carerNotes)
-
-            btnCompleted.setOnClickListener {
-                // check carerNotes empty or not
-//                if (carerNotes.text.toString().trim().isEmpty()) {
-//                    AlertUtils.showToast(
-//                        requireActivity(),
-//                        "Please enter carer notes",
-//                        ToastyType.WARNING
-//                    )
-//                    return@setOnClickListener
-//                }
-                dialog.dismiss()
-                updateTodoStatus(data, 1, carerNotes.text.toString().trim())
-            }
-            btnNotCompleted.setOnClickListener {
-                // check carerNotes empty or not
-//                if (carerNotes.text.toString().trim().isEmpty()) {
-//                    AlertUtils.showToast(
-//                        requireActivity(),
-//                        "Please enter carer notes",
-//                        ToastyType.WARNING
-//                    )
-//                    return@setOnClickListener
-//                }
-                dialog.dismiss()
-                updateTodoStatus(data, 0, carerNotes.text.toString().trim())
-            }
-        }
-
-        // Optional: make the background transparent
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        // Show the dialog
-        dialog.show()
-
+        val bottomSheet = TodoBottomSheetFragment.newInstance(data, visitId)
+        bottomSheet.show(childFragmentManager, TodoBottomSheetFragment.TAG)
     }
 
-    private fun updateTodoStatus(data: TodoListResponse.Data, outcome: Int, notes: String) {
+    override fun onTodoUpdated(
+        notes: String,
+        data: TodoListResponse.Data,
+        todoOutCome: Int,
+        visitDetailsId: String
+    ) {
         viewModel.updateTodo(
             activity = requireActivity(),
-            todoOutcome = outcome,
+            todoOutcome = todoOutCome,
             clientId = clientId.orEmpty(),
             visitDetailsId = visitId.orEmpty(),
             todoDetailsId = data.todoDetailsId,

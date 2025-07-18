@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebSettings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.ActivityWebViewBinding
+import java.net.URLEncoder
 
 class WebViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWebViewBinding
@@ -61,16 +63,28 @@ class WebViewActivity : AppCompatActivity() {
             displayZoomControls = false
             loadWithOverviewMode = true
             useWideViewPort = true
+            // Additional settings for better PDF handling
+            setSupportZoom(true)
+            cacheMode = WebSettings.LOAD_NO_CACHE
         }
 
-        fileUrl?.let {
-            if (it.endsWith(".pdf", ignoreCase = true)) {
-                // Use Google Docs viewer for PDFs
-                val googleDocsUrl = "https://docs.google.com/gview?embedded=true&url=${it}"
-                binding.webView.loadUrl(googleDocsUrl)
+        fileUrl?.let { url ->
+            if (url.contains(".pdf", ignoreCase = true)) {
+                // For AWS S3 URLs with authentication parameters
+                if (url.contains("X-Amz-Signature")) {
+                    // Option 1: Use Google Docs viewer (works for public files)
+                    val encodedUrl = URLEncoder.encode(url, "UTF-8")
+                    val googleDocsUrl = "https://docs.google.com/gview?embedded=true&url=$encodedUrl"
+                    binding.webView.loadUrl(googleDocsUrl)
+
+                    // Option 2: Download and display locally (better for authenticated URLs)
+                    // downloadAndDisplayPdf(url)
+                } else {
+                    // Standard PDF handling
+                    binding.webView.loadUrl("https://docs.google.com/gview?embedded=true&url=$url")
+                }
             } else {
-                // Load image or other content directly
-                binding.webView.loadUrl(it)
+                binding.webView.loadUrl(url)
             }
         }
     }

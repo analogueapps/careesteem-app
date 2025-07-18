@@ -6,6 +6,8 @@
 
 package com.aits.careesteem.view.visits.model
 
+import java.io.Serializable
+
 data class TodoListResponse(
     val data: List<Data>,
     val message: String,
@@ -18,5 +20,5 @@ data class TodoListResponse(
         val todoName: String,
         val todoEssential: Boolean,
         val todoOutcome: String
-    )
+    ) : Serializable
 }

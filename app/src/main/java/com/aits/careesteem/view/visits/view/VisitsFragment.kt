@@ -252,8 +252,8 @@ class VisitsFragment : Fragment(),
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateCalendar(weekStart: LocalDate) {
         val weekEnd = weekStart.plusDays(6)
-        val formatter = DateTimeFormatter.ofPattern("MMMM d", Locale.ENGLISH)
-        val yearFormat = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern("MMMM d", Locale.UK)
+        val yearFormat = DateTimeFormatter.ofPattern("yyyy", Locale.UK)
 
         binding.dateRangeText.text =
             "${weekStart.format(formatter)} to ${weekEnd.format(formatter)} ${
@@ -268,9 +268,9 @@ class VisitsFragment : Fragment(),
             val dayName = view.findViewById<TextView>(R.id.dayName)
             val dayNumber = view.findViewById<TextView>(R.id.dayNumber)
 
-            //dayName.text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+            //dayName.text = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.UK)
             dayName.text = date.dayOfWeek
-                .getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+                .getDisplayName(TextStyle.SHORT, Locale.UK)
                 .take(2)
                 .lowercase()
                 .replaceFirstChar { it.uppercase() }

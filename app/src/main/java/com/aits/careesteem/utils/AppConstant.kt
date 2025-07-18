@@ -366,7 +366,7 @@ object AppConstant {
         return try {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
-            val dateTimeString = "${visitDate} ${visitTime}" // Ensure format has seconds
+            val dateTimeString = "$visitDate $visitTime" // Ensure format has seconds
 
             val plannedDateTime = LocalDateTime.parse(dateTimeString, formatter)
             val ukZone = ZoneId.of("Europe/London")
