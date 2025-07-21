@@ -34,11 +34,11 @@
                 android:fontFamily="@font/robotoslab_regular"
                 android:gravity="center"
                 android:letterSpacing="0"
+                android:maxLines="2"
                 android:text="To-Do's"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
-                android:maxLines="2"
                 tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -60,16 +60,16 @@
             android:background="#CCCCCC" />
 
         <androidx.core.widget.NestedScrollView
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:fillViewport="true"
+            android:overScrollMode="always"
             android:paddingBottom="@dimen/_10sdp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="1dp"
                 android:orientation="vertical">
 
@@ -92,6 +92,36 @@
                     android:textSize="@dimen/_11ssp"
                     android:textStyle="normal" />
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/addNoteMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:text="Additional Notes"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/additionalNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/robotoslab_regular"
+                        android:maxLines="5"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="normal" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,102 +132,31 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
-
                     tools:ignore="HardcodedText" />
 
-<!--                <androidx.appcompat.widget.AppCompatEditText-->
-<!--                    android:id="@+id/carerNotes"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/_5sdp"-->
-<!--                    android:background="@drawable/ic_todo_dialog_edittext_bg"-->
-<!--                    android:focusable="true"-->
-<!--                    android:focusableInTouchMode="true"-->
-<!--                    android:fontFamily="@font/robotoslab_regular"-->
-<!--                    android:gravity="top|start"-->
-<!--                    android:hint="Enter todo notes"-->
-<!--                    android:inputType="textMultiLine"-->
-<!--                    android:maxLines="20"-->
-<!--                    android:minLines="10"-->
-<!--                    android:overScrollMode="ifContentScrolls"-->
-<!--                    android:padding="@dimen/_10sdp"-->
-<!--                    android:scrollbars="vertical"-->
-<!--                    android:textSize="@dimen/_11ssp"-->
-<!--                    tools:ignore="HardcodedText,RtlHardcoded" />-->
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/carerNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/ic_todo_dialog_edittext_bg"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="top|start"
+                    android:hint="Enter todo notes"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:overScrollMode="ifContentScrolls"
+                    android:padding="@dimen/_10sdp"
+                    android:scrollbars="vertical"
+                    android:textSize="@dimen/_11ssp"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/addNoteMain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:text="Additional Notes"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/additionalNotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/robotoslab_regular"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="normal" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:fontFamily="@font/robotoslab_regular"
-                android:gravity="center_vertical"
-                android:text="Notes"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/carerNotes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/ic_todo_dialog_edittext_bg"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:fontFamily="@font/robotoslab_regular"
-                android:gravity="top|start"
-                android:hint="Enter todo notes"
-                android:inputType="textMultiLine"
-                android:overScrollMode="ifContentScrolls"
-                android:padding="@dimen/_10sdp"
-                android:scrollbars="vertical"
-                android:textSize="@dimen/_11ssp"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

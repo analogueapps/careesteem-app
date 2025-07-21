@@ -60,14 +60,15 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="always"
             android:paddingBottom="@dimen/_10sdp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="1dp"
                 android:orientation="vertical">
 
@@ -430,15 +431,15 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/medicationNotes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:background="@drawable/ic_medication_field_bg"
                     android:fontFamily="@font/robotoslab_regular"
                     android:gravity="top|top"
                     android:inputType="textMultiLine"
                     android:scrollbars="vertical"
-                    android:maxLines="10"
-                    android:minLines="5"
+                    android:lines="8"
                     android:overScrollMode="always"
                     android:focusable="true"
                     android:focusableInTouchMode="true"

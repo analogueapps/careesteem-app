@@ -243,11 +243,11 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             recyclerView.adapter = BodyMapImageAdapter(requireContext(), bodyMapItems)
-            medicationNotes.setLines(10)
+            //medicationNotes.setLines(5)
         } else {
             tvBodyMap.visibility = View.GONE
             recyclerView.visibility = View.GONE
-            medicationNotes.setLines(10)
+            //medicationNotes.setLines(7)
         }
 
         btnSave.setOnClickListener {

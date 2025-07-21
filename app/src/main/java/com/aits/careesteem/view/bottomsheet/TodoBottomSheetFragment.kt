@@ -3,6 +3,7 @@ package com.aits.careesteem.view.bottomsheet
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -83,6 +84,15 @@ class TodoBottomSheetFragment: BottomSheetDialogFragment() {
             }
         }
 
+//        val displayMetrics = Resources.getSystem().displayMetrics
+//        val screenHeight = displayMetrics.heightPixels
+//        val maxHeight = (screenHeight * 0.85).toInt()
+//
+//        dialog?.window?.setLayout(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            maxHeight
+//        )
+
         dialog.window?.setDimAmount(0.8f)
         // 💡 This is the fix for keyboard overlap
         //dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -126,7 +136,7 @@ class TodoBottomSheetFragment: BottomSheetDialogFragment() {
             false
         }
 
-        todoTitle.text = AppConstant.checkNull(data.todoName)
+        //todoTitle.text = AppConstant.checkNull(data.todoName)
         todoName.text = AppConstant.checkNull(data.todoName)
         val addNote = AppConstant.checkNull(data.additionalNotes)
         additionalNotes.text = addNote
