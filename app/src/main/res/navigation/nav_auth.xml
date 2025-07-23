@@ -37,6 +37,9 @@
         <argument
             android:name="countryId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_verifyOtpFragment_to_webViewFragment2"
+            app:destination="@id/webViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/preloaderFragment"
@@ -84,5 +87,14 @@
         <action
             android:id="@+id/action_selectAgencyFragment_to_setupPasscodeFragment"
             app:destination="@id/setupPasscodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.aits.careesteem.view.webview.view.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+        <argument
+            android:name="fileUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

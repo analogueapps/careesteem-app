@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
 import com.aits.careesteem.base.BaseActivity
 import com.aits.careesteem.databinding.ActivityAuthBinding
@@ -65,6 +66,8 @@ class AuthActivity : BaseActivity() {
     override fun onBackPressed() {
         if (navController.currentDestination!!.id == R.id.verifyOtpFragment) {
             navController.navigate(R.id.welcomeFragment)
+        } else if (navController.currentDestination!!.id == R.id.webViewFragment) {
+            navController.popBackStack()
         } else {
             val dialog = Dialog(this)
             val binding: DialogExitBinding =

@@ -554,9 +554,13 @@ class UvCheckInFragment : Fragment(), OnMapReadyCallback {
                             radius.toString().toFloat()
                         )
                     ) {
-                        binding.btnCheckIn.visibility = View.VISIBLE
+                        if (binding != null && isAdded && view != null) {
+                            binding.btnCheckIn.visibility = View.VISIBLE
+                        }
                     } else {
-                        binding.btnCheckIn.visibility = View.GONE
+                        if (binding != null && isAdded && view != null) {
+                            binding.btnCheckIn.visibility = View.GONE
+                        }
                     }
                 } ?: showDestinationNotAvailableMessage()
             }

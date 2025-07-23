@@ -37,7 +37,7 @@ class PasscodeViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: Editor,
 ) : ViewModel() {
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     var userData: CreateHashToken.Data? = null

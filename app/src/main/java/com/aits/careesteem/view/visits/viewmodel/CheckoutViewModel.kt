@@ -51,7 +51,7 @@ class CheckoutViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     // LiveData for UI
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     // LiveData for UI

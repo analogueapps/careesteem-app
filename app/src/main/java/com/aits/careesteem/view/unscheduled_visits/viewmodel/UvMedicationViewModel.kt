@@ -38,7 +38,7 @@ class UvMedicationViewModel @Inject constructor(
     private val errorHandler: ErrorHandler,
 ) : ViewModel() {
     // LiveData for UI
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _medicationList = MutableLiveData<List<MedicationDetailsListResponse.Data>>()

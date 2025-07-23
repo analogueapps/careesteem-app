@@ -39,7 +39,7 @@ class VisitNotesViewModel @Inject constructor(
 ) : ViewModel() {
 
     // LiveData for UI
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _visitNotesList = MutableLiveData<List<ClientVisitNotesDetails.Data>>()

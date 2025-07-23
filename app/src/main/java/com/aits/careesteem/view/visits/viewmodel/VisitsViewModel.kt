@@ -22,11 +22,12 @@ import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
-import com.aits.careesteem.view.visits.helper.Event
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
@@ -43,7 +44,7 @@ class VisitsViewModel @Inject constructor(
 ) : ViewModel() {
 
     // LiveData for UI
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _visitsList = MutableLiveData<List<VisitListResponse.Data>>()
@@ -61,8 +62,8 @@ class VisitsViewModel @Inject constructor(
     private val _notCompletedVisits = MutableLiveData<List<VisitListResponse.Data>>()
     val notCompletedVisits: LiveData<List<VisitListResponse.Data>> get() = _notCompletedVisits
 
-    private val _visitCreated = MutableLiveData<Event<Boolean>?>()
-    val visitCreated: MutableLiveData<Event<Boolean>?> = _visitCreated
+    private val _visitCreated = MutableSharedFlow<Boolean>(replay = 0)
+    val visitCreated = _visitCreated.asSharedFlow()
 
     @SuppressLint("NewApi")
     fun getVisits(activity: Activity, visitDate: String) {
@@ -71,7 +72,6 @@ class VisitsViewModel @Inject constructor(
         _inProgressVisits.value = emptyList()
         _completedVisits.value = emptyList()
         _notCompletedVisits.value = emptyList()
-        _visitCreated.value = null
         _isLoading.value = true
         viewModelScope.launch {
             try {
@@ -143,15 +143,11 @@ class VisitsViewModel @Inject constructor(
                         _completedVisits.value = completed
                         _notCompletedVisits.value = notCompleted
 
-                        if (inProgress.isEmpty()) {
-                            _visitCreated.postValue(Event(true))
-                        } else {
-                            _visitCreated.postValue(Event(false))
-                        }
+                        _visitCreated.emit(true)
                     }
                 } else {
                     if (response.code() == 404) {
-                        _visitCreated.postValue(Event(true))
+                        _visitCreated.emit(true)
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)

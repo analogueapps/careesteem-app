@@ -116,40 +116,40 @@ class AboutMeFragment : Fragment() {
             }
         }
 
-        visitViewModel.visitCreated.observe(viewLifecycleOwner) { event ->
-            event?.getContentIfNotHandled()?.let { isSuccess ->
-                if (shouldHandleVisitCheck) {
-                    shouldHandleVisitCheck = false
-                    if (isSuccess) {
-                        showUnscheduledConfirmDialog()
-                    } else {
-                        //AlertUtils.showToast(requireActivity(), "You have ongoing visits", ToastyType.WARNING)
-                        val dialog = Dialog(requireContext()).apply {
-                            val binding = DialogCurrentGoingOnBinding.inflate(layoutInflater)
-                            setContentView(binding.root)
-                            setCancelable(false)
-
-                            binding.btnPositive.setOnClickListener {
-                                dismiss()
-                            }
-
-                            binding.closeButton.setOnClickListener {
-                                dismiss()
-                            }
-
-                            window?.setBackgroundDrawableResource(android.R.color.transparent)
-                            window?.setLayout(
-                                WindowManager.LayoutParams.MATCH_PARENT,
-                                WindowManager.LayoutParams.WRAP_CONTENT
-                            )
-                            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-                            window?.setDimAmount(0.8f)
-                        }
-                        dialog.show()
-                    }
-                }
-            }
-        }
+//        visitViewModel.visitCreated.observe(viewLifecycleOwner) { event ->
+//            event?.getContentIfNotHandled()?.let { isSuccess ->
+//                if (shouldHandleVisitCheck) {
+//                    shouldHandleVisitCheck = false
+//                    if (isSuccess) {
+//                        showUnscheduledConfirmDialog()
+//                    } else {
+//                        //AlertUtils.showToast(requireActivity(), "You have ongoing visits", ToastyType.WARNING)
+//                        val dialog = Dialog(requireContext()).apply {
+//                            val binding = DialogCurrentGoingOnBinding.inflate(layoutInflater)
+//                            setContentView(binding.root)
+//                            setCancelable(false)
+//
+//                            binding.btnPositive.setOnClickListener {
+//                                dismiss()
+//                            }
+//
+//                            binding.closeButton.setOnClickListener {
+//                                dismiss()
+//                            }
+//
+//                            window?.setBackgroundDrawableResource(android.R.color.transparent)
+//                            window?.setLayout(
+//                                WindowManager.LayoutParams.MATCH_PARENT,
+//                                WindowManager.LayoutParams.WRAP_CONTENT
+//                            )
+//                            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+//                            window?.setDimAmount(0.8f)
+//                        }
+//                        dialog.show()
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun showUnscheduledConfirmDialog() {

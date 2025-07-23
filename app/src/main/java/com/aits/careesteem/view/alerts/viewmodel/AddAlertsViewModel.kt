@@ -40,7 +40,7 @@ class AddAlertsViewModel @Inject constructor(
     private val errorHandler: ErrorHandler,
 ) : ViewModel() {
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     private val _clientsList = MutableLiveData<List<ClientNameListResponse.Data>>()

@@ -1,15 +1,23 @@
 package com.aits.careesteem.view.visits.helper
 
-class Event<out T>(private val content: T) {
-    private var hasBeenHandled = false
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import java.util.concurrent.atomic.AtomicBoolean
 
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) null
-        else {
-            hasBeenHandled = true
-            content
+class SingleLiveEvent<T> : MutableLiveData<T>() {
+    private val pending = AtomicBoolean(false)
+
+    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
+        super.observe(owner) { t ->
+            if (pending.compareAndSet(true, false)) {
+                observer.onChanged(t)
+            }
         }
     }
 
-    fun peekContent(): T = content
+    override fun setValue(value: T?) {
+        pending.set(true)
+        super.setValue(value)
+    }
 }

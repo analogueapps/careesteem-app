@@ -1123,9 +1123,13 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         )
                     ) {
                         if (args.action == 0) {
-                            binding.btnCheckIn.visibility = View.VISIBLE
+                            if (binding != null && isAdded && view != null) {
+                                binding.btnCheckIn.visibility = View.VISIBLE
+                            }
                         } else if (args.action == 1) {
-                            binding.btnCheckOut.visibility = View.VISIBLE
+                            if (binding != null && isAdded && view != null) {
+                                binding.btnCheckOut.visibility = View.VISIBLE
+                            }
                         }
                     } else {
                         if (args.action == 0) {

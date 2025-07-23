@@ -14,12 +14,11 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,7 +69,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ClientsDetailsFragment : Fragment(),
-    MyCareNetworkAdapter.OnMyCareNetworkItemClick{
+    MyCareNetworkAdapter.OnMyCareNetworkItemClick {
     private var _binding: FragmentClientsDetailsBinding? = null
     private val binding get() = _binding!!
     private val args: ClientsDetailsFragmentArgs by navArgs()
@@ -157,7 +156,8 @@ class ClientsDetailsFragment : Fragment(),
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.btnCreateUnscheduledVisit.visibility = if (position == 0) View.VISIBLE else View.GONE
+                binding.btnCreateUnscheduledVisit.visibility =
+                    if (position == 0) View.VISIBLE else View.GONE
             }
         })
 
@@ -331,6 +331,7 @@ class ClientsDetailsFragment : Fragment(),
         }
 
         binding.btnCreateUnscheduledVisit.setOnClickListener {
+            if (visitViewModel.isLoading.value == true) return@setOnClickListener
             shouldHandleVisitCheck = true
             visitViewModel.getVisits(
                 requireActivity(),
@@ -390,6 +391,7 @@ class ClientsDetailsFragment : Fragment(),
             } else {
                 ProgressLoader.dismissProgress()
             }
+            binding.btnCreateUnscheduledVisit.isEnabled = !isLoading
         }
 
 //        visitViewModel.inProgressVisits.observe(viewLifecycleOwner) { data ->
@@ -404,40 +406,56 @@ class ClientsDetailsFragment : Fragment(),
 //            }
 //        }
 
-        visitViewModel.visitCreated.observe(viewLifecycleOwner) { event ->
-            event?.getContentIfNotHandled()?.let { isSuccess ->
+//        visitViewModel.visitCreated.observe(viewLifecycleOwner) { event ->
+//            event?.getContentIfNotHandled()?.let { isSuccess ->
+//                if (shouldHandleVisitCheck) {
+//                    shouldHandleVisitCheck = false
+//                    if (isSuccess) {
+//                        showUnscheduledConfirmDialog()
+//                    } else {
+//                        //AlertUtils.showToast(requireActivity(), "You have ongoing visits", ToastyType.WARNING)
+//                        val dialog = Dialog(requireContext()).apply {
+//                            val binding = DialogCurrentGoingOnBinding.inflate(layoutInflater)
+//                            setContentView(binding.root)
+//                            setCancelable(false)
+//
+//                            binding.btnPositive.setOnClickListener {
+//                                dismiss()
+//                            }
+//
+//                            binding.closeButton.setOnClickListener {
+//                                dismiss()
+//                            }
+//
+//                            window?.setBackgroundDrawableResource(android.R.color.transparent)
+//                            window?.setLayout(
+//                                WindowManager.LayoutParams.MATCH_PARENT,
+//                                WindowManager.LayoutParams.WRAP_CONTENT
+//                            )
+//                            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+//                            window?.setDimAmount(0.8f)
+//                        }
+//                        dialog.show()
+//                    }
+//                    // ❗ IMPORTANT: Reset the LiveData so this event can re-fire later
+//                    visitViewModel.clearVisitEvent()
+//                }
+//            }
+//        }
+
+        lifecycleScope.launchWhenStarted {
+            visitViewModel.visitCreated.collect { isSuccess ->
                 if (shouldHandleVisitCheck) {
                     shouldHandleVisitCheck = false
                     if (isSuccess) {
                         showUnscheduledConfirmDialog()
                     } else {
-                        //AlertUtils.showToast(requireActivity(), "You have ongoing visits", ToastyType.WARNING)
-                        val dialog = Dialog(requireContext()).apply {
-                            val binding = DialogCurrentGoingOnBinding.inflate(layoutInflater)
-                            setContentView(binding.root)
-                            setCancelable(false)
-
-                            binding.btnPositive.setOnClickListener {
-                                dismiss()
-                            }
-
-                            binding.closeButton.setOnClickListener {
-                                dismiss()
-                            }
-
-                            window?.setBackgroundDrawableResource(android.R.color.transparent)
-                            window?.setLayout(
-                                WindowManager.LayoutParams.MATCH_PARENT,
-                                WindowManager.LayoutParams.WRAP_CONTENT
-                            )
-                            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-                            window?.setDimAmount(0.8f)
-                        }
-                        dialog.show()
+                        showVisitOngoingDialog()
                     }
                 }
             }
         }
+
 
         viewModel.uploadedDocuments.observe(viewLifecycleOwner) { data ->
             if (data != null && data.isNotEmpty()) {
@@ -900,6 +918,31 @@ class ClientsDetailsFragment : Fragment(),
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
+        dialog.show()
+    }
+
+    private fun showVisitOngoingDialog() {
+        val dialog = Dialog(requireContext()).apply {
+            val binding = DialogCurrentGoingOnBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            setCancelable(false)
+
+            binding.btnPositive.setOnClickListener {
+                dismiss()
+            }
+
+            binding.closeButton.setOnClickListener {
+                dismiss()
+            }
+
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            window?.setDimAmount(0.8f)
+        }
         dialog.show()
     }
 

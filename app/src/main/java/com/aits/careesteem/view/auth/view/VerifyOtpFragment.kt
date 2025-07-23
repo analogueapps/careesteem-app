@@ -175,8 +175,13 @@ class VerifyOtpFragment : Fragment() {
         spannableString.setSpan(
             object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    Toast.makeText(widget.context, "Terms & Condition clicked!", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast.makeText(widget.context, "Terms & Condition clicked!", Toast.LENGTH_SHORT)
+//                        .show()
+                    val direction =
+                        VerifyOtpFragmentDirections.actionVerifyOtpFragmentToWebViewFragment2(
+                            fileUrl = "https://careesteem.co.uk/terms-and-conditions"
+                        )
+                    findNavController().navigate(direction)
                     // Add your navigation or action here
                 }
 
@@ -201,8 +206,13 @@ class VerifyOtpFragment : Fragment() {
         spannableString.setSpan(
             object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    Toast.makeText(widget.context, "Privacy Policy clicked!", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast.makeText(widget.context, "Privacy Policy clicked!", Toast.LENGTH_SHORT)
+//                        .show()
+                    val direction =
+                        VerifyOtpFragmentDirections.actionVerifyOtpFragmentToWebViewFragment2(
+                            fileUrl = "https://careesteem.co.uk/privacy-policy"
+                        )
+                    findNavController().navigate(direction)
                     // Add your navigation or action here
                 }
 

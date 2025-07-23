@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.FragmentClientsDetailsBinding
@@ -36,6 +38,15 @@ class WebViewFragment : Fragment() {
     ): View? {
         _binding = FragmentWebViewBinding.inflate(inflater, container, false)
         setupUi()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (binding.webView.canGoBack()) {
+                binding.webView.goBack()
+            } else {
+                findNavController().popBackStack()
+            }
+        }
+
         return binding.root
     }
 
