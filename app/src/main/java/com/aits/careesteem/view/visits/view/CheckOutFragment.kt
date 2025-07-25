@@ -42,7 +42,6 @@ import com.aits.careesteem.utils.GooglePlaceHolder
 import com.aits.careesteem.utils.ProgressLoader
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
-import com.aits.careesteem.view.auth.view.AuthActivity
 import com.aits.careesteem.view.home.view.HomeActivity
 import com.aits.careesteem.view.visits.model.PlaceDetailsResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
@@ -74,9 +73,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 
@@ -193,6 +192,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.customView?.isSelected = false
             }
+
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
@@ -395,58 +395,134 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         val startTime =
             "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
         val plannedDate = data
+
+//        val alertType = try {
+//            // Determine the planned time based on action (0 = check-in, 1 = check-out)
+//            val planTime = when (args.action) {
+//                0 -> data.plannedStartTime
+//                1 -> data.plannedEndTime
+//                else -> null
+//            }
+//
+//            if (planTime.isNullOrEmpty() || data.totalPlannedTime.isNullOrEmpty()) {
+//                AlertUtils.showLog(
+//                    "showCheckOutPopup",
+//                    "Planned time or total planned time is null or empty."
+//                )
+//                ""
+//            }
+//
+//            // Combine planned date and time
+//            val plannedDateTimeStr = "$plannedDate $planTime"
+//
+//            // Define formatter
+//            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+//
+//            // Parse planned and current date-times
+//            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+//            val currentDateTime = LocalDateTime.parse(startTime, formatter)
+//
+//            // Calculate difference in minutes between current and planned time
+//            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+//
+//            // if data.totalPlannedTime empty means return empty
+//            if (data.totalPlannedTime.isEmpty()) {
+//                AlertUtils.showLog("showCheckOutPopup", "Total planned time is null or empty.")
+//                ""
+//            }
+//
+//            // Get total planned time in minutes
+//            val timeParts = data.totalPlannedTime.split(":")
+//            val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
+//            val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+//            val totalMinutes = hourPart * 60 + minutePart
+//
+//            // Calculate grace time
+//            val graceMinute = if (hourPart >= 1) {
+//                20
+//            } else {
+//                (totalMinutes * 0.7).toInt()
+//            }
+//
+//            // Determine alert type
+//            when (args.action) {
+//                0 -> when {
+//                    diff >= graceMinute -> "Early Check-In"
+//                    diff <= -graceMinute -> "Late Check-In"
+//                    else -> ""
+//                }
+//
+//                1 -> when {
+//                    diff >= graceMinute -> "Early Check-Out"
+//                    diff <= -graceMinute -> "Late Check-Out"
+//                    else -> ""
+//                }
+//
+//                else -> ""
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            ""
+//        }
+
         val alertType = try {
+            // Determine the planned time based on action (0 = check-in, 1 = check-out)
             val planTime = when (args.action) {
                 0 -> data.plannedStartTime
                 1 -> data.plannedEndTime
                 else -> null
             }
 
-            // Combine planned date + planned time
-            val plannedDateTimeStr = "$plannedDate $planTime"
-
-            // Define formatter
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-
-            // Parse both date-times
-            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
-            val currentDateTime = LocalDateTime.parse(startTime, formatter)
-
-            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
-
-            // if plannedStartTime and plannedEndTime have one hour
-            val hourPart = data.totalPlannedTime.split(":")[0].toIntOrNull()
-            var graceMinute = 0
-            graceMinute = if (hourPart != null) {
-                if (hourPart >= 1) {
-                    20
-                } else {
-                    5
-                }
-            } else {
-                0
-            }
-
-            if (currentDateTime != null) {
-                when (args.action) {
-                    0 -> when {
-                        diff >= graceMinute -> "Early Check-In"
-                        diff <= -graceMinute -> "Late Check-In"
-                        else -> ""
-                    }
-
-                    1 -> when {
-                        diff >= graceMinute -> "Early Check-Out"
-                        diff <= -graceMinute -> "Late Check-Out"
-                        else -> ""
-                    }
-
-                    else -> ""
-                }
-            } else {
+            if (planTime.isNullOrEmpty() || data.totalPlannedTime.isNullOrEmpty()) {
+                AlertUtils.showLog(
+                    "showCheckOutPopup",
+                    "Planned time or total planned time is null or empty."
+                )
                 ""
             }
 
+            // Combine date and time for parsing
+            val plannedDateTimeStr = "$plannedDate $planTime"
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+
+            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+            val currentDateTime = LocalDateTime.parse(startTime, formatter)
+
+            // Convert totalPlannedTime ("HH:mm") to minutes
+            val timeParts = data.totalPlannedTime.split(":")
+            val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
+            val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+            val totalMinutes = hourPart * 60 + minutePart
+            val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
+
+            // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
+            val bufferMinutes = if (totalMinutes < 60) {
+                20
+            } else {
+                (totalMinutes * bufferPercentage).toLong()
+            }
+            val bufferDuration = Duration.ofMinutes(bufferMinutes)
+
+            // Calculate allowed time window
+            val earliestAllowed = plannedDateTime.minus(bufferDuration)
+            val latestAllowed = plannedDateTime.plus(bufferDuration)
+
+            // ⏰ Final Check for Early or Late
+            when (args.action) {
+                0 -> when {
+                    currentDateTime.isBefore(earliestAllowed) -> "Early Check-In"
+                    currentDateTime.isAfter(latestAllowed) -> "Late Check-In"
+                    else -> ""
+                }
+
+                1 -> when {
+                    currentDateTime.isBefore(earliestAllowed) -> "Early Check-Out"
+                    currentDateTime.isAfter(latestAllowed) -> "Late Check-Out"
+                    else -> ""
+                }
+
+                else -> ""
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             ""
@@ -503,58 +579,133 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
         val startTime =
             "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
         val plannedDate = data
+//        val alertType = try {
+//            // Determine the planned time based on action (0 = check-in, 1 = check-out)
+//            val planTime = when (args.action) {
+//                0 -> data.plannedStartTime
+//                1 -> data.plannedEndTime
+//                else -> null
+//            }
+//
+//            if (planTime.isNullOrEmpty() || data.totalPlannedTime.isNullOrEmpty()) {
+//                AlertUtils.showLog(
+//                    "showCheckInPopup",
+//                    "Planned time or total planned time is null or empty."
+//                )
+//                ""
+//            }
+//
+//            // Combine planned date and time into a string
+//            val plannedDateTimeStr = "$plannedDate $planTime"
+//
+//            // Define formatter for parsing date-time
+//            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+//
+//            // Parse planned and actual start times
+//            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+//            val currentDateTime = LocalDateTime.parse(startTime, formatter)
+//
+//            // Calculate the difference in minutes
+//            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+//
+//            // if data.totalPlannedTime empty means return empty
+//            if (data.totalPlannedTime.isEmpty()) {
+//                AlertUtils.showLog("showCheckOutPopup", "Total planned time is null or empty.")
+//                ""
+//            }
+//
+//            // Extract total planned time (HH:mm) and compute total minutes
+//            val timeParts = data.totalPlannedTime.split(":")
+//            val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
+//            val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+//            val totalMinutes = hourPart * 60 + minutePart
+//
+//            // Compute grace period
+//            val graceMinute = if (hourPart >= 1) {
+//                20
+//            } else {
+//                (totalMinutes * 0.7).toInt()
+//            }
+//
+//            // Determine alert type based on time difference and grace
+//            when (args.action) {
+//                0 -> when {
+//                    diff >= graceMinute -> "Early Check-In"
+//                    diff <= -graceMinute -> "Late Check-In"
+//                    else -> ""
+//                }
+//
+//                1 -> when {
+//                    diff >= graceMinute -> "Early Check-Out"
+//                    diff <= -graceMinute -> "Late Check-Out"
+//                    else -> ""
+//                }
+//
+//                else -> ""
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            ""
+//        }
+
         val alertType = try {
+            // Determine the planned time based on action (0 = check-in, 1 = check-out)
             val planTime = when (args.action) {
                 0 -> data.plannedStartTime
                 1 -> data.plannedEndTime
                 else -> null
             }
 
-            // Combine planned date + planned time
-            val plannedDateTimeStr = "$plannedDate $planTime"
-
-            // Define formatter
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-
-            // Parse both date-times
-            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
-            val currentDateTime = LocalDateTime.parse(startTime, formatter)
-
-            val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
-
-            // if plannedStartTime and plannedEndTime have one hour
-            val hourPart = data.totalPlannedTime.split(":")[0].toIntOrNull()
-            var graceMinute = 0
-            graceMinute = if (hourPart != null) {
-                if (hourPart >= 1) {
-                    20
-                } else {
-                    5
-                }
-            } else {
-                0
-            }
-
-            if (currentDateTime != null) {
-                when (args.action) {
-                    0 -> when {
-                        diff >= graceMinute -> "Early Check-In"
-                        diff <= -graceMinute -> "Late Check-In"
-                        else -> ""
-                    }
-
-                    1 -> when {
-                        diff >= graceMinute -> "Early Check-Out"
-                        diff <= -graceMinute -> "Late Check-Out"
-                        else -> ""
-                    }
-
-                    else -> ""
-                }
-            } else {
+            if (planTime.isNullOrEmpty() || data.totalPlannedTime.isNullOrEmpty()) {
+                AlertUtils.showLog(
+                    "showCheckInPopup",
+                    "Planned time or total planned time is null or empty."
+                )
                 ""
             }
 
+            // Combine date and time for parsing
+            val plannedDateTimeStr = "$plannedDate $planTime"
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+
+            val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+            val currentDateTime = LocalDateTime.parse(startTime, formatter)
+
+            // Convert totalPlannedTime ("HH:mm") to minutes
+            val timeParts = data.totalPlannedTime.split(":")
+            val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
+            val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+            val totalMinutes = hourPart * 60 + minutePart
+            val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
+
+            // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
+            val bufferMinutes = if (totalMinutes < 60) {
+                20
+            } else {
+                (totalMinutes * bufferPercentage).toLong()
+            }
+            val bufferDuration = Duration.ofMinutes(bufferMinutes)
+
+            // Calculate allowed time window
+            val earliestAllowed = plannedDateTime.minus(bufferDuration)
+            val latestAllowed = plannedDateTime.plus(bufferDuration)
+
+            // ⏰ Final Check for Early or Late
+            when (args.action) {
+                0 -> when {
+                    currentDateTime.isBefore(earliestAllowed) -> "Early Check-In"
+                    currentDateTime.isAfter(latestAllowed) -> "Late Check-In"
+                    else -> ""
+                }
+
+                1 -> when {
+                    currentDateTime.isBefore(earliestAllowed) -> "Early Check-Out"
+                    currentDateTime.isAfter(latestAllowed) -> "Late Check-Out"
+                    else -> ""
+                }
+
+                else -> ""
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             ""
@@ -826,79 +977,143 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
             binding.btnPositive.setOnClickListener {
                 dismiss()
-                //performForceCheck()
-
-//                if (args.action == 1) {
-//                    if(ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime!!.isEmpty()) {
-//                        viewModel.updateVisitCheckOut(
-//                            requireActivity(),
-//                            ongoingVisitsDetailsViewModel.visitsDetails.value!!,
-//                            false,
-//                            ""
-//                        )
-//                        return@setOnClickListener
-//                    }
-//                }
 
                 val startTime =
                     "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
                 val plannedDate = ongoingVisitsDetailsViewModel.visitsDetails.value?.visitDate
+//                val alertType = try {
+//                    val visitDetails = ongoingVisitsDetailsViewModel.visitsDetails.value
+//
+//                    // Get planned time based on action
+//                    val planTime = when (args.action) {
+//                        0 -> visitDetails?.plannedStartTime
+//                        1 -> visitDetails?.plannedEndTime
+//                        else -> null
+//                    }
+//
+//                    if (planTime.isNullOrEmpty() || visitDetails?.totalPlannedTime.isNullOrEmpty()) {
+//                        AlertUtils.showLog("showCheckPopup","Planned time or total planned time is null or empty.")
+//                        ""
+//                    }
+//
+//                    // Combine date and time into a full datetime string
+//                    val plannedDateTimeStr = "$plannedDate $planTime"
+//
+//                    // Define date format
+//                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+//
+//                    // Parse planned and actual times
+//                    val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+//                    val currentDateTime = LocalDateTime.parse(startTime, formatter)
+//
+//                    // Calculate time difference in minutes
+//                    val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+//
+//                    // if visitDetails.totalPlannedTime empty means return empty
+//                    if (visitDetails?.totalPlannedTime.isNullOrEmpty()) {
+//                        AlertUtils.showLog("showCheckOutPopup","Total planned time is null or empty.")
+//                        ""
+//                    }
+//
+//                    // Parse total planned time into minutes
+//                    val timeParts = visitDetails?.totalPlannedTime?.split(":")
+//                    val hourPart = timeParts?.getOrNull(0)?.toIntOrNull() ?: 0
+//                    val minutePart = timeParts?.getOrNull(1)?.toIntOrNull() ?: 0
+//                    val totalMinutes = hourPart * 60 + minutePart
+//
+//                    // Calculate grace time
+//                    val graceMinute = if (hourPart >= 1) {
+//                        20
+//                    } else {
+//                        (totalMinutes * 0.7).toInt()
+//                    }
+//
+//                    // Determine result based on action and diff
+//                    when (args.action) {
+//                        0 -> when {
+//                            diff >= graceMinute -> "Early Check-In"
+//                            diff <= -graceMinute -> "Late Check-In"
+//                            else -> ""
+//                        }
+//
+//                        1 -> when {
+//                            diff >= graceMinute -> "Early Check-Out"
+//                            diff <= -graceMinute -> "Late Check-Out"
+//                            else -> ""
+//                        }
+//
+//                        else -> ""
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    ""
+//                }
+
                 val alertType = try {
-                    val planTime = when (args.action) {
-                        0 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedStartTime
-                        1 -> ongoingVisitsDetailsViewModel.visitsDetails.value?.plannedEndTime
-                        else -> null
-                    }
+                    ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
+                        // Determine the planned time based on action (0 = check-in, 1 = check-out)
+                        val planTime = when (args.action) {
+                            0 -> data.plannedStartTime
+                            1 -> data.plannedEndTime
+                            else -> null
+                        }
 
-                    // Combine planned date + planned time
-                    val plannedDateTimeStr = "$plannedDate $planTime"
+                        if (planTime.isNullOrEmpty() || data.totalPlannedTime.isNullOrEmpty()) {
+                            AlertUtils.showLog(
+                                "showCheckPopup",
+                                "Planned time or total planned time is null or empty."
+                            )
+                            ""
+                        }
 
-                    // Define formatter
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                        // Combine date and time for parsing
+                        val plannedDateTimeStr = "$plannedDate $planTime"
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-                    // Parse both date-times
-                    val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
-                    val currentDateTime = LocalDateTime.parse(startTime, formatter)
+                        val plannedDateTime = LocalDateTime.parse(plannedDateTimeStr, formatter)
+                        val currentDateTime = LocalDateTime.parse(startTime, formatter)
 
-                    val diff = ChronoUnit.MINUTES.between(currentDateTime, plannedDateTime)
+                        // Convert totalPlannedTime ("HH:mm") to minutes
+                        val timeParts = data.totalPlannedTime.split(":")
+                        val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
+                        val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+                        val totalMinutes = hourPart * 60 + minutePart
+                        val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
 
-                    // if plannedStartTime and plannedEndTime have one hour
-                    val hourPart = ongoingVisitsDetailsViewModel.visitsDetails.value?.totalPlannedTime?.split(":")[0]?.toIntOrNull()
-                    var graceMinute = 0
-                    graceMinute = if (hourPart != null) {
-                        if (hourPart >= 1) {
+                        // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
+                        val bufferMinutes = if (totalMinutes < 60) {
                             20
                         } else {
-                            5
+                            (totalMinutes * bufferPercentage).toLong()
                         }
-                    } else {
-                        0
-                    }
+                        val bufferDuration = Duration.ofMinutes(bufferMinutes)
 
-                    if (currentDateTime != null) {
+                        // Calculate allowed time window
+                        val earliestAllowed = plannedDateTime.minus(bufferDuration)
+                        val latestAllowed = plannedDateTime.plus(bufferDuration)
+
+                        // ⏰ Final Check for Early or Late
                         when (args.action) {
                             0 -> when {
-                                diff >= graceMinute -> "Early Check-In"
-                                diff <= -graceMinute -> "Late Check-In"
+                                currentDateTime.isBefore(earliestAllowed) -> "Early Check-In"
+                                currentDateTime.isAfter(latestAllowed) -> "Late Check-In"
                                 else -> ""
                             }
 
                             1 -> when {
-                                diff >= graceMinute -> "Early Check-Out"
-                                diff <= -graceMinute -> "Late Check-Out"
+                                currentDateTime.isBefore(earliestAllowed) -> "Early Check-Out"
+                                currentDateTime.isAfter(latestAllowed) -> "Late Check-Out"
                                 else -> ""
                             }
 
                             else -> ""
                         }
-                    } else {
-                        ""
-                    }
-
+                    } ?: ""
                 } catch (e: Exception) {
                     e.printStackTrace()
                     ""
                 }
+
                 showAnotherDialog(alertType)
             }
 

@@ -148,8 +148,10 @@ class VisitsFragment : Fragment(),
         binding.swipeRefresh.setOnRefreshListener {
             scope.launch {
                 delay(2000)
-                binding.swipeRefresh.isRefreshing = false
-                callApi()
+                _binding?.let {
+                    it.swipeRefresh.isRefreshing = false
+                    callApi()
+                }
             }
         }
     }

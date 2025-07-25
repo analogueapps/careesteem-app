@@ -77,10 +77,9 @@ class AddAlertsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel.getClientsList(requireActivity())
         //viewModel.getVisits(requireActivity())
-        if (visitViewModel.visitsList.value!!.isEmpty()) {
-            // date in 2025-01-01 format
-            val currentDate = LocalDate.now()
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        if (visitViewModel.visitsList.value.isNullOrEmpty()) {
             visitViewModel.getVisits(requireActivity(), currentDate.format(formatter))
         }
     }

@@ -16,63 +16,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:visibility="gone"
+            android:id="@+id/headerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:visibility="gone"
-                android:id="@+id/headerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:gravity="center">
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:text="@string/list_of_visit_notes"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:text="@string/list_of_visit_notes"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnTopAddVisitNotes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="45dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/robotoslab_regular"
-                        android:gravity="center"
-                        android:text="@string/add_note"
-                        android:textAllCaps="false"
-                        android:textSize="@dimen/_11ssp"
-                        android:textStyle="normal"
-                        android:letterSpacing="0"
-                        app:icon="@drawable/ic_add_notes"
-                        app:iconSize="@dimen/_14sdp"
-                        app:iconTintMode="multiply" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    tools:listitem="@layout/item_visit_notes_list" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTopAddVisitNotes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:gravity="center"
+                    android:text="@string/add_note"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="normal"
+                    android:letterSpacing="0"
+                    app:icon="@drawable/ic_add_notes"
+                    app:iconSize="@dimen/_14sdp"
+                    app:iconTintMode="multiply" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                tools:listitem="@layout/item_visit_notes_list" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

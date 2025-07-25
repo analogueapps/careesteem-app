@@ -15,6 +15,7 @@ data class VisitDetailsResponse(
         val clientPostcode: String,
         val clientId: String,
         val clientName: String,
+        val bufferTime: String,
         val latitude: Any,
         val longitude: Any,
         val placeId: String,

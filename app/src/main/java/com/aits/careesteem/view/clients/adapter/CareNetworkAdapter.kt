@@ -80,6 +80,18 @@ class CareNetworkAdapter(
                     notifyItemChanged(position)
                 }
 
+                // Toggle expand/collapse on click
+                layout.setOnClickListener {
+                    val previousExpandedPosition = expandedPosition
+                    expandedPosition = if (isExpanded) {
+                        RecyclerView.NO_POSITION // collapse
+                    } else {
+                        position // expand this one
+                    }
+                    notifyItemChanged(previousExpandedPosition)
+                    notifyItemChanged(position)
+                }
+
                 // Add data
                 binding.occupationType.text = AppConstant.checkNull(data.occupation_type)
                 binding.tvName.text = AppConstant.checkNull(data.name)

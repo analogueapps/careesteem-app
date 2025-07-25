@@ -70,12 +70,12 @@ class UvMedicationViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
-                        _medicationList.value = list.data
-//                        val normalList = list.data.filter {
-//                            it.medication_type.equals("Blister Pack", ignoreCase = true) ||
-//                                    it.medication_type.equals("Scheduled", ignoreCase = true) ||
-//                                    ( it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id == visitDetailsId)
-//                        }
+                        //_medicationList.value = list.data
+                        val normalList = list.data.filter {
+                            it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+                                    it.medication_type.equals("Scheduled", ignoreCase = true) ||
+                                    ( it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id == visitDetailsId)
+                        }
 //                        val prnList = list.data.filter {
 //                            it.medication_type.equals("PRN", ignoreCase = true) && it.visit_details_id != visitDetailsId
 //                        }
@@ -84,7 +84,7 @@ class UvMedicationViewModel @Inject constructor(
 //                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
 //                                    it.status != "Scheduled" && it.status != "Not Scheduled"
 //                        }
-//                        _medicationList.value = normalList
+                        _medicationList.value = normalList
 //                        _prnMedicationList.value = prnList
                     }
                 } else {
