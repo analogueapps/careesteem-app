@@ -493,7 +493,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
             val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
             val totalMinutes = hourPart * 60 + minutePart
-            val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
+            val bufferPercentage = data.bufferTime?.toDoubleOrNull() ?: 0.0
 
             // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
             val bufferMinutes = if (totalMinutes < 60) {
@@ -676,7 +676,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
             val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
             val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
             val totalMinutes = hourPart * 60 + minutePart
-            val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
+            val bufferPercentage = data.bufferTime?.toDoubleOrNull() ?: 0.0
 
             // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
             val bufferMinutes = if (totalMinutes < 60) {
@@ -1078,7 +1078,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
                         val hourPart = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
                         val minutePart = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
                         val totalMinutes = hourPart * 60 + minutePart
-                        val bufferPercentage = data.bufferTime.toDoubleOrNull() ?: 0.0
+                        val bufferPercentage = data.bufferTime?.toDoubleOrNull() ?: 0.0
 
                         // 🧠 BUFFER LOGIC: If total time < 60 mins → buffer = 20 mins, else → 30% of total time
                         val bufferMinutes = if (totalMinutes < 60) {
