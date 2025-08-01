@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.aits.careesteem.R
 import com.aits.careesteem.base.BaseActivity
+import com.aits.careesteem.utils.AppConstant.generate24CharHexId
 import com.aits.careesteem.utils.BiometricAuthListener
 import com.aits.careesteem.view.auth.view.AuthActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,7 @@ class SplashActivity : BaseActivity(), BiometricAuthListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        println(generate24CharHexId())
         // Start the coroutine for the splash screen
         CoroutineScope(Dispatchers.Main).launch {
             delay(splashTimeOut)

@@ -35,7 +35,12 @@ data class VisitListResponse(
         var actualEndTime: List<String> = emptyList(),
         var TotalActualTimeDiff: List<String> = emptyList(),
         var userName: List<String> = emptyList(),
-        var profile_photo_name: List<String> = emptyList()
+        var profile_photo_name: List<String> = emptyList(),
+        var bufferTime: String,
+        var sessionType: String,
+        var sessionTime: String,
+        var chooseSessions: String,
+
     )
 }
 

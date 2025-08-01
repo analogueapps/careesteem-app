@@ -19,6 +19,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
+import com.aits.careesteem.room.dao.VisitDao
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
@@ -48,6 +49,7 @@ class CheckoutViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
+    private val visitDao: VisitDao
 ) : AndroidViewModel(application) {
 
     // LiveData for UI

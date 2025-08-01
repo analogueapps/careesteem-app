@@ -41,6 +41,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.security.SecureRandom
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -460,6 +461,13 @@ object AppConstant {
 
             this.text = spannable
         }
+    }
+
+    fun generate24CharHexId(): String {
+        val random = SecureRandom()
+        val bytes = ByteArray(12) // 12 bytes = 96 bits
+        random.nextBytes(bytes)
+        return bytes.joinToString("") { "%02x".format(it) }
     }
 
 }
