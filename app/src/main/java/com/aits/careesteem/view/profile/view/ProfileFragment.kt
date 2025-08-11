@@ -100,6 +100,21 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.switchOfflineMode.isChecked =
+            sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+
+        binding.switchOfflineMode.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, true)
+                editor.apply()
+                AlertUtils.showToast(activity, "Now you work with your visits offline", ToastyType.SUCCESS)
+            } else {
+                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                editor.apply()
+                AlertUtils.showToast(activity, "Now you work with your visits online", ToastyType.SUCCESS)
+            }
+        }
+
         binding.appVersion.text = "Version " + getAppVersion(requireContext())
 
         binding.btnLogout.setOnClickListener {

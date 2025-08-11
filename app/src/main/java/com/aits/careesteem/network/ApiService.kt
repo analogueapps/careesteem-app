@@ -29,6 +29,7 @@ import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.model.VisitLinkResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
@@ -472,4 +473,11 @@ interface ApiService {
         @Path("visitDetailsId") visitDetailsId: String,
         @Query("hash_token") hashToken: String
     ): Response<ClientVisitNotesDetails>
+
+    @GET("getVisitLinkDetails/{userId}")
+    suspend fun getVisitLinkDetails(
+        @Path("userId") userId: String,
+        @Query("hash_token") hashToken: String,
+        @Query("visit_date") visitDate: String
+    ): Response<VisitLinkResponse>
 }

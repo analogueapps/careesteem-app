@@ -4,42 +4,145 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
-import com.aits.careesteem.view.visits.db_model.VisitEntity
-import com.aits.careesteem.view.visits.db_model.VisitUpdateFields
+import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
+import com.aits.careesteem.view.visits.db_entity.MedicationEntity
+import com.aits.careesteem.view.visits.db_entity.TodoEntity
+import com.aits.careesteem.view.visits.db_entity.VisitEntity
 
 @Dao
-interface VisitDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(visits: List<VisitEntity>)
+interface VisitDao  {
 
-    @Query("SELECT * FROM visit_data")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertVisit(visit: VisitEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMedications(meds: List<MedicationEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTodos(todos: List<TodoEntity>)
+
+    @Query("SELECT * FROM visits")
     suspend fun getAllVisits(): List<VisitEntity>
 
-    @Query("SELECT * FROM visit_data WHERE visitDate = :date")
-    suspend fun getVisitsByDate(date: String): List<VisitEntity>
+    @Query("SELECT * FROM visits WHERE visitDate = :visitDate")
+    suspend fun getAllVisitsByDate(visitDate: String): List<VisitEntity>
 
-    @Query("DELETE FROM visit_data")
-    suspend fun deleteAll()
+    @Query("SELECT * FROM visits WHERE visitDetailsId = :visitId")
+    suspend fun getVisitsDetailsById(visitId: String): VisitEntity
 
-    @Query("DELETE FROM visit_data WHERE visitDate = :date")
-    suspend fun deleteVisitsByDate(date: String)
+    @Query("SELECT * FROM medications WHERE visitDetailsId = :visitId")
+    suspend fun getMedicationsForVisit(visitId: String): List<MedicationEntity>
 
-    // Primary update method using VisitUpdateFields
-    @Update(entity = VisitEntity::class)
-    suspend fun updateVisitFields(visit: VisitUpdateFields)
+    @Query("SELECT * FROM todos WHERE visitDetailsId = :visitId")
+    suspend fun getTodosForVisit(visitId: String): List<TodoEntity>
 
-    // Bulk update alternative
-    @Transaction
-    suspend fun updateMultipleVisitFields(visits: List<VisitUpdateFields>) {
-        visits.forEach { updateVisitFields(it) }
-    }
+    @Query("SELECT uatId FROM visits WHERE visitDetailsId = :visitId")
+    suspend fun getUatId(visitId: String): String
 
-    @Query("UPDATE visit_data SET actualStartTime = :startTime WHERE visitDetailsId = :visitId")
-    suspend fun updateVisitCheckIn(visitId: String, startTime: String)
+    @Query("""
+        UPDATE visits
+        SET 
+            actualStartTime = :actualStartTime,
+            actualStartTimeString = :actualStartTimeString,
+            checkInSync = :checkInSync
+        WHERE visitDetailsId = :visitDetailsId
+    """)
+    suspend fun updateVisitCheckInTimesAndSync(
+        visitDetailsId: String,
+        actualStartTime: String,
+        actualStartTimeString: String?,
+        checkInSync: Boolean
+    )
 
-    @Query("UPDATE visit_data SET actualEndTime = :endTime WHERE visitDetailsId = :visitId")
-    suspend fun updateVisitCheckOut(visitId: String, endTime: String)
+    @Query("""
+        UPDATE visits
+        SET 
+            actualEndTime = :actualEndTime,
+            actualEndTimeString = :actualEndTimeString,
+            checkOutSync = :checkOutSync
+        WHERE visitDetailsId = :visitDetailsId
+    """)
+    suspend fun updateVisitCheckOutTimesAndSync(
+        visitDetailsId: String,
+        actualEndTime: String,
+        actualEndTimeString: String?,
+        checkOutSync: Boolean
+    )
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAutoAlerts(autoAlerts: AutoAlertEntity)
+
+    @Query("SELECT * FROM todos WHERE visitDetailsId = :visitId")
+    suspend fun getTodoListByVisitsDetailsId(visitId: String): List<TodoEntity>
+
+    @Query("""
+        UPDATE todos
+        SET 
+            carerNotes = :carerNotes,
+            todoOutcome = :todoOutcome,
+            todoSync = :todoSync
+        WHERE todoDetailsId = :todoDetailsId
+    """)
+    suspend fun updateTodoListById(
+        todoDetailsId: String,
+        carerNotes: String,
+        todoOutcome: Boolean,
+        todoSync: Boolean
+    )
+
+    @Query("SELECT * FROM medications WHERE visitDetailsId = :visitId")
+    suspend fun getMedicationListByVisitsDetailsId(visitId: String): List<MedicationEntity>
+
+    @Query("""
+        UPDATE medications
+        SET 
+            status = :status,
+            carer_notes = :carerNotes,
+            medicationSync = :medicationSync,
+            medicationBlisterPack = :medicationBlisterPack
+        WHERE blister_pack_details_id = :blisterPackDetailsId
+    """)
+    suspend fun updateMedicationByBlisterPackDetailsId(
+        blisterPackDetailsId: String,
+        status: String,
+        carerNotes: String,
+        medicationSync: Boolean,
+        medicationBlisterPack: Boolean
+    )
+
+    @Query("""
+        UPDATE medications
+        SET 
+            status = :status,
+            carer_notes = :carerNotes,
+            medicationSync = :medicationSync,
+            medicationScheduled = :medicationScheduled
+        WHERE scheduled_details_id = :scheduledDetailsId
+    """)
+    suspend fun updateMedicationByScheduledDetailsId(
+        scheduledDetailsId: String,
+        status: String,
+        carerNotes: String,
+        medicationSync: Boolean,
+        medicationScheduled: Boolean
+    )
+
+    @Query("""
+        UPDATE medications
+        SET 
+            status = :status,
+            carer_notes = :carerNotes,
+            medicationSync = :medicationSync,
+            medicationPrnUpdate = :medicationPrnUpdate
+        WHERE prn_details_id = :prnDetailsId
+    """)
+    suspend fun updateMedicationByPrnDetailsId(
+        prnDetailsId: String,
+        status: String,
+        carerNotes: String,
+        medicationSync: Boolean,
+        medicationPrnUpdate: Boolean
+    )
+
 
 }

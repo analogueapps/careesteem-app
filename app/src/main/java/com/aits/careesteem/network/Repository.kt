@@ -30,6 +30,7 @@ import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
 import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.model.VisitLinkResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -739,6 +740,18 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         return apiService.getClientPreviousVisitNotesDetails(
             hashToken = hashToken,
             visitDetailsId = visitDetailsId,
+        )
+    }
+
+    suspend fun getVisitLinkDetails(
+        hashToken: String,
+        userId: String,
+        visitDate: String,
+    ): Response<VisitLinkResponse> {
+        return apiService.getVisitLinkDetails(
+            hashToken = hashToken,
+            userId = userId,
+            visitDate = visitDate,
         )
     }
 }

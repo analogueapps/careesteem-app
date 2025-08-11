@@ -46,7 +46,7 @@ class SplashActivity : BaseActivity(), BiometricAuthListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        println(generate24CharHexId())
+        //println(generate24CharHexId())
         // Start the coroutine for the splash screen
         CoroutineScope(Dispatchers.Main).launch {
             delay(splashTimeOut)

@@ -2,7 +2,7 @@ package com.aits.careesteem.di
 
 import android.content.Context
 import androidx.room.Room
-import com.aits.careesteem.local.converters.StringListConverter
+import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.room.dao.VisitDao
 import com.aits.careesteem.room.db.AppDatabase
 import dagger.Module
@@ -17,21 +17,17 @@ import javax.inject.Singleton
 object DatabaseModule {
 
     @Provides
-    fun provideVisitDao(database: AppDatabase): VisitDao =
-        database.visitDao()
-
-    @Provides
     @Singleton
-    fun provideStringListConverter(): StringListConverter = StringListConverter()
-
-    @Provides
-    @Singleton
-    fun provideDatabase(
-        @ApplicationContext context: Context,
-        stringListConverter: StringListConverter
-    ): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, "careesteem_db")
-            .fallbackToDestructiveMigration()
-            .addTypeConverter(stringListConverter)
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "careesteem_db"
+        ).fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    fun provideVisitDao(database: AppDatabase): VisitDao = database.visitDao()
 }
+

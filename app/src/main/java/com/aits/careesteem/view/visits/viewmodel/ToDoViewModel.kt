@@ -14,12 +14,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
+import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
+import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.model.TodoListResponse
+import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.model.VisitListResponse
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,6 +39,7 @@ class ToDoViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
+    private val dbRepository: VisitRepository,
 ) : ViewModel() {
 
     // LiveData for UI
@@ -54,6 +60,24 @@ class ToDoViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    val localTodo = dbRepository.getTodoListByVisitsDetailsId(visitDetailsId)
+                    _toDoList.value = localTodo.map { todo ->
+                        TodoListResponse.Data(
+                            additionalNotes = todo.additionalNotes ?: "",
+                            carerNotes = todo.carerNotes ?: "",
+                            todoDetailsId = todo.todoDetailsId,
+                            todoName = todo.todoName ?: "",
+                            todoEssential = todo.todoEssential ?: false,
+                            todoOutcome = todo.todoOutcome  ?: "",
+                        )
+                    }
+                    _totalCount.value = _toDoList.value?.count { it.todoEssential }
+                    _completeCount.value =
+                        _toDoList.value?.count { it.todoEssential && it.todoOutcome.isNotEmpty() }
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -113,6 +137,21 @@ class ToDoViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    dbRepository.updateTodoListById(
+                        todoDetailsId = todoDetailsId,
+                        carerNotes = carerNotes,
+                        todoOutcome = todoOutcome != 0,
+                        todoSync = true
+                    )
+                    AlertUtils.showToast(
+                        activity,
+                        "Todo updated successfully",
+                        ToastyType.SUCCESS
+                    )
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -182,6 +221,27 @@ class ToDoViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    val autoAlertEntity = AutoAlertEntity(
+                        colId = System.currentTimeMillis().toString(),
+                        visitDetailsId = visitDetailsId,
+                        clientId = clientId,
+                        uatId = null,
+                        userId = null,
+                        alertType = "To Do Notcompleted",
+                        alertStatus = "Action Required",
+                        createdAt = DateTimeUtils.getCurrentTimestampGMT(),
+                        alertAction = 2,
+                        todoDetailsId = todoDetailsId,
+                        scheduledId = null,
+                        blisterPackId = null,
+                        alertSync = true,
+                    )
+                    dbRepository.insertAutoAlerts(autoAlertEntity = autoAlertEntity)
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(

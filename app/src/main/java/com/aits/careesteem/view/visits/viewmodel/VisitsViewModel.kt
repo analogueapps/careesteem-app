@@ -14,20 +14,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import androidx.room.ColumnInfo
 import com.aits.careesteem.network.ErrorHandler
+import com.aits.careesteem.network.NetworkManager
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.room.dao.VisitDao
+import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
+import com.aits.careesteem.utils.AppConstant.generate24CharHexId
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
-import com.aits.careesteem.view.visits.db_model.VisitEntity
-import com.aits.careesteem.view.visits.db_model.VisitUpdateFields
-import com.aits.careesteem.view.visits.db_model.toEntity
-import com.aits.careesteem.view.visits.db_model.toVisit
+import com.aits.careesteem.view.visits.db_entity.MedicationEntity
+import com.aits.careesteem.view.visits.db_entity.TodoEntity
+import com.aits.careesteem.view.visits.db_entity.VisitEntity
+import com.aits.careesteem.view.visits.model.VisitLinkResponse
 import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.gson.Gson
@@ -36,9 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import retrofit2.Response
 import java.net.SocketTimeoutException
 import java.time.Duration
 import java.time.LocalDateTime
@@ -50,7 +50,8 @@ class VisitsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-    private val visitDao: VisitDao
+    private val networkManager: NetworkManager,
+    private val dbRepository: VisitRepository
 ) : ViewModel() {
 
     // LiveData for UI
@@ -83,169 +84,189 @@ class VisitsViewModel @Inject constructor(
         _completedVisits.value = emptyList()
         _notCompletedVisits.value = emptyList()
         _isLoading.value = true
-
         viewModelScope.launch {
             try {
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    loadFromDatabase(visitDate)
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    val localList = dbRepository.getAllVisitsByDate(visitDate = visitDate)
+                    _visitsList.value = localList.map { visitEntity ->
+                        VisitListResponse.Data(
+                            clientId = visitEntity.clientId ?: "",
+                            visitDetailsId = visitEntity.visitDetailsId,
+                            uatId = visitEntity.uatId?.toIntOrNull() ?: 0,
+                            clientAddress = visitEntity.clientAddress ?: "",
+                            clientCity = visitEntity.clientCity ?: "",
+                            clientPostcode = visitEntity.clientPostcode ?: "",
+                            clientName = visitEntity.clientName ?: "",
+                            plannedEndTime = visitEntity.plannedEndTime ?: "",
+                            plannedStartTime = visitEntity.plannedStartTime ?: "",
+                            totalPlannedTime = visitEntity.totalPlannedTime ?: "",
+                            userId = visitEntity.userId?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
+                            usersRequired = visitEntity.usersRequired ?: 0,
+                            latitude = "", // fill if stored
+                            longitude = "", // fill if stored
+                            radius = visitEntity.radius ?: 0,
+                            placeId = visitEntity.placeId ?: "",
+                            visitDate = visitEntity.visitDate ?: "",
+                            visitStatus = visitEntity.visitStatus ?: "",
+                            visitType = visitEntity.visitType ?: "",
+                            actualStartTime = visitEntity.actualStartTime?.split(",") ?: emptyList(),
+                            actualEndTime = visitEntity.actualEndTime?.split(",") ?: emptyList(),
+                            TotalActualTimeDiff = visitEntity.TotalActualTimeDiff?.split(",") ?: emptyList(),
+                            userName = visitEntity.userName?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
+                            profile_photo_name = visitEntity.profilePhotoName?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
+                            bufferTime = visitEntity.bufferTime ?: "",
+                            sessionType = visitEntity.sessionType ?: "",
+                            sessionTime = visitEntity.sessionTime ?: "",
+                            chooseSessions = visitEntity.chooseSessions ?: ""
+                        )
+                    }
+                    updateValues()
                     return@launch
                 }
 
-                val response = fetchFromApi(visitDate)
+
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.getVisitList(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    userId = userData.id,
+                    visitDate = visitDate
+                )
 
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
-                        processApiResponse(list, visitDate)
-                    } ?: loadFromDatabase(visitDate)
+                        _visitsList.value = list.data
+                        updateValues()
+                        _visitCreated.emit(true)
+                    }
                 } else {
-                    handleApiError(response, activity, visitDate)
+                    if (response.code() == 404) {
+                        _visitCreated.emit(true)
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
                 }
-            } catch (e: Exception) {
-                handleException(e, activity, visitDate)
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    private suspend fun fetchFromApi(visitDate: String): Response<VisitListResponse> {
-        val userData = getUserData()
-        return repository.getVisitList(
-            hashToken = getHashToken(),
-            userId = userData.id,
-            visitDate = visitDate
-        )
-    }
-
-    private suspend fun processApiResponse(list: VisitListResponse, visitDate: String) {
-        val apiVisits = list.data.map { it.toEntity() }
-        val existingVisits = visitDao.getVisitsByDate(visitDate)
-        val existingVisitsMap = existingVisits.associateBy { it.visitDetailsId }
-
-        val (visitsToUpdate, visitsToInsert) = apiVisits.partition {
-            existingVisitsMap.containsKey(it.visitDetailsId)
-        }
-
-        // Convert to update fields
-        val updateFields = visitsToUpdate.map { visit ->
-            VisitUpdateFields(
-                id = visit.visitDetailsId,
-                status = visit.visitStatus,
-                startTime = visit.actualStartTime,
-                endTime = visit.actualEndTime,
-                TotalActualTimeDiff = visit.TotalActualTimeDiff
-            )
-        }
-
-        // Execute in transaction
-        withContext(Dispatchers.IO) {
-            if (updateFields.isNotEmpty()) {
-                visitDao.updateMultipleVisitFields(updateFields)
-            }
-            if (visitsToInsert.isNotEmpty()) {
-                visitDao.insertAll(visitsToInsert)
-            }
-        }
-
-        // Refresh data
-        loadFromDatabase(visitDate)
-        _visitCreated.emit(true)
-    }
-
-    private suspend fun loadFromDatabase(visitDate: String) {
-        val visits = visitDao.getVisitsByDate(visitDate).map { it.toVisit() }
-        updateVisitLists(visits)
-    }
-
-    private suspend fun handleApiError(
-        response: Response<VisitListResponse>,
-        activity: Activity,
-        visitDate: String
-    ) {
-        if (response.code() == 404) {
-            _visitCreated.emit(true)
-        } else {
-            loadFromDatabase(visitDate)
-            errorHandler.handleErrorResponse(response, activity)
-        }
-    }
-
-    private suspend fun handleException(e: Exception, activity: Activity, visitDate: String) {
-        loadFromDatabase(visitDate)
-        when (e) {
-            is SocketTimeoutException -> {
-                AlertUtils.showToast(activity, "Request Timeout. Please try again.", ToastyType.ERROR)
-            }
-            is HttpException -> {
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
                 AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
-            }
-            else -> {
+            } catch (e: Exception) {
                 AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+                callOfflineApiAlso(activity, visitDate)
             }
         }
-    }
-
-    private fun getHashToken(): String {
-        return sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null).toString()
-    }
-
-    private suspend fun getUserData(): OtpVerifyResponse.Data {
-        val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-        return Gson().fromJson(dataString, OtpVerifyResponse.Data::class.java)
-    }
-
-    private suspend fun apiCallFails(visitDate: String) {
-        val visits = visitDao.getVisitsByDate(date = visitDate)
-        updateVisitLists(visits.map { it.toVisit() })
     }
 
     @SuppressLint("NewApi")
-    private fun updateVisitLists(visits: List<VisitListResponse.Data>) {
-        _visitsList.value = visits
-
-        // Not completed: No actual start or end time, and more than 4 hours late
-        val notCompleted = visits.filter { visit ->
+    private fun updateValues() {
+        val notCompleted = visitsList.value?.filter { visit ->
             val startEmpty = visit.actualStartTime.getOrNull(0).isNullOrEmpty()
             val endEmpty = visit.actualEndTime.getOrNull(0).isNullOrEmpty()
 
             if (startEmpty && endEmpty) {
                 try {
-                    val planned = LocalDateTime.parse("${visit.visitDate}T${visit.plannedStartTime}")
+                    val planned =
+                        LocalDateTime.parse("${visit.visitDate}T${visit.plannedStartTime}")
                     val now = LocalDateTime.now()
                     Duration.between(planned, now).toHours() >= 4
                 } catch (e: Exception) {
                     false
                 }
             } else false
-        }.sortedBy { it.plannedStartTime }
+        }?.sortedBy { it.plannedStartTime }
 
         // Scheduled = visits that are not in notCompleted, but still have empty actual start and end time
-        val scheduled = visits
-            .filter {
+        val scheduled = visitsList.value?.filter {
                 it.actualStartTime.getOrNull(0).isNullOrEmpty() &&
                         it.actualEndTime.getOrNull(0).isNullOrEmpty() &&
-                        !notCompleted.contains(it)
-            }
-            .sortedBy { it.plannedStartTime }
+                        !notCompleted?.contains(it)!!
+            }?.sortedBy { it.plannedStartTime }
 
-        val inProgress = visits.filter {
+        val inProgress = visitsList.value?.filter {
             it.actualStartTime.getOrNull(0)?.isNotEmpty() == true &&
                     it.actualEndTime.getOrNull(0).isNullOrEmpty()
         }
 
-        val completed = visits
-            .filter {
+        val completed = visitsList.value?.filter {
                 it.actualStartTime.getOrNull(0)?.isNotEmpty() == true &&
                         it.actualEndTime.getOrNull(0)?.isNotEmpty() == true
-            }
-            .sortedBy { it.actualStartTime[0] }
+            }?.sortedBy { it.actualStartTime[0] }
 
         // Set values
-        _scheduledVisits.value = scheduled
-        _inProgressVisits.value = inProgress
-        _completedVisits.value = completed
-        _notCompletedVisits.value = notCompleted
+        _scheduledVisits.value = scheduled ?: emptyList()
+        _inProgressVisits.value = inProgress ?: emptyList()
+        _completedVisits.value = completed ?: emptyList()
+        _notCompletedVisits.value = notCompleted ?: emptyList()
+    }
+
+    private fun callOfflineApiAlso(activity: Activity, visitDate: String) {
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                val response = repository.getVisitLinkDetails(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    userId = userData.id,
+                    visitDate = visitDate
+                )
+
+                if (response.isSuccessful) {
+                    response.body()?.let { list ->
+                        saveVisitData(list)
+                    }
+                } else {
+                    if (response.code() == 401 || response.code() == 402) {
+                        return@launch
+                    }
+                    errorHandler.handleErrorResponse(response, activity)
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
+                e.printStackTrace()
+            }
+        }
     }
 
     val _isCheckOutEligible = MutableLiveData<Boolean>()
@@ -326,5 +347,136 @@ class VisitsViewModel @Inject constructor(
             }
         }
     }
+
+    // For Local database
+    fun saveVisitData(response: VisitLinkResponse) {
+        viewModelScope.launch(Dispatchers.IO) {
+            response.data.forEach { visit ->
+                val visitEntity = VisitEntity(
+                    visitDetailsId = visit.visitDetailsId,
+                    agencyId = visit.agencyId,
+                    bufferTime = visit.bufferTime,
+                    chooseSessions = visit.chooseSessions,
+                    clientAddress = visit.clientAddress,
+                    clientCity = visit.clientCity,
+                    clientId = visit.clientId,
+                    clientName = visit.clientName,
+                    clientPostcode = visit.clientPostcode,
+                    clientProfileImageUrl = visit.client_profile_image_url,
+                    gioStatus = visit.gioStatus,
+                    placeId = visit.placeId,
+                    plannedEndTime = visit.plannedEndTime,
+                    plannedStartTime = visit.plannedStartTime,
+                    profilePhotoName = Gson().toJson(visit.profile_photo_name),
+                    radius = visit.radius,
+                    sessionTime = visit.sessionTime,
+                    sessionType = visit.sessionType,
+                    totalPlannedTime = visit.totalPlannedTime,
+                    usersRequired = visit.usersRequired,
+                    visitDate = visit.visitDate,
+                    visitStatus = visit.visitStatus,
+                    visitType = visit.visitType,
+                    userId = Gson().toJson(visit.userId),
+                    userName = Gson().toJson(visit.userName),
+                    actualStartTime = null,
+                    actualEndTime = null,
+                    TotalActualTimeDiff = null,
+                    actualStartTimeString = null,
+                    actualEndTimeString = null,
+                    uatId = generate24CharHexId()
+                )
+                dbRepository.insertVisit(visitEntity)
+
+                val medicationEntities = visit.medications.map {
+                    val visitDetailsId = when (val id = it.visit_details_id) {
+                        is String -> id
+                        is List<*> -> id.joinToString(",") // Flatten list to string
+                        else -> ""
+                    }
+
+                    val medication_time = when (val time = it.medication_time) {
+                        is String -> time
+                        is List<*> -> time.joinToString(",") { s -> s?.toString() ?: "" }
+                        else -> null
+                    }
+
+                    MedicationEntity(
+                        medication_id = it.medication_id,
+                        visitDetailsId = visitDetailsId,
+                        nhs_medicine_name = it.nhs_medicine_name,
+                        medication_time = medication_time,
+                        medication_type = it.medication_type,
+                        bodyMapImageUrl = Gson().toJson(it.body_map_image_url),
+                        bodyPartNames = Gson().toJson(it.body_part_names),
+                        dose_per = it.dose_per,
+                        doses = it.doses,
+                        medication_route_name = it.medication_route_name,
+                        medication_support = it.medication_support,
+                        quantity_each_dose = it.quantity_each_dose,
+                        prn_be_given = it.prn_be_given,
+                        prn_offered = it.prn_offered,
+                        prn_user_id = it.prn_user_id,
+                        status = it.status,
+                        carer_notes = it.carer_notes,
+                        file_name = it.file_name,
+                        prn_created_by = it.prn_created_by,
+
+                        blister_pack_created_by = it.blister_pack_created_by,
+                        blister_pack_date = it.blister_pack_date,
+                        blister_pack_details_id = it.blister_pack_details_id,
+                        blister_pack_end_date = it.blister_pack_end_date,
+                        blister_pack_id = it.blister_pack_id,
+                        blister_pack_start_date = it.blister_pack_start_date,
+                        blister_pack_user_id = it.blister_pack_user_id,
+
+                        by_exact_date = it.by_exact_date,
+                        by_exact_end_date = it.by_exact_end_date,
+                        by_exact_start_date = it.by_exact_start_date,
+                        client_id = it.client_id,
+                        day_name = it.day_name,
+
+                        scheduled_created_by = it.scheduled_created_by,
+                        scheduled_date = it.scheduled_date,
+                        scheduled_details_id = it.scheduled_details_id,
+                        prn_details_id = null,
+                        scheduled_end_date = it.scheduled_end_date,
+                        scheduled_id = it.scheduled_id,
+                        scheduled_start_date = it.scheduled_start_date,
+                        scheduled_user_id = it.scheduled_user_id,
+                        select_preference = it.select_preference,
+                        session_type = it.session_type,
+
+                        prn_id = it.prn_id,
+                        prn_start_date = it.prn_start_date,
+                        prn_end_date = it.prn_end_date,
+                        time_frame = it.time_frame,
+                        prn_details_status = null,
+                        additional_instructions = it.additional_instructions,
+
+                        medicationSync = false,
+                        medicationBlisterPack = false,
+                        medicationScheduled = false,
+                        medicationPrn = false,
+                        medicationPrnUpdate = false
+                    )
+                }
+                dbRepository.insertMedications(medicationEntities)
+
+                val todoEntities = visit.todoList.map {
+                    TodoEntity(
+                        todoDetailsId = it.todoDetailsId,
+                        visitDetailsId = it.visitDetailsId,
+                        additionalNotes = it.additionalNotes,
+                        carerNotes = it.carerNotes,
+                        todoEssential = it.todoEssential,
+                        todoName = it.todoName,
+                        todoOutcome = it.todoOutcome
+                    )
+                }
+                dbRepository.insertTodos(todoEntities)
+            }
+        }
+    }
+
 
 }

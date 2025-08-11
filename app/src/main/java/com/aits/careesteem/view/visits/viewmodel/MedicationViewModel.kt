@@ -14,13 +14,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
+import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.model.MedicationDetailsListResponse
+import com.aits.careesteem.view.visits.model.TodoListResponse
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +39,7 @@ class MedicationViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
+    private val dbRepository: VisitRepository,
 ) : ViewModel() {
 
     // LiveData for UI
@@ -58,6 +62,67 @@ class MedicationViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    val localMedications = dbRepository.getMedicationListByVisitsDetailsId(visitDetailsId)
+                    val afterList = localMedications.map { med ->
+                        MedicationDetailsListResponse.Data(
+                            blister_pack_created_by = med.blister_pack_created_by ?: "",// fill if available in DB
+                            blister_pack_date = med.blister_pack_date ?: "",
+                            blister_pack_details_id = med.blister_pack_details_id ?: "",
+                            blister_pack_end_date = med.blister_pack_end_date ?: "",
+                            blister_pack_id = med.blister_pack_id ?: "",
+                            blister_pack_start_date = med.blister_pack_start_date ?: "",
+                            blister_pack_user_id = med.blister_pack_user_id ?: "",
+                            by_exact_date = med.by_exact_date ?:"",
+                            by_exact_end_date = med.by_exact_end_date ?: "",
+                            by_exact_start_date = med.by_exact_start_date ?: "",
+                            client_id = med.client_id ?: "",
+                            day_name = med.day_name ?: "",
+                            medication_id = med.medication_id,
+                            medication_route_name = med.medication_route_name ?: "",
+                            medication_support = med.medication_support ?: "",
+                            medication_type = med.medication_type ?: "",
+                            nhs_medicine_name = med.nhs_medicine_name ?: "",
+                            quantity_each_dose = med.quantity_each_dose ?: "",
+                            scheduled_created_by = med.scheduled_created_by ?: "",
+                            scheduled_date = med.scheduled_date ?: "",
+                            scheduled_details_id = med.scheduled_details_id ?: "",
+                            prn_details_id = med.prn_details_id ?: "",
+                            scheduled_end_date = med.scheduled_end_date ?: "",
+                            scheduled_id = med.scheduled_id ?: "",
+                            scheduled_start_date = med.scheduled_start_date ?: "",
+                            scheduled_user_id = med.scheduled_user_id ?: "",
+                            select_preference = med.select_preference ?: "",
+                            by_exact_time = med.medication_time ?: "",
+                            session_type = med.session_type ?: "",
+                            visit_details_id = med.visitDetailsId ?: "",
+                            prn_id = med.prn_id ?: "",
+                            prn_start_date = med.prn_start_date ?: "",
+                            prn_end_date = med.prn_end_date ?: "",
+                            dose_per = med.dose_per ?: 0,
+                            doses = med.doses ?: 0,
+                            time_frame = med.time_frame ?: "",
+                            prn_offered = med.prn_offered ?: "",
+                            prn_be_given = med.prn_be_given ?: "",
+                            prn_user_id = med.prn_user_id ?: "",
+                            status = med.status ?: "",
+                            prn_details_status = med.prn_details_status ?: "",
+                            prn_created_by = med.prn_created_by ?: "",
+                            body_map_image_url = med.bodyMapImageUrl?.let {
+                                Gson().fromJson(it, Array<String>::class.java).toList()
+                            } ?: emptyList(),
+                            body_part_names = med.bodyPartNames?.let {
+                                Gson().fromJson(it, Array<String>::class.java).toList()
+                            } ?: emptyList(),
+                            carer_notes = med.carer_notes ?: "",
+                            additional_instructions = med.additional_instructions ?: "" // map if you store this locally
+                        )
+                    }
+                    updateList(afterList, visitDetailsId)
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -77,28 +142,7 @@ class MedicationViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         //_medicationList.value = list.data
-                        val normalList = list.data.filter {
-                            it.medication_type.equals("Blister Pack", ignoreCase = true) ||
-                                    it.medication_type.equals("Scheduled", ignoreCase = true) ||
-                                    (it.medication_type.equals(
-                                        "PRN",
-                                        ignoreCase = true
-                                    ) && it.visit_details_id == visitDetailsId)
-                        }
-                        val prnList = list.data.filter {
-                            it.medication_type.equals(
-                                "PRN",
-                                ignoreCase = true
-                            ) && it.visit_details_id != visitDetailsId
-                        }
-                        _completeCount.value = list.data.count {
-//                            (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
-//                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
-//                                    it.status != "Scheduled" && it.status != "Not Scheduled"
-                            it.status != "Scheduled" && it.status != "Not Scheduled"
-                        }
-                        _medicationList.value = normalList
-                        _prnMedicationList.value = prnList
+                        updateList(list.data, visitDetailsId)
                     }
                 } else {
                     if (response.code() == 404) {
@@ -123,6 +167,31 @@ class MedicationViewModel @Inject constructor(
         }
     }
 
+    private fun updateList(list: List<MedicationDetailsListResponse.Data>, visitDetailsId: String){
+        val normalList = list.filter {
+            it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+                    it.medication_type.equals("Scheduled", ignoreCase = true) ||
+                    (it.medication_type.equals(
+                        "PRN",
+                        ignoreCase = true
+                    ) && it.visit_details_id == visitDetailsId)
+        }
+        val prnList = list.filter {
+            it.medication_type.equals(
+                "PRN",
+                ignoreCase = true
+            ) && it.visit_details_id != visitDetailsId
+        }
+        _completeCount.value = list.count {
+//                            (it.medication_type.equals("Blister Pack", ignoreCase = true) ||
+//                                    it.medication_type.equals("Scheduled", ignoreCase = true)) &&
+//                                    it.status != "Scheduled" && it.status != "Not Scheduled"
+            it.status != "Scheduled" && it.status != "Not Scheduled"
+        }
+        _medicationList.value = normalList
+        _prnMedicationList.value = prnList
+    }
+
     fun medicationBlisterPack(
         activity: Activity,
         clientId: String,
@@ -134,6 +203,22 @@ class MedicationViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    dbRepository.updateMedicationByBlisterPackDetailsId(
+                        blisterPackDetailsId = blisterPackDetailsId,
+                        status = status,
+                        carerNotes = carerNotes,
+                        medicationSync = true,
+                        medicationBlisterPack = true
+                    )
+                    AlertUtils.showToast(
+                        activity,
+                        "Medication updated successfully",
+                        ToastyType.SUCCESS
+                    )
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -205,6 +290,27 @@ class MedicationViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    val autoAlertEntity = AutoAlertEntity(
+                        colId = System.currentTimeMillis().toString(),
+                        visitDetailsId = visitDetailsId,
+                        clientId = clientId,
+                        uatId = null,
+                        userId = null,
+                        alertType = "Medication $status",
+                        alertStatus = "Action Required",
+                        createdAt = DateTimeUtils.getCurrentTimestampGMT(),
+                        alertAction = 3,
+                        todoDetailsId = null,
+                        scheduledId = scheduledId.toString(),
+                        blisterPackId = blisterPackId.toString(),
+                        alertSync = true,
+                    )
+                    dbRepository.insertAutoAlerts(autoAlertEntity = autoAlertEntity)
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -254,6 +360,22 @@ class MedicationViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    dbRepository.updateMedicationByScheduledDetailsId(
+                        scheduledDetailsId = scheduledDetailsId,
+                        status = status,
+                        carerNotes = carerNotes,
+                        medicationSync = true,
+                        medicationScheduled = true
+                    )
+                    AlertUtils.showToast(
+                        activity,
+                        "Medication updated successfully",
+                        ToastyType.SUCCESS
+                    )
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -401,6 +523,22 @@ class MedicationViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    dbRepository.updateMedicationByPrnDetailsId(
+                        prnDetailsId = prnDetailsId,
+                        status = status,
+                        carerNotes = carerNotes,
+                        medicationSync = true,
+                        medicationPrnUpdate = true
+                    )
+                    AlertUtils.showToast(
+                        activity,
+                        "Medication updated successfully",
+                        ToastyType.SUCCESS
+                    )
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(

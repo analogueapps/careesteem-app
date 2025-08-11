@@ -27,4 +27,5 @@ object SharedPrefConstant {
 
 
     const val SHOW_PREVIOUS_NOTES = "SHOW_PREVIOUS_NOTES"
+    const val WORK_ON_OFFLINE = "WORK_ON_OFFLINE"
 }

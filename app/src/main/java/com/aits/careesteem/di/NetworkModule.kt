@@ -6,9 +6,11 @@
 
 package com.aits.careesteem.di
 
+import android.content.Context
 import android.content.SharedPreferences
 import com.aits.careesteem.BuildConfig
 import com.aits.careesteem.network.ApiService
+import com.aits.careesteem.network.NetworkManager
 import com.aits.careesteem.network.trustAllCerts
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.SharedPrefConstant
@@ -17,6 +19,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -31,6 +34,12 @@ import javax.net.ssl.X509TrustManager
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    fun provideNetworkManager(@ApplicationContext context: Context): NetworkManager {
+        return NetworkManager(context)
+    }
+
     @Provides
     @Singleton
     fun provideGson(): Gson {

@@ -18,8 +18,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
+import com.aits.careesteem.network.NetworkManager
 import com.aits.careesteem.network.Repository
-import com.aits.careesteem.room.dao.VisitDao
+import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.DateTimeUtils
 import com.aits.careesteem.utils.NetworkUtils
@@ -28,6 +29,7 @@ import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.unscheduled_visits.model.AddUvVisitResponse
 import com.aits.careesteem.view.unscheduled_visits.model.UpdateVisitCheckoutResponse
+import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.google.android.gms.location.LocationServices
@@ -49,7 +51,8 @@ class CheckoutViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
-    private val visitDao: VisitDao
+    private val networkManager: NetworkManager,
+    private val dbRepository: VisitRepository,
 ) : AndroidViewModel(application) {
 
     // LiveData for UI
@@ -94,8 +97,44 @@ class CheckoutViewModel @Inject constructor(
     ) {
         _isLoading.value = true
         val actualStartTime = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
+        // Split into date and time
+        val parts = actualStartTime.split(" ")
+        val datePart = parts[0] // yyyy-MM-dd
+        val timePart = parts[1] // HH:mm:ss
         viewModelScope.launch {
             try {
+                val userData =
+                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
+                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
+                    } ?: return@launch
+
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    dbRepository.updateVisitCheckInTimesAndSync(
+                        visitDetailsId = visitsDetails.visitDetailsId,
+                        actualStartTime = timePart,
+                        actualStartTimeString = actualStartTime,
+                        checkInSync = true,
+                    )
+
+                    val uatId = dbRepository.getUatId(visitDetailsId = visitsDetails.visitDetailsId)
+
+                    _addVisitCheckInResponseStart.value = listOf(
+                        AddVisitCheckInResponse.Data(
+                            actual_end_time = "",
+                            actual_start_time = actualStartTime,
+                            client_id = visitsDetails.clientId,
+                            created_at = actualStartTime,
+                            id = uatId,
+                            status = "In Progress",
+                            updated_at = actualStartTime,
+                            user_id = userData.id,
+                            visit_details_id = visitsDetails.visitDetailsId,
+                        )
+                    )
+                    return@launch
+                }
+
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
                         activity,
@@ -104,11 +143,6 @@ class CheckoutViewModel @Inject constructor(
                     )
                     return@launch
                 }
-
-                val userData =
-                    sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)?.let {
-                        Gson().fromJson(it, OtpVerifyResponse.Data::class.java)
-                    } ?: return@launch
 
                 val response = repository.addVisitCheckIn(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -215,6 +249,27 @@ class CheckoutViewModel @Inject constructor(
             val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
             val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
+            if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                val autoAlertEntity = AutoAlertEntity(
+                    colId = System.currentTimeMillis().toString(),
+                    visitDetailsId = visitDetailsId,
+                    clientId = clientId,
+                    uatId = uatId,
+                    userId = userData.id,
+                    alertType = alertType,
+                    alertStatus = "Action Required",
+                    createdAt = DateTimeUtils.getCurrentTimestampGMT(),
+                    alertAction = 1,
+                    todoDetailsId = null,
+                    scheduledId = null,
+                    blisterPackId = null,
+                    alertSync = true,
+                )
+                dbRepository.insertAutoAlerts(autoAlertEntity = autoAlertEntity)
+                true
+            }
+
             val response = repository.automaticAlerts(
                 hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
                     .toString(),
@@ -289,8 +344,43 @@ class CheckoutViewModel @Inject constructor(
     ) {
         _isLoading.value = true
         val actualEndTime = DateTimeUtils.getCurrentTimestampForCheckOutGMT()
+        // Split into date and time
+        val parts = actualEndTime.split(" ")
+        val datePart = parts[0] // yyyy-MM-dd
+        val timePart = parts[1] // HH:mm:ss
         viewModelScope.launch {
             try {
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    dbRepository.updateVisitCheckOutTimesAndSync(
+                        visitDetailsId = visitsDetails.visitDetailsId,
+                        actualEndTime = timePart,
+                        actualEndTimeString = actualEndTime,
+                        checkOutSync = true,
+                    )
+
+                    val uatId = dbRepository.getUatId(visitDetailsId = visitsDetails.visitDetailsId)
+
+                    _addVisitCheckInResponseStart.value = listOf(
+                        AddVisitCheckInResponse.Data(
+                            actual_end_time = actualEndTime,
+                            actual_start_time = "",
+                            client_id = visitsDetails.clientId,
+                            created_at = actualEndTime,
+                            id = uatId,
+                            status = "Completed",
+                            updated_at = actualEndTime,
+                            user_id = userData.id,
+                            visit_details_id = visitsDetails.visitDetailsId,
+                        )
+                    )
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -300,10 +390,6 @@ class CheckoutViewModel @Inject constructor(
                     )
                     return@launch
                 }
-
-                val gson = Gson()
-                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
-                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
                 val response = repository.updateVisitCheckout(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -394,7 +480,10 @@ class CheckoutViewModel @Inject constructor(
 
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    AlertUtils.showLog("Automatic Alert Error", e.localizedMessage ?: "Unknown error")
+                    AlertUtils.showLog(
+                        "Automatic Alert Error",
+                        e.localizedMessage ?: "Unknown error"
+                    )
                 } finally {
                     _isLoading.value = false // Just in case
                 }

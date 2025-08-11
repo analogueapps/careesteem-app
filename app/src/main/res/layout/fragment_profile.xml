@@ -612,6 +612,48 @@
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:background="#33279989" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:gravity="center">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/robotoslab_regular"
+                            android:text="Offline Mode"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="normal"
+                            tools:ignore="HardcodedText" />
+
+                        <com.aits.careesteem.view.switchbutton.view.SwitchButton
+                            android:id="@+id/switch_offline_mode"
+                            style="@style/SwitchButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            app:kswBackColor="@color/custom_track_color"
+                            app:kswThumbColor="@color/custom_thumb_color"
+                            app:kswThumbHeight="20dp"
+                            app:kswThumbMargin="2dp"
+                            app:kswThumbWidth="20dp"
+                            app:kswTrackStrokeColor="@color/colorAccent"
+                            app:kswTrackStrokeWidth="2dp"
+                            tools:ignore="RtlHardcoded" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_5sdp" />

@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
+import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.view.auth.model.OtpVerifyResponse
+import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
 import com.google.gson.Gson
@@ -28,6 +30,7 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val errorHandler: ErrorHandler,
+    private val dbRepository: VisitRepository,
 ) : ViewModel() {
 
     // LiveData for UI
@@ -47,6 +50,49 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+
+                    val localVisit = dbRepository.getVisitsDetailsById(visitDetailsId)
+
+                    localVisit?.let { visit ->
+                        _visitsDetails.value = VisitDetailsResponse.Data(
+                            TotalActualTimeDiff = visit.TotalActualTimeDiff?.split(",") ?: emptyList(),
+                            actualEndTime = visit.actualEndTime?.split(",") ?: emptyList(),
+                            actualStartTime = visit.actualStartTime?.split(",") ?: emptyList(),
+                            chooseSessions = visit.chooseSessions ?: "",
+                            clientAddress = visit.clientAddress ?: "",
+                            clientCity = visit.clientCity ?: "",
+                            clientPostcode = visit.clientPostcode ?: "",
+                            clientId = visit.clientId ?: "",
+                            clientName = visit.clientName ?: "",
+                            bufferTime = visit.bufferTime ?: "",
+                            latitude = "", // fill from your DB if available
+                            longitude = "", // fill from your DB if available
+                            placeId = visit.placeId ?: "",
+                            plannedEndTime = visit.plannedEndTime ?: "",
+                            plannedStartTime = visit.plannedStartTime ?: "",
+                            profile_photo = emptyList(), // if stored, split here
+                            profile_photo_name = visit.profilePhotoName?.split(",") ?: emptyList(),
+                            client_profile_image_url = visit.clientProfileImageUrl ?: "",
+                            radius = visit.radius ?: 0,
+                            sessionTime = visit.sessionTime ?: "",
+                            sessionType = visit.sessionType ?: "",
+                            totalPlannedTime = visit.totalPlannedTime ?: "",
+                            uatId = visit.uatId?.toIntOrNull() ?: 0,
+                            userId = visit.userId?.split(",") ?: emptyList(),
+                            userName = visit.userName?.split(",") ?: emptyList(),
+                            usersRequired = visit.usersRequired ?: 0,
+                            visitDate = visit.visitDate ?: "",
+                            visitDetailsId = visit.visitDetailsId,
+                            visitStatus = visit.visitStatus ?: "",
+                            visitType = visit.visitType ?: ""
+                        )
+                    }
+                    return@launch
+                }
+
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -95,6 +141,10 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
     fun getPreviousVisitNotes(activity: Activity, visitDetailsId: String) {
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
