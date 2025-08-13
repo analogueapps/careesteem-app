@@ -9,10 +9,11 @@ import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.db_entity.MedicationEntity
 import com.aits.careesteem.view.visits.db_entity.TodoEntity
 import com.aits.careesteem.view.visits.db_entity.VisitEntity
+import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 
 @Database(
-    entities = [VisitEntity::class, MedicationEntity::class, TodoEntity::class, AutoAlertEntity::class],
-    version = 4,
+    entities = [VisitEntity::class, MedicationEntity::class, TodoEntity::class, AutoAlertEntity::class, VisitNotesEntity::class],
+    version = 11,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

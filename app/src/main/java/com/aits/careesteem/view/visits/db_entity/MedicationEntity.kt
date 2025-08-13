@@ -2,11 +2,15 @@ package com.aits.careesteem.view.visits.db_entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.aits.careesteem.utils.AppConstant.generate24CharHexId
 
-@Entity(tableName = "medications")
+@Entity(tableName = "medications", primaryKeys = ["medication_id", "visitDetailsId", "createdAt"])
 data class MedicationEntity(
-    @PrimaryKey val medication_id: String,
-    val visitDetailsId: String?,
+    //@PrimaryKey val id: String = generate24CharHexId(),
+    //@PrimaryKey val uniqueId: String,
+    val medication_id: String,
+    val visitDetailsId: String,
+    val createdAt: Long,
     val nhs_medicine_name: String?,
     val medication_time: String?,
     val medication_type: String?,

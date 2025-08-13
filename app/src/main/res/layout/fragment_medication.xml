@@ -111,10 +111,11 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/item_medication_list" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -140,6 +141,7 @@
                         android:id="@+id/recyclerViewPrn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_todo_list" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

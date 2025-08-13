@@ -8,6 +8,7 @@ import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.db_entity.MedicationEntity
 import com.aits.careesteem.view.visits.db_entity.TodoEntity
 import com.aits.careesteem.view.visits.db_entity.VisitEntity
+import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 
 @Dao
 interface VisitDao  {
@@ -15,8 +16,16 @@ interface VisitDao  {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVisit(visit: VisitEntity)
 
+    // clear medication table
+    @Query("DELETE FROM medications")
+    suspend fun clearMedications()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMedications(meds: List<MedicationEntity>)
+
+    // single medication
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMedication(med: MedicationEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTodos(todos: List<TodoEntity>)
@@ -90,8 +99,20 @@ interface VisitDao  {
         todoSync: Boolean
     )
 
-    @Query("SELECT * FROM medications WHERE visitDetailsId = :visitId")
-    suspend fun getMedicationListByVisitsDetailsId(visitId: String): List<MedicationEntity>
+//    @Query("SELECT * FROM medications WHERE visitDetailsId = :visitId")
+//    suspend fun getMedicationListByVisitsDetailsId(visitId: String): List<MedicationEntity>
+
+    @Query("""
+    SELECT * FROM medications
+    WHERE visitDetailsId = :visitId
+       OR visitDetailsId LIKE :visitId || ',%'
+       OR visitDetailsId LIKE '%,' || :visitId
+       OR visitDetailsId LIKE '%,' || :visitId || ',%'
+    """)
+    suspend fun getMedicationListByVisitsDetailsId(
+        visitId: String
+    ): List<MedicationEntity>
+
 
     @Query("""
         UPDATE medications
@@ -144,5 +165,44 @@ interface VisitDao  {
         medicationPrnUpdate: Boolean
     )
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertVisitNotes(visitNotes: VisitNotesEntity)
 
+    @Query("SELECT * FROM visit_notes WHERE visitDetailsId = :visitDetailsId")
+    suspend fun getAllVisitNotesByVisitDetailsId(visitDetailsId: String): List<VisitNotesEntity>
+
+    @Query("""
+        UPDATE visit_notes
+        SET 
+            visitNotes = :visitNotes,
+            updatedByUserid = :updatedByUserid,
+            updatedByUserName = :updatedByUserName,
+            updatedAt = :updatedAt
+        WHERE visitNotesId = :visitNotesId
+    """)
+    suspend fun updateVisitNotesById(
+        visitNotesId: String,
+        visitNotes: String,
+        updatedByUserid: String,
+        updatedByUserName: String,
+        updatedAt: String
+    )
+
+    @Query("""
+        SELECT * 
+        FROM todos 
+        WHERE visitDetailsId = :visitDetailsId
+          AND todoEssential = 1
+          AND (todoOutcome IS NULL OR todoOutcome = '')
+    """)
+    fun getTodosWithEssentialAndEmptyOutcome(visitDetailsId: String): List<TodoEntity>
+
+    @Query("""
+        SELECT * 
+        FROM medications
+        WHERE visitDetailsId = :visitDetailsId
+          AND medication_type != 'PRN'
+          AND status = 'Scheduled'
+    """)
+    fun getMedicationsWithScheduled(visitDetailsId: String): List<MedicationEntity>
 }

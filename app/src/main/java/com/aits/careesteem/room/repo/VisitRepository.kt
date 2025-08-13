@@ -5,6 +5,7 @@ import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.db_entity.MedicationEntity
 import com.aits.careesteem.view.visits.db_entity.TodoEntity
 import com.aits.careesteem.view.visits.db_entity.VisitEntity
+import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 import javax.inject.Inject
 
 class VisitRepository @Inject constructor(
@@ -13,7 +14,9 @@ class VisitRepository @Inject constructor(
 
     suspend fun insertVisit(visit: VisitEntity) = visitDao.insertVisit(visit)
 
+    suspend fun clearMedications() = visitDao.clearMedications()
     suspend fun insertMedications(meds: List<MedicationEntity>) = visitDao.insertMedications(meds)
+    suspend fun insertMedication(meds: MedicationEntity) = visitDao.insertMedication(meds)
 
     suspend fun insertTodos(todos: List<TodoEntity>) = visitDao.insertTodos(todos)
 
@@ -121,5 +124,27 @@ class VisitRepository @Inject constructor(
         )
     }
 
+    suspend fun insertVisitNotes(visitNotes: VisitNotesEntity) = visitDao.insertVisitNotes(visitNotes)
+
+    suspend fun getAllVisitNotesByVisitDetailsId(visitDetailsId: String): List<VisitNotesEntity> = visitDao.getAllVisitNotesByVisitDetailsId(visitDetailsId)
+
+    suspend fun updateVisitNotesById(
+        visitNotesId: String,
+        visitNotes: String,
+        updatedByUserid: String,
+        updatedByUserName: String,
+        updatedAt: String
+    ) {
+        visitDao.updateVisitNotesById(
+            visitNotesId = visitNotesId,
+            visitNotes = visitNotes,
+            updatedByUserid = updatedByUserid,
+            updatedByUserName = updatedByUserName,
+            updatedAt = updatedAt
+        )
+    }
+
+    fun getTodosWithEssentialAndEmptyOutcome(visitDetailsId: String): List<TodoEntity> = visitDao.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
+    fun getMedicationsWithScheduled(visitDetailsId: String): List<MedicationEntity> = visitDao.getMedicationsWithScheduled(visitDetailsId)
 
 }

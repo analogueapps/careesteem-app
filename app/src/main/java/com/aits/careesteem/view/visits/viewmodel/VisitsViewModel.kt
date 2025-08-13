@@ -101,7 +101,7 @@ class VisitsViewModel @Inject constructor(
                             plannedEndTime = visitEntity.plannedEndTime ?: "",
                             plannedStartTime = visitEntity.plannedStartTime ?: "",
                             totalPlannedTime = visitEntity.totalPlannedTime ?: "",
-                            userId = visitEntity.userId?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
+                            userId = visitEntity.userId?.split(",") ?: emptyList(),
                             usersRequired = visitEntity.usersRequired ?: 0,
                             latitude = "", // fill if stored
                             longitude = "", // fill if stored
@@ -113,8 +113,8 @@ class VisitsViewModel @Inject constructor(
                             actualStartTime = visitEntity.actualStartTime?.split(",") ?: emptyList(),
                             actualEndTime = visitEntity.actualEndTime?.split(",") ?: emptyList(),
                             TotalActualTimeDiff = visitEntity.TotalActualTimeDiff?.split(",") ?: emptyList(),
-                            userName = visitEntity.userName?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
-                            profile_photo_name = visitEntity.profilePhotoName?.let { Gson().fromJson(it, Array<String>::class.java).toList() } ?: emptyList(),
+                            userName = visitEntity.userName?.split(",") ?: emptyList(),
+                            profile_photo_name = visitEntity.profilePhotoName?.split(",") ?: emptyList(),
                             bufferTime = visitEntity.bufferTime ?: "",
                             sessionType = visitEntity.sessionType ?: "",
                             sessionTime = visitEntity.sessionTime ?: "",
@@ -280,6 +280,40 @@ class VisitsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetails.visitDetailsId)
+                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetails.visitDetailsId)
+
+                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                        AlertUtils.showToast(
+                            activity,
+                            "Please complete all essential tasks before checkout",
+                            ToastyType.ERROR
+                        )
+                        return@launch
+                    }
+                    if (AppConstant.isMoreThanTwoMinutesPassed(
+                            visitDetails.visitDate.toString(),
+                            visitDetails.actualStartTime!![0].toString()
+                        )
+                    ) {
+                        val direction =
+                            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+                                visitDetailsId = visitDetails.visitDetailsId,
+                                action = 1
+                            )
+                        findNavController.navigate(direction)
+                    } else {
+                        //showToast("Checkout is only allowed after 2 minutes from check-in.")
+                        AlertUtils.showToast(
+                            activity,
+                            "Checkout is only allowed after 2 minutes from check-in.",
+                            ToastyType.WARNING
+                        )
+                    }
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -349,7 +383,8 @@ class VisitsViewModel @Inject constructor(
     }
 
     // For Local database
-    fun saveVisitData(response: VisitLinkResponse) {
+    suspend fun saveVisitData(response: VisitLinkResponse) {
+        dbRepository.clearMedications()
         viewModelScope.launch(Dispatchers.IO) {
             response.data.forEach { visit ->
                 val visitEntity = VisitEntity(
@@ -367,7 +402,7 @@ class VisitsViewModel @Inject constructor(
                     placeId = visit.placeId,
                     plannedEndTime = visit.plannedEndTime,
                     plannedStartTime = visit.plannedStartTime,
-                    profilePhotoName = Gson().toJson(visit.profile_photo_name),
+                    profilePhotoName = visit.profile_photo_name.joinToString(","),
                     radius = visit.radius,
                     sessionTime = visit.sessionTime,
                     sessionType = visit.sessionType,
@@ -376,14 +411,14 @@ class VisitsViewModel @Inject constructor(
                     visitDate = visit.visitDate,
                     visitStatus = visit.visitStatus,
                     visitType = visit.visitType,
-                    userId = Gson().toJson(visit.userId),
-                    userName = Gson().toJson(visit.userName),
-                    actualStartTime = null,
-                    actualEndTime = null,
-                    TotalActualTimeDiff = null,
+                    userId = visit.userId.joinToString(","),
+                    userName = visit.userName.joinToString(","),
+                    actualStartTime = visit.actualStartTime.joinToString(","),
+                    actualEndTime = visit.actualEndTime.joinToString(","),
+                    TotalActualTimeDiff = visit.TotalActualTimeDiff.joinToString(","),
                     actualStartTimeString = null,
                     actualEndTimeString = null,
-                    uatId = generate24CharHexId()
+                    uatId = visit.uatId ?: generate24CharHexId(),
                 )
                 dbRepository.insertVisit(visitEntity)
 
@@ -401,6 +436,7 @@ class VisitsViewModel @Inject constructor(
                     }
 
                     MedicationEntity(
+                        //uniqueId = "${it.medication_id}_${normalizeVisitId(visitDetailsId)}",
                         medication_id = it.medication_id,
                         visitDetailsId = visitDetailsId,
                         nhs_medicine_name = it.nhs_medicine_name,
@@ -457,7 +493,9 @@ class VisitsViewModel @Inject constructor(
                         medicationBlisterPack = false,
                         medicationScheduled = false,
                         medicationPrn = false,
-                        medicationPrnUpdate = false
+                        medicationPrnUpdate = false,
+
+                        createdAt = System.currentTimeMillis()
                     )
                 }
                 dbRepository.insertMedications(medicationEntities)
@@ -477,6 +515,14 @@ class VisitsViewModel @Inject constructor(
             }
         }
     }
+
+    fun normalizeVisitId(raw: String): String {
+        return raw.split(",")
+            .map { it.trim() }
+            .sorted()
+            .joinToString(",")
+    }
+
 
 
 }

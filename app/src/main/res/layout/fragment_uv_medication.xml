@@ -25,17 +25,17 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:id="@+id/headerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:gravity="center"
                     android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:fontFamily="@font/robotoslab_regular"
                         android:text="@string/list_of_submitted_medications"
@@ -91,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/item_medication_list" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -115,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_todo_list" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

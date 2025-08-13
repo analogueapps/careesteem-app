@@ -71,7 +71,7 @@ class ToDoViewModel @Inject constructor(
                             todoEssential = todo.todoEssential ?: false,
                             todoOutcome = todo.todoOutcome  ?: "",
                         )
-                    }
+                    }.sortedByDescending { it.todoEssential }
                     _totalCount.value = _toDoList.value?.count { it.todoEssential }
                     _completeCount.value =
                         _toDoList.value?.count { it.todoEssential && it.todoOutcome.isNotEmpty() }

@@ -56,10 +56,42 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                     val localVisit = dbRepository.getVisitsDetailsById(visitDetailsId)
 
                     localVisit?.let { visit ->
+//                        _visitsDetails.value = VisitDetailsResponse.Data(
+//                            TotalActualTimeDiff = visit.TotalActualTimeDiff?.split(",") ?: emptyList(),
+//                            actualEndTime = visit.actualEndTime?.split(",") ?: emptyList(),
+//                            actualStartTime = visit.actualStartTime?.split(",") ?: emptyList(),
+//                            chooseSessions = visit.chooseSessions ?: "",
+//                            clientAddress = visit.clientAddress ?: "",
+//                            clientCity = visit.clientCity ?: "",
+//                            clientPostcode = visit.clientPostcode ?: "",
+//                            clientId = visit.clientId ?: "",
+//                            clientName = visit.clientName ?: "",
+//                            bufferTime = visit.bufferTime ?: "",
+//                            latitude = "", // fill from your DB if available
+//                            longitude = "", // fill from your DB if available
+//                            placeId = visit.placeId ?: "",
+//                            plannedEndTime = visit.plannedEndTime ?: "",
+//                            plannedStartTime = visit.plannedStartTime ?: "",
+//                            profile_photo = emptyList(), // if stored, split here
+//                            profile_photo_name = visit.profilePhotoName?.split(",") ?: emptyList(),
+//                            client_profile_image_url = visit.clientProfileImageUrl ?: "",
+//                            radius = visit.radius ?: 0,
+//                            sessionTime = visit.sessionTime ?: "",
+//                            sessionType = visit.sessionType ?: "",
+//                            totalPlannedTime = visit.totalPlannedTime ?: "",
+//                            uatId = visit.uatId?.toIntOrNull() ?: 0,
+//                            userId = visit.userId?.split(",") ?: emptyList(),
+//                            userName = visit.userName?.split(",") ?: emptyList(),
+//                            usersRequired = visit.usersRequired ?: 0,
+//                            visitDate = visit.visitDate ?: "",
+//                            visitDetailsId = visit.visitDetailsId,
+//                            visitStatus = visit.visitStatus ?: "",
+//                            visitType = visit.visitType ?: "",
+//                        )
                         _visitsDetails.value = VisitDetailsResponse.Data(
-                            TotalActualTimeDiff = visit.TotalActualTimeDiff?.split(",") ?: emptyList(),
-                            actualEndTime = visit.actualEndTime?.split(",") ?: emptyList(),
-                            actualStartTime = visit.actualStartTime?.split(",") ?: emptyList(),
+                            TotalActualTimeDiff = toStringList(visit.TotalActualTimeDiff),
+                            actualEndTime = toStringList(visit.actualEndTime),
+                            actualStartTime = toStringList(visit.actualStartTime),
                             chooseSessions = visit.chooseSessions ?: "",
                             clientAddress = visit.clientAddress ?: "",
                             clientCity = visit.clientCity ?: "",
@@ -67,26 +99,26 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                             clientId = visit.clientId ?: "",
                             clientName = visit.clientName ?: "",
                             bufferTime = visit.bufferTime ?: "",
-                            latitude = "", // fill from your DB if available
-                            longitude = "", // fill from your DB if available
+                            latitude = "",
+                            longitude = "",
                             placeId = visit.placeId ?: "",
                             plannedEndTime = visit.plannedEndTime ?: "",
                             plannedStartTime = visit.plannedStartTime ?: "",
-                            profile_photo = emptyList(), // if stored, split here
-                            profile_photo_name = visit.profilePhotoName?.split(",") ?: emptyList(),
+                            profile_photo = emptyList(),
+                            profile_photo_name = toStringList(visit.profilePhotoName),
                             client_profile_image_url = visit.clientProfileImageUrl ?: "",
                             radius = visit.radius ?: 0,
                             sessionTime = visit.sessionTime ?: "",
                             sessionType = visit.sessionType ?: "",
                             totalPlannedTime = visit.totalPlannedTime ?: "",
                             uatId = visit.uatId?.toIntOrNull() ?: 0,
-                            userId = visit.userId?.split(",") ?: emptyList(),
-                            userName = visit.userName?.split(",") ?: emptyList(),
+                            userId = toStringList(visit.userId),
+                            userName = toStringList(visit.userName),
                             usersRequired = visit.usersRequired ?: 0,
                             visitDate = visit.visitDate ?: "",
                             visitDetailsId = visit.visitDetailsId,
                             visitStatus = visit.visitStatus ?: "",
-                            visitType = visit.visitType ?: ""
+                            visitType = visit.visitType ?: "",
                         )
                     }
                     return@launch
@@ -117,6 +149,7 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _visitsDetails.value = list.data[0]
+                        AlertUtils.showLog("Blue Color",""+list.data[0])
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
@@ -198,6 +231,23 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
+                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
+
+                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                        AlertUtils.showToast(
+                            activity,
+                            "Please complete all essential tasks before checkout",
+                            ToastyType.ERROR
+                        )
+                        return@launch
+                    }
+                    _isCheckOutEligible.value = true
+                    return@launch
+                }
+
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(
@@ -244,6 +294,14 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
             } finally {
                 _isLoading.value = false
             }
+        }
+    }
+
+    private fun toStringList(value: Any?): List<String> {
+        return when (value) {
+            is List<*> -> value.filterIsInstance<String>() // already a list
+            is String -> if (value.isNotBlank()) value.split(",") else emptyList()
+            else -> emptyList()
         }
     }
 

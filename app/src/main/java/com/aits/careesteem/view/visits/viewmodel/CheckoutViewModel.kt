@@ -298,6 +298,22 @@ class CheckoutViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
+                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
+
+                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                        AlertUtils.showToast(
+                            activity,
+                            "Please complete all essential tasks before checkout",
+                            ToastyType.ERROR
+                        )
+                        return@launch
+                    }
+                    _isCheckOutEligible.value = true
+                    return@launch
+                }
+
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(

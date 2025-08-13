@@ -35,7 +35,8 @@ data class VisitLinkResponse(
         val visitDate: String,
         val visitDetailsId: String,
         val visitStatus: String,
-        val visitType: String
+        val visitType: String,
+        val uatId: String,
     ) {
         data class Medication(
             val additional_instructions: String,
