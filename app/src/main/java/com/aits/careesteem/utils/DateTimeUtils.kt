@@ -161,4 +161,23 @@ object DateTimeUtils {
             }
         }
     }
+
+    @SuppressLint("NewApi")
+    fun calculateTimeDifference(startTimeStr: String, endTimeStr: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+        // Parse strings into LocalDateTime
+        val startTime = LocalDateTime.parse(startTimeStr, formatter)
+        val endTime = LocalDateTime.parse(endTimeStr, formatter)
+
+        // Calculate duration
+        val duration = Duration.between(startTime, endTime)
+
+        // Extract total hours and minutes
+        val totalHours = duration.toHours()
+        val totalMinutes = duration.toMinutes() % 60
+
+        // Format as "HH:mm" (e.g., 02:30, 25:00)
+        return String.format("%02d:%02d", totalHours, totalMinutes)
+    }
 }

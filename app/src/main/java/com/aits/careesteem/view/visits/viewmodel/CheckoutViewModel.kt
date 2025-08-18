@@ -37,9 +37,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -114,6 +116,7 @@ class CheckoutViewModel @Inject constructor(
                         visitDetailsId = visitsDetails.visitDetailsId,
                         actualStartTime = timePart,
                         actualStartTimeString = actualStartTime,
+                        visitStatus = "In Progress",
                         checkInSync = true,
                     )
 
@@ -132,6 +135,8 @@ class CheckoutViewModel @Inject constructor(
                             visit_details_id = visitsDetails.visitDetailsId,
                         )
                     )
+                    // print response value
+                    AlertUtils.showLog("Response", _addVisitCheckInResponseStart.value.toString())
                     return@launch
                 }
 
@@ -244,6 +249,13 @@ class CheckoutViewModel @Inject constructor(
         isSchedule: Boolean,
         alertType: String
     ): Boolean {
+        // print how many time is coming
+        AlertUtils.showLog("Automatic Alert called", "***********")
+        AlertUtils.showLog("Automatic Alert called", uatId)
+        AlertUtils.showLog("Automatic Alert called", visitDetailsId)
+        AlertUtils.showLog("Automatic Alert called", clientId)
+        AlertUtils.showLog("Automatic Alert called", alertType)
+        AlertUtils.showLog("Automatic Alert called", "***********")
         return try {
             val gson = Gson()
             val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
@@ -299,18 +311,25 @@ class CheckoutViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
-                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
-                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
+                    withContext(Dispatchers.IO) {
+                        val todosList =
+                            dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
+                        val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
 
-                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
-                        AlertUtils.showToast(
-                            activity,
-                            "Please complete all essential tasks before checkout",
-                            ToastyType.ERROR
-                        )
-                        return@launch
+                        if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                            withContext(Dispatchers.Main) {
+                                AlertUtils.showToast(
+                                    activity,
+                                    "Please complete all essential tasks before checkout",
+                                    ToastyType.ERROR
+                                )
+                            }
+                            return@withContext
+                        }
+                        withContext(Dispatchers.Main) {
+                            _isCheckOutEligible.value = true
+                        }
                     }
-                    _isCheckOutEligible.value = true
                     return@launch
                 }
 
@@ -372,10 +391,16 @@ class CheckoutViewModel @Inject constructor(
 
                 if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
 
+                    val actualStartTimeString = dbRepository.getActualStartTimeString(visitDetailsId = visitsDetails.visitDetailsId)
+                    // need total time between actualEndTime and actualStartTimeString (both format is yyyy-MM-dd HH:mm:ss)
+                    val formattedDiff = DateTimeUtils.calculateTimeDifference(actualStartTimeString, actualEndTime)
+
                     dbRepository.updateVisitCheckOutTimesAndSync(
                         visitDetailsId = visitsDetails.visitDetailsId,
                         actualEndTime = timePart,
                         actualEndTimeString = actualEndTime,
+                        totalActualTimeDiff = formattedDiff,
+                        visitStatus = "Completed",
                         checkOutSync = true,
                     )
 
@@ -394,6 +419,8 @@ class CheckoutViewModel @Inject constructor(
                             visit_details_id = visitsDetails.visitDetailsId,
                         )
                     )
+                    // print response value
+                    AlertUtils.showLog("Response", _addVisitCheckInResponseStart.value.toString())
                     return@launch
                 }
 

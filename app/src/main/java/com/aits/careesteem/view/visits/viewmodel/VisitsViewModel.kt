@@ -38,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.time.Duration
@@ -281,35 +282,41 @@ class VisitsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
-                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetails.visitDetailsId)
-                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetails.visitDetailsId)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetails.visitDetailsId)
+                        val medsList = dbRepository.getMedicationsWithScheduled(visitDetails.visitDetailsId)
 
-                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
-                        AlertUtils.showToast(
-                            activity,
-                            "Please complete all essential tasks before checkout",
-                            ToastyType.ERROR
-                        )
-                        return@launch
-                    }
-                    if (AppConstant.isMoreThanTwoMinutesPassed(
-                            visitDetails.visitDate.toString(),
-                            visitDetails.actualStartTime!![0].toString()
-                        )
-                    ) {
-                        val direction =
-                            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
-                                visitDetailsId = visitDetails.visitDetailsId,
-                                action = 1
-                            )
-                        findNavController.navigate(direction)
-                    } else {
-                        //showToast("Checkout is only allowed after 2 minutes from check-in.")
-                        AlertUtils.showToast(
-                            activity,
-                            "Checkout is only allowed after 2 minutes from check-in.",
-                            ToastyType.WARNING
-                        )
+                        withContext(Dispatchers.Main) {
+                            if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                                AlertUtils.showToast(
+                                    activity,
+                                    "Please complete all essential tasks before checkout",
+                                    ToastyType.ERROR
+                                )
+                                return@withContext
+                            }
+
+                            _isCheckOutEligible.value = true
+
+                            if (AppConstant.isMoreThanTwoMinutesPassed(
+                                    visitDetails.visitDate.toString(),
+                                    visitDetails.actualStartTime!![0].toString()
+                                )
+                            ) {
+                                val direction = VisitsFragmentDirections
+                                    .actionBottomVisitsToCheckOutFragment(
+                                        visitDetailsId = visitDetails.visitDetailsId,
+                                        action = 1
+                                    )
+                                findNavController.navigate(direction)
+                            } else {
+                                AlertUtils.showToast(
+                                    activity,
+                                    "Checkout is only allowed after 2 minutes from check-in.",
+                                    ToastyType.WARNING
+                                )
+                            }
+                        }
                     }
                     return@launch
                 }
@@ -418,7 +425,7 @@ class VisitsViewModel @Inject constructor(
                     TotalActualTimeDiff = visit.TotalActualTimeDiff.joinToString(","),
                     actualStartTimeString = null,
                     actualEndTimeString = null,
-                    uatId = visit.uatId ?: generate24CharHexId(),
+                    uatId = visit.uatId.ifEmpty { generate24CharHexId() },
                 )
                 dbRepository.insertVisit(visitEntity)
 

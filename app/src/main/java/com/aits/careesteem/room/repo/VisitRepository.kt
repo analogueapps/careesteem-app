@@ -30,12 +30,14 @@ class VisitRepository @Inject constructor(
         visitDetailsId: String,
         actualStartTime: String,
         actualStartTimeString: String,
+        visitStatus: String,
         checkInSync: Boolean
     ) {
         visitDao.updateVisitCheckInTimesAndSync(
             visitDetailsId = visitDetailsId,
             actualStartTime = actualStartTime,
             actualStartTimeString = actualStartTimeString,
+            visitStatus = visitStatus,
             checkInSync = checkInSync
         )
     }
@@ -44,17 +46,22 @@ class VisitRepository @Inject constructor(
         visitDetailsId: String,
         actualEndTime: String,
         actualEndTimeString: String,
+        totalActualTimeDiff: String,
+        visitStatus: String,
         checkOutSync: Boolean
     ) {
         visitDao.updateVisitCheckOutTimesAndSync(
             visitDetailsId = visitDetailsId,
             actualEndTime = actualEndTime,
             actualEndTimeString = actualEndTimeString,
+            totalActualTimeDiff = totalActualTimeDiff,
+            visitStatus = visitStatus,
             checkOutSync = checkOutSync
         )
     }
 
     suspend fun getUatId(visitDetailsId: String): String = visitDao.getUatId(visitId = visitDetailsId)
+    suspend fun getActualStartTimeString(visitDetailsId: String): String = visitDao.getActualStartTimeString(visitId = visitDetailsId)
 
     suspend fun insertAutoAlerts(autoAlertEntity: AutoAlertEntity) = visitDao.insertAutoAlerts(autoAlertEntity)
 

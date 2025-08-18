@@ -10,6 +10,7 @@ import com.aits.careesteem.network.ErrorHandler
 import com.aits.careesteem.network.Repository
 import com.aits.careesteem.room.repo.VisitRepository
 import com.aits.careesteem.utils.AlertUtils
+import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.NetworkUtils
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
@@ -17,9 +18,12 @@ import com.aits.careesteem.view.auth.model.OtpVerifyResponse
 import com.aits.careesteem.view.visits.model.AddVisitCheckInResponse
 import com.aits.careesteem.view.visits.model.ClientVisitNotesDetails
 import com.aits.careesteem.view.visits.model.VisitDetailsResponse
+import com.aits.careesteem.view.visits.view.VisitsFragmentDirections
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -149,7 +153,6 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { list ->
                         _visitsDetails.value = list.data[0]
-                        AlertUtils.showLog("Blue Color",""+list.data[0])
                     }
                 } else {
                     errorHandler.handleErrorResponse(response, activity)
@@ -232,18 +235,22 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
-                    val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
-                    val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
+                        val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
 
-                    if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
-                        AlertUtils.showToast(
-                            activity,
-                            "Please complete all essential tasks before checkout",
-                            ToastyType.ERROR
-                        )
-                        return@launch
+                        withContext(Dispatchers.Main) {
+                            if (todosList.isNotEmpty() || medsList.isNotEmpty()) {
+                                AlertUtils.showToast(
+                                    activity,
+                                    "Please complete all essential tasks before checkout",
+                                    ToastyType.ERROR
+                                )
+                                return@withContext
+                            }
+                            _isCheckOutEligible.value = true
+                        }
                     }
-                    _isCheckOutEligible.value = true
                     return@launch
                 }
 

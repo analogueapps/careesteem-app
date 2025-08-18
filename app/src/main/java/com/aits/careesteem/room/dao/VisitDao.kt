@@ -53,6 +53,7 @@ interface VisitDao  {
         SET 
             actualStartTime = :actualStartTime,
             actualStartTimeString = :actualStartTimeString,
+            visitStatus = :visitStatus,
             checkInSync = :checkInSync
         WHERE visitDetailsId = :visitDetailsId
     """)
@@ -60,14 +61,20 @@ interface VisitDao  {
         visitDetailsId: String,
         actualStartTime: String,
         actualStartTimeString: String?,
+        visitStatus: String?,
         checkInSync: Boolean
     )
+
+    @Query("SELECT actualStartTimeString FROM visits WHERE visitDetailsId = :visitId")
+    suspend fun getActualStartTimeString(visitId: String): String
 
     @Query("""
         UPDATE visits
         SET 
             actualEndTime = :actualEndTime,
             actualEndTimeString = :actualEndTimeString,
+            TotalActualTimeDiff = :totalActualTimeDiff,
+            visitStatus = :visitStatus,
             checkOutSync = :checkOutSync
         WHERE visitDetailsId = :visitDetailsId
     """)
@@ -75,6 +82,8 @@ interface VisitDao  {
         visitDetailsId: String,
         actualEndTime: String,
         actualEndTimeString: String?,
+        totalActualTimeDiff: String?,
+        visitStatus: String?,
         checkOutSync: Boolean
     )
 
