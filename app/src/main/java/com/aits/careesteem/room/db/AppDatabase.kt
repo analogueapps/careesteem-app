@@ -13,7 +13,7 @@ import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 
 @Database(
     entities = [VisitEntity::class, MedicationEntity::class, TodoEntity::class, AutoAlertEntity::class, VisitNotesEntity::class],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.DialogLogoutBinding
+import com.aits.careesteem.databinding.DialogOfflineConfirmBinding
 import com.aits.careesteem.databinding.FragmentProfileBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -24,6 +26,7 @@ import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.utils.ToastyType
 import com.aits.careesteem.utils.getAppVersion
 import com.aits.careesteem.view.auth.view.AuthActivity
+import com.aits.careesteem.view.offline.view.OfflineActivity
 import com.aits.careesteem.view.profile.model.UserDetailsResponse
 import com.aits.careesteem.view.profile.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,15 +107,78 @@ class ProfileFragment : Fragment() {
             sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
 
         binding.switchOfflineMode.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, true)
-                editor.apply()
-                AlertUtils.showToast(activity, "Now you work with your visits offline", ToastyType.SUCCESS)
-            } else {
-                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
-                editor.apply()
-                AlertUtils.showToast(activity, "Now you work with your visits online", ToastyType.SUCCESS)
-            }
+//            if (isChecked) {
+//                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, true)
+//                editor.apply()
+//                AlertUtils.showToast(activity, "Now you work with your visits offline", ToastyType.SUCCESS)
+//            } else {
+//                editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+//                editor.apply()
+//                AlertUtils.showToast(activity, "Now you work with your visits online", ToastyType.SUCCESS)
+//            }
+
+            // Temporarily remove listener to avoid recursion
+            binding.switchOfflineMode.setOnCheckedChangeListener(null)
+
+            // Revert the switch until user confirms
+            binding.switchOfflineMode.isChecked = !isChecked
+
+            // move to offline screen
+            val intent = Intent(requireActivity(), OfflineActivity::class.java)
+            startActivity(intent)
+//
+//            // Create and show custom confirmation dialog
+//            val dialog = Dialog(requireContext()).apply {
+//                val dialogBinding = DialogOfflineConfirmBinding.inflate(layoutInflater)
+//                setContentView(dialogBinding.root)
+//                setCancelable(false)
+//
+//                // Set dialog title and message
+//                dialogBinding.tvTitle.text = "Confirm Mode Change"
+//                dialogBinding.tvMessage.text = if (isChecked) {
+//                    "Are you sure you want to switch to offline mode? Please make sure your data is downloaded before continuing."
+//                } else {
+//                    "Are you sure you want to switch to online mode? Your offline data will be synced."
+//                }
+//
+//                // Positive button action
+//                dialogBinding.btnPositive.setOnClickListener {
+//                    dismiss()
+//                    // Apply the new mode
+//                    binding.switchOfflineMode.isChecked = isChecked
+//                    editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, isChecked)
+//                    editor.apply()
+//
+//                    val toastMessage = if (isChecked) {
+//                        "Now you work with your visits offline"
+//                    } else {
+//                        "Now you work with your visits online"
+//                    }
+//                    AlertUtils.showToast(activity, toastMessage, ToastyType.SUCCESS)
+//
+//                    // Reattach the listener
+//                    binding.switchOfflineMode.setOnCheckedChangeListener(this@ProfileFragment::onCheckedChange)
+//                }
+//
+//                // Negative button action
+//                dialogBinding.btnNegative.setOnClickListener {
+//                    dismiss()
+//                    // Keep switch in original (reverted) state
+//                    binding.switchOfflineMode.isChecked = !isChecked
+//                    // Reattach the listener
+//                    binding.switchOfflineMode.setOnCheckedChangeListener(this@ProfileFragment::onCheckedChange)
+//                }
+//
+//                // Window styling
+//                window?.setBackgroundDrawableResource(android.R.color.transparent)
+//                window?.setLayout(
+//                    WindowManager.LayoutParams.MATCH_PARENT,
+//                    WindowManager.LayoutParams.WRAP_CONTENT
+//                )
+//                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+//                window?.setDimAmount(0.8f)
+//            }
+//            dialog.show()
         }
 
         binding.appVersion.text = "Version " + getAppVersion(requireContext())
@@ -124,6 +190,10 @@ class ProfileFragment : Fragment() {
         binding.btnSwitch.setOnClickListener {
             showSwitch()
         }
+    }
+
+    private fun onCheckedChange(buttonView: CompoundButton?, isChecked: Boolean) {
+
     }
 
     @SuppressLint("SetTextI18n")

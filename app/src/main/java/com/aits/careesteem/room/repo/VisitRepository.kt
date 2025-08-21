@@ -1,5 +1,6 @@
 package com.aits.careesteem.room.repo
 
+import androidx.room.Query
 import com.aits.careesteem.room.dao.VisitDao
 import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.db_entity.MedicationEntity
@@ -12,9 +13,14 @@ class VisitRepository @Inject constructor(
     private val visitDao: VisitDao
 ) {
 
-    suspend fun insertVisit(visit: VisitEntity) = visitDao.insertVisit(visit)
+    suspend fun clearAllTables() {
+        visitDao.clearVisits()
+        visitDao.clearMedications()
+        visitDao.clearTodos()
+        visitDao.clearVisitNotes()
+    }
 
-    suspend fun clearMedications() = visitDao.clearMedications()
+    suspend fun insertVisit(visit: VisitEntity) = visitDao.insertVisit(visit)
     suspend fun insertMedications(meds: List<MedicationEntity>) = visitDao.insertMedications(meds)
     suspend fun insertMedication(meds: MedicationEntity) = visitDao.insertMedication(meds)
 
@@ -61,6 +67,9 @@ class VisitRepository @Inject constructor(
     }
 
     suspend fun getUatId(visitDetailsId: String): String = visitDao.getUatId(visitId = visitDetailsId)
+
+    suspend fun validateQrCode(clientId: String, qrcodeToken: String): Boolean = visitDao.validateQrCode(clientId, qrcodeToken)
+
     suspend fun getActualStartTimeString(visitDetailsId: String): String = visitDao.getActualStartTimeString(visitId = visitDetailsId)
 
     suspend fun insertAutoAlerts(autoAlertEntity: AutoAlertEntity) = visitDao.insertAutoAlerts(autoAlertEntity)
@@ -70,7 +79,7 @@ class VisitRepository @Inject constructor(
     suspend fun updateTodoListById(
         todoDetailsId: String,
         carerNotes: String,
-        todoOutcome: Boolean,
+        todoOutcome: String,
         todoSync: Boolean
     ) {
         visitDao.updateTodoListById(
@@ -153,5 +162,29 @@ class VisitRepository @Inject constructor(
 
     fun getTodosWithEssentialAndEmptyOutcome(visitDetailsId: String): List<TodoEntity> = visitDao.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
     fun getMedicationsWithScheduled(visitDetailsId: String): List<MedicationEntity> = visitDao.getMedicationsWithScheduled(visitDetailsId)
+
+    // SYNC CHECK-IN
+    suspend fun getVisitsForCheckInSync(): List<VisitEntity> = visitDao.getVisitsForCheckInSync()
+    suspend fun updateVisitCheckInFinish(visitDetailsId: String) = visitDao.updateVisitCheckInFinish(visitDetailsId)
+
+    // SYNC CHECK-IN AUTO ALERTS
+    suspend fun getVisitsForCheckInAlertSync(alertAction: Int): List<AutoAlertEntity> = visitDao.getVisitsForCheckInAlertSync(alertAction)
+    suspend fun updateVisitCheckInAlertFinish(columnId: String) = visitDao.updateVisitCheckInAlertFinish(columnId)
+
+    // SYNC TODO
+    suspend fun getTodoSync(): List<TodoEntity> = visitDao.getTodoSync()
+    suspend fun updateTodoFinish(todoDetailsId: String) = visitDao.updateTodoFinish(todoDetailsId)
+
+    // SYNC MEDICATION
+    suspend fun getMedicationSync(): List<MedicationEntity> = visitDao.getMedicationSync()
+    suspend fun updateMedicationFinish(createdAt: Long) = visitDao.updateMedicationFinish(createdAt)
+
+    // SYNC MEDICATION
+    suspend fun getVisitNotesSync(): List<VisitNotesEntity> = visitDao.getVisitNotesSync()
+    suspend fun updateVisitNotesFinish(visitNotesId: String) = visitDao.updateVisitNotesFinish(visitNotesId)
+
+    // SYNC CHECKOUT
+    suspend fun getVisitsForCheckOutSync(): List<VisitEntity> = visitDao.getVisitsForCheckOutSync()
+    suspend fun updateVisitCheckOutFinish(visitDetailsId: String) = visitDao.updateVisitCheckOutFinish(visitDetailsId)
 
 }

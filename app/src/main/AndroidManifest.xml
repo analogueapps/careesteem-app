@@ -28,6 +28,12 @@
         android:theme="@style/Theme.CareEsteem"
         tools:targetApi="31">
         <activity
+            android:name=".view.offline.view.OnlineActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.offline.view.OfflineActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.webview.view.WebViewActivity"
             android:exported="false" />
         <activity

@@ -109,4 +109,5 @@
     <string name="visits_ran">Visits <font color="#279989">*</font></string>
     <string name="severity_of_concern_ran">Severity of Concern <font color="#279989">*</font></string>
     <string name="concern_details_ran">Notes <font color="#279989">*</font></string>
+    <string name="preparing">Preparing...</string>
 </resources>

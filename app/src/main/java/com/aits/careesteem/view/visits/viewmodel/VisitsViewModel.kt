@@ -174,7 +174,7 @@ class VisitsViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                callOfflineApiAlso(activity, visitDate)
+                //callOfflineApiAlso(activity, visitDate)
             }
         }
     }
@@ -391,7 +391,6 @@ class VisitsViewModel @Inject constructor(
 
     // For Local database
     suspend fun saveVisitData(response: VisitLinkResponse) {
-        dbRepository.clearMedications()
         viewModelScope.launch(Dispatchers.IO) {
             response.data.forEach { visit ->
                 val visitEntity = VisitEntity(
@@ -426,6 +425,7 @@ class VisitsViewModel @Inject constructor(
                     actualStartTimeString = null,
                     actualEndTimeString = null,
                     uatId = visit.uatId.ifEmpty { generate24CharHexId() },
+                    qrcode_token = visit.qrcode_token,
                 )
                 dbRepository.insertVisit(visitEntity)
 

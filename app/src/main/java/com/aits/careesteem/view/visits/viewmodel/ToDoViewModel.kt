@@ -141,7 +141,7 @@ class ToDoViewModel @Inject constructor(
                     dbRepository.updateTodoListById(
                         todoDetailsId = todoDetailsId,
                         carerNotes = carerNotes,
-                        todoOutcome = todoOutcome != 0,
+                        todoOutcome = if(todoOutcome == 0) "Not Completed" else "Completed",
                         todoSync = true
                     )
                     AlertUtils.showToast(

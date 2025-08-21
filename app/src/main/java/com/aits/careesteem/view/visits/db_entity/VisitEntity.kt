@@ -8,6 +8,7 @@ data class VisitEntity(
     @PrimaryKey val visitDetailsId: String,
     val agencyId: String?,
     val bufferTime: String?,
+    val qrcode_token: String?,
     val chooseSessions: String?,
     val clientAddress: String?,
     val clientCity: String?,

@@ -516,6 +516,44 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun medicationPrnDetailsOffline(
+        hashToken: String,
+        id: String,
+        clientId: String,
+        medicationId: String,
+        prnId: String,
+        doesPer: Int,
+        doses: Int,
+        timeFrame: String,
+        prnOffered: String,
+        prnBeGiven: String,
+        visitDetailsId: String,
+        userId: String,
+        medicationTime: String,
+        createdAt: String,
+        carerNotes: String,
+        status: String,
+    ): Response<JsonObject> {
+        return apiService.medicationPrnDetailsOffline(
+            hashToken = hashToken,
+            id = id,
+            clientId = clientId,
+            medicationId = medicationId,
+            prnId = prnId,
+            doesPer = doesPer,
+            doses = doses,
+            timeFrame = timeFrame,
+            prnOffered = prnOffered,
+            prnBeGiven = prnBeGiven,
+            visitDetailsId = visitDetailsId,
+            userId = userId,
+            medicationTime = medicationTime,
+            createdAt = createdAt,
+            carerNotes = carerNotes,
+            status = status
+        )
+    }
+
     suspend fun getUserDetailsById(
         hashToken: String,
         userId: String
@@ -539,6 +577,28 @@ class Repository @Inject constructor(private val apiService: ApiService) {
             hashToken = hashToken,
             clientId = clientId,
             visitDetailsId = visitDetailsId,
+            userId = userId,
+            status = status,
+            actualStartTime = actualStartTime,
+            createdAt = createdAt
+        )
+    }
+
+    suspend fun addVisitCheckInOffline(
+        hashToken: String,
+        clientId: String,
+        visitDetailsId: String,
+        id: String,
+        userId: String,
+        status: String,
+        actualStartTime: String,
+        createdAt: String
+    ): Response<AddVisitCheckInResponse> {
+        return apiService.addVisitCheckInOffline(
+            hashToken = hashToken,
+            clientId = clientId,
+            visitDetailsId = visitDetailsId,
+            id = id,
             userId = userId,
             status = status,
             actualStartTime = actualStartTime,

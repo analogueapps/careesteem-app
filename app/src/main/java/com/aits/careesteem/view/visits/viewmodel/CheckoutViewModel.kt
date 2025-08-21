@@ -406,8 +406,8 @@ class CheckoutViewModel @Inject constructor(
 
                     val uatId = dbRepository.getUatId(visitDetailsId = visitsDetails.visitDetailsId)
 
-                    _addVisitCheckInResponseStart.value = listOf(
-                        AddVisitCheckInResponse.Data(
+                    _updateVisitCheckoutResponseStart.value = listOf(
+                        UpdateVisitCheckoutResponse.Data(
                             actual_end_time = actualEndTime,
                             actual_start_time = "",
                             client_id = visitsDetails.clientId,
@@ -420,7 +420,7 @@ class CheckoutViewModel @Inject constructor(
                         )
                     )
                     // print response value
-                    AlertUtils.showLog("Response", _addVisitCheckInResponseStart.value.toString())
+                    AlertUtils.showLog("Response", _updateVisitCheckoutResponseStart.value.toString())
                     return@launch
                 }
 
@@ -611,6 +611,24 @@ class CheckoutViewModel @Inject constructor(
         _isAutoCheckIn.value = false
         viewModelScope.launch {
             try {
+                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+
+                    val verified = dbRepository.validateQrCode(clientId, scanResult)
+                    _isLoading.value = false
+                    if (verified) {
+                        _qrVerified.value = true
+                        return@launch
+                    } else {
+                        _isAutoCheckIn.value = true
+                        AlertUtils.showToast(
+                            activity,
+                            "Invalid QR Code",
+                            ToastyType.ERROR
+                        )
+                    }
+
+                    return@launch
+                }
                 // Check if network is available before making the request
                 if (!NetworkUtils.isNetworkAvailable(activity)) {
                     AlertUtils.showToast(

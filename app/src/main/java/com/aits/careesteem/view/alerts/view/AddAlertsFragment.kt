@@ -16,7 +16,6 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aits.careesteem.R
 import com.aits.careesteem.databinding.DialogAddAlertConfirmBinding
 import com.aits.careesteem.databinding.DialogConfirmExitBinding
-import com.aits.careesteem.databinding.DialogForceCheckBinding
 import com.aits.careesteem.databinding.FragmentAddAlertsBinding
 import com.aits.careesteem.utils.AlertUtils
 import com.aits.careesteem.utils.AppConstant
@@ -37,7 +35,6 @@ import com.aits.careesteem.view.alerts.adapter.FileAdapter
 import com.aits.careesteem.view.alerts.model.FileModel
 import com.aits.careesteem.view.alerts.viewmodel.AddAlertsViewModel
 import com.aits.careesteem.view.recyclerview.adapter.RecyclerArrayAdapter
-import com.aits.careesteem.view.visits.model.VisitListResponse
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File

@@ -13,12 +13,18 @@ import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 @Dao
 interface VisitDao  {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertVisit(visit: VisitEntity)
-
-    // clear medication table
+    // clear all tables
+    @Query("DELETE FROM visits")
+    suspend fun clearVisits()
     @Query("DELETE FROM medications")
     suspend fun clearMedications()
+    @Query("DELETE FROM todos")
+    suspend fun clearTodos()
+    @Query("DELETE FROM visit_notes")
+    suspend fun clearVisitNotes()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertVisit(visit: VisitEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMedications(meds: List<MedicationEntity>)
@@ -47,6 +53,9 @@ interface VisitDao  {
 
     @Query("SELECT uatId FROM visits WHERE visitDetailsId = :visitId")
     suspend fun getUatId(visitId: String): String
+
+    @Query("SELECT EXISTS(SELECT 1 FROM visits WHERE clientId = :clientId AND qrcode_token = :qrcodeToken)")
+    suspend fun validateQrCode(clientId: String, qrcodeToken: String): Boolean
 
     @Query("""
         UPDATE visits
@@ -104,7 +113,7 @@ interface VisitDao  {
     suspend fun updateTodoListById(
         todoDetailsId: String,
         carerNotes: String,
-        todoOutcome: Boolean,
+        todoOutcome: String,
         todoSync: Boolean
     )
 
@@ -214,4 +223,89 @@ interface VisitDao  {
           AND status = 'Scheduled'
     """)
     fun getMedicationsWithScheduled(visitDetailsId: String): List<MedicationEntity>
+
+
+    // SYNC CHECK-IN
+    @Query("SELECT * FROM visits WHERE checkInSync = 1")
+    suspend fun getVisitsForCheckInSync(): List<VisitEntity>
+
+    @Query("""
+        UPDATE visits
+        SET 
+            checkInSync = 0
+        WHERE visitDetailsId = :visitDetailsId
+    """)
+    suspend fun updateVisitCheckInFinish(
+        visitDetailsId: String
+    )
+
+    // SYNC CHECK-OUT
+    @Query("SELECT * FROM visits WHERE checkOutSync = 1")
+    suspend fun getVisitsForCheckOutSync(): List<VisitEntity>
+
+    @Query("""
+        UPDATE visits
+        SET 
+            checkOutSync = 0
+        WHERE visitDetailsId = :visitDetailsId
+    """)
+    suspend fun updateVisitCheckOutFinish(
+        visitDetailsId: String
+    )
+
+    // SYNC AUTO ALERTS
+    @Query("SELECT * FROM auto_alert WHERE alertAction = :alertAction AND alertSync = 1")
+    suspend fun getVisitsForCheckInAlertSync(alertAction: Int): List<AutoAlertEntity>
+
+    @Query("""
+        UPDATE auto_alert
+        SET 
+            alertSync = 0
+        WHERE colId = :colId
+    """)
+    suspend fun updateVisitCheckInAlertFinish(
+        colId: String
+    )
+
+    // SYNC TODO
+    @Query("SELECT * FROM todos WHERE todoSync = 1")
+    suspend fun getTodoSync(): List<TodoEntity>
+
+    @Query("""
+        UPDATE todos
+        SET 
+            todoSync = 0
+        WHERE todoDetailsId = :todoDetailsId
+    """)
+    suspend fun updateTodoFinish(
+        todoDetailsId: String
+    )
+
+    // SYNC MEDICATION
+    @Query("SELECT * FROM medications WHERE medicationSync = 1")
+    suspend fun getMedicationSync(): List<MedicationEntity>
+
+    @Query("""
+        UPDATE medications
+        SET 
+            medicationSync = 0
+        WHERE createdAt = :createdAt
+    """)
+    suspend fun updateMedicationFinish(
+        createdAt: Long
+    )
+
+    // SYNC VISIT NOTES
+    @Query("SELECT * FROM visit_notes WHERE notesSync = 1")
+    suspend fun getVisitNotesSync(): List<VisitNotesEntity>
+
+    @Query("""
+        UPDATE visit_notes
+        SET 
+            notesSync = 0
+        WHERE visitNotesId = :visitNotesId
+    """)
+    suspend fun updateVisitNotesFinish(
+        visitNotesId: String
+    )
 }

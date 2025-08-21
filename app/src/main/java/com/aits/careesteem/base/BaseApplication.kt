@@ -10,12 +10,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.WindowManager
 import com.aits.careesteem.R
+import com.aits.careesteem.service.observer.NetworkObserver
 import com.aits.careesteem.utils.AlertUtils
-import com.aits.careesteem.utils.AppConstant
 import com.aits.careesteem.utils.SharedPrefConstant
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
@@ -32,6 +34,9 @@ class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    @Inject
+    lateinit var networkObserver: NetworkObserver
+
     @SuppressLint("ObsoleteSdkInt")
     override fun onCreate() {
         super.onCreate()
@@ -39,17 +44,8 @@ class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
         // Set the default time zone to UK time
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"))
 
-//        if (sharedPreferences.getBoolean(
-//                SharedPrefConstant.IS_LOGGED,
-//                false
-//            )
-//        ) {
-//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, true)
-//            editor.apply()
-//        } else {
-//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, false)
-//            editor.apply()
-//        }
+        // register network
+        networkObserver.register()
 
         // Initialize Places API
         if (!Places.isInitialized()) {

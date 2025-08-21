@@ -344,6 +344,27 @@ interface ApiService {
         @Field("status") status: String,
     ): Response<JsonObject>
 
+    @FormUrlEncoded
+    @POST("add-prn-details")
+    suspend fun medicationPrnDetailsOffline(
+        @Query("hash_token") hashToken: String,
+        @Field("id") id: String,
+        @Field("client_id") clientId: String,
+        @Field("medication_id") medicationId: String,
+        @Field("prn_id") prnId: String,
+        @Field("dose_per") doesPer: Int,
+        @Field("doses") doses: Int,
+        @Field("time_frame") timeFrame: String,
+        @Field("prn_offered") prnOffered: String,
+        @Field("prn_be_given") prnBeGiven: String,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("user_id") userId: String,
+        @Field("medication_time") medicationTime: String,
+        @Field("created_at") createdAt: String,
+        @Field("carer_notes") carerNotes: String,
+        @Field("status") status: String,
+    ): Response<JsonObject>
+
     @GET("get-all-users/{userId}")
     suspend fun getUserDetailsById(
         @Path("userId") userId: String,
@@ -356,6 +377,19 @@ interface ApiService {
         @Query("hash_token") hashToken: String,
         @Field("client_id") clientId: String,
         @Field("visit_details_id") visitDetailsId: String,
+        @Field("user_id") userId: String,
+        @Field("status") status: String,
+        @Field("actual_start_time") actualStartTime: String,
+        @Field("created_at") createdAt: String,
+    ): Response<AddVisitCheckInResponse>
+
+    @FormUrlEncoded
+    @POST("add-Visit-Checkin-offline")
+    suspend fun addVisitCheckInOffline(
+        @Query("hash_token") hashToken: String,
+        @Field("client_id") clientId: String,
+        @Field("visit_details_id") visitDetailsId: String,
+        @Field("id") id: String,
         @Field("user_id") userId: String,
         @Field("status") status: String,
         @Field("actual_start_time") actualStartTime: String,

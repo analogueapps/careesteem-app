@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.aits.careesteem.R
-import com.aits.careesteem.databinding.DialogCurrentGoingOnBinding
 import com.aits.careesteem.databinding.DialogUnscheduledVisitBinding
 import com.aits.careesteem.databinding.FragmentAboutMeBinding
 import com.aits.careesteem.utils.AppConstant
@@ -25,8 +24,6 @@ import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kotlin.getValue
 
 @AndroidEntryPoint
