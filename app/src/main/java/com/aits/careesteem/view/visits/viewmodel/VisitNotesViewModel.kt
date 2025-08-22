@@ -58,10 +58,11 @@ class VisitNotesViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if (!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(
-                        SharedPrefConstant.WORK_ON_OFFLINE,
-                        false
-                    )
+                if (!NetworkUtils.isNetworkAvailable(activity)
+//                    && sharedPreferences.getBoolean(
+//                        SharedPrefConstant.WORK_ON_OFFLINE,
+//                        false
+//                    )
                 ) {
                     val localData = dbRepository.getAllVisitNotesByVisitDetailsId(visitDetailsId = visitDetailsId)
                     _visitNotesList.value = localData.map { notes ->
@@ -81,14 +82,14 @@ class VisitNotesViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.getClientVisitNotesDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -131,10 +132,11 @@ class VisitNotesViewModel @Inject constructor(
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
-                if (!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(
-                        SharedPrefConstant.WORK_ON_OFFLINE,
-                        false
-                    )
+                if (!NetworkUtils.isNetworkAvailable(activity)
+//                    && sharedPreferences.getBoolean(
+//                        SharedPrefConstant.WORK_ON_OFFLINE,
+//                        false
+//                    )
                 ) {
                     val visitNotesEntity = VisitNotesEntity(
                         visitNotesId = generate24CharHexId(),
@@ -153,14 +155,14 @@ class VisitNotesViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.addClientVisitNotesDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -220,10 +222,11 @@ class VisitNotesViewModel @Inject constructor(
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
                 val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
 
-                if (!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(
-                        SharedPrefConstant.WORK_ON_OFFLINE,
-                        false
-                    )
+                if (!NetworkUtils.isNetworkAvailable(activity)
+//                    && sharedPreferences.getBoolean(
+//                        SharedPrefConstant.WORK_ON_OFFLINE,
+//                        false
+//                    )
                 ) {
                     dbRepository.updateVisitNotesById(
                         visitNotesId = visitNotesId,
@@ -236,14 +239,14 @@ class VisitNotesViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.updateVisitNotesDetail(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)

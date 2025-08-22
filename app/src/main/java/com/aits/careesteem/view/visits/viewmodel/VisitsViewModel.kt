@@ -87,7 +87,9 @@ class VisitsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
 
                     val localList = dbRepository.getAllVisitsByDate(visitDate = visitDate)
                     _visitsList.value = localList.map { visitEntity ->
@@ -128,14 +130,14 @@ class VisitsViewModel @Inject constructor(
 
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
@@ -174,7 +176,7 @@ class VisitsViewModel @Inject constructor(
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
-                //callOfflineApiAlso(activity, visitDate)
+                callOfflineApiAlso(activity, visitDate)
             }
         }
     }
@@ -281,7 +283,9 @@ class VisitsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
                     viewModelScope.launch(Dispatchers.IO) {
                         val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetails.visitDetailsId)
                         val medsList = dbRepository.getMedicationsWithScheduled(visitDetails.visitDetailsId)
@@ -322,14 +326,14 @@ class VisitsViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.checkOutEligible(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -391,6 +395,8 @@ class VisitsViewModel @Inject constructor(
 
     // For Local database
     suspend fun saveVisitData(response: VisitLinkResponse) {
+        dbRepository.clearAllTables()
+
         viewModelScope.launch(Dispatchers.IO) {
             response.data.forEach { visit ->
                 val visitEntity = VisitEntity(

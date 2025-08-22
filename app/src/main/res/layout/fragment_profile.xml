@@ -613,6 +613,7 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/_10sdp"
@@ -620,6 +621,7 @@
                         android:background="#33279989" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

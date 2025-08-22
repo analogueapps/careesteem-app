@@ -60,7 +60,9 @@ class ToDoViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
                     val localTodo = dbRepository.getTodoListByVisitsDetailsId(visitDetailsId)
                     _toDoList.value = localTodo.map { todo ->
                         TodoListResponse.Data(
@@ -79,14 +81,14 @@ class ToDoViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.getToDoList(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -137,7 +139,9 @@ class ToDoViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
                     dbRepository.updateTodoListById(
                         todoDetailsId = todoDetailsId,
                         carerNotes = carerNotes,
@@ -153,14 +157,14 @@ class ToDoViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.updateTodoDetails(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
@@ -221,7 +225,9 @@ class ToDoViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
 
                     val autoAlertEntity = AutoAlertEntity(
                         colId = System.currentTimeMillis().toString(),
@@ -243,14 +249,14 @@ class ToDoViewModel @Inject constructor(
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.automaticTodoAlerts(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)

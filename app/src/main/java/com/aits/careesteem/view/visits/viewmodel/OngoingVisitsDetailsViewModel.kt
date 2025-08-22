@@ -54,7 +54,9 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
 
 
                     val localVisit = dbRepository.getVisitsDetailsById(visitDetailsId)
@@ -130,14 +132,14 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
 
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
@@ -177,19 +179,21 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
     fun getPreviousVisitNotes(activity: Activity, visitDetailsId: String) {
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
                     return@launch
                 }
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val gson = Gson()
                 val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
@@ -234,7 +238,9 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                if(!NetworkUtils.isNetworkAvailable(activity) && sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                if(!NetworkUtils.isNetworkAvailable(activity)
+                    //&& sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)
+                    ) {
                     viewModelScope.launch(Dispatchers.IO) {
                         val todosList = dbRepository.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
                         val medsList = dbRepository.getMedicationsWithScheduled(visitDetailsId)
@@ -256,14 +262,14 @@ class OngoingVisitsDetailsViewModel @Inject constructor(
 
 
                 // Check if network is available before making the request
-                if (!NetworkUtils.isNetworkAvailable(activity)) {
-                    AlertUtils.showToast(
-                        activity,
-                        "No Internet Connection. Please check your network and try again.",
-                        ToastyType.ERROR
-                    )
-                    return@launch
-                }
+//                if (!NetworkUtils.isNetworkAvailable(activity)) {
+//                    AlertUtils.showToast(
+//                        activity,
+//                        "No Internet Connection. Please check your network and try again.",
+//                        ToastyType.ERROR
+//                    )
+//                    return@launch
+//                }
 
                 val response = repository.checkOutEligible(
                     hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)

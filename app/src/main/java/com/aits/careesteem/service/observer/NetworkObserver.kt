@@ -40,12 +40,12 @@ class NetworkObserver @Inject constructor(
                     scope.launch {
                         delay(3000) // wait a bit for DNS + network to stabilize
                         //syncManager.startSync()
-                        if(sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
+                        //if(sharedPreferences.getBoolean(SharedPrefConstant.WORK_ON_OFFLINE, false)) {
                             val intent = Intent(context, OnlineActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                             }
                             context.startActivity(intent)
-                        }
+                        //}
                     }
                 }
 
