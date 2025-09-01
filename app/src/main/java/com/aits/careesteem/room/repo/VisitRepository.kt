@@ -1,7 +1,9 @@
 package com.aits.careesteem.room.repo
 
+import android.content.SharedPreferences
 import androidx.room.Query
 import com.aits.careesteem.room.dao.VisitDao
+import com.aits.careesteem.utils.SharedPrefConstant
 import com.aits.careesteem.view.visits.db_entity.AutoAlertEntity
 import com.aits.careesteem.view.visits.db_entity.MedicationEntity
 import com.aits.careesteem.view.visits.db_entity.TodoEntity
@@ -10,7 +12,9 @@ import com.aits.careesteem.view.visits.db_entity.VisitNotesEntity
 import javax.inject.Inject
 
 class VisitRepository @Inject constructor(
-    private val visitDao: VisitDao
+    private val visitDao: VisitDao,
+    private val sharedPreferences: SharedPreferences,
+    private val editor: SharedPreferences.Editor,
 ) {
 
     suspend fun clearAllTables() {
@@ -20,11 +24,29 @@ class VisitRepository @Inject constructor(
         visitDao.clearVisitNotes()
     }
 
-    suspend fun insertVisit(visit: VisitEntity) = visitDao.insertVisit(visit)
-    suspend fun insertMedications(meds: List<MedicationEntity>) = visitDao.insertMedications(meds)
-    suspend fun insertMedication(meds: MedicationEntity) = visitDao.insertMedication(meds)
+    private fun updated() {
+        editor.putBoolean(SharedPrefConstant.WORK_ON_OFFLINE, true)
+        editor.apply()
+    }
 
-    suspend fun insertTodos(todos: List<TodoEntity>) = visitDao.insertTodos(todos)
+    suspend fun insertVisit(visit: VisitEntity) {
+        visitDao.insertVisit(visit)
+        updated()
+    }
+
+    suspend fun insertMedications(meds: List<MedicationEntity>) {
+        visitDao.insertMedications(meds)
+        updated()
+    }
+    suspend fun insertMedication(meds: MedicationEntity) {
+        visitDao.insertMedication(meds)
+        updated()
+    }
+
+    suspend fun insertTodos(todos: List<TodoEntity>) {
+        visitDao.insertTodos(todos)
+        updated()
+    }
 
     suspend fun getAllVisits(): List<VisitEntity> = visitDao.getAllVisits()
 
@@ -46,6 +68,7 @@ class VisitRepository @Inject constructor(
             visitStatus = visitStatus,
             checkInSync = checkInSync
         )
+        updated()
     }
 
     suspend fun updateVisitCheckOutTimesAndSync(
@@ -64,6 +87,7 @@ class VisitRepository @Inject constructor(
             visitStatus = visitStatus,
             checkOutSync = checkOutSync
         )
+        updated()
     }
 
     suspend fun getUatId(visitDetailsId: String): String = visitDao.getUatId(visitId = visitDetailsId)
@@ -72,7 +96,10 @@ class VisitRepository @Inject constructor(
 
     suspend fun getActualStartTimeString(visitDetailsId: String): String = visitDao.getActualStartTimeString(visitId = visitDetailsId)
 
-    suspend fun insertAutoAlerts(autoAlertEntity: AutoAlertEntity) = visitDao.insertAutoAlerts(autoAlertEntity)
+    suspend fun insertAutoAlerts(autoAlertEntity: AutoAlertEntity) {
+        visitDao.insertAutoAlerts(autoAlertEntity)
+        updated()
+    }
 
     suspend fun getTodoListByVisitsDetailsId(visitDetailsId: String): List<TodoEntity> = visitDao.getTodoListByVisitsDetailsId(visitId = visitDetailsId)
 
@@ -88,6 +115,7 @@ class VisitRepository @Inject constructor(
             todoOutcome = todoOutcome,
             todoSync = todoSync
         )
+        updated()
     }
 
     suspend fun getMedicationListByVisitsDetailsId(visitDetailsId: String): List<MedicationEntity> = visitDao.getMedicationListByVisitsDetailsId(visitId = visitDetailsId)
@@ -106,6 +134,7 @@ class VisitRepository @Inject constructor(
             medicationSync = medicationSync,
             medicationBlisterPack = medicationBlisterPack
         )
+        updated()
     }
 
     suspend fun updateMedicationByScheduledDetailsId(
@@ -122,6 +151,7 @@ class VisitRepository @Inject constructor(
             medicationSync = medicationSync,
             medicationScheduled = medicationScheduled
         )
+        updated()
     }
 
     suspend fun updateMedicationByPrnDetailsId(
@@ -138,9 +168,13 @@ class VisitRepository @Inject constructor(
             medicationSync = medicationSync,
             medicationPrnUpdate = medicationPrnUpdate
         )
+        updated()
     }
 
-    suspend fun insertVisitNotes(visitNotes: VisitNotesEntity) = visitDao.insertVisitNotes(visitNotes)
+    suspend fun insertVisitNotes(visitNotes: VisitNotesEntity) {
+        visitDao.insertVisitNotes(visitNotes)
+        updated()
+    }
 
     suspend fun getAllVisitNotesByVisitDetailsId(visitDetailsId: String): List<VisitNotesEntity> = visitDao.getAllVisitNotesByVisitDetailsId(visitDetailsId)
 
@@ -158,6 +192,7 @@ class VisitRepository @Inject constructor(
             updatedByUserName = updatedByUserName,
             updatedAt = updatedAt
         )
+        updated()
     }
 
     fun getTodosWithEssentialAndEmptyOutcome(visitDetailsId: String): List<TodoEntity> = visitDao.getTodosWithEssentialAndEmptyOutcome(visitDetailsId)
