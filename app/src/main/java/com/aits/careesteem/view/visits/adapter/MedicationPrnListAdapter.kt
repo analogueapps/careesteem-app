@@ -64,7 +64,7 @@ class MedicationPrnListAdapter(
                 medicationSupport.text = data.medication_support
                 medicationType.text = data.medication_type
                 medicationSession.visibility = View.VISIBLE
-                medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+                medicationSession.text = "${data.dose_per} Doses per ${data.doses} ${data.time_frame}"
                 layout.setOnClickListener {
                     onPnrItemItemClick.onPnrItemItemClicked(data)
                 }
