@@ -91,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/item_medication_list" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -115,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_todo_list" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -545,6 +545,16 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         )
     }
 
+    suspend fun checkInEligible(
+        hashToken: String,
+        userId: String
+    ): Response<JsonObject> {
+        return apiService.checkInEligible(
+            hashToken = hashToken,
+            userId = userId
+        )
+    }
+
     suspend fun checkOutEligible(
         hashToken: String,
         visitDetailsId: String

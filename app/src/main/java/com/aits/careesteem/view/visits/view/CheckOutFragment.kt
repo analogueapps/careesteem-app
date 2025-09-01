@@ -394,7 +394,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun showCheckOutPopup(data: VisitDetailsResponse.Data) {
         val startTime =
             "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-        val plannedDate = data
+        val plannedDate = data.visitDate
 
 //        val alertType = try {
 //            // Determine the planned time based on action (0 = check-in, 1 = check-out)
@@ -578,7 +578,7 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
     private fun showCheckInPopup(data: VisitDetailsResponse.Data) {
         val startTime =
             "${DateTimeUtils.getCurrentDateGMT()} ${DateTimeUtils.getCurrentTimeGMT()}"
-        val plannedDate = data
+        val plannedDate = data.visitDate
 //        val alertType = try {
 //            // Determine the planned time based on action (0 = check-in, 1 = check-out)
 //            val planTime = when (args.action) {
