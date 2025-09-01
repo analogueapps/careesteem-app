@@ -154,11 +154,11 @@ class VisitsViewModel @Inject constructor(
                     response.body()?.let { list ->
                         _visitsList.value = list.data
                         updateValues()
-                        _visitCreated.emit(true)
+                        //_visitCreated.emit(true)
                     }
                 } else {
                     if (response.code() == 404) {
-                        _visitCreated.emit(true)
+                        //_visitCreated.emit(true)
                         return@launch
                     }
                     errorHandler.handleErrorResponse(response, activity)
@@ -268,6 +268,82 @@ class VisitsViewModel @Inject constructor(
             } catch (e: Exception) {
                 AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
                 e.printStackTrace()
+            }
+        }
+    }
+
+    fun checkInEligible(
+        activity: Activity,
+        visitDetails: VisitListResponse.Data?,
+        action: Int,
+        findNavController: NavController
+    ) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                // Check if network is available before making the request
+                if (!NetworkUtils.isNetworkAvailable(activity)) {
+                    AlertUtils.showToast(
+                        activity,
+                        "No Internet Connection. Please check your network and try again.",
+                        ToastyType.ERROR
+                    )
+                    return@launch
+                }
+
+                val gson = Gson()
+                val dataString = sharedPreferences.getString(SharedPrefConstant.USER_DATA, null)
+                val userData = gson.fromJson(dataString, OtpVerifyResponse.Data::class.java)
+
+
+                val response = repository.checkInEligible(
+                    hashToken = sharedPreferences.getString(SharedPrefConstant.HASH_TOKEN, null)
+                        .toString(),
+                    userId = userData.id,
+                )
+
+                if (response.isSuccessful) {
+                    if(action == 0) {
+                        val action =
+                            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(
+                                visitDetails!!.visitDetailsId,
+                                0
+                            )
+                        findNavController.navigate(action)
+                    } else {
+                        _visitCreated.emit(true)
+                    }
+                } else {
+                    //errorHandler.handleErrorResponse(response, activity)
+                    when (response.code()) {
+                        409 -> {
+                            if(action == 0) {
+                                AlertUtils.showToast(
+                                    activity,
+                                    "Active check-in already exists",
+                                    ToastyType.WARNING
+                                )
+                            } else {
+                                _visitCreated.emit(false)
+                            }
+                        }
+
+                        else -> errorHandler.handleErrorResponse(response, activity)
+                    }
+                }
+            } catch (e: SocketTimeoutException) {
+                AlertUtils.showToast(
+                    activity,
+                    "Request Timeout. Please try again.",
+                    ToastyType.ERROR
+                )
+            } catch (e: HttpException) {
+                AlertUtils.showToast(activity, "Server error: ${e.message}", ToastyType.ERROR)
+            } catch (e: Exception) {
+                AlertUtils.showToast(activity, "An error occurred: ${e.message}", ToastyType.ERROR)
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
             }
         }
     }

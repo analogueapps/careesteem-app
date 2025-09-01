@@ -333,10 +333,11 @@ class ClientsDetailsFragment : Fragment(),
         binding.btnCreateUnscheduledVisit.setOnClickListener {
             if (visitViewModel.isLoading.value == true) return@setOnClickListener
             shouldHandleVisitCheck = true
-            visitViewModel.getVisits(
-                requireActivity(),
-                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            )
+//            visitViewModel.getVisits(
+//                requireActivity(),
+//                LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+//            )
+            visitViewModel.checkInEligible(requireActivity(), null, 1,findNavController())
         }
     }
 

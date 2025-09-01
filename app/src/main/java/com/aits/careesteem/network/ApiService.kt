@@ -396,6 +396,12 @@ interface ApiService {
         @Field("created_at") createdAt: String,
     ): Response<AddVisitCheckInResponse>
 
+    @GET("checkin-validation/{userId}/")
+    suspend fun checkInEligible(
+        @Path("userId") userId: String,
+        @Query("hash_token") hashToken: String
+    ): Response<JsonObject>
+
     @GET("get-todo-essential-details/{visitDetailsId}/")
     suspend fun checkOutEligible(
         @Path("visitDetailsId") visitDetailsId: String,

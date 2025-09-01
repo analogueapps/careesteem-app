@@ -533,9 +533,10 @@ class VisitsFragment : Fragment(),
     }
 
     override fun onItemItemClicked(data: VisitListResponse.Data) {
-        val action =
-            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(data.visitDetailsId, 0)
-        findNavController().navigate(action)
+//        val action =
+//            VisitsFragmentDirections.actionBottomVisitsToCheckOutFragment(data.visitDetailsId, 0)
+//        findNavController().navigate(action)
+        viewModel.checkInEligible(requireActivity(), data, 0,findNavController())
     }
 
     override fun ongoingItemItemClicked(data: VisitListResponse.Data) {
