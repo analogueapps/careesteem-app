@@ -163,7 +163,7 @@ class MedicationPrnBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         frequencyMedication.text = when (data.medication_type) {
-            "PRN" -> "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+            "PRN" -> "${data.dose_per} Doses per ${data.doses} ${data.time_frame}"
             else -> data.day_name
         }
 

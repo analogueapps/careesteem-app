@@ -99,7 +99,7 @@ class MedicationListAdapter(
                         }
                     } else if (data.medication_type == "PRN") {
                         medicationSession.visibility = View.VISIBLE
-                        medicationSession.text = "${data.doses} Doses per ${data.dose_per} ${data.time_frame}"
+                        medicationSession.text = "${data.dose_per} Doses per ${data.doses} ${data.time_frame}"
                     } else {
                         medicationSession.visibility = View.GONE
                     }
