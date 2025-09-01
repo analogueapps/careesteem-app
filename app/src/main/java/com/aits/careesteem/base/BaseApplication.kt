@@ -39,17 +39,17 @@ class BaseApplication : Application(), Application.ActivityLifecycleCallbacks {
         // Set the default time zone to UK time
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"))
 
-        if (sharedPreferences.getBoolean(
-                SharedPrefConstant.IS_LOGGED,
-                AppConstant.FALSE
-            ) == AppConstant.TRUE
-        ) {
-            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
-            editor.apply()
-        } else {
-            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE)
-            editor.apply()
-        }
+//        if (sharedPreferences.getBoolean(
+//                SharedPrefConstant.IS_LOGGED,
+//                AppConstant.FALSE
+//            ) == AppConstant.TRUE
+//        ) {
+//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.TRUE)
+//            editor.apply()
+//        } else {
+//            editor.putBoolean(SharedPrefConstant.SCREEN_LOCK, AppConstant.FALSE)
+//            editor.apply()
+//        }
 
         // Initialize Places API
         if (!Places.isInitialized()) {

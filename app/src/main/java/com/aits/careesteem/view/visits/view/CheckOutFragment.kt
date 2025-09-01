@@ -809,7 +809,8 @@ class CheckOutFragment : Fragment(), OnMapReadyCallback {
 
     private fun handleCheckOut(normalCheckIn: Boolean) {
         ongoingVisitsDetailsViewModel.visitsDetails.value?.let { data ->
-            viewModel.updateVisitCheckOut(requireActivity(), data, normalCheckIn, "")
+            //viewModel.updateVisitCheckOut(requireActivity(), data, normalCheckIn, "")
+            showCheckOutPopup(data)
         }
     }
 

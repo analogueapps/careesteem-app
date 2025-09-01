@@ -8,15 +8,18 @@ package com.aits.careesteem.view.home.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.IntentSender
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -27,6 +30,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -57,6 +61,11 @@ import com.aits.careesteem.view.notification.viewmodel.NotificationViewModel
 import com.aits.careesteem.view.visits.viewmodel.VisitsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -79,6 +88,9 @@ class HomeActivity : BaseActivity() {
     private var doubleBackToExitPressedOnce = false
 
     private val notificationViewModel: NotificationViewModel by viewModels()
+
+    private lateinit var appUpdateManager: AppUpdateManager
+    private val UPDATE_REQUEST_CODE = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,7 +225,82 @@ class HomeActivity : BaseActivity() {
 
         // handle Viewmodels
         handleViewModel()
+
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+        checkForUpdate()
     }
+
+//    private fun checkForUpdate() {
+//        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+//
+//        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+//            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+//                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE) // or FLEXIBLE
+//            ) {
+//                // Start update
+//                appUpdateManager.startUpdateFlowForResult(
+//                    appUpdateInfo,
+//                    AppUpdateType.IMMEDIATE,  // or FLEXIBLE
+//                    this,
+//                    UPDATE_REQUEST_CODE
+//                )
+//            }
+//        }
+//    }
+
+    @SuppressLint("NewApi")
+    private fun checkForUpdate() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            val pkgInfo = packageManager.getPackageInfo(packageName, 0)
+            val currentVersionCode = pkgInfo.longVersionCode
+            val currentVersionName = pkgInfo.versionName
+
+            val availableVersionCode = appUpdateInfo.availableVersionCode()
+
+            Log.d("AppUpdateCheck", "Current Version Name: $currentVersionName")
+            Log.d("AppUpdateCheck", "Current Version Code: $currentVersionCode")
+            Log.d("AppUpdateCheck", "Play Store Version Code: $availableVersionCode")
+
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                try {
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        UPDATE_REQUEST_CODE
+                    )
+                } catch (e: IntentSender.SendIntentException) {
+                    e.printStackTrace()
+                }
+            }
+        }.addOnFailureListener { e ->
+            Log.e("AppUpdateCheck", "Failed to check update: ${e.message}")
+        }
+    }
+
+    private val updateActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode != Activity.RESULT_OK) {
+            Log.d("AppUpdateCheck", "Update flow failed or canceled by user")
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                Log.d("AppUpdateCheck", "Update downloaded, completing installation...")
+                appUpdateManager.completeUpdate()
+            }
+        }
+    }
+
 
     // Inflate the menu resource
     @SuppressLint("InflateParams")
