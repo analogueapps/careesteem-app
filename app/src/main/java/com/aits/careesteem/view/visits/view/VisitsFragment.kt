@@ -165,6 +165,7 @@ class VisitsFragment : Fragment(),
         updateCalendar(currentWeekStart)
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun observeClock() {
         lifecycleScope.launch {
